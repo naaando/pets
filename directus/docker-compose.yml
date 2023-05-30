@@ -7,12 +7,30 @@ services:
     volumes:
       - ./uploads:/directus/uploads
       - ./database:/directus/database
+      - ./snapshots:/directus/snapshots
     environment:
       KEY: '255d861b-5ea1-5996-9aa3-922530ec40b1'
       SECRET: '6116487b-cda1-52c2-b5b5-c8022c45e263'
 
-      DB_CLIENT: 'sqlite3'
-      DB_FILENAME: './database/data.db'
+      #DB_CLIENT: 'sqlite3'
+      #DB_FILENAME: './database/data.db'
+      DB_CLIENT: 'pg'
+      DB_HOST: 'postgres'
+      DB_DATABASE: 'directus'
+      DB_PORT: '5432'
+      DB_USER: 'directus'
+      DB_PASSWORD: 'directus'
+      DB_NAME: 'directus'
 
-      ADMIN_EMAIL: 'admin@example.com'
-      ADMIN_PASSWORD: 'd1r3ctu5'
+      ADMIN_EMAIL: 'wild.nando@gmail.com'
+      ADMIN_PASSWORD: 'qDtJXjCK6vpcfk'
+  postgres:
+    image: postgres:12
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: directus
+      POSTGRES_PASSWORD: directus
+      POSTGRES_DB: directus
+    volumes:
+      - ./postgres:/var/lib/postgresql/data

@@ -1,0 +1,793 @@
+version: 1
+directus: 10.2.0
+vendor: sqlite
+collections:
+  - collection: animais
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: animais
+      color: null
+      display_template: null
+      group: null
+      hidden: false
+      icon: pets
+      item_duplication_fields: null
+      note: null
+      singleton: false
+      sort: null
+      sort_field: null
+      translations: null
+      unarchive_value: null
+    schema:
+      name: animais
+  - collection: remedios
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: remedios
+      color: null
+      display_template: Medicação
+      group: null
+      hidden: false
+      icon: medication_liquid
+      item_duplication_fields: null
+      note: null
+      singleton: false
+      sort: null
+      sort_field: null
+      translations: null
+      unarchive_value: null
+    schema:
+      name: remedios
+fields:
+  - collection: animais
+    field: castrado
+    type: boolean
+    meta:
+      collection: animais
+      conditions: null
+      display: null
+      display_options: null
+      field: castrado
+      group: null
+      hidden: false
+      interface: boolean
+      note: null
+      options:
+        colorOn: '#00FF1E'
+      readonly: false
+      required: false
+      sort: 5
+      special:
+        - cast-boolean
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: castrado
+      table: animais
+      data_type: boolean
+      default_value: false
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: animais
+    field: dono
+    type: string
+    meta:
+      collection: animais
+      conditions: null
+      display: null
+      display_options: null
+      field: dono
+      group: null
+      hidden: true
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{avatar.$thumbnail}}{{first_name}}{{last_name}}'
+      readonly: false
+      required: false
+      sort: 2
+      special:
+        - m2o
+        - user-created
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: dono
+      table: animais
+      data_type: char
+      default_value: null
+      max_length: 36
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: directus_users
+      foreign_key_column: id
+  - collection: animais
+    field: especie
+    type: string
+    meta:
+      collection: animais
+      conditions: null
+      display: null
+      display_options: null
+      field: especie
+      group: null
+      hidden: false
+      interface: select-dropdown
+      note: null
+      options:
+        choices:
+          - text: gato
+            value: gato
+      readonly: false
+      required: false
+      sort: null
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: especie
+      table: animais
+      data_type: varchar
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: animais
+    field: foto_perfil
+    type: uuid
+    meta:
+      collection: animais
+      conditions: null
+      display: null
+      display_options: null
+      field: foto_perfil
+      group: null
+      hidden: false
+      interface: file-image
+      note: null
+      options:
+        folder: 604f6407-c7ab-4232-b30f-4a934f9b0927
+      readonly: false
+      required: false
+      sort: 4
+      special:
+        - file
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: foto_perfil
+      table: animais
+      data_type: char
+      default_value: null
+      max_length: 36
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: directus_files
+      foreign_key_column: id
+  - collection: animais
+    field: id
+    type: integer
+    meta:
+      collection: animais
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: true
+      interface: input
+      note: null
+      options: null
+      readonly: true
+      required: false
+      sort: 1
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: animais
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: true
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: animais
+    field: mae
+    type: integer
+    meta:
+      collection: animais
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{nome}}'
+      field: mae
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{nome}}'
+      readonly: false
+      required: false
+      sort: 6
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: mae
+      table: animais
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: animais
+      foreign_key_column: id
+  - collection: animais
+    field: nascimento
+    type: dateTime
+    meta:
+      collection: animais
+      conditions: null
+      display: null
+      display_options: null
+      field: nascimento
+      group: null
+      hidden: false
+      interface: datetime
+      note: null
+      options: null
+      readonly: false
+      required: false
+      sort: 8
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: nascimento
+      table: animais
+      data_type: datetime
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: animais
+    field: nome
+    type: string
+    meta:
+      collection: animais
+      conditions: null
+      display: null
+      display_options: null
+      field: nome
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: null
+      readonly: false
+      required: false
+      sort: 3
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: nome
+      table: animais
+      data_type: varchar
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: animais
+    field: pai
+    type: integer
+    meta:
+      collection: animais
+      conditions: null
+      display: null
+      display_options: null
+      field: pai
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{nome}}'
+      readonly: false
+      required: false
+      sort: 7
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: pai
+      table: animais
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: animais
+      foreign_key_column: id
+  - collection: animais
+    field: raca
+    type: string
+    meta:
+      collection: animais
+      conditions: null
+      display: null
+      display_options: null
+      field: raca
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: null
+      readonly: false
+      required: false
+      sort: null
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: raca
+      table: animais
+      data_type: varchar
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: animais
+    field: sexo
+    type: string
+    meta:
+      collection: animais
+      conditions: null
+      display: null
+      display_options: null
+      field: sexo
+      group: null
+      hidden: false
+      interface: select-dropdown
+      note: null
+      options:
+        allowNone: true
+        choices:
+          - text: feminino
+            value: feminino
+          - text: masculino
+            value: masculino
+      readonly: false
+      required: false
+      sort: 9
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: sexo
+      table: animais
+      data_type: varchar
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: remedios
+    field: animal
+    type: integer
+    meta:
+      collection: remedios
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{nome}}'
+      field: animal
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: null
+      readonly: false
+      required: true
+      sort: 2
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: animal
+      table: remedios
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: animais
+      foreign_key_column: id
+  - collection: remedios
+    field: data
+    type: dateTime
+    meta:
+      collection: remedios
+      conditions: null
+      display: null
+      display_options: null
+      field: data
+      group: null
+      hidden: false
+      interface: datetime
+      note: null
+      options: null
+      readonly: false
+      required: false
+      sort: 3
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: data
+      table: remedios
+      data_type: datetime
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: remedios
+    field: id
+    type: integer
+    meta:
+      collection: remedios
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: true
+      interface: input
+      note: null
+      options: null
+      readonly: true
+      required: false
+      sort: 1
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: remedios
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: true
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: remedios
+    field: remedio
+    type: string
+    meta:
+      collection: remedios
+      conditions: null
+      display: null
+      display_options: null
+      field: remedio
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: null
+      readonly: false
+      required: false
+      sort: 5
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: remedio
+      table: remedios
+      data_type: varchar
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: remedios
+    field: situacao
+    type: string
+    meta:
+      collection: remedios
+      conditions: null
+      display: null
+      display_options: null
+      field: situacao
+      group: null
+      hidden: false
+      interface: select-dropdown
+      note: null
+      options:
+        allowNone: true
+        choices:
+          - text: agendado
+            value: agendado
+          - text: concluido
+            value: concluido
+      readonly: false
+      required: false
+      sort: 4
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: situacao
+      table: remedios
+      data_type: varchar
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+relations:
+  - collection: animais
+    field: dono
+    related_collection: directus_users
+    meta:
+      junction_field: null
+      many_collection: animais
+      many_field: dono
+      one_allowed_collections: null
+      one_collection: directus_users
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: null
+      sort_field: null
+    schema:
+      table: animais
+      column: dono
+      foreign_key_table: directus_users
+      foreign_key_column: id
+      constraint_name: null
+      on_update: NO ACTION
+      on_delete: NO ACTION
+  - collection: animais
+    field: foto_perfil
+    related_collection: directus_files
+    meta:
+      junction_field: null
+      many_collection: animais
+      many_field: foto_perfil
+      one_allowed_collections: null
+      one_collection: directus_files
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: null
+      sort_field: null
+    schema:
+      table: animais
+      column: foto_perfil
+      foreign_key_table: directus_files
+      foreign_key_column: id
+      constraint_name: null
+      on_update: NO ACTION
+      on_delete: SET NULL
+  - collection: animais
+    field: mae
+    related_collection: animais
+    meta:
+      junction_field: null
+      many_collection: animais
+      many_field: mae
+      one_allowed_collections: null
+      one_collection: animais
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: null
+      sort_field: null
+    schema:
+      table: animais
+      column: mae
+      foreign_key_table: animais
+      foreign_key_column: id
+      constraint_name: null
+      on_update: NO ACTION
+      on_delete: NO ACTION
+  - collection: animais
+    field: pai
+    related_collection: animais
+    meta:
+      junction_field: null
+      many_collection: animais
+      many_field: pai
+      one_allowed_collections: null
+      one_collection: animais
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: null
+      sort_field: null
+    schema:
+      table: animais
+      column: pai
+      foreign_key_table: animais
+      foreign_key_column: id
+      constraint_name: null
+      on_update: NO ACTION
+      on_delete: NO ACTION
+  - collection: remedios
+    field: animal
+    related_collection: animais
+    meta:
+      junction_field: null
+      many_collection: remedios
+      many_field: animal
+      one_allowed_collections: null
+      one_collection: animais
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: null
+      sort_field: null
+    schema:
+      table: remedios
+      column: animal
+      foreign_key_table: animais
+      foreign_key_column: id
+      constraint_name: null
+      on_update: NO ACTION
+      on_delete: NO ACTION
