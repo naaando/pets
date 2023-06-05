@@ -1,3 +1,5 @@
+import 'package:pets/config.dart';
+
 class Pet {
   String id;
   String nome;
@@ -14,6 +16,9 @@ class Pet {
   String? userCreated;
   String? userUpdated;
   String? espaco;
+
+  Uri? get fotoPerfilUrl =>
+      fotoPerfil != null ? baseUri.replace(path: 'assets/$fotoPerfil') : null;
 
   Pet(
       {required this.id,
@@ -37,18 +42,18 @@ class Pet {
       id: json['id'],
       nome: json['nome'],
       castrado: json['castrado'],
-      dateCreated: json['dateCreated'],
-      dateUpdated: json['dateUpdated'],
+      dateCreated: json['date_created'],
+      dateUpdated: json['date_updated'],
       especie: json['especie'],
-      fotoPerfil: json['fotoPerfil'],
+      fotoPerfil: json['foto_perfil'],
       mae: json['mae'],
       nascimento: json['nascimento'],
       pai: json['pai'],
       raca: json['raca'],
       sexo: json['sexo'],
       espaco: json['espaco'],
-      userCreated: json['userCreated'],
-      userUpdated: json['userUpdated'],
+      userCreated: json['user_created'],
+      userUpdated: json['user_updated'],
     );
   }
 }

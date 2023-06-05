@@ -13,14 +13,14 @@ class PetsAppBar extends ConsumerWidget implements PreferredSizeWidget {
   });
 
   @override
-  Size get preferredSize => const Size.fromHeight(110);
+  Size get preferredSize => const Size.fromHeight(140);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var user = ref.watch(userProvider.notifier);
 
     return appBar = AppBar(
-      // title: Center(child: Text(title)),
+      title: Text(title),
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
       bottom: user.state != null ? appbarBottom(user.state!) : null,

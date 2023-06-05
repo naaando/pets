@@ -11,12 +11,8 @@ class PetPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var title = 'Pets';
-
-    // AsyncValue<Map<String, Pet>> pets = ref.watch(petsProvider);
-    // context.
-    // var pet = pets[e];
     var pet = ModalRoute.of(context)!.settings.arguments as Pet;
+    var title = pet.nome;
 
     return Scaffold(
       appBar: PetsAppBar(
@@ -24,11 +20,8 @@ class PetPage extends ConsumerWidget {
       ),
       body: body(context, title, pet),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // final loginState = Provider.of<LoginState>(context, listen: false);
-          // loginState.logout();
-        },
-        tooltip: 'Adicionar novo pet',
+        onPressed: () {},
+        tooltip: 'Adicionar novo animal',
         child: const Icon(Icons.check),
       ),
     );
@@ -37,14 +30,14 @@ class PetPage extends ConsumerWidget {
   Widget body(context, String title, Pet pet) {
     return Form(
         child: Padding(
-      padding: EdgeInsets.all(40),
+      padding: const EdgeInsets.all(25),
       child: Column(
         children: [
           TextFormField(
             initialValue: pet.nome,
             decoration: const InputDecoration(
               icon: Icon(Icons.pets),
-              hintText: 'Nome do pet',
+              hintText: 'Nome do animal',
               labelText: 'Nome',
             ),
           ),
@@ -52,7 +45,7 @@ class PetPage extends ConsumerWidget {
             initialValue: pet.especie,
             decoration: const InputDecoration(
               icon: Icon(Icons.pets),
-              hintText: 'Espécie do pet',
+              hintText: 'Espécie do animal',
               labelText: 'Espécie',
             ),
           ),
@@ -60,38 +53,12 @@ class PetPage extends ConsumerWidget {
             initialValue: pet.raca,
             decoration: const InputDecoration(
               icon: Icon(Icons.pets),
-              hintText: 'Raça do pet',
+              hintText: 'Raça do animal',
               labelText: 'Raça',
             ),
           ),
         ],
       ),
     ));
-    //   return GridView.count(
-    //     crossAxisCount: 2,
-    //     scrollDirection: Axis.vertical,
-    //     padding: const EdgeInsets.all(35),
-    //     crossAxisSpacing: 35,
-    //     mainAxisSpacing: 35,
-    //     children: pets.values
-    //         .map((e) => InkWell(
-    //             onTap: () {
-    //               Navigator.pushNamed(context, '/pet', arguments: e);
-    //             },
-    //             child: Column(
-    //               children: [
-    //                 Image.network(
-    //                   'https://source.unsplash.com/random/?cat',
-    //                   fit: BoxFit.scaleDown,
-    //                   height: 80,
-    //                 ),
-    //                 Text(
-    //                   e.nome,
-    //                   style: Theme.of(context).textTheme.headline5,
-    //                 ),
-    //               ],
-    //             )))
-    //         .toList(),
-    //   );
   }
 }

@@ -11,7 +11,7 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var title = 'Pets';
+    var title = 'Meus animais';
 
     AsyncValue<Map<String, Pet>> pets = ref.watch(petsProvider);
 
@@ -25,11 +25,8 @@ class HomePage extends ConsumerWidget {
           ),
           body: body(context, title, pets),
           floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              // final loginState = Provider.of<LoginState>(context, listen: false);
-              // loginState.logout();
-            },
-            tooltip: 'Adicionar novo pet',
+            onPressed: () {},
+            tooltip: 'Adicionar novo animal',
             child: const Icon(Icons.add),
           ),
         );
@@ -38,27 +35,39 @@ class HomePage extends ConsumerWidget {
   }
 
   Widget body(context, String title, Map<String, Pet> pets) {
+    print(pets.values.firstWhere((pet) => pet.fotoPerfil != null));
+
     return GridView.count(
       crossAxisCount: 2,
       scrollDirection: Axis.vertical,
-      padding: const EdgeInsets.all(35),
-      crossAxisSpacing: 35,
-      mainAxisSpacing: 35,
+      padding: const EdgeInsets.all(25),
+      crossAxisSpacing: 25,
+      mainAxisSpacing: 25,
       children: pets.values
-          .map((e) => InkWell(
+          .map((pet) => InkWell(
+              borderRadius: BorderRadius.circular(8.0),
               onTap: () {
-                Navigator.pushNamed(context, '/pet', arguments: e);
+                Navigator.pushNamed(context, '/pet', arguments: pet);
               },
-              child: Column(
+              child: Flex(
+                direction: Axis.vertical,
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.network(
-                    'https://source.unsplash.com/random/?cat',
-                    fit: BoxFit.scaleDown,
-                    height: 80,
+                  Expanded(
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Image.network(
+                          pet.fotoPerfilUrl?.toString() ??
+                              'https://source.unsplash.com/random/?cat',
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(context).size.width,
+                        )),
                   ),
+                  const SizedBox(height: 5),
                   Text(
-                    e.nome,
-                    style: Theme.of(context).textTheme.headline5,
+                    pet.nome,
+                    style: Theme.of(context).textTheme.labelMedium,
                   ),
                 ],
               )))
