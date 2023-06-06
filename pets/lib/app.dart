@@ -20,7 +20,7 @@ class App extends ConsumerWidget {
         accentColor: Colors.amber,
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.red.shade300),
+            borderSide: BorderSide(color: Colors.red.shade200),
             borderRadius: BorderRadius.circular(8),
           ),
           fillColor: Colors.grey.shade100,
@@ -33,7 +33,7 @@ class App extends ConsumerWidget {
         accentColor: Colors.amber,
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.red.shade300),
+            borderSide: BorderSide(color: Colors.red.shade200),
             borderRadius: BorderRadius.circular(8),
           ),
           fillColor: Colors.grey.shade100,
