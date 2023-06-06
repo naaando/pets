@@ -18,11 +18,27 @@ class App extends ConsumerWidget {
         brightness: Brightness.light,
         primarySwatch: Colors.red,
         accentColor: Colors.amber,
+        inputDecorationTheme: InputDecorationTheme(
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.red.shade300),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          fillColor: Colors.grey.shade100,
+          filled: true,
+        ),
       ),
       dark: ThemeData(
         brightness: Brightness.dark,
         primarySwatch: Colors.red,
         accentColor: Colors.amber,
+        inputDecorationTheme: InputDecorationTheme(
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.red.shade300),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          fillColor: Colors.grey.shade100,
+          filled: true,
+        ),
       ),
       initial: AdaptiveThemeMode.light,
       builder: (theme, darkTheme) => MaterialApp(
