@@ -4,23 +4,25 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/provider/http_provider.dart';
 import 'package:pets/provider/user_provider.dart';
+import 'package:pets/repository/pet_repository.dart';
 
-final petsProvider = FutureProvider<Map<String, Pet>>((ref) async {
+final petRepositoryProvider = ChangeNotifierProvider<PetRepository>((ref) {
+  final httpClient = ref.watch(httpClientProvider);
   final token = ref.watch(tokenProvider);
-  var res = await ref.read(httpClientProvider).get(
-      Uri.http('10.0.2.2:8055', 'items/animais'),
-      headers: {'Authorization': 'Bearer $token'});
 
-  var decodedJson = jsonDecode(res.body)['data'] as List<dynamic>;
-
-  // ignore: prefer_for_elements_to_map_fromiterable
-  var pets = Map<String, Pet>.fromIterable(decodedJson,
-      key: (json) => json['id'], value: (json) => Pet.fromJson(json));
-
-  return pets;
+  return PetRepository(httpClient, token);
 });
 
-final petProvider = FutureProvider.family<Pet?, String>((ref, id) async {
-  var pets = await ref.watch(petsProvider.future);
-  return pets[id];
+final petsProvider = FutureProvider<Map<String, Pet>>(
+    (ref) => ref.watch(petRepositoryProvider).findAll());
+
+final petProvider = FutureProvider.family<Pet?, String>(
+    (ref, id) async => ref.watch(petRepositoryProvider).find(id));
+
+final filteredPetsProvider = FutureProvider<List<Pet>>((ref) {
+  return ref.watch(petsProvider).when(
+      data: (pets) =>
+          pets.values.toList()..sort((a, b) => a.nome.compareTo(b.nome)),
+      error: (err, stackTrace) => [],
+      loading: () => []);
 });
