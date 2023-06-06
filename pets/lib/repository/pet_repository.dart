@@ -49,11 +49,31 @@ class PetRepository extends ChangeNotifier {
     return pets ?? <String, Pet>{};
   }
 
-  save(Pet pet) {
-    //
+  create(Pet pet) async {
+    var res = await httpClient.post(
+        Uri.http('10.0.2.2:8055', 'items/animais/${pet.id}'),
+        headers: {'Authorization': 'Bearer $token'},
+        body: pet.toJson());
+
+    var decodedJson = jsonDecode(res.body)['data'] as dynamic;
+    pets![pet.id] = Pet.fromJson(decodedJson);
   }
 
-  delete(Pet pet) {
-    //
+  save(Pet pet) async {
+    var res = await httpClient.post(
+        Uri.http('10.0.2.2:8055', 'items/animais/${pet.id}'),
+        headers: {'Authorization': 'Bearer $token'},
+        body: pet.toJson());
+
+    var decodedJson = jsonDecode(res.body)['data'] as dynamic;
+    pets![pet.id] = Pet.fromJson(decodedJson);
+  }
+
+  delete(Pet pet) async {
+    await httpClient.delete(
+        Uri.http('10.0.2.2:8055', 'items/animais/${pet.id}'),
+        headers: {'Authorization': 'Bearer $token'});
+
+    pets?.remove(pet.id);
   }
 }

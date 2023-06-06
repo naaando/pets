@@ -56,4 +56,24 @@ class Pet {
       userUpdated: json['user_updated'],
     );
   }
+
+  toJson() {
+    return {
+      'id': id,
+      'nome': nome,
+      'castrado': castrado,
+      'date_created': dateCreated,
+      'date_updated': dateUpdated,
+      'especie': especie,
+      'foto_perfil': fotoPerfil,
+      'mae': mae,
+      'nascimento': nascimento,
+      'pai': pai,
+      'raca': raca,
+      'sexo': sexo,
+      'espaco': espaco,
+      'user_created': userCreated,
+      'user_updated': userUpdated,
+    };
+  }
 }
