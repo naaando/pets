@@ -13,7 +13,7 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var title = 'Meus animais';
 
-    AsyncValue<Map<String, Pet>> pets = ref.watch(petsProvider);
+    AsyncValue<List<Pet>> pets = ref.watch(filteredPetsProvider);
 
     return pets.when(
       loading: () => const CircularProgressIndicator(),
@@ -34,16 +34,14 @@ class HomePage extends ConsumerWidget {
     );
   }
 
-  Widget body(context, String title, Map<String, Pet> pets) {
-    print(pets.values.firstWhere((pet) => pet.fotoPerfil != null));
-
+  Widget body(context, String title, Iterable<Pet> pets) {
     return GridView.count(
       crossAxisCount: 2,
       scrollDirection: Axis.vertical,
       padding: const EdgeInsets.all(25),
       crossAxisSpacing: 25,
       mainAxisSpacing: 25,
-      children: pets.values
+      children: pets
           .map((pet) => InkWell(
               borderRadius: BorderRadius.circular(8.0),
               onTap: () {
@@ -56,18 +54,27 @@ class HomePage extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Image.network(
-                          pet.fotoPerfilUrl?.toString() ??
-                              'https://source.unsplash.com/random/?cat',
-                          fit: BoxFit.cover,
-                          width: MediaQuery.of(context).size.width,
-                        )),
+                        borderRadius: BorderRadius.circular(5.0),
+                        child: pet.fotoPerfil != null
+                            ? Image.network(
+                                pet.fotoPerfilUrl.toString(),
+                                fit: BoxFit.cover,
+                                width: MediaQuery.of(context).size.width,
+                              )
+                            : Container(
+                                color: Colors.grey[300],
+                                width: MediaQuery.of(context).size.width,
+                                height: MediaQuery.of(context).size.height,
+                                child: Icon(
+                                  Icons.pets_outlined,
+                                  color: Colors.grey[400],
+                                  size: MediaQuery.of(context).size.width / 6,
+                                ))),
                   ),
                   const SizedBox(height: 5),
                   Text(
                     pet.nome,
-                    style: Theme.of(context).textTheme.labelMedium,
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ],
               )))
