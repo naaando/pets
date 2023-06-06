@@ -19,7 +19,7 @@ class App extends ConsumerWidget {
         primarySwatch: Colors.red,
         accentColor: Colors.amber,
         inputDecorationTheme: InputDecorationTheme(
-          enabledBorder: OutlineInputBorder(
+          border: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.red.shade300),
             borderRadius: BorderRadius.circular(8),
           ),
@@ -32,7 +32,7 @@ class App extends ConsumerWidget {
         primarySwatch: Colors.red,
         accentColor: Colors.amber,
         inputDecorationTheme: InputDecorationTheme(
-          enabledBorder: OutlineInputBorder(
+          border: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.red.shade300),
             borderRadius: BorderRadius.circular(8),
           ),
