@@ -1,7 +1,7 @@
 import 'package:pets/config.dart';
 
 class Pet {
-  String id;
+  String? id;
   String nome;
   bool? castrado;
   String? dateCreated;
@@ -21,26 +21,26 @@ class Pet {
       fotoPerfil != null ? baseUri.replace(path: 'assets/$fotoPerfil') : null;
 
   Pet(
-      {required this.id,
-      required this.nome,
-      required this.castrado,
-      required this.dateUpdated,
-      required this.dateCreated,
-      required this.especie,
-      required this.fotoPerfil,
-      required this.nascimento,
-      required this.mae,
-      required this.pai,
-      required this.sexo,
-      required this.raca,
-      required this.espaco,
-      required this.userCreated,
-      required this.userUpdated});
+      {this.id,
+      this.nome = '',
+      this.castrado,
+      this.dateUpdated,
+      this.dateCreated,
+      this.especie,
+      this.fotoPerfil,
+      this.nascimento,
+      this.mae,
+      this.pai,
+      this.sexo,
+      this.raca,
+      this.espaco,
+      this.userCreated,
+      this.userUpdated});
 
   factory Pet.fromJson(Map<String, dynamic> json) {
     return Pet(
       id: json['id'],
-      nome: json['nome'],
+      nome: json['nome'] ?? '',
       castrado: json['castrado'],
       dateCreated: json['date_created'],
       dateUpdated: json['date_updated'],
@@ -57,7 +57,7 @@ class Pet {
     );
   }
 
-  toJson() {
+  Map<String, dynamic> toMap() {
     return {
       'id': id,
       'nome': nome,
@@ -74,6 +74,7 @@ class Pet {
       'espaco': espaco,
       'user_created': userCreated,
       'user_updated': userUpdated,
-    };
+    }..removeWhere(
+        (key, value) => value == null || (value is String && value.isEmpty));
   }
 }
