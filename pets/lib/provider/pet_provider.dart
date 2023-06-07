@@ -13,6 +13,9 @@ final petRepositoryProvider = ChangeNotifierProvider<PetRepository>((ref) {
   return PetRepository(httpClient, token);
 });
 
+final petFormStateProvider =
+    StateProvider<GlobalKey<FormState>>((ref) => GlobalKey<FormState>());
+
 final petsProvider = FutureProvider<Map<String, Pet>>(
     (ref) => ref.watch(petRepositoryProvider).findAll());
 
