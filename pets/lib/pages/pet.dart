@@ -22,21 +22,35 @@ class PetPage extends ConsumerWidget {
         actions: barActions(context, ref, pet, formKey),
       ),
       body: body(context, ref, formKey, title, pet),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => save(context, ref, formKey, pet),
-        tooltip: 'Salvar',
-        child: const Icon(Icons.check),
-      ),
+      floatingActionButton: saveButton(context, ref, formKey, pet),
     );
   }
 
-  save(BuildContext context, WidgetRef ref, GlobalKey<FormState> formKey,
-      Pet pet) {
-    formKey.currentState!.save();
-    if (formKey.currentState!.validate()) {
-      formKey.currentState!.save();
-      ref.read(petRepositoryProvider).save(pet);
+  FloatingActionButton? saveButton(BuildContext context, WidgetRef ref,
+      GlobalKey<FormState> formKey, Pet pet) {
+    var isValid = formKey.currentState?.validate() ?? false;
+
+    if (!isValid) {
+      return null;
     }
+
+    return FloatingActionButton(
+      onPressed: () {
+        formKey.currentState!.save();
+        if (formKey.currentState!.validate()) {
+          formKey.currentState!.save();
+          ref.read(petRepositoryProvider).save(pet);
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Salvo!')),
+          );
+        }
+
+        Navigator.of(context).pop();
+      },
+      tooltip: 'Salvar',
+      child: const Icon(Icons.check),
+    );
   }
 
   List<Widget> barActions(BuildContext context, WidgetRef ref, Pet pet,
@@ -61,6 +75,7 @@ class PetPage extends ConsumerWidget {
     return SingleChildScrollView(
         child: Form(
             key: formKey,
+            autovalidateMode: AutovalidateMode.always,
             child: Padding(
               padding: const EdgeInsets.all(25),
               child: Column(
@@ -79,6 +94,11 @@ class PetPage extends ConsumerWidget {
                       labelText: 'Nome',
                     ),
                     onSaved: (newValue) => pet.nome = newValue!,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Nome é obrigatório';
+                      }
+                    },
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
@@ -98,6 +118,11 @@ class PetPage extends ConsumerWidget {
                       labelText: 'Raça',
                     ),
                     onSaved: (newValue) => pet.raca = newValue!,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Raça é obrigatório';
+                      }
+                    },
                   ),
                 ],
               ),
