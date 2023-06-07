@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pets/models/pet.dart';
+import 'package:pets/models/specie.dart';
 import 'package:pets/provider/pet_provider.dart';
+import 'package:pets/provider/specie_provider.dart';
 
 class PetPage extends ConsumerWidget {
   static const String routeName = '/pet';
@@ -72,10 +74,12 @@ class PetPage extends ConsumerWidget {
 
   Widget body(BuildContext context, WidgetRef ref, GlobalKey<FormState> formKey,
       String title, Pet pet) {
+    Map<String, Specie> species =
+        ref.watch(speciesProvider).asData?.value ?? <String, Specie>{};
+
     return SingleChildScrollView(
         child: Form(
             key: formKey,
-            autovalidateMode: AutovalidateMode.always,
             child: Padding(
               padding: const EdgeInsets.all(25),
               child: Column(
@@ -101,14 +105,19 @@ class PetPage extends ConsumerWidget {
                     },
                   ),
                   const SizedBox(height: 20),
-                  TextFormField(
-                    initialValue: pet.especie,
+                  DropdownButtonFormField(
+                    value: pet.especie,
                     decoration: const InputDecoration(
                       hintText: 'Espécie do animal',
                       labelText: 'Espécie',
                     ),
-                    readOnly: true,
-                    onSaved: (newValue) => pet.especie = newValue!,
+                    items: species.entries
+                        .map((v) => DropdownMenuItem(
+                              value: v.value.id,
+                              child: Text(v.value.especie),
+                            ))
+                        .toList(),
+                    onChanged: (value) => pet.especie = value,
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
@@ -118,11 +127,6 @@ class PetPage extends ConsumerWidget {
                       labelText: 'Raça',
                     ),
                     onSaved: (newValue) => pet.raca = newValue!,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Raça é obrigatório';
-                      }
-                    },
                   ),
                 ],
               ),

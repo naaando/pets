@@ -12,8 +12,8 @@ final specieRepositoryProvider =
   return SpecieRepository(httpClient, token);
 });
 
-final petsProvider = FutureProvider<Map<String, Specie>>(
+final speciesProvider = FutureProvider<Map<String, Specie>>(
     (ref) => ref.watch(specieRepositoryProvider).findAll());
 
-final petProvider = FutureProvider.family<Specie?, String>(
+final specieProvider = FutureProvider.family<Specie?, String>(
     (ref, id) async => ref.watch(specieRepositoryProvider).find(id));
