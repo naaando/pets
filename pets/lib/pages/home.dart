@@ -17,7 +17,7 @@ class HomePage extends ConsumerWidget {
 
     return pets.when(
       loading: () => const CircularProgressIndicator(),
-      error: (err, stack) => Text('Error: $err'),
+      error: (err, stack) => throw err,
       data: (pets) {
         return Scaffold(
           appBar: PetsAppBar(
@@ -25,7 +25,9 @@ class HomePage extends ConsumerWidget {
           ),
           body: body(context, title, pets),
           floatingActionButton: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, '/pet');
+            },
             tooltip: 'Adicionar novo animal',
             child: const Icon(Icons.add),
           ),

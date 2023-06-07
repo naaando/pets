@@ -11,82 +11,101 @@ class PetPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var pet = ModalRoute.of(context)!.settings.arguments as Pet;
-    var title = pet.nome;
+    Pet pet = (ModalRoute.of(context)!.settings.arguments as Pet?) ?? Pet();
+
+    var title = pet.nome.isNotEmpty ? pet.nome : 'Novo animal';
+    var formKey = ref.watch(petFormStateProvider);
 
     return Scaffold(
-      // appBar: PetsAppBar(
-      //   title: title,
-      // ),
       appBar: AppBar(
         title: Text(title),
-        actions: [
-          IconButton(
-              icon: const Icon(Icons.delete),
-              onPressed: () => showDeleteAlert(context, ref, pet))
-        ],
+        actions: barActions(context, ref, pet, formKey),
       ),
-      body: body(context, ref, title, pet),
+      body: body(context, ref, formKey, title, pet),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          FormState form = Form.of(context);
-
-          if (form.validate()) {
-            form.save();
-          }
-        },
+        onPressed: () => save(context, ref, formKey, pet),
         tooltip: 'Salvar',
         child: const Icon(Icons.check),
       ),
     );
   }
 
-  Widget body(BuildContext context, WidgetRef ref, String title, Pet pet) {
+  save(BuildContext context, WidgetRef ref, GlobalKey<FormState> formKey,
+      Pet pet) {
+    formKey.currentState!.save();
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
+      ref.read(petRepositoryProvider).save(pet);
+    }
+  }
+
+  List<Widget> barActions(BuildContext context, WidgetRef ref, Pet pet,
+      GlobalKey<FormState> formKey) {
+    if (pet.id != null) {
+      return [
+        IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () => showDeleteAlert(context, ref, pet))
+      ];
+    }
+
+    return [
+      IconButton(
+          icon: const Icon(Icons.cancel),
+          onPressed: () => Navigator.of(context).pop())
+    ];
+  }
+
+  Widget body(BuildContext context, WidgetRef ref, GlobalKey<FormState> formKey,
+      String title, Pet pet) {
     return SingleChildScrollView(
         child: Form(
+            key: formKey,
             child: Padding(
-      padding: const EdgeInsets.all(25),
-      child: Column(
-        children: [
-          petImage(
-            context,
-            ref,
-            pet,
-          ),
-          const SizedBox(height: 20),
-          TextFormField(
-            initialValue: pet.nome,
-            decoration: const InputDecoration(
-              prefixIcon: Icon(Icons.pets),
-              hintText: 'Nome do animal',
-              labelText: 'Nome',
-            ),
-          ),
-          const SizedBox(height: 20),
-          TextFormField(
-            initialValue: pet.especie,
-            decoration: const InputDecoration(
-              hintText: 'Espécie do animal',
-              labelText: 'Espécie',
-            ),
-            readOnly: true,
-          ),
-          const SizedBox(height: 20),
-          TextFormField(
-            initialValue: pet.raca,
-            decoration: const InputDecoration(
-              hintText: 'Raça do animal',
-              labelText: 'Raça',
-            ),
-          ),
-        ],
-      ),
-    )));
+              padding: const EdgeInsets.all(25),
+              child: Column(
+                children: [
+                  petImage(
+                    context,
+                    ref,
+                    pet,
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    initialValue: pet.nome,
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.pets),
+                      hintText: 'Nome do animal',
+                      labelText: 'Nome',
+                    ),
+                    onSaved: (newValue) => pet.nome = newValue!,
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    initialValue: pet.especie,
+                    decoration: const InputDecoration(
+                      hintText: 'Espécie do animal',
+                      labelText: 'Espécie',
+                    ),
+                    readOnly: true,
+                    onSaved: (newValue) => pet.especie = newValue!,
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    initialValue: pet.raca,
+                    decoration: const InputDecoration(
+                      hintText: 'Raça do animal',
+                      labelText: 'Raça',
+                    ),
+                    onSaved: (newValue) => pet.raca = newValue!,
+                  ),
+                ],
+              ),
+            )));
   }
 
   Widget petImage(context, WidgetRef ref, Pet pet) {
     Widget thumbWidget;
-    // ref.read(petRepositoryProvider);
 
     if (pet.fotoPerfil != null) {
       thumbWidget = Image.network(
