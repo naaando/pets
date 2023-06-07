@@ -5,9 +5,8 @@ import 'package:pets/provider/user_provider.dart';
 
 class PetsAppBar extends ConsumerWidget implements PreferredSizeWidget {
   final String title;
-  late AppBar appBar;
 
-  PetsAppBar({
+  const PetsAppBar({
     super.key,
     required this.title,
   });
@@ -19,7 +18,7 @@ class PetsAppBar extends ConsumerWidget implements PreferredSizeWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var user = ref.watch(userProvider.notifier);
 
-    return appBar = AppBar(
+    return AppBar(
       title: Text(title),
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
