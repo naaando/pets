@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/models/specie.dart';
 import 'package:pets/provider/pet_provider.dart';
 import 'package:pets/provider/specie_provider.dart';
+import 'package:intl/intl.dart';
 
-class PetPage extends ConsumerWidget {
+class PetPage extends HookConsumerWidget {
   static const String routeName = '/pet';
 
   const PetPage({super.key});
@@ -77,6 +79,11 @@ class PetPage extends ConsumerWidget {
     Map<String, Specie> species =
         ref.watch(speciesProvider).asData?.value ?? <String, Specie>{};
 
+    final nascimentoController = useTextEditingController(
+        text: pet.nascimento != null
+            ? DateFormat().format(DateTime.tryParse(pet.nascimento as String)!)
+            : null);
+
     return SingleChildScrollView(
         child: Form(
             key: formKey,
@@ -128,6 +135,33 @@ class PetPage extends ConsumerWidget {
                     ),
                     onSaved: (newValue) => pet.raca = newValue!,
                   ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                      controller: nascimentoController,
+                      decoration: const InputDecoration(
+                        hintText: 'Data de nascimento',
+                        labelText: 'Data de nascimento',
+                      ),
+                      readOnly: true,
+                      onSaved: (newValue) {
+                        if (newValue != null) {
+                          pet.nascimento =
+                              DateTime.tryParse(newValue)!.toIso8601String();
+                        }
+                      },
+                      onTap: () async {
+                        var date = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(1900),
+                          lastDate: DateTime.now(),
+                        );
+
+                        if (date != null) {
+                          pet.nascimento = date.toIso8601String();
+                          nascimentoController.text = DateFormat().format(date);
+                        }
+                      }),
                 ],
               ),
             )));
