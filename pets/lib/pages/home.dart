@@ -20,6 +20,7 @@ class HomePage extends HookConsumerWidget {
               PetsTab(),
               HealthCareTab(),
               Icon(Icons.store),
+              // Icon(Icons.person_search), Adoção
             ],
           ),
         ));

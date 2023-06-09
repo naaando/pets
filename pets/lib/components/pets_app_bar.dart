@@ -34,6 +34,7 @@ class PetsAppBar extends HookConsumerWidget implements PreferredSizeWidget {
               Tab(icon: Icon(Icons.pets)),
               Tab(icon: Icon(Icons.healing)),
               Tab(icon: Icon(Icons.store)),
+              // Tab(icon: Icon(Icons.person_search)), Adoção
             ],
             labelColor: Colors.white,
             indicator: BoxDecoration(
