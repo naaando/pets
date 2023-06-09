@@ -4,38 +4,58 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pets/provider/user_provider.dart';
 
 class PetsAppBar extends HookConsumerWidget implements PreferredSizeWidget {
-  final String title;
-
   const PetsAppBar({
     super.key,
-    required this.title,
   });
 
   @override
-  Size get preferredSize => const Size.fromHeight(140);
+  Size get preferredSize => const Size.fromHeight(160);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var user = ref.watch(userProvider);
 
     return AppBar(
-      title: Text(title),
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
-      bottom: user != null ? appbarBottom(user) : null,
+      bottom: user != null ? appbarBottom(context, user) : null,
     );
   }
 
-  PreferredSize appbarBottom(GoogleSignInAccount user) {
+  PreferredSize appbarBottom(context, GoogleSignInAccount user) {
+    return PreferredSize(
+      preferredSize: MediaQuery.of(context).size,
+      child: Column(children: [
+        userProfile(user),
+        ClipRRect(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
+          child: TabBar(
+            tabs: const [
+              Tab(icon: Icon(Icons.pets)),
+              Tab(icon: Icon(Icons.healing)),
+              Tab(icon: Icon(Icons.store)),
+            ],
+            labelColor: Colors.white,
+            indicator: BoxDecoration(
+                color: Colors.red.shade700,
+                borderRadius: BorderRadius.circular(20)),
+            padding: EdgeInsets.only(left: 6, right: 6, bottom: 6),
+            splashBorderRadius: BorderRadius.circular(20),
+          ),
+        )
+      ]),
+    );
+  }
+
+  Widget userProfile(GoogleSignInAccount user) {
     var name = user.displayName ?? '';
     var email = user.email;
     var photo = user.photoUrl;
 
-    return PreferredSize(
-      preferredSize: const Size.fromHeight(50),
-      child: Container(
-        padding: const EdgeInsets.only(left: 30, bottom: 20),
-        child: Row(children: [
+    return Container(
+      padding: const EdgeInsets.only(left: 30, bottom: 20),
+      child: Row(
+        children: [
           Stack(
             children: [
               CircleAvatar(
@@ -63,8 +83,8 @@ class PetsAppBar extends HookConsumerWidget implements PreferredSizeWidget {
               const Text('Pai de pet',
                   style: TextStyle(fontSize: 13, color: Colors.white)),
             ]),
-          )
-        ]),
+          ),
+        ],
       ),
     );
   }
