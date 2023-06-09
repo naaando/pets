@@ -3,7 +3,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pets/components/square_tile.dart';
 import 'package:pets/login.dart';
 

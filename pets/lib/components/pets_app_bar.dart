@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pets/provider/user_provider.dart';
 
-class PetsAppBar extends ConsumerWidget implements PreferredSizeWidget {
+class PetsAppBar extends HookConsumerWidget implements PreferredSizeWidget {
   final String title;
 
   const PetsAppBar({
