@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/provider/http_provider.dart';
-import 'package:pets/provider/user_provider.dart';
 import 'package:pets/repository/pet_repository.dart';
 
 final petRepositoryProvider = ChangeNotifierProvider<PetRepository>((ref) {
   final httpClient = ref.watch(httpClientProvider);
-  final token = ref.watch(tokenProvider);
 
-  return PetRepository(httpClient, token);
+  return PetRepository(httpClient);
 });
 
 final petFormStateProvider =

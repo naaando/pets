@@ -1,15 +1,13 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pets/models/specie.dart';
 import 'package:pets/provider/http_provider.dart';
-import 'package:pets/provider/user_provider.dart';
 import 'package:pets/repository/specie_repository.dart';
 
 final specieRepositoryProvider =
     ChangeNotifierProvider<SpecieRepository>((ref) {
   final httpClient = ref.watch(httpClientProvider);
-  final token = ref.watch(tokenProvider);
 
-  return SpecieRepository(httpClient, token);
+  return SpecieRepository(httpClient);
 });
 
 final speciesProvider = FutureProvider<Map<String, Specie>>(

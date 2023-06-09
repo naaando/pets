@@ -1,29 +1,20 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:pets/models/pet.dart';
+import 'package:pets/http_client.dart';
 
 class PetRepository extends ChangeNotifier {
   Map<String, Pet> pets = <String, Pet>{};
+  final HttpClient httpClient;
 
-  final String token;
-  final Client httpClient;
-
-  PetRepository(this.httpClient, this.token);
+  PetRepository(this.httpClient);
 
   Future<Pet?> find(String id, {bool forceRefresh = false}) async {
     if (pets[id] != null && !forceRefresh) {
       return pets[id];
     }
 
-    var res = await httpClient.get(
-        Uri.http('10.0.2.2:8055', 'items/animais/$id'),
-        headers: {'Authorization': 'Bearer $token'});
-
-    var decodedJson = jsonDecode(res.body)['data'] as dynamic;
-
-    var pet = Pet.fromJson(decodedJson);
+    var jsonPet = await httpClient.getJson('items/animais/$id');
+    var pet = Pet.fromJson(jsonPet);
     pets[pet.id!] = pet;
 
     notifyListeners();
@@ -36,13 +27,10 @@ class PetRepository extends ChangeNotifier {
       return Future.value(pets);
     }
 
-    var res = await httpClient.get(Uri.http('10.0.2.2:8055', 'items/animais'),
-        headers: {'Authorization': 'Bearer $token'});
-
-    var decodedJson = jsonDecode(res.body)['data'] as List<dynamic>;
+    var jsonPets = await httpClient.getJson('items/animais');
 
     // ignore: prefer_for_elements_to_map_fromiterable
-    pets = Map<String, Pet>.fromIterable(decodedJson,
+    pets = Map<String, Pet>.fromIterable(jsonPets,
         key: (json) => json['id'], value: (json) => Pet.fromJson(json));
 
     notifyListeners();
@@ -64,10 +52,8 @@ class PetRepository extends ChangeNotifier {
     notifyListeners();
   }
 
-  delete(Pet pet) async {
-    await httpClient.delete(
-        Uri.http('10.0.2.2:8055', 'items/animais/${pet.id}'),
-        headers: {'Authorization': 'Bearer $token'});
+  remove(Pet pet) async {
+    await httpClient.delete('items/animais/${pet.id}');
 
     pets.remove(pet.id);
 
@@ -75,27 +61,13 @@ class PetRepository extends ChangeNotifier {
   }
 
   Future<Pet> _create(Pet pet) async {
-    var res = await httpClient.post(Uri.http('10.0.2.2:8055', 'items/animais'),
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json'
-        },
-        body: jsonEncode(pet.toMap()));
-
-    var decodedJson = jsonDecode(res.body)['data'] as dynamic;
-    return Pet.fromJson(decodedJson);
+    var jsonPet = await httpClient.postJson('items/animais', pet.toMap());
+    return Pet.fromJson(jsonPet);
   }
 
   Future<Pet> _update(Pet pet) async {
-    var res = await httpClient.patch(
-        Uri.http('10.0.2.2:8055', 'items/animais/${pet.id}'),
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json'
-        },
-        body: jsonEncode(pet.toMap()));
-
-    var decodedJson = jsonDecode(res.body)['data'] as dynamic;
-    return Pet.fromJson(decodedJson);
+    var petJson =
+        await httpClient.patchJson('items/animais/${pet.id}', pet.toMap());
+    return Pet.fromJson(petJson);
   }
 }
