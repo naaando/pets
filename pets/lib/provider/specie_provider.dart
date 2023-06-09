@@ -1,4 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pets/models/specie.dart';
 import 'package:pets/provider/http_provider.dart';
 import 'package:pets/provider/user_provider.dart';
