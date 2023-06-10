@@ -10,12 +10,14 @@ class Pet {
   String? fotoPerfil;
   String? mae;
   String? nascimento;
+  String? castracao;
   String? pai;
   String? raca;
   String? sexo;
   String? userCreated;
   String? userUpdated;
   String? espaco;
+  String? obito;
 
   Uri? get fotoPerfilUrl =>
       fotoPerfil != null ? baseUri.replace(path: 'assets/$fotoPerfil') : null;
@@ -29,11 +31,13 @@ class Pet {
       this.especie,
       this.fotoPerfil,
       this.nascimento,
+      this.castracao,
       this.mae,
       this.pai,
       this.sexo,
       this.raca,
       this.espaco,
+      this.obito,
       this.userCreated,
       this.userUpdated});
 
@@ -48,6 +52,8 @@ class Pet {
       fotoPerfil: json['foto_perfil'],
       mae: json['mae'],
       nascimento: json['nascimento'],
+      castracao: json['castracao'],
+      obito: json['obito'],
       pai: json['pai'],
       raca: json['raca'],
       sexo: json['sexo'],
@@ -68,6 +74,8 @@ class Pet {
       'foto_perfil': fotoPerfil,
       'mae': mae,
       'nascimento': nascimento,
+      'castracao': castracao,
+      'obito': obito,
       'pai': pai,
       'raca': raca,
       'sexo': sexo,

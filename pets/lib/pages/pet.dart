@@ -74,15 +74,21 @@ class PetPage extends HookConsumerWidget {
     ];
   }
 
+  TextEditingController makeController(prop) {
+    return useTextEditingController(
+        text: prop != null
+            ? DateFormat().format(DateTime.tryParse(prop as String)!)
+            : null);
+  }
+
   Widget body(BuildContext context, WidgetRef ref, GlobalKey<FormState> formKey,
       String title, Pet pet) {
     Map<String, Specie> species =
         ref.watch(speciesProvider).asData?.value ?? <String, Specie>{};
 
-    final nascimentoController = useTextEditingController(
-        text: pet.nascimento != null
-            ? DateFormat().format(DateTime.tryParse(pet.nascimento as String)!)
-            : null);
+    final nascimentoController = makeController(pet.nascimento);
+    final castracaoController = makeController(pet.castracao);
+    final obitoController = makeController(pet.obito);
 
     return SingleChildScrollView(
         child: Form(
@@ -136,6 +142,21 @@ class PetPage extends HookConsumerWidget {
                     onSaved: (newValue) => pet.raca = newValue!,
                   ),
                   const SizedBox(height: 20),
+                  DropdownButtonFormField(
+                    value: pet.especie,
+                    decoration: const InputDecoration(
+                      hintText: 'Sexo',
+                      labelText: 'Sexo',
+                    ),
+                    items: species.entries
+                        .map((v) => DropdownMenuItem(
+                              value: v.value.id,
+                              child: Text(v.value.especie),
+                            ))
+                        .toList(),
+                    onChanged: (value) => pet.especie = value,
+                  ),
+                  const SizedBox(height: 20),
                   TextFormField(
                       controller: nascimentoController,
                       decoration: const InputDecoration(
@@ -160,6 +181,90 @@ class PetPage extends HookConsumerWidget {
                         if (date != null) {
                           pet.nascimento = date.toIso8601String();
                           nascimentoController.text = DateFormat().format(date);
+                        }
+                      }),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                      controller: castracaoController,
+                      decoration: const InputDecoration(
+                        hintText: 'Data de castração (aproximada)',
+                        labelText: 'Data de castração (aproximada)',
+                      ),
+                      readOnly: true,
+                      onSaved: (newValue) {
+                        if (newValue != null) {
+                          pet.castracao =
+                              DateTime.tryParse(newValue)!.toIso8601String();
+                        }
+                      },
+                      onTap: () async {
+                        var date = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(1900),
+                          lastDate: DateTime.now(),
+                        );
+
+                        if (date != null) {
+                          pet.castracao = date.toIso8601String();
+                          castracaoController.text = DateFormat().format(date);
+                        }
+                      }),
+                  const SizedBox(height: 20),
+                  DropdownButtonFormField(
+                    value: pet.especie,
+                    decoration: const InputDecoration(
+                      hintText: 'Mãe',
+                      labelText: 'Mãe',
+                    ),
+                    items: species.entries
+                        .map((v) => DropdownMenuItem(
+                              value: v.value.id,
+                              child: Text(v.value.especie),
+                            ))
+                        .toList(),
+                    onChanged: (value) => pet.especie = value,
+                  ),
+                  const SizedBox(height: 20),
+                  DropdownButtonFormField(
+                    value: pet.especie,
+                    decoration: const InputDecoration(
+                      hintText: 'Pai',
+                      labelText: 'Pai',
+                    ),
+                    items: species.entries
+                        .map((v) => DropdownMenuItem(
+                              value: v.value.id,
+                              child: Text(v.value.especie),
+                            ))
+                        .toList(),
+                    onChanged: (value) => pet.especie = value,
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                      controller: obitoController,
+                      decoration: const InputDecoration(
+                        hintText: 'Data de óbito',
+                        labelText: 'Data de óbito',
+                      ),
+                      readOnly: true,
+                      onSaved: (newValue) {
+                        if (newValue != null) {
+                          pet.obito =
+                              DateTime.tryParse(newValue)!.toIso8601String();
+                        }
+                      },
+                      onTap: () async {
+                        var date = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(1900),
+                          lastDate: DateTime.now(),
+                        );
+
+                        if (date != null) {
+                          pet.obito = date.toIso8601String();
+                          obitoController.text = DateFormat().format(date);
                         }
                       }),
                 ],
