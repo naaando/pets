@@ -22,14 +22,24 @@ class PetPage extends HookConsumerWidget {
     var title = pet.nome.isNotEmpty ? pet.nome : 'Novo animal';
     var formKey = ref.watch(petFormStateProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        actions: barActions(context, ref, pet, formKey),
-      ),
-      body: body(context, ref, formKey, title, pet),
-      floatingActionButton: saveButton(context, ref, formKey, pet),
-    );
+    return WillPopScope(
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(title),
+            actions: barActions(context, ref, pet, formKey),
+          ),
+          body: body(context, ref, formKey, title, pet),
+          floatingActionButton: saveButton(context, ref, formKey, pet),
+        ),
+        onWillPop: () async {
+          if (pet.id != null) {
+            await ref
+                .read(petRepositoryProvider)
+                .find(pet.id!, forceRefresh: true);
+          }
+
+          return true;
+        });
   }
 
   FloatingActionButton? saveButton(BuildContext context, WidgetRef ref,
@@ -359,7 +369,11 @@ class PetPage extends HookConsumerWidget {
               await ImagePicker().pickImage(source: ImageSource.gallery);
 
           if (image != null) {
-            // ref.read(petProvider(pet.id)).updateFotoPerfil(image.path);
+            var newId = ref
+                .read(petRepositoryProvider)
+                .updateProfilePicture(pet, image);
+
+            pet.fotoPerfil = newId;
           }
         });
   }
