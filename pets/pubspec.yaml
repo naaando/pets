@@ -43,6 +43,8 @@ dependencies:
   intl: ^0.18.1
   jiffy: ^6.2.1
   dio: ^5.2.0+1
+  http_parser: ^4.0.2
+  mime: ^1.0.4
 
 dev_dependencies:
   flutter_test:

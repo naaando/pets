@@ -1,4 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:mime/mime.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/http_client.dart';
 
@@ -69,5 +73,25 @@ class PetRepository extends ChangeNotifier {
     var petJson =
         await httpClient.patchJson('items/animais/${pet.id}', pet.toMap());
     return Pet.fromJson(petJson);
+  }
+
+  updateProfilePicture(Pet pet, XFile file) async {
+    String folder = 'e242255d-91af-4886-961e-ab50d0cae3fa';
+
+    Dio dio = httpClient.httpClient;
+
+    var response = await dio.post('files',
+        data: FormData.fromMap({
+          'folder': folder,
+          'file': MultipartFile.fromBytes(
+            await file.readAsBytes(),
+            filename: file.name,
+            contentType: MediaType.parse(lookupMimeType(file.name)!),
+          ),
+        }));
+
+    pet.fotoPerfil = response.data['data']['id'];
+    notifyListeners();
+    return response.data['data']['id'];
   }
 }
