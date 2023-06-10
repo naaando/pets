@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pets/models/espaco.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/models/specie.dart';
+import 'package:pets/provider/espaco_provider.dart';
 import 'package:pets/provider/pet_provider.dart';
 import 'package:pets/provider/specie_provider.dart';
 import 'package:intl/intl.dart';
@@ -43,11 +45,18 @@ class PetPage extends HookConsumerWidget {
         formKey.currentState!.save();
         if (formKey.currentState!.validate()) {
           formKey.currentState!.save();
-          ref.read(petRepositoryProvider).save(pet);
 
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Salvo!')),
-          );
+          try {
+            ref.read(petRepositoryProvider).save(pet);
+
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Salvo!')),
+            );
+          } catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Erro ao salvar!')),
+            );
+          }
         }
 
         Navigator.of(context).pop();
@@ -86,6 +95,13 @@ class PetPage extends HookConsumerWidget {
     Map<String, Specie> species =
         ref.watch(speciesProvider).asData?.value ?? <String, Specie>{};
 
+    Map<String, Espaco> espacos =
+        ref.watch(espacosProvider).asData?.value ?? <String, Espaco>{};
+
+    if (espacos.length == 1) {
+      pet.espaco = espacos.values.first.id;
+    }
+
     final nascimentoController = makeController(pet.nascimento);
     final castracaoController = makeController(pet.castracao);
     final obitoController = makeController(pet.obito);
@@ -117,6 +133,25 @@ class PetPage extends HookConsumerWidget {
                       }
                     },
                   ),
+                  ...espacos.length > 1
+                      ? [
+                          const SizedBox(height: 20),
+                          DropdownButtonFormField(
+                            value: pet.espaco,
+                            decoration: const InputDecoration(
+                              hintText: 'Espaço do animal',
+                              labelText: 'Espaço',
+                            ),
+                            items: espacos.entries
+                                .map((v) => DropdownMenuItem(
+                                      value: v.value.id,
+                                      child: Text(v.value.ambiente),
+                                    ))
+                                .toList(),
+                            onChanged: (value) => pet.espaco = value,
+                          ),
+                        ]
+                      : [],
                   const SizedBox(height: 20),
                   DropdownButtonFormField(
                     value: pet.especie,
@@ -143,18 +178,22 @@ class PetPage extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 20),
                   DropdownButtonFormField(
-                    value: pet.especie,
+                    value: pet.sexo,
                     decoration: const InputDecoration(
                       hintText: 'Sexo',
                       labelText: 'Sexo',
                     ),
-                    items: species.entries
-                        .map((v) => DropdownMenuItem(
-                              value: v.value.id,
-                              child: Text(v.value.especie),
-                            ))
-                        .toList(),
-                    onChanged: (value) => pet.especie = value,
+                    items: const [
+                      DropdownMenuItem(
+                        value: 'masculino',
+                        child: Text('Masculino'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'feminino',
+                        child: Text('Feminino'),
+                      ),
+                    ],
+                    onChanged: (value) => pet.sexo = value,
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
