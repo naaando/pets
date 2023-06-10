@@ -217,7 +217,7 @@ class PetPage extends HookConsumerWidget {
         TextButton(
           child: const Text("Excluir"),
           onPressed: () {
-            ref.read(petRepositoryProvider).delete(pet);
+            ref.read(petRepositoryProvider).remove(pet);
             Navigator.pop(context);
             Navigator.pop(context);
           },
