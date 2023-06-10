@@ -20,7 +20,12 @@ class Pet {
   String? obito;
 
   Uri? get fotoPerfilUrl => fotoPerfil != null
-      ? baseUriWithAccessToken.replace(path: 'assets/$fotoPerfil')
+      ? baseUriWithAccessToken.replace(
+          path: 'assets/$fotoPerfil',
+          queryParameters: {
+              'key': 'thumb',
+              ...baseUriWithAccessToken.queryParameters
+            })
       : null;
 
   Pet(
