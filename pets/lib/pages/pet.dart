@@ -337,10 +337,11 @@ class PetPage extends HookConsumerWidget {
 
   Widget petImage(context, WidgetRef ref, Pet pet) {
     Widget thumbWidget;
+    final fotoPerfilUrl = useState(pet.fotoPerfilUrl.toString());
 
     if (pet.fotoPerfil != null) {
       thumbWidget = Image.network(
-        pet.fotoPerfilUrl.toString(),
+        fotoPerfilUrl.value,
         fit: BoxFit.cover,
         width: MediaQuery.of(context).size.width,
       );
@@ -366,11 +367,12 @@ class PetPage extends HookConsumerWidget {
               await ImagePicker().pickImage(source: ImageSource.gallery);
 
           if (image != null) {
-            var newId = ref
+            var newId = await ref
                 .read(petRepositoryProvider)
                 .updateProfilePicture(pet, image);
 
             pet.fotoPerfil = newId;
+            fotoPerfilUrl.value = pet.fotoPerfilUrl.toString();
           }
         });
   }
