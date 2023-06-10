@@ -102,8 +102,9 @@ class PetPage extends HookConsumerWidget {
 
   Widget body(BuildContext context, WidgetRef ref, GlobalKey<FormState> formKey,
       String title, Pet pet) {
+    // Dont watch pets cause it will cause a rebuild
     Map<String, Pet> pets =
-        ref.watch(petsProvider).asData?.value ?? <String, Pet>{};
+        ref.read(petsProvider).asData?.value ?? <String, Pet>{};
 
     Map<String, Especie> especie =
         ref.watch(especiesProvider).asData?.value ?? <String, Especie>{};
