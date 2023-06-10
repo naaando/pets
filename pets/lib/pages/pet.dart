@@ -92,6 +92,9 @@ class PetPage extends HookConsumerWidget {
 
   Widget body(BuildContext context, WidgetRef ref, GlobalKey<FormState> formKey,
       String title, Pet pet) {
+    Map<String, Pet> pets =
+        ref.watch(petsProvider).asData?.value ?? <String, Pet>{};
+
     Map<String, Specie> species =
         ref.watch(speciesProvider).asData?.value ?? <String, Specie>{};
 
@@ -246,33 +249,23 @@ class PetPage extends HookConsumerWidget {
                       }),
                   const SizedBox(height: 20),
                   DropdownButtonFormField(
-                    value: pet.especie,
+                    value: pet.mae,
                     decoration: const InputDecoration(
                       hintText: 'Mãe',
                       labelText: 'Mãe',
                     ),
-                    items: species.entries
-                        .map((v) => DropdownMenuItem(
-                              value: v.value.id,
-                              child: Text(v.value.especie),
-                            ))
-                        .toList(),
-                    onChanged: (value) => pet.especie = value,
+                    items: femalePetsDropdown(pets),
+                    onChanged: (value) => pet.mae = value,
                   ),
                   const SizedBox(height: 20),
                   DropdownButtonFormField(
-                    value: pet.especie,
+                    value: pet.pai,
                     decoration: const InputDecoration(
                       hintText: 'Pai',
                       labelText: 'Pai',
                     ),
-                    items: species.entries
-                        .map((v) => DropdownMenuItem(
-                              value: v.value.id,
-                              child: Text(v.value.especie),
-                            ))
-                        .toList(),
-                    onChanged: (value) => pet.especie = value,
+                    items: malePetsDropdown(pets),
+                    onChanged: (value) => pet.pai = value,
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
@@ -301,6 +294,38 @@ class PetPage extends HookConsumerWidget {
                 ],
               ),
             )));
+  }
+
+  List<DropdownMenuItem<String>> malePetsDropdown(Map<String, Pet> pets) {
+    return pets.values
+        .where((animal) => animal.sexo == 'masculino')
+        .map((v) => DropdownMenuItem(
+              value: v.id,
+              child: Text(v.nome),
+            ))
+        .toList()
+      ..insert(
+          0,
+          const DropdownMenuItem(
+            value: null,
+            child: Text('Desconhecido'),
+          ));
+  }
+
+  List<DropdownMenuItem<String>> femalePetsDropdown(Map<String, Pet> pets) {
+    return pets.values
+        .where((animal) => animal.sexo == 'feminino')
+        .map((v) => DropdownMenuItem(
+              value: v.id,
+              child: Text(v.nome),
+            ))
+        .toList()
+      ..insert(
+          0,
+          const DropdownMenuItem(
+            value: null,
+            child: Text('Desconhecido'),
+          ));
   }
 
   Widget petImage(context, WidgetRef ref, Pet pet) {
