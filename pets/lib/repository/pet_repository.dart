@@ -42,7 +42,7 @@ class PetRepository extends ChangeNotifier {
     return pets;
   }
 
-  save(Pet pet) async {
+  Future save(Pet pet) async {
     Pet? savedPet;
 
     if (pet.id == null) {

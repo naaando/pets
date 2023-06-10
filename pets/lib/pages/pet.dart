@@ -54,22 +54,18 @@ class PetPage extends HookConsumerWidget {
       onPressed: () {
         formKey.currentState!.save();
         if (formKey.currentState!.validate()) {
-          formKey.currentState!.save();
-
-          try {
-            ref.read(petRepositoryProvider).save(pet);
-
+          ref.read(petRepositoryProvider).save(pet).then((value) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Salvo!')),
             );
-          } catch (e) {
+
+            Navigator.of(context).pop();
+          }).catchError((e) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Erro ao salvar!')),
             );
-          }
+          });
         }
-
-        Navigator.of(context).pop();
       },
       tooltip: 'Salvar',
       child: const Icon(Icons.check),
