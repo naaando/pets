@@ -1,5 +1,5 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pets/provider/user_provider.dart';
 
 googleLogin(WidgetRef ref) async {
@@ -13,7 +13,7 @@ googleLogin(WidgetRef ref) async {
     ],
   );
 
-  await googleSignIn.signInSilently();
+  await googleSignIn.signIn();
 
   ref.read(userProvider.notifier).update((state) => googleSignIn.currentUser);
 }
