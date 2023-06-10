@@ -1,11 +1,11 @@
-class Specie {
+class Especie {
   String id;
   String especie;
 
-  Specie({required this.id, required this.especie});
+  Especie({required this.id, required this.especie});
 
-  factory Specie.fromJson(Map<String, dynamic> json) {
-    return Specie(
+  factory Especie.fromJson(Map<String, dynamic> json) {
+    return Especie(
       id: json['id'],
       especie: json['especie'],
     );

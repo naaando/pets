@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:pets/http_client.dart';
-import 'package:pets/models/specie.dart';
+import 'package:pets/models/especie.dart';
 
-class SpecieRepository extends ChangeNotifier {
-  Map<String, Specie> pets = <String, Specie>{};
+class EspecieRepository extends ChangeNotifier {
+  Map<String, Especie> pets = <String, Especie>{};
 
   final HttpClient httpClient;
 
-  SpecieRepository(this.httpClient);
+  EspecieRepository(this.httpClient);
 
-  Future<Specie?> find(String id, {bool forceRefresh = false}) async {
+  Future<Especie?> find(String id, {bool forceRefresh = false}) async {
     if (pets[id] != null && !forceRefresh) {
       return pets[id];
     }
 
     var decodedJson = await httpClient.getJson('items/especie/$id');
 
-    var pet = Specie.fromJson(decodedJson);
+    var pet = Especie.fromJson(decodedJson);
     pets[pet.id] = pet;
 
     notifyListeners();
@@ -24,7 +24,7 @@ class SpecieRepository extends ChangeNotifier {
     return pets[id];
   }
 
-  Future<Map<String, Specie>> findAll({bool forceRefresh = false}) async {
+  Future<Map<String, Especie>> findAll({bool forceRefresh = false}) async {
     if (pets.isNotEmpty && !forceRefresh) {
       return Future.value(pets);
     }
@@ -32,8 +32,8 @@ class SpecieRepository extends ChangeNotifier {
     var decodedJson = await httpClient.getJson('items/especie');
 
     // ignore: prefer_for_elements_to_map_fromiterable
-    pets = Map<String, Specie>.fromIterable(decodedJson,
-        key: (json) => json['id'], value: (json) => Specie.fromJson(json));
+    pets = Map<String, Especie>.fromIterable(decodedJson,
+        key: (json) => json['id'], value: (json) => Especie.fromJson(json));
 
     notifyListeners();
 

@@ -4,10 +4,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pets/models/espaco.dart';
 import 'package:pets/models/pet.dart';
-import 'package:pets/models/specie.dart';
+import 'package:pets/models/especie.dart';
 import 'package:pets/provider/espaco_provider.dart';
 import 'package:pets/provider/pet_provider.dart';
-import 'package:pets/provider/specie_provider.dart';
+import 'package:pets/provider/especie_provider.dart';
 import 'package:intl/intl.dart';
 
 class PetPage extends HookConsumerWidget {
@@ -95,8 +95,8 @@ class PetPage extends HookConsumerWidget {
     Map<String, Pet> pets =
         ref.watch(petsProvider).asData?.value ?? <String, Pet>{};
 
-    Map<String, Specie> species =
-        ref.watch(speciesProvider).asData?.value ?? <String, Specie>{};
+    Map<String, Especie> species =
+        ref.watch(especiesProvider).asData?.value ?? <String, Especie>{};
 
     Map<String, Espaco> espacos =
         ref.watch(espacosProvider).asData?.value ?? <String, Espaco>{};
