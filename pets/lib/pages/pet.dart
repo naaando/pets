@@ -204,10 +204,8 @@ class PetPage extends HookConsumerWidget {
                       ),
                       readOnly: true,
                       onSaved: (newValue) {
-                        if (newValue != null && newValue.isNotEmpty) {
-                          pet.nascimento =
-                              DateTime.tryParse(newValue)!.toIso8601String();
-                        }
+                        pet.nascimento =
+                            prepareDate(newValue) ?? pet.nascimento;
                       },
                       onTap: () async {
                         var date = await showDatePicker(
@@ -231,10 +229,7 @@ class PetPage extends HookConsumerWidget {
                       ),
                       readOnly: true,
                       onSaved: (newValue) {
-                        if (newValue != null && newValue.isNotEmpty) {
-                          pet.castracao =
-                              DateTime.tryParse(newValue)!.toIso8601String();
-                        }
+                        pet.castracao = prepareDate(newValue) ?? pet.castracao;
                       },
                       onTap: () async {
                         var date = await showDatePicker(
@@ -288,10 +283,7 @@ class PetPage extends HookConsumerWidget {
                       ),
                       readOnly: true,
                       onSaved: (newValue) {
-                        if (newValue != null && newValue.isNotEmpty) {
-                          pet.obito =
-                              DateTime.tryParse(newValue)!.toIso8601String();
-                        }
+                        pet.obito = prepareDate(newValue) ?? pet.obito;
                       },
                       onTap: () async {
                         var date = await showDatePicker(
@@ -375,5 +367,18 @@ class PetPage extends HookConsumerWidget {
         return alert;
       },
     );
+  }
+
+  String? prepareDate(newValue) {
+    if (newValue == null || newValue.isEmpty) {
+      return null;
+    }
+
+    DateTime? date = DateTime.tryParse(newValue);
+    if (date == null) {
+      return null;
+    }
+
+    return date.toIso8601String();
   }
 }
