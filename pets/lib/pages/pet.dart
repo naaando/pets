@@ -95,7 +95,7 @@ class PetPage extends HookConsumerWidget {
     Map<String, Pet> pets =
         ref.watch(petsProvider).asData?.value ?? <String, Pet>{};
 
-    Map<String, Especie> species =
+    Map<String, Especie> especie =
         ref.watch(especiesProvider).asData?.value ?? <String, Especie>{};
 
     Map<String, Espaco> espacos =
@@ -162,7 +162,7 @@ class PetPage extends HookConsumerWidget {
                       hintText: 'Espécie do animal',
                       labelText: 'Espécie',
                     ),
-                    items: species.entries
+                    items: especie.entries
                         .map((v) => DropdownMenuItem(
                               value: v.value.id,
                               child: Text(v.value.especie),
