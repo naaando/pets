@@ -1,51 +1,46 @@
-import 'dart:convert';
-
-import 'package:http/http.dart';
+import 'package:dio/dio.dart';
+import 'package:pets/config.dart';
 
 class HttpClient {
-  final String token;
-  final Client httpClient;
+  late Dio httpClient = Dio(options);
 
-  HttpClient(this.httpClient, this.token);
+  BaseOptions options = BaseOptions(baseUrl: baseUri.toString(), headers: {
+    'Authorization': 'Bearer $token',
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  });
 
-  Map<String, String>? get headers => {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      };
+  HttpClient();
 
   Future<Response> get(String path, {Map<String, dynamic>? queryParameters}) {
-    return httpClient.get(Uri.http('10.0.2.2:8055', path, queryParameters),
-        headers: headers);
+    return httpClient.get(path, queryParameters: queryParameters);
   }
 
   Future<Response> post(String path, {dynamic body}) {
-    return httpClient.post(Uri.http('10.0.2.2:8055', path),
-        headers: headers, body: body);
+    return httpClient.post(path, data: body);
   }
 
   Future<Response> patch(String path, {dynamic body}) {
-    return httpClient.patch(Uri.http('10.0.2.2:8055', path),
-        headers: headers, body: body);
+    return httpClient.patch(path, data: body);
   }
 
   Future<Response> delete(String path) {
-    return httpClient.delete(Uri.http('10.0.2.2:8055', path), headers: headers);
+    return httpClient.delete(path);
   }
 
   Future<dynamic> getJson(String path,
       {Map<String, dynamic>? queryParameters}) async {
     var res = await get(path, queryParameters: queryParameters);
-    return jsonDecode(res.body)['data'];
+    return res.data['data'];
   }
 
   Future<dynamic> postJson(String path, Map<String, dynamic> body) async {
-    var res = await post(path, body: jsonEncode(body));
-    return jsonDecode(res.body)['data'];
+    var res = await post(path, body: body);
+    return res.data['data'];
   }
 
   Future<dynamic> patchJson(String path, Map<String, dynamic> body) async {
-    var res = await patch(path, body: jsonEncode(body));
-    return jsonDecode(res.body)['data'];
+    var res = await patch(path, body: body);
+    return res.data['data'];
   }
 }
