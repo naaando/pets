@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pets/models/especie.dart';
 import 'package:pets/provider/http_provider.dart';
-import 'package:pets/repository/specie_repository.dart';
+import 'package:pets/repository/especie_repository.dart';
 
 final especieRepositoryProvider =
     ChangeNotifierProvider<EspecieRepository>((ref) {
