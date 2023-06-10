@@ -75,7 +75,7 @@ class PetRepository extends ChangeNotifier {
     return Pet.fromJson(petJson);
   }
 
-  updateProfilePicture(Pet pet, XFile file) async {
+  Future<String?> updateProfilePicture(Pet pet, XFile file) async {
     String folder = 'e242255d-91af-4886-961e-ab50d0cae3fa';
 
     Dio dio = httpClient.httpClient;
@@ -91,7 +91,6 @@ class PetRepository extends ChangeNotifier {
         }));
 
     pet.fotoPerfil = response.data['data']['id'];
-    notifyListeners();
     return response.data['data']['id'];
   }
 }
