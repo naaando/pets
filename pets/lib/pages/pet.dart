@@ -165,7 +165,7 @@ class PetPage extends HookConsumerWidget {
                       ),
                       readOnly: true,
                       onSaved: (newValue) {
-                        if (newValue != null) {
+                        if (newValue != null && newValue.isNotEmpty) {
                           pet.nascimento =
                               DateTime.tryParse(newValue)!.toIso8601String();
                         }
@@ -192,7 +192,7 @@ class PetPage extends HookConsumerWidget {
                       ),
                       readOnly: true,
                       onSaved: (newValue) {
-                        if (newValue != null) {
+                        if (newValue != null && newValue.isNotEmpty) {
                           pet.castracao =
                               DateTime.tryParse(newValue)!.toIso8601String();
                         }
@@ -249,7 +249,7 @@ class PetPage extends HookConsumerWidget {
                       ),
                       readOnly: true,
                       onSaved: (newValue) {
-                        if (newValue != null) {
+                        if (newValue != null && newValue.isNotEmpty) {
                           pet.obito =
                               DateTime.tryParse(newValue)!.toIso8601String();
                         }
