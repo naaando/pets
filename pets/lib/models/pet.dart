@@ -19,8 +19,9 @@ class Pet {
   String? espaco;
   String? obito;
 
-  Uri? get fotoPerfilUrl =>
-      fotoPerfil != null ? baseUri.replace(path: 'assets/$fotoPerfil') : null;
+  Uri? get fotoPerfilUrl => fotoPerfil != null
+      ? baseUriWithAccessToken.replace(path: 'assets/$fotoPerfil')
+      : null;
 
   Pet(
       {this.id,
