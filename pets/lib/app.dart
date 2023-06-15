@@ -42,7 +42,7 @@ class App extends ConsumerWidget {
       ),
       initial: AdaptiveThemeMode.light,
       builder: (theme, darkTheme) => MaterialApp(
-        title: 'Adaptive Theme Demo',
+        title: 'Cuidados com pets',
         theme: theme,
         darkTheme: darkTheme,
         routes: <String, WidgetBuilder>{
