@@ -46,4 +46,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Get the espaco associated with the user.
+     */
+    public function espaco()
+    {
+        return $this->hasOne(Espaco::class);
+    }
 }
