@@ -50,7 +50,7 @@ class App extends ConsumerWidget {
           '/pet': (BuildContext context) => const PetPage(),
         },
         home: user.when(
-          data: (user) => user == null ? WelcomePage() : const HomePage(),
+          data: (user) => userLoaded(user),
           error: (err, stack) => Text(err.toString()),
           loading: () => const Center(
             child: CircularProgressIndicator(),
@@ -58,5 +58,13 @@ class App extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  Widget userLoaded(user) {
+    if (user == null) {
+      return WelcomePage();
+    } else {
+      return const HomePage();
+    }
   }
 }

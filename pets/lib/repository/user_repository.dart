@@ -1,11 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pets/models/user.dart';
 
 class UserRepository extends ChangeNotifier {
   Isar? _isar;
+  User? user;
 
   Future<Isar> getIsar() async {
     if (_isar != null) {
@@ -21,8 +23,18 @@ class UserRepository extends ChangeNotifier {
   }
 
   Future<User?>? getUser() async {
+    if (user != null) {
+      return user;
+    }
+
     final isar = await getIsar();
-    return await isar.users.where().findFirst();
+    user = await isar.users.where().findFirst();
+
+    if (user != null && user?.accessToken != null) {
+      setUserWithSanctumToken(user!.accessToken!);
+    }
+
+    return user;
   }
 
   Future<void> setUserWithSanctumToken(String sanctumToken) async {
@@ -32,23 +44,29 @@ class UserRepository extends ChangeNotifier {
         options: Options(responseType: ResponseType.json));
     final userData = userResponse.data;
 
-    final user = User(
+    user = User(
       name: userData['name'],
       email: userData['email'],
       iss: userData['iss'],
       sub: userData['sub'],
       picture: userData['picture'],
       locale: userData['locale'],
-      emailVerifiedAt: userData['email_verified_at'],
-      createdAt: userData['created_at'],
-      updatedAt: userData['updated_at'],
+      emailVerifiedAt: userData['email_verified_at'] != null
+          ? Jiffy.parse(userData['email_verified_at']).dateTime
+          : null,
+      createdAt: userData['created_at'] != null
+          ? Jiffy.parse(userData['created_at']).dateTime
+          : null,
+      updatedAt: userData['updated_at'] != null
+          ? Jiffy.parse(userData['updated_at']).dateTime
+          : null,
     );
 
     final isar = await getIsar();
 
     return await isar.writeTxn(() async {
       await isar.users.clear();
-      await isar.users.put(user);
+      await isar.users.put(user!);
     });
   }
 }
