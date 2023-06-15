@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pets', function (Blueprint $table) {
-            $table->ulid()->primary();
+            $table->uuid()->primary();
             $table->string('nome');
             $table->string('imagem');
-            $table->foreignUlid('user_ulid')->references('ulid')->on('users');
-            $table->foreignUlid('espaco_ulid')->references('ulid')->on('espacos');
-            $table->foreignUlid('especie_ulid')->references('ulid')->on('especies');
+            $table->foreignUuid('user_uuid')->references('uuid')->on('users');
+            $table->foreignUuid('espaco_uuid')->references('uuid')->on('espacos');
+            $table->foreignUuid('especie_uuid')->references('uuid')->on('especies');
             $table->enum('sexo', ['macho', 'femea']);
             $table->string('raca');
             $table->dateTime('nascimento');

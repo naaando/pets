@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('espacos_users', function (Blueprint $table) {
-            $table->ulid();
-            $table->foreignUlid('user_ulid')->references('ulid')->on('users');
-            $table->foreignUlid('espaco_ulid')->references('ulid')->on('espacos');
+            $table->uuid();
+            $table->foreignUuid('user_uuid')->references('uuid')->on('users');
+            $table->foreignUuid('espaco_uuid')->references('uuid')->on('espacos');
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('espacos_users');
     }
 };

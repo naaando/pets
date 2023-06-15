@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('espacos', function (Blueprint $table) {
-            $table->ulid()->primary();
+            $table->uuid()->primary();
             $table->string('nome');
         });
     }
