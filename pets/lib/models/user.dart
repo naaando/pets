@@ -1,10 +1,13 @@
 import 'package:isar/isar.dart';
+import 'package:pets/fasthash.dart';
+import 'package:pets/models/espaco.dart';
 
 part 'user.g.dart';
 
 @collection
 class User {
-  Id id = Isar.autoIncrement;
+  String? id;
+  Id get isarId => fastHash(id!);
   String? accessToken;
   String? name;
   String? email;
@@ -15,6 +18,7 @@ class User {
   DateTime? emailVerifiedAt;
   DateTime? createdAt;
   DateTime? updatedAt;
+  final espacos = IsarLinks<Espaco>();
 
   User({
     this.accessToken,

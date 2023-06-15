@@ -1,20 +1,29 @@
-class Espaco {
-  String id;
-  String ambiente;
+import 'package:isar/isar.dart';
+import 'package:pets/fasthash.dart';
 
-  Espaco({required this.id, required this.ambiente});
+part 'espaco.g.dart';
+
+@collection
+class Espaco {
+  String? id;
+
+  Id get isarId => fastHash(id!);
+
+  String nome;
+
+  Espaco({required this.id, required this.nome});
 
   factory Espaco.fromJson(Map<String, dynamic> json) {
     return Espaco(
       id: json['id'],
-      ambiente: json['ambiente'],
+      nome: json['nome'],
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'ambiente': ambiente,
+      'nome': nome,
     }..removeWhere(
         (key, value) => value == null || (value is String && value.isEmpty));
   }
