@@ -3,11 +3,15 @@ import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:pets/http_client.dart';
 import 'package:pets/models/user.dart';
 
 class UserRepository extends ChangeNotifier {
   Isar? _isar;
   User? user;
+  HttpClient httpClient;
+
+  UserRepository(this.httpClient);
 
   Future<Isar> getIsar() async {
     if (_isar != null) {
@@ -30,21 +34,29 @@ class UserRepository extends ChangeNotifier {
     final isar = await getIsar();
     user = await isar.users.where().findFirst();
 
-    if (user != null && user?.accessToken != null) {
-      setUserWithSanctumToken(user!.accessToken!);
+    if (user != null && user!.accessToken != null) {
+      await setUserWithSanctumToken(user!.accessToken!);
+      return user;
     }
 
-    return user;
+    return null;
   }
 
   Future<void> setUserWithSanctumToken(String sanctumToken) async {
-    final dio = Dio();
-    dio.options.headers['Authorization'] = 'Bearer $sanctumToken';
-    final userResponse = await dio.get('http://10.0.2.2:9999/api/user',
-        options: Options(responseType: ResponseType.json));
-    final userData = userResponse.data;
+    httpClient.setAuthorizationToken(sanctumToken);
+    final Response userResponse;
+
+    try {
+      userResponse = await httpClient.get('api/user');
+    } catch (e) {
+      handleUserFetchError();
+      return;
+    }
+
+    final userData = userResponse.data['data'];
 
     user = User(
+      accessToken: sanctumToken,
       name: userData['name'],
       email: userData['email'],
       iss: userData['iss'],
@@ -67,6 +79,14 @@ class UserRepository extends ChangeNotifier {
     return await isar.writeTxn(() async {
       await isar.users.clear();
       await isar.users.put(user!);
+    });
+  }
+
+  handleUserFetchError() async {
+    final isar = await getIsar();
+
+    return await isar.writeTxn(() async {
+      await isar.users.clear();
     });
   }
 }

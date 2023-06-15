@@ -4,13 +4,19 @@ import 'package:pets/config.dart';
 class HttpClient {
   late Dio httpClient = Dio(options);
 
-  BaseOptions options = BaseOptions(baseUrl: baseUri.toString(), headers: {
-    'Authorization': 'Bearer $token',
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  });
+  BaseOptions options = BaseOptions(
+      baseUrl: baseUri.toString(),
+      contentType: Headers.jsonContentType,
+      responseType: ResponseType.json,
+      headers: {
+        'Accept': 'application/json',
+      });
 
   HttpClient();
+
+  setAuthorizationToken(String token) {
+    httpClient.options.headers['Authorization'] = 'Bearer $token';
+  }
 
   Future<Response> get(String path, {Map<String, dynamic>? queryParameters}) {
     return httpClient.get(path, queryParameters: queryParameters);
