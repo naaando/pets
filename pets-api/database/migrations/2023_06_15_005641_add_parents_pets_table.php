@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('pets', function (Blueprint $table) {
-            $table->foreignUlid('mae_uuid')->references('uuid')->on('pets');
-            $table->foreignUlid('pai_uuid')->references('uuid')->on('pets');
+            $table->foreignUuid('mae_id')->references('id')->on('pets');
+            $table->foreignUuid('pai_id')->references('id')->on('pets');
         });
     }
 
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropColumns('pets', ['mae_uuid', 'pai_uuid']);
+        Schema::dropColumns('pets', ['mae_id', 'pai_id']);
     }
 };
