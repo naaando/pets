@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pets/components/square_tile.dart';
 import 'package:pets/login.dart';
+import 'package:pets/provider/user_provider.dart';
 
 class WelcomePage extends ConsumerWidget {
   WelcomePage({super.key});
@@ -18,13 +19,10 @@ class WelcomePage extends ConsumerWidget {
   final double _opacity = 0.2;
   final _formKey = GlobalKey<FormState>();
 
-  void googleSignIn(WidgetRef ref) async {
-    googleLogin(ref);
-    // Provider.of<LoginState>(context, listen: false).loginGoogle();
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(userProvider);
+
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: SingleChildScrollView(
