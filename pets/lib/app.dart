@@ -11,13 +11,13 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(userProvider.notifier);
+    final user = ref.watch(userProvider);
 
     return AdaptiveTheme(
       light: ThemeData(
         brightness: Brightness.light,
         primarySwatch: Colors.red,
-        accentColor: Colors.amber,
+        hintColor: Colors.amber,
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.red.shade200),
@@ -30,7 +30,7 @@ class App extends ConsumerWidget {
       dark: ThemeData(
         brightness: Brightness.dark,
         primarySwatch: Colors.red,
-        accentColor: Colors.amber,
+        hintColor: Colors.amber,
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.red.shade200),
@@ -49,15 +49,12 @@ class App extends ConsumerWidget {
           '/home': (BuildContext context) => const HomePage(),
           '/pet': (BuildContext context) => const PetPage(),
         },
-        home: StreamBuilder(
-          stream: user.stream,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return const HomePage();
-            } else {
-              return WelcomePage();
-            }
-          },
+        home: user.when(
+          data: (user) => user == null ? WelcomePage() : const HomePage(),
+          error: (err, stack) => Text(err.toString()),
+          loading: () => const Center(
+            child: CircularProgressIndicator(),
+          ),
         ),
       ),
     );
