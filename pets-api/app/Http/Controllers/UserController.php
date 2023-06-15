@@ -13,7 +13,7 @@ class UserController extends Controller
         $user->load('espacos');
 
         if ($user->espacos->isEmpty()) {
-            $user->espaco()->create(['nome' => 'Meu espaço']);
+            $user->espacos()->create(['nome' => 'Meu espaço']);
         }
 
         return new UserResource($request->user());
