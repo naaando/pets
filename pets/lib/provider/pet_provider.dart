@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/provider/http_provider.dart';
@@ -9,9 +8,6 @@ final petRepositoryProvider = ChangeNotifierProvider<PetRepository>((ref) {
 
   return PetRepository(httpClient);
 });
-
-final petFormStateProvider =
-    StateProvider<GlobalKey<FormState>>((ref) => GlobalKey<FormState>());
 
 final petsProvider = FutureProvider<Map<String, Pet>>(
     (ref) => ref.watch(petRepositoryProvider).findAll());
