@@ -23,6 +23,7 @@ return new class extends Migration
             $table->dateTime('nascimento');
             $table->dateTime('falecimento')->nullable();
             $table->dateTime('castracao')->nullable();
+            $table->timestamps();
         });
     }
 

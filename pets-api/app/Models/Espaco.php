@@ -31,8 +31,8 @@ class Espaco extends Model
     /**
      * Get the user associated with the espaco.
      */
-    public function user()
+    public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class);
     }
 }

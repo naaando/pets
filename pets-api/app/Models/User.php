@@ -52,8 +52,8 @@ class User extends Authenticatable
     /**
      * Get the espaco associated with the user.
      */
-    public function espaco()
+    public function espacos()
     {
-        return $this->hasOne(Espaco::class);
+        return $this->belongsToMany(Espaco::class);
     }
 }
