@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:pets/models/user.dart';
 import 'package:pets/provider/user_provider.dart';
 
 class PetsAppBar extends HookConsumerWidget implements PreferredSizeWidget {
@@ -13,16 +13,16 @@ class PetsAppBar extends HookConsumerWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var user = ref.watch(userProvider);
+    var user = ref.watch(userProvider).asData!.value!;
 
     return AppBar(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
-      bottom: user != null ? appbarBottom(context, user) : null,
+      bottom: appbarBottom(context, user),
     );
   }
 
-  PreferredSize appbarBottom(context, GoogleSignInAccount user) {
+  PreferredSize appbarBottom(context, User user) {
     return PreferredSize(
       preferredSize: MediaQuery.of(context).size,
       child: Column(children: [
@@ -48,10 +48,10 @@ class PetsAppBar extends HookConsumerWidget implements PreferredSizeWidget {
     );
   }
 
-  Widget userProfile(GoogleSignInAccount user) {
-    var name = user.displayName ?? '';
-    var email = user.email;
-    var photo = user.photoUrl;
+  Widget userProfile(User user) {
+    var name = user.name ?? '';
+    var email = user.email ?? '';
+    var photo = user.picture;
 
     return Container(
       padding: const EdgeInsets.only(left: 30, bottom: 20),
