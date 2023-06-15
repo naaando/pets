@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "pets"
+		},
+		{
+			"path": "pets-api"
+		}
+	],
+	"settings": {}
+}
