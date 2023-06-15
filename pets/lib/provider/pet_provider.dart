@@ -1,24 +1,26 @@
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/provider/http_provider.dart';
+import 'package:pets/provider/user_provider.dart';
 import 'package:pets/repository/pet_repository.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final petRepositoryProvider = ChangeNotifierProvider<PetRepository>((ref) {
-  final httpClient = ref.watch(httpClientProvider);
+part 'pet_provider.g.dart';
 
-  return PetRepository(httpClient);
-});
+@riverpod
+PetRepository petRepository(PetRepositoryRef ref) {
+  return PetRepository(ref.watch(httpClientProvider));
+}
 
-final petsProvider = FutureProvider<Map<String, Pet>>(
-    (ref) => ref.watch(petRepositoryProvider).findAll());
+// used to generate a fetchPostsProvider (as a FutureProvider)
+@riverpod
+Future<Map<String, Pet>> pets(PetsRef ref) async {
+  String espacoId =
+      ref.watch(userProvider).asData?.value?.espacos.firstOrNull?.id ?? '';
 
-final petProvider = FutureProvider.family<Pet?, String>(
-    (ref, id) async => ref.watch(petRepositoryProvider).find(id));
+  return ref.watch(petRepositoryProvider).findAll(espacoId: espacoId);
+}
 
-final filteredPetsProvider = FutureProvider<List<Pet>>((ref) {
-  return ref.watch(petsProvider).when(
-      data: (pets) =>
-          pets.values.toList()..sort((a, b) => a.nome.compareTo(b.nome)),
-      error: (err, stackTrace) => [],
-      loading: () => []);
-});
+@riverpod
+Future<Pet?> pet(PetRef ref, String id) {
+  return ref.watch(petRepositoryProvider).find(id);
+}
