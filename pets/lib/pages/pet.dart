@@ -1,14 +1,15 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:pets/models/espaco.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/models/especie.dart';
-import 'package:pets/provider/espaco_provider.dart';
+import 'package:pets/provider/form_state_provider.dart';
 import 'package:pets/provider/pet_provider.dart';
 import 'package:pets/provider/especie_provider.dart';
 import 'package:intl/intl.dart';
+import 'package:pets/provider/user_provider.dart';
 
 class PetPage extends HookConsumerWidget {
   static const String routeName = '/pet';
@@ -17,7 +18,12 @@ class PetPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    Pet pet = (ModalRoute.of(context)!.settings.arguments as Pet?) ?? Pet();
+    var user = ref.watch(userProvider).asData!.value!;
+
+    Pet pet = (ModalRoute.of(context)!.settings.arguments as Pet?) ??
+        Pet(
+          espacoId: user.espacoAtivoId,
+        );
 
     var title = pet.nome.isNotEmpty ? pet.nome : 'Novo animal';
     var formKey = ref.watch(petFormStateProvider);
@@ -60,9 +66,12 @@ class PetPage extends HookConsumerWidget {
             );
 
             Navigator.of(context).pop();
-          }).catchError((e) {
+          }).onError((DioException error, stackTrace) {
+            debugPrint(error.toString());
+            var msg = error.response?.data['message'] ?? error.message;
+
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Erro ao salvar!')),
+              SnackBar(content: Text('Erro ao salvar!\n\n$msg')),
             );
           });
         }
@@ -105,13 +114,6 @@ class PetPage extends HookConsumerWidget {
     Map<String, Especie> especie =
         ref.watch(especiesProvider).asData?.value ?? <String, Especie>{};
 
-    Map<String, Espaco> espacos =
-        ref.watch(espacosProvider).asData?.value ?? <String, Espaco>{};
-
-    if (espacos.length == 1) {
-      pet.espaco = espacos.values.first.id;
-    }
-
     final nascimentoController = makeController(pet.nascimento);
     final castracaoController = makeController(pet.castracao);
     final obitoController = makeController(pet.obito);
@@ -143,28 +145,9 @@ class PetPage extends HookConsumerWidget {
                       }
                     },
                   ),
-                  ...espacos.length > 1
-                      ? [
-                          const SizedBox(height: 20),
-                          DropdownButtonFormField(
-                            value: pet.espaco,
-                            decoration: const InputDecoration(
-                              hintText: 'Espaço do animal',
-                              labelText: 'Espaço',
-                            ),
-                            items: espacos.entries
-                                .map((v) => DropdownMenuItem(
-                                      value: v.value.id,
-                                      child: Text(v.value.ambiente),
-                                    ))
-                                .toList(),
-                            onChanged: (value) => pet.espaco = value,
-                          ),
-                        ]
-                      : [],
                   const SizedBox(height: 20),
                   DropdownButtonFormField(
-                    value: pet.especie,
+                    value: pet.especieId,
                     decoration: const InputDecoration(
                       hintText: 'Espécie do animal',
                       labelText: 'Espécie',
@@ -172,10 +155,10 @@ class PetPage extends HookConsumerWidget {
                     items: especie.entries
                         .map((v) => DropdownMenuItem(
                               value: v.value.id,
-                              child: Text(v.value.especie),
+                              child: Text(v.value.nome),
                             ))
                         .toList(),
-                    onChanged: (value) => pet.especie = value,
+                    onChanged: (value) => pet.especieId = value,
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
@@ -195,11 +178,11 @@ class PetPage extends HookConsumerWidget {
                     ),
                     items: const [
                       DropdownMenuItem(
-                        value: 'masculino',
+                        value: 'macho',
                         child: Text('Masculino'),
                       ),
                       DropdownMenuItem(
-                        value: 'feminino',
+                        value: 'femea',
                         child: Text('Feminino'),
                       ),
                     ],

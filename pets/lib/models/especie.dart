@@ -1,20 +1,20 @@
 class Especie {
   String id;
-  String especie;
+  String nome;
 
-  Especie({required this.id, required this.especie});
+  Especie({required this.id, required this.nome});
 
   factory Especie.fromJson(Map<String, dynamic> json) {
     return Especie(
       id: json['id'],
-      especie: json['especie'],
+      nome: json['nome'],
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'especie': especie,
+      'nome': nome,
     }..removeWhere(
         (key, value) => value == null || (value is String && value.isEmpty));
   }

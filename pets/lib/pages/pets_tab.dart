@@ -8,13 +8,13 @@ class PetsTab extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    AsyncValue<List<Pet>> pets = ref.watch(filteredPetsProvider);
+    AsyncValue<Map<String, Pet>> pets = ref.watch(petsProvider);
 
     return Scaffold(
       body: pets.when(
           loading: () => const CircularProgressIndicator(),
           error: (err, stack) => throw err,
-          data: (pets) => body(context, pets)),
+          data: (pets) => body(context, pets.values)),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, '/pet');

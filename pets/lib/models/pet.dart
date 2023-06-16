@@ -6,7 +6,7 @@ class Pet {
   bool? castrado;
   String? dateCreated;
   String? dateUpdated;
-  String? especie;
+  String? especieId;
   String? fotoPerfil;
   String? mae;
   String? nascimento;
@@ -16,7 +16,7 @@ class Pet {
   String? sexo;
   String? userCreated;
   String? userUpdated;
-  String? espaco;
+  String espacoId;
   String? obito;
 
   Uri? get fotoPerfilUrl => fotoPerfil != null
@@ -34,7 +34,7 @@ class Pet {
       this.castrado,
       this.dateUpdated,
       this.dateCreated,
-      this.especie,
+      this.especieId,
       this.fotoPerfil,
       this.nascimento,
       this.castracao,
@@ -42,7 +42,7 @@ class Pet {
       this.pai,
       this.sexo,
       this.raca,
-      this.espaco,
+      required this.espacoId,
       this.obito,
       this.userCreated,
       this.userUpdated});
@@ -54,7 +54,7 @@ class Pet {
       castrado: json['castrado'],
       dateCreated: json['date_created'],
       dateUpdated: json['date_updated'],
-      especie: json['especie'],
+      especieId: json['especie_id'],
       fotoPerfil: json['foto_perfil'],
       mae: json['mae'],
       nascimento: json['nascimento'],
@@ -63,7 +63,7 @@ class Pet {
       pai: json['pai'],
       raca: json['raca'],
       sexo: json['sexo'],
-      espaco: json['espaco'],
+      espacoId: json['espaco_id'],
       userCreated: json['user_created'],
       userUpdated: json['user_updated'],
     );
@@ -76,7 +76,7 @@ class Pet {
       'castrado': castrado,
       'date_created': dateCreated,
       'date_updated': dateUpdated,
-      'especie': especie,
+      'especie_id': especieId,
       'foto_perfil': fotoPerfil,
       'mae': mae,
       'nascimento': nascimento,
@@ -85,7 +85,7 @@ class Pet {
       'pai': pai,
       'raca': raca,
       'sexo': sexo,
-      'espaco': espaco,
+      'espaco_id': espacoId,
       'user_created': userCreated,
       'user_updated': userUpdated,
     }..removeWhere(

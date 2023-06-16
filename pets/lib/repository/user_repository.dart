@@ -2,36 +2,22 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:pets/http_client.dart';
+import 'package:pets/models/espaco.dart';
 import 'package:pets/models/user.dart';
 
 class UserRepository extends ChangeNotifier {
-  Isar? _isar;
+  Isar isar;
   User? user;
   HttpClient httpClient;
 
-  UserRepository(this.httpClient);
-
-  Future<Isar> getIsar() async {
-    if (_isar != null) {
-      return _isar!;
-    }
-
-    final dir = await getApplicationDocumentsDirectory();
-
-    return _isar = await Isar.open(
-      [UserSchema],
-      directory: dir.path,
-    );
-  }
+  UserRepository(this.httpClient, this.isar);
 
   Future<User?>? getUser() async {
     if (user != null) {
       return user;
     }
 
-    final isar = await getIsar();
     user = await isar.users.where().findFirst();
 
     if (user != null && user!.accessToken != null) {
@@ -43,6 +29,7 @@ class UserRepository extends ChangeNotifier {
   }
 
   Future<void> setUserWithSanctumToken(String sanctumToken) async {
+    debugPrint("Sanctum token $sanctumToken");
     httpClient.setAuthorizationToken(sanctumToken);
     final Response userResponse;
 
@@ -57,12 +44,14 @@ class UserRepository extends ChangeNotifier {
 
     user = User(
       accessToken: sanctumToken,
+      id: userData['id'].toString(),
       name: userData['name'],
       email: userData['email'],
       iss: userData['iss'],
       sub: userData['sub'],
       picture: userData['picture'],
       locale: userData['locale'],
+      espacoAtivoId: userData['espaco_ativo_id'],
       emailVerifiedAt: userData['email_verified_at'] != null
           ? Jiffy.parse(userData['email_verified_at']).dateTime
           : null,
@@ -74,7 +63,7 @@ class UserRepository extends ChangeNotifier {
           : null,
     );
 
-    final isar = await getIsar();
+    user!.espacoAtivo.value = Espaco.fromJson(userData['espaco_ativo']);
 
     return await isar.writeTxn(() async {
       await isar.users.clear();
@@ -82,9 +71,7 @@ class UserRepository extends ChangeNotifier {
     });
   }
 
-  handleUserFetchError() async {
-    final isar = await getIsar();
-
+  Future<void> handleUserFetchError() async {
     return await isar.writeTxn(() async {
       await isar.users.clear();
     });

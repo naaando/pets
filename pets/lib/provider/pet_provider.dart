@@ -1,4 +1,5 @@
 import 'package:pets/models/pet.dart';
+import 'package:pets/models/user.dart';
 import 'package:pets/provider/http_provider.dart';
 import 'package:pets/provider/user_provider.dart';
 import 'package:pets/repository/pet_repository.dart';
@@ -14,8 +15,8 @@ PetRepository petRepository(PetRepositoryRef ref) {
 // used to generate a fetchPostsProvider (as a FutureProvider)
 @riverpod
 Future<Map<String, Pet>> pets(PetsRef ref) async {
-  String espacoId =
-      ref.watch(userProvider).asData?.value?.espacos.firstOrNull?.id ?? '';
+  User? user = await ref.watch(userProvider.future);
+  String espacoId = user!.espacoAtivo.value!.id;
 
   return ref.watch(petRepositoryProvider).findAll(espacoId: espacoId);
 }

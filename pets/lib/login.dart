@@ -27,7 +27,6 @@ googleSignIn(WidgetRef ref) async {
   var sanctumToken =
       await dio.get('http://10.0.2.2:9999/api/auth/google-idtoken');
 
-  await ref
-      .read(userRepositoryProvider.notifier)
-      .setUserWithSanctumToken(sanctumToken.data);
+  final userRepository = await ref.read(userRepositoryProvider.future);
+  userRepository.setUserWithSanctumToken(sanctumToken.data);
 }

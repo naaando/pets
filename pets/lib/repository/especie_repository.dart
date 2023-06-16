@@ -14,7 +14,7 @@ class EspecieRepository extends ChangeNotifier {
       return pets[id];
     }
 
-    var decodedJson = await httpClient.getJson('items/especie/$id');
+    var decodedJson = await httpClient.getJson('api/especies/$id');
 
     var pet = Especie.fromJson(decodedJson);
     pets[pet.id] = pet;
@@ -29,7 +29,7 @@ class EspecieRepository extends ChangeNotifier {
       return Future.value(pets);
     }
 
-    var decodedJson = await httpClient.getJson('items/especie');
+    var decodedJson = await httpClient.getJson('api/especies');
 
     // ignore: prefer_for_elements_to_map_fromiterable
     pets = Map<String, Especie>.fromIterable(decodedJson,

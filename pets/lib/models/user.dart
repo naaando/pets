@@ -6,8 +6,8 @@ part 'user.g.dart';
 
 @collection
 class User {
-  String? id;
-  Id get isarId => fastHash(id!);
+  String id;
+  Id get isarId => fastHash(id);
   String? accessToken;
   String? name;
   String? email;
@@ -18,9 +18,12 @@ class User {
   DateTime? emailVerifiedAt;
   DateTime? createdAt;
   DateTime? updatedAt;
-  final espacos = IsarLinks<Espaco>();
+  String espacoAtivoId;
+  final espacoAtivo = IsarLink<Espaco>();
 
   User({
+    required this.id,
+    required this.espacoAtivoId,
     this.accessToken,
     this.name,
     this.email,

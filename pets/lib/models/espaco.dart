@@ -5,9 +5,9 @@ part 'espaco.g.dart';
 
 @collection
 class Espaco {
-  String? id;
+  final String id;
 
-  Id get isarId => fastHash(id!);
+  Id get isarId => fastHash(id);
 
   String nome;
 

@@ -48,12 +48,7 @@ int _espacoEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  {
-    final value = object.id;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
+  bytesCount += 3 + object.id.length * 3;
   bytesCount += 3 + object.nome.length * 3;
   return bytesCount;
 }
@@ -75,7 +70,7 @@ Espaco _espacoDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Espaco(
-    id: reader.readStringOrNull(offsets[0]),
+    id: reader.readString(offsets[0]),
     nome: reader.readString(offsets[1]),
   );
   return object;
@@ -89,7 +84,7 @@ P _espacoDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 1:
       return (reader.readString(offset)) as P;
     default:
@@ -183,24 +178,8 @@ extension EspacoQueryWhere on QueryBuilder<Espaco, Espaco, QWhereClause> {
 }
 
 extension EspacoQueryFilter on QueryBuilder<Espaco, Espaco, QFilterCondition> {
-  QueryBuilder<Espaco, Espaco, QAfterFilterCondition> idIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'id',
-      ));
-    });
-  }
-
-  QueryBuilder<Espaco, Espaco, QAfterFilterCondition> idIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'id',
-      ));
-    });
-  }
-
   QueryBuilder<Espaco, Espaco, QAfterFilterCondition> idEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -213,7 +192,7 @@ extension EspacoQueryFilter on QueryBuilder<Espaco, Espaco, QFilterCondition> {
   }
 
   QueryBuilder<Espaco, Espaco, QAfterFilterCondition> idGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -228,7 +207,7 @@ extension EspacoQueryFilter on QueryBuilder<Espaco, Espaco, QFilterCondition> {
   }
 
   QueryBuilder<Espaco, Espaco, QAfterFilterCondition> idLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -243,8 +222,8 @@ extension EspacoQueryFilter on QueryBuilder<Espaco, Espaco, QFilterCondition> {
   }
 
   QueryBuilder<Espaco, Espaco, QAfterFilterCondition> idBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -600,7 +579,7 @@ extension EspacoQueryProperty on QueryBuilder<Espaco, Espaco, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Espaco, String?, QQueryOperations> idProperty() {
+  QueryBuilder<Espaco, String, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });

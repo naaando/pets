@@ -37,38 +37,43 @@ const UserSchema = CollectionSchema(
       name: r'emailVerifiedAt',
       type: IsarType.dateTime,
     ),
-    r'id': PropertySchema(
+    r'espacoAtivoId': PropertySchema(
       id: 4,
+      name: r'espacoAtivoId',
+      type: IsarType.string,
+    ),
+    r'id': PropertySchema(
+      id: 5,
       name: r'id',
       type: IsarType.string,
     ),
     r'iss': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'iss',
       type: IsarType.string,
     ),
     r'locale': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'locale',
       type: IsarType.string,
     ),
     r'name': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'name',
       type: IsarType.string,
     ),
     r'picture': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'picture',
       type: IsarType.string,
     ),
     r'sub': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'sub',
       type: IsarType.string,
     ),
     r'updatedAt': PropertySchema(
-      id: 10,
+      id: 11,
       name: r'updatedAt',
       type: IsarType.dateTime,
     )
@@ -80,11 +85,11 @@ const UserSchema = CollectionSchema(
   idName: r'isarId',
   indexes: {},
   links: {
-    r'espacos': LinkSchema(
-      id: 479718083426630638,
-      name: r'espacos',
+    r'espacoAtivo': LinkSchema(
+      id: 4627215450579881438,
+      name: r'espacoAtivo',
       target: r'Espaco',
-      single: false,
+      single: true,
     )
   },
   embeddedSchemas: {},
@@ -112,12 +117,8 @@ int _userEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
-  {
-    final value = object.id;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
+  bytesCount += 3 + object.espacoAtivoId.length * 3;
+  bytesCount += 3 + object.id.length * 3;
   {
     final value = object.iss;
     if (value != null) {
@@ -161,13 +162,14 @@ void _userSerialize(
   writer.writeDateTime(offsets[1], object.createdAt);
   writer.writeString(offsets[2], object.email);
   writer.writeDateTime(offsets[3], object.emailVerifiedAt);
-  writer.writeString(offsets[4], object.id);
-  writer.writeString(offsets[5], object.iss);
-  writer.writeString(offsets[6], object.locale);
-  writer.writeString(offsets[7], object.name);
-  writer.writeString(offsets[8], object.picture);
-  writer.writeString(offsets[9], object.sub);
-  writer.writeDateTime(offsets[10], object.updatedAt);
+  writer.writeString(offsets[4], object.espacoAtivoId);
+  writer.writeString(offsets[5], object.id);
+  writer.writeString(offsets[6], object.iss);
+  writer.writeString(offsets[7], object.locale);
+  writer.writeString(offsets[8], object.name);
+  writer.writeString(offsets[9], object.picture);
+  writer.writeString(offsets[10], object.sub);
+  writer.writeDateTime(offsets[11], object.updatedAt);
 }
 
 User _userDeserialize(
@@ -181,14 +183,15 @@ User _userDeserialize(
     createdAt: reader.readDateTimeOrNull(offsets[1]),
     email: reader.readStringOrNull(offsets[2]),
     emailVerifiedAt: reader.readDateTimeOrNull(offsets[3]),
-    iss: reader.readStringOrNull(offsets[5]),
-    locale: reader.readStringOrNull(offsets[6]),
-    name: reader.readStringOrNull(offsets[7]),
-    picture: reader.readStringOrNull(offsets[8]),
-    sub: reader.readStringOrNull(offsets[9]),
-    updatedAt: reader.readDateTimeOrNull(offsets[10]),
+    espacoAtivoId: reader.readString(offsets[4]),
+    id: reader.readString(offsets[5]),
+    iss: reader.readStringOrNull(offsets[6]),
+    locale: reader.readStringOrNull(offsets[7]),
+    name: reader.readStringOrNull(offsets[8]),
+    picture: reader.readStringOrNull(offsets[9]),
+    sub: reader.readStringOrNull(offsets[10]),
+    updatedAt: reader.readDateTimeOrNull(offsets[11]),
   );
-  object.id = reader.readStringOrNull(offsets[4]);
   return object;
 }
 
@@ -208,9 +211,9 @@ P _userDeserializeProp<P>(
     case 3:
       return (reader.readDateTimeOrNull(offset)) as P;
     case 4:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 5:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 6:
       return (reader.readStringOrNull(offset)) as P;
     case 7:
@@ -220,6 +223,8 @@ P _userDeserializeProp<P>(
     case 9:
       return (reader.readStringOrNull(offset)) as P;
     case 10:
+      return (reader.readStringOrNull(offset)) as P;
+    case 11:
       return (reader.readDateTimeOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -231,11 +236,12 @@ Id _userGetId(User object) {
 }
 
 List<IsarLinkBase<dynamic>> _userGetLinks(User object) {
-  return [object.espacos];
+  return [object.espacoAtivo];
 }
 
 void _userAttach(IsarCollection<dynamic> col, Id id, User object) {
-  object.espacos.attach(col, col.isar.collection<Espaco>(), r'espacos', id);
+  object.espacoAtivo
+      .attach(col, col.isar.collection<Espaco>(), r'espacoAtivo', id);
 }
 
 extension UserQueryWhereSort on QueryBuilder<User, User, QWhere> {
@@ -742,24 +748,138 @@ extension UserQueryFilter on QueryBuilder<User, User, QFilterCondition> {
     });
   }
 
-  QueryBuilder<User, User, QAfterFilterCondition> idIsNull() {
+  QueryBuilder<User, User, QAfterFilterCondition> espacoAtivoIdEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'id',
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'espacoAtivoId',
+        value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<User, User, QAfterFilterCondition> idIsNotNull() {
+  QueryBuilder<User, User, QAfterFilterCondition> espacoAtivoIdGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'id',
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'espacoAtivoId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> espacoAtivoIdLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'espacoAtivoId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> espacoAtivoIdBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'espacoAtivoId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> espacoAtivoIdStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'espacoAtivoId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> espacoAtivoIdEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'espacoAtivoId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> espacoAtivoIdContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'espacoAtivoId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> espacoAtivoIdMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'espacoAtivoId',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> espacoAtivoIdIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'espacoAtivoId',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> espacoAtivoIdIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'espacoAtivoId',
+        value: '',
       ));
     });
   }
 
   QueryBuilder<User, User, QAfterFilterCondition> idEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -772,7 +892,7 @@ extension UserQueryFilter on QueryBuilder<User, User, QFilterCondition> {
   }
 
   QueryBuilder<User, User, QAfterFilterCondition> idGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -787,7 +907,7 @@ extension UserQueryFilter on QueryBuilder<User, User, QFilterCondition> {
   }
 
   QueryBuilder<User, User, QAfterFilterCondition> idLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -802,8 +922,8 @@ extension UserQueryFilter on QueryBuilder<User, User, QFilterCondition> {
   }
 
   QueryBuilder<User, User, QAfterFilterCondition> idBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -1731,59 +1851,16 @@ extension UserQueryFilter on QueryBuilder<User, User, QFilterCondition> {
 extension UserQueryObject on QueryBuilder<User, User, QFilterCondition> {}
 
 extension UserQueryLinks on QueryBuilder<User, User, QFilterCondition> {
-  QueryBuilder<User, User, QAfterFilterCondition> espacos(
+  QueryBuilder<User, User, QAfterFilterCondition> espacoAtivo(
       FilterQuery<Espaco> q) {
     return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'espacos');
+      return query.link(q, r'espacoAtivo');
     });
   }
 
-  QueryBuilder<User, User, QAfterFilterCondition> espacosLengthEqualTo(
-      int length) {
+  QueryBuilder<User, User, QAfterFilterCondition> espacoAtivoIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'espacos', length, true, length, true);
-    });
-  }
-
-  QueryBuilder<User, User, QAfterFilterCondition> espacosIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'espacos', 0, true, 0, true);
-    });
-  }
-
-  QueryBuilder<User, User, QAfterFilterCondition> espacosIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'espacos', 0, false, 999999, true);
-    });
-  }
-
-  QueryBuilder<User, User, QAfterFilterCondition> espacosLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'espacos', 0, true, length, include);
-    });
-  }
-
-  QueryBuilder<User, User, QAfterFilterCondition> espacosLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'espacos', length, include, 999999, true);
-    });
-  }
-
-  QueryBuilder<User, User, QAfterFilterCondition> espacosLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(
-          r'espacos', lower, includeLower, upper, includeUpper);
+      return query.linkLength(r'espacoAtivo', 0, true, 0, true);
     });
   }
 }
@@ -1834,6 +1911,18 @@ extension UserQuerySortBy on QueryBuilder<User, User, QSortBy> {
   QueryBuilder<User, User, QAfterSortBy> sortByEmailVerifiedAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'emailVerifiedAt', Sort.desc);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterSortBy> sortByEspacoAtivoId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'espacoAtivoId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterSortBy> sortByEspacoAtivoIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'espacoAtivoId', Sort.desc);
     });
   }
 
@@ -1971,6 +2060,18 @@ extension UserQuerySortThenBy on QueryBuilder<User, User, QSortThenBy> {
     });
   }
 
+  QueryBuilder<User, User, QAfterSortBy> thenByEspacoAtivoId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'espacoAtivoId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterSortBy> thenByEspacoAtivoIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'espacoAtivoId', Sort.desc);
+    });
+  }
+
   QueryBuilder<User, User, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -2095,6 +2196,14 @@ extension UserQueryWhereDistinct on QueryBuilder<User, User, QDistinct> {
     });
   }
 
+  QueryBuilder<User, User, QDistinct> distinctByEspacoAtivoId(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'espacoAtivoId',
+          caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<User, User, QDistinct> distinctById(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -2175,7 +2284,13 @@ extension UserQueryProperty on QueryBuilder<User, User, QQueryProperty> {
     });
   }
 
-  QueryBuilder<User, String?, QQueryOperations> idProperty() {
+  QueryBuilder<User, String, QQueryOperations> espacoAtivoIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'espacoAtivoId');
+    });
+  }
+
+  QueryBuilder<User, String, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
