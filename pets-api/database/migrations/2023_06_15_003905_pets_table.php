@@ -14,15 +14,21 @@ return new class extends Migration
         Schema::create('pets', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('nome');
-            $table->string('imagem');
+            $table->string('imagem')->nullable();
             $table->foreignUuid('user_id')->references('id')->on('users');
-            $table->foreignUuid('espaco_id')->references('id')->on('espacos');
-            $table->foreignUuid('especie_id')->references('id')->on('especies');
-            $table->enum('sexo', ['macho', 'femea']);
-            $table->string('raca');
-            $table->dateTime('nascimento');
+            $table->foreignUuid('espaco_id')->nullable()->references('id')->on('espacos');
+            $table->string('especie_id')->nullable();
+            $table->foreign('especie_id')->references('id')->on('especies');
+            $table->enum('sexo', ['macho', 'femea'])->nullable();
+            $table->string('raca')->nullable();
+            $table->dateTime('nascimento')->nullable();
             $table->dateTime('falecimento')->nullable();
             $table->dateTime('castracao')->nullable();
+        });
+
+        Schema::table('pets', function (Blueprint $table) {
+            $table->foreignUuid('mae_id')->nullable()->references('id')->on('pets');
+            $table->foreignUuid('pai_id')->nullable()->references('id')->on('pets');
             $table->timestamps();
         });
     }

@@ -16,6 +16,16 @@ return new class extends Migration
             $table->string('nome');
             $table->timestamps();
         });
+
+        Schema::create('espaco_user', function (Blueprint $table) {
+            $table->foreignUuid('user_id')->references('id')->on('users');
+            $table->foreignUuid('espaco_id')->references('id')->on('espacos');
+            $table->timestamps();
+        });
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreignUuid('espaco_ativo_id')->nullable()->references('id')->on('espacos');
+        });
     }
 
     /**
@@ -24,5 +34,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('espacos');
+        Schema::dropIfExists('espacos_users');
     }
 };
