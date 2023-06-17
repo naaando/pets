@@ -1,7 +1,6 @@
+import 'package:image_picker/image_picker.dart';
 import 'package:pets/models/pet.dart';
-import 'package:pets/models/user.dart';
 import 'package:pets/provider/http_provider.dart';
-import 'package:pets/provider/user_provider.dart';
 import 'package:pets/repository/pet_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -12,16 +11,39 @@ PetRepository petRepository(PetRepositoryRef ref) {
   return PetRepository(ref.watch(httpClientProvider));
 }
 
-// used to generate a fetchPostsProvider (as a FutureProvider)
 @riverpod
-Future<Map<String, Pet>> pets(PetsRef ref) async {
-  User? user = await ref.watch(userProvider.future);
-  String espacoId = user!.espacoAtivo.value!.id;
+class Pets extends _$Pets {
+  @override
+  FutureOr<Map<String, Pet>> build() async {
+    return _fetch();
+  }
 
-  return ref.watch(petRepositoryProvider).findAll(espacoId: espacoId);
-}
+  Future<void> save(Pet pet) async {
+    final rep = ref.read(petRepositoryProvider);
+    await rep.save(pet);
 
-@riverpod
-Future<Pet?> pet(PetRef ref, String id) {
-  return ref.watch(petRepositoryProvider).find(id);
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async => _fetch());
+  }
+
+  Future<void> updateProfilePicture(Pet pet, XFile file) async {
+    final rep = ref.read(petRepositoryProvider);
+    await rep.updateProfilePicture(pet, file);
+
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async => _fetch());
+  }
+
+  Future<void> remove(pet) async {
+    final rep = ref.read(petRepositoryProvider);
+    await rep.remove(pet);
+
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async => _fetch());
+  }
+
+  FutureOr<Map<String, Pet>> _fetch() async {
+    final rep = ref.read(petRepositoryProvider);
+    return await rep.findAll();
+  }
 }
