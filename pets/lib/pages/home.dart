@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pets/components/pets_app_bar.dart';
-import 'package:pets/models/user.dart';
 import 'package:pets/pages/healthcare_tab.dart';
 import 'package:pets/pages/pets_tab.dart';
-import 'package:pets/provider/espaco_provider.dart';
-import 'package:pets/provider/user_provider.dart';
 
 class HomePage extends HookConsumerWidget {
   static const String routeName = '/home';
