@@ -3,19 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\UserResource;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     public function show(Request $request)
     {
+        /** @var User */
         $user = $request->user();
-        $user->load('espacos');
 
         if ($user->espacos->isEmpty()) {
-            $user->espacos()->create(['nome' => 'Meu espaço']);
+            $espaco = $user->espacos()->create(['nome' => 'Meu espaço']);
+            $user->espacoAtivo()->associate($espaco);
+            $user->save();
         }
 
-        return new UserResource($request->user());
+        return new UserResource($request->user()->load('espacoAtivo'));
     }
 }
