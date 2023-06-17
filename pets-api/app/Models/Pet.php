@@ -18,13 +18,15 @@ class Pet extends Model
      */
     protected $fillable = [
         'nome',
+        'imagem',
+        'user_id',
         'especie_id',
+        'espaco_id',
         'raca',
         'sexo',
         'nascimento',
-        'castrado',
-        'observacoes',
-        'imagem',
+        'falecimento',
+        'castracao',
     ];
 
     /**

@@ -56,4 +56,12 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Espaco::class);
     }
+
+    /**
+     * Get the espaco associated with the user.
+     */
+    public function espacoAtivo()
+    {
+        return $this->belongsTo(Espaco::class, 'espaco_ativo_id');
+    }
 }

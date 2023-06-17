@@ -14,10 +14,12 @@ class EspeciesPadraoSeeder extends Seeder
     public function run(): void
     {
         Especie::create([
+            'id' => 'cachorro',
             'nome' => 'Cachorro',
         ]);
 
         Especie::create([
+            'id' => 'gato',
             'nome' => 'Gato',
         ]);
     }
