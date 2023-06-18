@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PetRequest;
 use App\Http\Resources\PetResouce;
-use App\Models\Espaco;
 use App\Models\Pet;
 use Illuminate\Http\Request;
 
@@ -19,7 +19,7 @@ class PetController extends Controller
         // ]);
 
         // $espaco = Espaco::find($request->espaco_id);
-        $pets = Pet::all();
+        $pets = Pet::where('user_id', $request->user()->id)->get();
 
         return PetResouce::collection($pets);
     }
@@ -27,26 +27,13 @@ class PetController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PetRequest $request)
     {
         $request->merge([
             'user_id' => $request->user()->id,
         ]);
 
-        $validated = $request->validate([
-            'nome' => 'required|string',
-            'imagem' => 'string',
-            'user_id' => 'required|exists:users,id',
-            'espaco_id' => 'exists:espacos,id',
-            'especie_id' => 'exists:especies,id',
-            'raca' => 'string',
-            'sexo' => 'in:macho,femea',
-            'nascimento' => 'date',
-            'falecimento' => 'date',
-            'castracao' => 'date',
-        ]);
-
-        $pet = Pet::create($validated);
+        $pet = Pet::create($request->validated());
 
         return new PetResouce($pet);
     }
@@ -62,26 +49,13 @@ class PetController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Pet $pet)
+    public function update(PetRequest $request, Pet $pet)
     {
         $request->merge([
             'user_id' => $request->user()->id,
         ]);
 
-        $validated = $request->validate([
-            'nome' => 'required|string',
-            'imagem' => 'string',
-            'user_id' => 'required|exists:users,id',
-            'espaco_id' => 'required|exists:espacos,id',
-            'especie_id' => 'required|exists:especies,id',
-            'raca' => 'string',
-            'sexo' => 'required|in:macho,femea',
-            'nascimento' => 'date',
-            'falecimento' => 'date',
-            'castracao' => 'date',
-        ]);
-
-        $pet->update($validated);
+        $pet->update($request->validated());
 
         return new PetResouce($pet);
     }
