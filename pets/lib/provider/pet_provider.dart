@@ -26,12 +26,14 @@ class Pets extends _$Pets {
     state = await AsyncValue.guard(() async => _fetch());
   }
 
-  Future<void> updateProfilePicture(Pet pet, XFile file) async {
+  Future<String?> updateProfilePicture(Pet pet, XFile file) async {
     final rep = ref.read(petRepositoryProvider);
-    await rep.updateProfilePicture(pet, file);
+    final imgUrl = await rep.updateProfilePicture(pet, file);
 
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async => _fetch());
+
+    return imgUrl;
   }
 
   Future<void> remove(pet) async {

@@ -46,7 +46,7 @@ class PetsTab extends HookConsumerWidget {
                   Expanded(
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(5.0),
-                        child: pet.fotoPerfil != null
+                        child: pet.imagem != null
                             ? Image.network(
                                 pet.fotoPerfilUrl.toString(),
                                 fit: BoxFit.cover,

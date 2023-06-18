@@ -7,7 +7,7 @@ class Pet {
   String? dateCreated;
   String? dateUpdated;
   String? especieId;
-  String? fotoPerfil;
+  String? imagem;
   String? mae;
   String? nascimento;
   String? castracao;
@@ -19,14 +19,8 @@ class Pet {
   String espacoId;
   String? obito;
 
-  Uri? get fotoPerfilUrl => fotoPerfil != null
-      ? baseUriWithAccessToken.replace(
-          path: 'assets/$fotoPerfil',
-          queryParameters: {
-              'key': 'thumb',
-              ...baseUriWithAccessToken.queryParameters
-            })
-      : null;
+  Uri? get fotoPerfilUrl =>
+      imagem != null ? baseUri.replace(path: 'storage/$imagem') : null;
 
   Pet(
       {this.id,
@@ -35,7 +29,7 @@ class Pet {
       this.dateUpdated,
       this.dateCreated,
       this.especieId,
-      this.fotoPerfil,
+      this.imagem,
       this.nascimento,
       this.castracao,
       this.mae,
@@ -55,7 +49,7 @@ class Pet {
       dateCreated: json['date_created'],
       dateUpdated: json['date_updated'],
       especieId: json['especie_id'],
-      fotoPerfil: json['foto_perfil'],
+      imagem: json['imagem'],
       mae: json['mae'],
       nascimento: json['nascimento'],
       castracao: json['castracao'],
@@ -77,7 +71,7 @@ class Pet {
       'date_created': dateCreated,
       'date_updated': dateUpdated,
       'especie_id': especieId,
-      'foto_perfil': fotoPerfil,
+      'imagem': imagem,
       'mae': mae,
       'nascimento': nascimento,
       'castracao': castracao,

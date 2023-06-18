@@ -17,10 +17,10 @@ class App extends ConsumerWidget {
       light: ThemeData(
         brightness: Brightness.light,
         primarySwatch: Colors.red,
-        hintColor: Colors.amber,
+        // hintColor: Colors.grey.shade300,
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.red.shade200),
+            borderSide: BorderSide(color: Colors.transparent),
             borderRadius: BorderRadius.circular(8),
           ),
           fillColor: Colors.grey.shade100,
@@ -30,7 +30,7 @@ class App extends ConsumerWidget {
       dark: ThemeData(
         brightness: Brightness.dark,
         primarySwatch: Colors.red,
-        hintColor: Colors.amber,
+        hintColor: Colors.redAccent,
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.red.shade200),

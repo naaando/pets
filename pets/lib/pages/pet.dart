@@ -37,15 +37,7 @@ class PetPage extends HookConsumerWidget {
           body: body(context, ref, formKey, title, pet),
           floatingActionButton: saveButton(context, ref, formKey, pet),
         ),
-        onWillPop: () async {
-          if (pet.id != null) {
-            await ref
-                .read(petRepositoryProvider)
-                .find(pet.id!, forceRefresh: true);
-          }
-
-          return true;
-        });
+        onWillPop: () async => true);
   }
 
   FloatingActionButton? saveButton(BuildContext context, WidgetRef ref,
@@ -60,7 +52,7 @@ class PetPage extends HookConsumerWidget {
       onPressed: () {
         formKey.currentState!.save();
         if (formKey.currentState!.validate()) {
-          ref.read(petRepositoryProvider).save(pet).then((value) {
+          ref.read(petsProvider.notifier).save(pet).then((value) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Salvo!')),
             );
@@ -322,7 +314,7 @@ class PetPage extends HookConsumerWidget {
     Widget thumbWidget;
     final fotoPerfilUrl = useState(pet.fotoPerfilUrl.toString());
 
-    if (pet.fotoPerfil != null) {
+    if (pet.imagem != null) {
       thumbWidget = Image.network(
         fotoPerfilUrl.value,
         fit: BoxFit.cover,
@@ -351,10 +343,10 @@ class PetPage extends HookConsumerWidget {
 
           if (image != null) {
             var newId = await ref
-                .read(petRepositoryProvider)
+                .read(petsProvider.notifier)
                 .updateProfilePicture(pet, image);
 
-            pet.fotoPerfil = newId;
+            pet.imagem = newId;
             fotoPerfilUrl.value = pet.fotoPerfilUrl.toString();
           }
         });
@@ -374,7 +366,7 @@ class PetPage extends HookConsumerWidget {
         TextButton(
           child: const Text("Excluir"),
           onPressed: () {
-            ref.read(petRepositoryProvider).remove(pet);
+            ref.read(petsProvider.notifier).remove(pet);
             Navigator.pop(context);
             Navigator.pop(context);
           },

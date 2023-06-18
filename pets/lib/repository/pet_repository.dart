@@ -51,13 +51,10 @@ class PetRepository {
   }
 
   Future<String?> updateProfilePicture(Pet pet, XFile file) async {
-    String folder = 'e242255d-91af-4886-961e-ab50d0cae3fa';
-
     Dio dio = httpClient.httpClient;
 
-    var response = await dio.post('files',
+    var response = await dio.post('api/pets/${pet.id}/image',
         data: FormData.fromMap({
-          'folder': folder,
           'file': MultipartFile.fromBytes(
             await file.readAsBytes(),
             filename: file.name,
@@ -65,7 +62,7 @@ class PetRepository {
           ),
         }));
 
-    pet.fotoPerfil = response.data['data']['id'];
-    return response.data['data']['id'];
+    pet.imagem = response.data['path'];
+    return response.data['path'];
   }
 }
