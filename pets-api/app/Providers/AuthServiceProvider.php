@@ -25,7 +25,11 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('save-pet', function (User $user, Pet $pet) {
+        Gate::define('save-pet', function (User $user, Pet|null $pet = null) {
+            if ($pet === null) {
+                return true;
+            }
+
             return $user->id === $pet->user_id;
         });
     }

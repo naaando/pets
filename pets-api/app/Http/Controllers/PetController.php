@@ -29,12 +29,7 @@ class PetController extends Controller
      */
     public function store(PetRequest $request)
     {
-        $request->merge([
-            'user_id' => $request->user()->id,
-        ]);
-
-        $pet = Pet::create($request->validated());
-
+        $pet = $request->user()->pets()->create($request->validated());
         return new PetResouce($pet);
     }
 
@@ -51,12 +46,7 @@ class PetController extends Controller
      */
     public function update(PetRequest $request, Pet $pet)
     {
-        $request->merge([
-            'user_id' => $request->user()->id,
-        ]);
-
         $pet->update($request->validated());
-
         return new PetResouce($pet);
     }
 

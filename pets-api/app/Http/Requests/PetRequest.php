@@ -14,7 +14,7 @@ class PetRequest extends FormRequest
     public function authorize(): bool
     {
         $pet = $this->route('pet');
-        return Gate::allows('save', $pet ?? Pet::class);
+        return Gate::allows('save-pet', $pet);
     }
 
     /**
@@ -27,7 +27,6 @@ class PetRequest extends FormRequest
         return [
             'nome' => 'required|string',
             'imagem' => 'string',
-            'user_id' => 'required|exists:users,id',
             'espaco_id' => 'exists:espacos,id',
             'especie_id' => 'exists:especies,id',
             'raca' => 'string',
