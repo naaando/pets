@@ -64,4 +64,12 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Espaco::class, 'espaco_ativo_id');
     }
+
+    /**
+     * Get the pets associated with the user.
+     */
+    public function pets()
+    {
+        return $this->hasMany(Pet::class);
+    }
 }
