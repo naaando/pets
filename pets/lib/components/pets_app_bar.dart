@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pets/components/main_tab_bar.dart';
 import 'package:pets/models/user.dart';
-import 'package:pets/provider/pet_provider.dart';
 import 'package:pets/provider/user_provider.dart';
 
 class PetsAppBar extends HookConsumerWidget implements PreferredSizeWidget {
@@ -15,16 +15,15 @@ class PetsAppBar extends HookConsumerWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var user = ref.watch(userProvider).asData!.value!;
-    var pets = ref.watch(petsProvider).asData!.value;
 
     return AppBar(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
-      bottom: appbarBottom(context, user, pets),
+      bottom: appbarBottom(context, user),
     );
   }
 
-  PreferredSize appbarBottom(context, User user, Map pets) {
+  PreferredSize appbarBottom(context, User user) {
     return PreferredSize(
       preferredSize: MediaQuery.of(context).size,
       child: Column(children: [
@@ -32,30 +31,7 @@ class PetsAppBar extends HookConsumerWidget implements PreferredSizeWidget {
         ClipRRect(
           borderRadius:
               const BorderRadius.vertical(bottom: Radius.circular(20)),
-          child: TabBar(
-            tabs: [
-              const Tab(icon: Icon(Icons.dashboard_rounded)),
-              Tab(
-                icon: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    const Icon(Icons.pets),
-                    const SizedBox(width: 5),
-                    Text(pets.length.toString()),
-                  ],
-                ),
-              ),
-              const Tab(icon: Icon(Icons.store)),
-              // const Tab(icon: Icon(Icons.person_search)), // Adoção
-            ],
-            labelColor: Colors.white,
-            indicator: BoxDecoration(
-                color: Colors.red.shade700,
-                borderRadius: BorderRadius.circular(20)),
-            padding: const EdgeInsets.only(left: 6, right: 6, bottom: 6),
-            splashBorderRadius: BorderRadius.circular(20),
-          ),
+          child: MainTabBar(),
         )
       ]),
     );
