@@ -34,6 +34,7 @@ class PetsAppBar extends HookConsumerWidget implements PreferredSizeWidget {
               const BorderRadius.vertical(bottom: Radius.circular(20)),
           child: TabBar(
             tabs: [
+              const Tab(icon: Icon(Icons.dashboard_rounded)),
               Tab(
                 icon: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -45,9 +46,8 @@ class PetsAppBar extends HookConsumerWidget implements PreferredSizeWidget {
                   ],
                 ),
               ),
-              const Tab(icon: Icon(Icons.healing)),
               const Tab(icon: Icon(Icons.store)),
-              // Tab(icon: Icon(Icons.person_search)), Adoção
+              // const Tab(icon: Icon(Icons.person_search)), // Adoção
             ],
             labelColor: Colors.white,
             indicator: BoxDecoration(

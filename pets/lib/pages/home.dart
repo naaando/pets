@@ -17,9 +17,8 @@ class HomePage extends HookConsumerWidget {
           appBar: PetsAppBar(),
           body: TabBarView(
             children: [
+              DashboardTab(),
               PetsTab(),
-              // HealthCareTab(),
-              Icon(Icons.health_and_safety),
               Icon(Icons.store),
               // Icon(Icons.person_search), Adoção
             ],
