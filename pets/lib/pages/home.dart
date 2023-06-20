@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pets/components/pets_app_bar.dart';
-import 'package:pets/pages/healthcare_tab.dart';
+import 'package:pets/pages/dashboard_tab.dart';
 import 'package:pets/pages/pets_tab.dart';
 
 class HomePage extends HookConsumerWidget {
