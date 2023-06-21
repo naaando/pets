@@ -3,9 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:pets/config.dart';
 import 'package:pets/models/pet.dart';
-import 'package:pets/models/remedio.dart';
 import 'package:pets/provider/pet_provider.dart';
-import 'package:pets/provider/remedio_provider.dart';
 
 class DashboardTab extends HookConsumerWidget {
   const DashboardTab({super.key});
@@ -18,7 +16,7 @@ class DashboardTab extends HookConsumerWidget {
       body: content(context, ref),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/remedio');
+          Navigator.pushNamed(context, '/eventos/+');
         },
         child: const Icon(Icons.add),
       ),
@@ -42,7 +40,11 @@ class DashboardTab extends HookConsumerWidget {
           children: [
             const Padding(
               padding: EdgeInsets.all(18),
-              child: Text('Seus pets', textAlign: TextAlign.start),
+              child: Text(
+                'Seus pets',
+                textAlign: TextAlign.start,
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
             ),
             pets.when(
                 data: (pets) => petsList(context, pets),
@@ -51,7 +53,11 @@ class DashboardTab extends HookConsumerWidget {
             const SizedBox(height: 18),
             const Padding(
               padding: EdgeInsets.all(18),
-              child: Text('Linha do tempo', textAlign: TextAlign.start),
+              child: Text(
+                'Linha do tempo',
+                textAlign: TextAlign.start,
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
             ),
             evento(),
             evento(),
@@ -77,22 +83,6 @@ class DashboardTab extends HookConsumerWidget {
             ))
         .toList();
 
-    petsItems.add(Column(children: [
-      CircleAvatar(
-        radius: 40,
-        foregroundColor: Colors.black,
-        backgroundColor: Colors.grey[200],
-        child: IconButton(
-          icon: const Icon(Icons.add),
-          onPressed: () {
-            Navigator.pushNamed(context, '/pet');
-          },
-        ),
-      ),
-      const SizedBox(height: 8),
-      const Text('Adicionar'),
-    ]));
-
     return SizedBox(
         width: MediaQuery.of(context).size.width,
         height: 108,
@@ -109,65 +99,19 @@ class DashboardTab extends HookConsumerWidget {
         ));
   }
 
-  compraDeRacaoExemplo() {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: const CircleAvatar(
-                child: Icon(Icons.shopping_cart),
-              ),
-              title: const Text('Compra de ração'),
-              subtitle: const Text('Ração para cachorro'),
-              trailing: Text(Jiffy.now().format(pattern: 'dd/MM/yyyy')),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
   evento() {
-    return Card(
-        child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(children: [
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: CircleAvatar(
-                    foregroundImage: NetworkImage(
-                        "${baseUri}storage/pets/7VL11n8DzKZ2u8toLIoOASRXfJ7UOODi5HaVmOJE.jpg")),
-                title: const Text('Agnaldo'),
-                subtitle: const Text('Vacina V8'),
-                trailing: Text(Jiffy.now().format(pattern: 'dd/MM/yyyy')),
-              )
-            ])));
-  }
-
-  testeCard() {
-    return Card(
-      child: Padding(
-          padding:
-              const EdgeInsets.all(16).subtract(const EdgeInsets.only(top: 16)),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: CircleAvatar(
-                    foregroundImage: NetworkImage(
-                        "${baseUri}storage/pets/7VL11n8DzKZ2u8toLIoOASRXfJ7UOODi5HaVmOJE.jpg")),
-                title: const Text('Agnaldo'),
-                subtitle: const Text('Vacina V8'),
-                trailing: Text(Jiffy.now().format(pattern: 'dd/MM/yyyy')),
-              ),
-              const Text('Remedio de verme Natuverm')
-            ],
-          )),
-    );
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        child: ListTile(
+          tileColor: Colors.grey[200],
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          leading: CircleAvatar(
+              foregroundImage: NetworkImage(
+                  "${baseUri}storage/pets/7VL11n8DzKZ2u8toLIoOASRXfJ7UOODi5HaVmOJE.jpg")),
+          title: const Text('Agnaldo'),
+          subtitle: const Text('Vacina V8'),
+          trailing: Text(Jiffy.now().format(pattern: 'dd/MM/yyyy')),
+        ));
   }
 }
