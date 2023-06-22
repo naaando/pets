@@ -6,8 +6,6 @@ import 'package:pets/pages/dashboard_tab.dart';
 import 'package:pets/pages/pets_tab.dart';
 
 class HomePage extends HookConsumerWidget {
-  static const String routeName = '/home';
-
   const HomePage({super.key});
 
   @override
@@ -20,8 +18,6 @@ class HomePage extends HookConsumerWidget {
               children: [
                 DashboardTab(),
                 PetsTab(),
-                Icon(Icons.store),
-                // Icon(Icons.person_search), Adoção
               ],
             ),
             bottomNavigationBar: ClipRRect(

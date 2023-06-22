@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pets/components/fab_actions.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/provider/pet_provider.dart';
 
@@ -11,18 +12,11 @@ class PetsTab extends HookConsumerWidget {
     AsyncValue<Map<String, Pet>> pets = ref.watch(petsProvider);
 
     return Scaffold(
-      body: pets.when(
-          loading: () => const CircularProgressIndicator(),
-          error: (err, stack) => throw err,
-          data: (pets) => body(context, pets.values)),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/pet');
-        },
-        tooltip: 'Adicionar novo animal',
-        child: const Icon(Icons.add),
-      ),
-    );
+        body: pets.when(
+            loading: () => const CircularProgressIndicator(),
+            error: (err, stack) => throw err,
+            data: (pets) => body(context, pets.values)),
+        floatingActionButton: const FabActions());
   }
 
   Widget body(context, Iterable<Pet> pets) {

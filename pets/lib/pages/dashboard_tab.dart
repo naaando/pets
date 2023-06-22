@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:pets/components/fab_actions.dart';
 import 'package:pets/config.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/provider/pet_provider.dart';
@@ -10,17 +11,8 @@ class DashboardTab extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // var remedios = ref.watch(remediosProvider);
-
     return Scaffold(
-      body: content(context, ref),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/eventos/+');
-        },
-        child: const Icon(Icons.add),
-      ),
-    );
+        body: content(context, ref), floatingActionButton: const FabActions());
   }
 
   Widget content(BuildContext context, WidgetRef ref) {
@@ -103,6 +95,7 @@ class DashboardTab extends HookConsumerWidget {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         child: ListTile(
+          dense: true,
           tileColor: Colors.grey[200],
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),

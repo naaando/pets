@@ -12,7 +12,6 @@ class MainTabBar extends ConsumerWidget {
       tabs: [
         const Tab(
           icon: Icon(Icons.dashboard_rounded),
-          text: 'Início',
         ),
         Tab(
           icon: Row(
@@ -27,13 +26,7 @@ class MainTabBar extends ConsumerWidget {
                   loading: () => '')),
             ],
           ),
-          text: 'Animais',
         ),
-        // const Tab(icon: Icon(Icons.store)),
-        const Tab(
-          icon: Icon(Icons.person_search),
-          text: 'Adoção',
-        ), // Adoção
       ],
       labelColor: Colors.white,
       indicator: BoxDecoration(
