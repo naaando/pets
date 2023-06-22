@@ -1,18 +1,17 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pets/models/pet.dart';
-import 'package:pets/models/especie.dart';
 import 'package:pets/provider/form_state_provider.dart';
 import 'package:pets/provider/pet_provider.dart';
-import 'package:pets/provider/especie_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:pets/provider/user_provider.dart';
 
-class NovoPetPage extends HookConsumerWidget {
-  const NovoPetPage({super.key});
+class EventoPage extends HookConsumerWidget {
+  const EventoPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,7 +22,7 @@ class NovoPetPage extends HookConsumerWidget {
           espacoId: user.espacoAtivoId,
         );
 
-    var title = pet.nome.isNotEmpty ? pet.nome : 'Novo animal';
+    var title = pet.nome.isNotEmpty ? pet.nome : 'Novo evento';
     var formKey = ref.watch(petFormStateProvider);
 
     return WillPopScope(
@@ -33,7 +32,6 @@ class NovoPetPage extends HookConsumerWidget {
             actions: barActions(context, ref, pet, formKey),
           ),
           body: body(context, ref, formKey, title, pet),
-          floatingActionButton: saveButton(context, ref, formKey, pet),
         ),
         onWillPop: () async => true);
   }
@@ -83,7 +81,7 @@ class NovoPetPage extends HookConsumerWidget {
 
     return [
       IconButton(
-          icon: const Icon(Icons.cancel),
+          icon: const Icon(Icons.check),
           onPressed: () => Navigator.of(context).pop())
     ];
   }
@@ -101,12 +99,8 @@ class NovoPetPage extends HookConsumerWidget {
     Map<String, Pet> pets =
         ref.read(petsProvider).asData?.value ?? <String, Pet>{};
 
-    Map<String, Especie> especie =
-        ref.watch(especiesProvider).asData?.value ?? <String, Especie>{};
-
-    final nascimentoController = makeController(pet.nascimento);
-    final castracaoController = makeController(pet.castracao);
-    final obitoController = makeController(pet.obito);
+    final administradoEmController = makeController(pet.nascimento);
+    final agendadoParaController = makeController(pet.nascimento);
 
     return SingleChildScrollView(
         child: Form(
@@ -115,75 +109,52 @@ class NovoPetPage extends HookConsumerWidget {
               padding: const EdgeInsets.all(25),
               child: Column(
                 children: [
-                  petImage(
-                    context,
-                    ref,
-                    pet,
+                  DropdownButtonFormField(
+                    value: pet.mae,
+                    decoration: const InputDecoration(
+                      hintText: 'Animal',
+                      labelText: 'Animal',
+                    ),
+                    items: petsDropdown(pets),
+                    onChanged: (value) => pet.mae = value,
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
-                    initialValue: pet.nome,
+                    initialValue: '',
                     decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.pets),
-                      hintText: 'Nome do animal',
+                      hintText: 'Nome',
                       labelText: 'Nome',
                     ),
-                    onSaved: (newValue) => pet.nome = newValue!,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Nome é obrigatório';
                       }
+                      return null;
                     },
-                  ),
-                  const SizedBox(height: 20),
-                  DropdownButtonFormField(
-                    value: pet.especieId,
-                    decoration: const InputDecoration(
-                      hintText: 'Espécie do animal',
-                      labelText: 'Espécie',
-                    ),
-                    items: especie.entries
-                        .map((v) => DropdownMenuItem(
-                              value: v.value.id,
-                              child: Text(v.value.nome),
-                            ))
-                        .toList(),
-                    onChanged: (value) => pet.especieId = value,
+                    onSaved: (newValue) => pet.nome = newValue ?? pet.nome,
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
-                    initialValue: pet.raca,
-                    decoration: const InputDecoration(
-                      hintText: 'Raça do animal',
-                      labelText: 'Raça',
-                    ),
-                    onSaved: (newValue) => pet.raca = newValue!,
-                  ),
-                  const SizedBox(height: 20),
-                  DropdownButtonFormField(
-                    value: pet.sexo,
-                    decoration: const InputDecoration(
-                      hintText: 'Sexo',
-                      labelText: 'Sexo',
-                    ),
-                    items: const [
-                      DropdownMenuItem(
-                        value: 'macho',
-                        child: Text('Masculino'),
-                      ),
-                      DropdownMenuItem(
-                        value: 'femea',
-                        child: Text('Feminino'),
-                      ),
-                    ],
-                    onChanged: (value) => pet.sexo = value,
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                      controller: nascimentoController,
+                      initialValue: '1',
+                      keyboardType: TextInputType.number,
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.digitsOnly
+                      ],
                       decoration: const InputDecoration(
-                        hintText: 'Data de nascimento',
-                        labelText: 'Data de nascimento',
+                        hintText: 'Dose',
+                        labelText: 'Dose',
+                        suffixIcon: Icon(Icons.vaccines),
+                      ),
+                      onSaved: (newValue) => {}
+                      // pet.observacoes = newValue ?? pet.observacoes,
+                      ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                      controller: agendadoParaController,
+                      decoration: const InputDecoration(
+                        hintText: 'Agendado para',
+                        labelText: 'Agendado para',
+                        suffixIcon: Icon(Icons.alarm_on_rounded),
                       ),
                       readOnly: true,
                       onSaved: (newValue) {
@@ -200,19 +171,22 @@ class NovoPetPage extends HookConsumerWidget {
 
                         if (date != null) {
                           pet.nascimento = date.toIso8601String();
-                          nascimentoController.text = DateFormat().format(date);
+                          administradoEmController.text =
+                              DateFormat().format(date);
                         }
                       }),
                   const SizedBox(height: 20),
                   TextFormField(
-                      controller: castracaoController,
+                      controller: administradoEmController,
                       decoration: const InputDecoration(
-                        hintText: 'Data de castração (aproximada)',
-                        labelText: 'Data de castração (aproximada)',
+                        hintText: 'Administrado em',
+                        labelText: 'Administrado em',
+                        suffixIcon: Icon(Icons.alarm_on_rounded),
                       ),
                       readOnly: true,
                       onSaved: (newValue) {
-                        pet.castracao = prepareDate(newValue) ?? pet.castracao;
+                        pet.nascimento =
+                            prepareDate(newValue) ?? pet.nascimento;
                       },
                       onTap: () async {
                         var date = await showDatePicker(
@@ -223,52 +197,9 @@ class NovoPetPage extends HookConsumerWidget {
                         );
 
                         if (date != null) {
-                          pet.castracao = date.toIso8601String();
-                          castracaoController.text = DateFormat().format(date);
-                        }
-                      }),
-                  const SizedBox(height: 20),
-                  DropdownButtonFormField(
-                    value: pet.mae,
-                    decoration: const InputDecoration(
-                      hintText: 'Mãe',
-                      labelText: 'Mãe',
-                    ),
-                    items: femalePetsDropdown(pets),
-                    onChanged: (value) => pet.mae = value,
-                  ),
-                  const SizedBox(height: 20),
-                  DropdownButtonFormField(
-                    value: pet.pai,
-                    decoration: const InputDecoration(
-                      hintText: 'Pai',
-                      labelText: 'Pai',
-                    ),
-                    items: malePetsDropdown(pets),
-                    onChanged: (value) => pet.pai = value,
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                      controller: obitoController,
-                      decoration: const InputDecoration(
-                        hintText: 'Data de óbito',
-                        labelText: 'Data de óbito',
-                      ),
-                      readOnly: true,
-                      onSaved: (newValue) {
-                        pet.obito = prepareDate(newValue) ?? pet.obito;
-                      },
-                      onTap: () async {
-                        var date = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(1900),
-                          lastDate: DateTime.now(),
-                        );
-
-                        if (date != null) {
-                          pet.obito = date.toIso8601String();
-                          obitoController.text = DateFormat().format(date);
+                          pet.nascimento = date.toIso8601String();
+                          administradoEmController.text =
+                              DateFormat().format(date);
                         }
                       }),
                 ],
@@ -276,28 +207,20 @@ class NovoPetPage extends HookConsumerWidget {
             )));
   }
 
-  List<DropdownMenuItem<String>> malePetsDropdown(Map<String, Pet> pets) {
+  List<DropdownMenuItem<String>> petsDropdown(Map<String, Pet> pets) {
     return pets.values
-        .where((animal) => animal.sexo == 'masculino')
         .map((v) => DropdownMenuItem(
               value: v.id,
-              child: Text(v.nome),
-            ))
-        .toList()
-      ..insert(
-          0,
-          const DropdownMenuItem(
-            value: null,
-            child: Text('Desconhecido'),
-          ));
-  }
-
-  List<DropdownMenuItem<String>> femalePetsDropdown(Map<String, Pet> pets) {
-    return pets.values
-        .where((animal) => animal.sexo == 'feminino')
-        .map((v) => DropdownMenuItem(
-              value: v.id,
-              child: Text(v.nome),
+              child: v.imagem != null
+                  ? Row(children: [
+                      CircleAvatar(
+                        backgroundImage:
+                            NetworkImage(v.fotoPerfilUrl.toString()),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(v.nome)
+                    ])
+                  : Text(v.nome),
             ))
         .toList()
       ..insert(

@@ -11,8 +11,8 @@ import 'package:pets/provider/especie_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:pets/provider/user_provider.dart';
 
-class NovoEventoPage extends HookConsumerWidget {
-  const NovoEventoPage({super.key});
+class PetPage extends HookConsumerWidget {
+  const PetPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,7 +23,7 @@ class NovoEventoPage extends HookConsumerWidget {
           espacoId: user.espacoAtivoId,
         );
 
-    var title = pet.nome.isNotEmpty ? pet.nome : 'Novo evento';
+    var title = pet.nome.isNotEmpty ? pet.nome : 'Novo animal';
     var formKey = ref.watch(petFormStateProvider);
 
     return WillPopScope(
