@@ -30,7 +30,7 @@ class FabActions extends HookWidget {
     return [
       FloatingActionButton.extended(
         label: const Text('Adicionar pet'),
-        onPressed: () => {Navigator.pushNamed(context, '/pets/')},
+        onPressed: () => {Navigator.pushNamed(context, '/pet')},
         icon: const Icon(Icons.pets),
       ),
       const SizedBox(
@@ -38,7 +38,7 @@ class FabActions extends HookWidget {
       ),
       FloatingActionButton.extended(
         label: const Text('Adicionar evento'),
-        onPressed: () => {Navigator.pushNamed(context, '/eventos/')},
+        onPressed: () => {Navigator.pushNamed(context, '/evento')},
         icon: const Icon(Icons.history_edu),
       ),
       const SizedBox(
