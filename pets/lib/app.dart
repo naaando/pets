@@ -48,8 +48,8 @@ class App extends ConsumerWidget {
         darkTheme: darkTheme,
         routes: <String, WidgetBuilder>{
           '/home': (BuildContext context) => const HomePage(),
-          '/pets/+': (BuildContext context) => const PetPage(),
-          '/eventos/+': (BuildContext context) => const EventoPage(),
+          '/pets/': (BuildContext context) => const PetPage(),
+          '/eventos/': (BuildContext context) => const EventoPage(),
         },
         home: user.when(
           data: (user) => userLoaded(user),

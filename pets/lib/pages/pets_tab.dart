@@ -30,7 +30,7 @@ class PetsTab extends HookConsumerWidget {
           .map((pet) => InkWell(
               borderRadius: BorderRadius.circular(8.0),
               onTap: () {
-                Navigator.pushNamed(context, '/pet', arguments: pet);
+                Navigator.pushNamed(context, '/pets', arguments: pet);
               },
               child: Flex(
                 direction: Axis.vertical,
