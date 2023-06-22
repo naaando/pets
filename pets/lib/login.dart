@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pets/models/user.dart';
+import 'package:pets/config.dart';
 import 'package:pets/provider/user_provider.dart';
 
 googleSignIn(WidgetRef ref) async {
@@ -25,7 +25,7 @@ googleSignIn(WidgetRef ref) async {
   dio.options.headers['idToken'] = '${authentication?.idToken}';
 
   var sanctumToken =
-      await dio.get('http://10.0.2.2:9999/api/auth/google-idtoken');
+      await dio.getUri(baseUri.replace(path: '/api/auth/google-idtoken'));
 
   final userRepository = await ref.read(userRepositoryProvider.future);
   userRepository.setUserWithSanctumToken(sanctumToken.data);
