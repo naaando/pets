@@ -20,7 +20,7 @@ class PetImageController extends Controller
         $path = $request->file('file')->storePublicly('pets', 'public');
 
         if ($pet->imagem) {
-            Storage::delete($pet->imagem);
+            Storage::disk('public')->delete($pet->imagem);
         }
 
         $pet->imagem = $path;
@@ -34,7 +34,7 @@ class PetImageController extends Controller
      */
     public function destroy(Pet $pet)
     {
-        Storage::delete($pet->imagem);
+        Storage::disk('public')->delete($pet->imagem);
         $pet->imagem = null;
         $pet->save();
         return response('', 204);
