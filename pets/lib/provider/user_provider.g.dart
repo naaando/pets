@@ -22,18 +22,19 @@ final userRepositoryProvider =
 );
 
 typedef UserRepositoryRef = AutoDisposeFutureProviderRef<UserRepository>;
-String _$userHash() => r'1bfd2b3002ed41899fdd76706c644fe3494a644b';
+String _$loggedUserHash() => r'c1b1c030985e48baa5a39d75e88a270c81b1d895';
 
-/// See also [user].
-@ProviderFor(user)
-final userProvider = AutoDisposeFutureProvider<User?>.internal(
-  user,
-  name: r'userProvider',
+/// See also [LoggedUser].
+@ProviderFor(LoggedUser)
+final loggedUserProvider =
+    AutoDisposeAsyncNotifierProvider<LoggedUser, User?>.internal(
+  LoggedUser.new,
+  name: r'loggedUserProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$userHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$loggedUserHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef UserRef = AutoDisposeFutureProviderRef<User?>;
+typedef _$LoggedUser = AutoDisposeAsyncNotifier<User?>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

@@ -15,7 +15,7 @@ class EventoPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var user = ref.watch(userProvider).asData!.value!;
+    var user = ref.watch(loggedUserProvider).asData!.value!;
 
     Pet pet = (ModalRoute.of(context)!.settings.arguments as Pet?) ??
         Pet(

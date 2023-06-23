@@ -14,7 +14,7 @@ class UserAppBar extends HookConsumerWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var user = ref.watch(userProvider).asData!.value!;
+    var user = ref.watch(loggedUserProvider).asData!.value!;
 
     // return AppBar(
     //   backgroundColor: Colors.transparent,

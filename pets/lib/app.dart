@@ -12,7 +12,7 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(userProvider);
+    final user = ref.watch(loggedUserProvider);
 
     return AdaptiveTheme(
       light: ThemeData(
@@ -63,10 +63,10 @@ class App extends ConsumerWidget {
   }
 
   Widget userLoaded(user) {
-    if (user == null) {
-      return WelcomePage();
-    } else {
+    if (user != null) {
       return const HomePage();
     }
+
+    return WelcomePage();
   }
 }

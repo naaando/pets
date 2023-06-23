@@ -65,13 +65,18 @@ class UserRepository extends ChangeNotifier {
 
     user!.espacoAtivo.value = Espaco.fromJson(userData['espaco_ativo']);
 
-    return await isar.writeTxn(() async {
+    await isar.writeTxn(() async {
       await isar.users.clear();
       await isar.users.put(user!);
     });
+
+    notifyListeners();
   }
 
   Future<void> handleUserFetchError() async {
+    user = null;
+    notifyListeners();
+
     return await isar.writeTxn(() async {
       await isar.users.clear();
     });

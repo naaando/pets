@@ -21,7 +21,7 @@ class WelcomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(userProvider);
+    ref.watch(loggedUserProvider);
 
     return Scaffold(
       backgroundColor: Colors.grey[300],

@@ -16,7 +16,15 @@ Future<UserRepository> userRepository(UserRepositoryRef ref) async {
 }
 
 @Riverpod()
-Future<User?> user(UserRef ref) async {
-  final userRepository = await ref.watch(userRepositoryProvider.future);
-  return await userRepository.getUser();
+class LoggedUser extends _$LoggedUser {
+  @override
+  FutureOr<User?> build() async {
+    final rep = await ref.watch(userRepositoryProvider.future);
+
+    rep.addListener(() {
+      state = AsyncValue.data(rep.user);
+    });
+
+    return await rep.getUser();
+  }
 }
