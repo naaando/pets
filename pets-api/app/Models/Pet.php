@@ -6,6 +6,45 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\Pet
+ *
+ * @property string $id
+ * @property string $nome
+ * @property string|null $imagem
+ * @property string $user_id
+ * @property string|null $espaco_id
+ * @property string|null $especie_id
+ * @property string|null $sexo
+ * @property string|null $raca
+ * @property \Illuminate\Support\Carbon|null $nascimento
+ * @property string|null $falecimento
+ * @property string|null $castracao
+ * @property string|null $mae_id
+ * @property string|null $pai_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Especie|null $especie
+ * @method static \Illuminate\Database\Eloquent\Builder|Pet newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Pet newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Pet query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Pet whereCastracao($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pet whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pet whereEspacoId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pet whereEspecieId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pet whereFalecimento($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pet whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pet whereImagem($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pet whereMaeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pet whereNascimento($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pet whereNome($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pet wherePaiId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pet whereRaca($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pet whereSexo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pet whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pet whereUserId($value)
+ * @mixin \Eloquent
+ */
 class Pet extends Model
 {
     use HasFactory;
@@ -36,7 +75,8 @@ class Pet extends Model
      */
     protected $casts = [
         'nascimento' => 'datetime',
-        'castrado' => 'boolean',
+        'falecimento' => 'datetime',
+        'castracao' => 'datetime',
     ];
 
     /**
@@ -45,5 +85,13 @@ class Pet extends Model
     public function especie()
     {
         return $this->belongsTo(Especie::class);
+    }
+
+    /**
+     * Get the user associated with the pet.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
