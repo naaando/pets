@@ -11,7 +11,7 @@ class PetImageController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Pet $pet)
+    public function update(Request $request, Pet $pet)
     {
         $request->validate([
             'file' => 'required|image',

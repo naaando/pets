@@ -22,4 +22,4 @@ Route::get('auth/google-idtoken', AuthGoogleIdTokenController::class);
 Route::middleware('auth:sanctum')->get('/user', [UserController::class, 'show']);
 Route::middleware('auth:sanctum')->get('/especies', [EspecieController::class, 'index']);
 Route::middleware('auth:sanctum')->apiResource('pets', PetController::class);
-Route::middleware('auth:sanctum')->apiResource('pets.image', PetImageController::class);
+Route::middleware('auth:sanctum')->apiSingleton('pets.image', PetImageController::class)->destroyable();

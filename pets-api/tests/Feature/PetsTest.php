@@ -1,12 +1,14 @@
 <?php
 
 use App\Models\Pet;
+use Illuminate\Http\UploadedFile;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\deleteJson;
 use function Pest\Laravel\getJson;
 use function Pest\Laravel\patchJson;
 use function Pest\Laravel\postJson;
+use function Pest\Laravel\putJson;
 
 test('proibe usuário não autenticado', function () {
     getJson("/api/pets")->assertStatus(401);
@@ -100,3 +102,43 @@ test('consegue remover um animal próprio', function () {
 
     $response->assertStatus(200);
 });
+
+test('consigo enviar a imagem do pet', function () {
+    actingAs($user = \App\Models\User::factory()->create());
+
+    $pet = Pet::factory()->for($user)->create();
+    $response = putJson("/api/pets/$pet->id/image", [
+        'file' => UploadedFile::fake()->image('avatar.jpg'),
+    ]);
+
+    $response->assertStatus(200);
+});
+
+test('proibe enviar a imagem do pet alheio', function () {
+    actingAs($user = \App\Models\User::factory()->create());
+
+    $pet = Pet::factory()->create();
+    $response = putJson("/api/pets/$pet->id/image", [
+        'file' => UploadedFile::fake()->image('avatar.jpg'),
+    ]);
+
+    $response->assertStatus(403);
+})->todo();
+
+test('consegue remover a imagem do pet', function () {
+    actingAs($user = \App\Models\User::factory()->create());
+
+    $pet = Pet::factory()->for($user)->create();
+    $response = deleteJson("/api/pets/$pet->id/image");
+
+    $response->assertStatus(204);
+});
+
+test('proibe remover a imagem do pet alheio', function () {
+    actingAs($user = \App\Models\User::factory()->create());
+
+    $pet = Pet::factory()->create();
+    $response = deleteJson("/api/pets/$pet->id/image");
+
+    $response->assertStatus(403);
+})->todo();
