@@ -18,13 +18,17 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $sexo
  * @property string|null $raca
  * @property \Illuminate\Support\Carbon|null $nascimento
- * @property string|null $falecimento
- * @property string|null $castracao
+ * @property \Illuminate\Support\Carbon|null $falecimento
+ * @property \Illuminate\Support\Carbon|null $castracao
  * @property string|null $mae_id
  * @property string|null $pai_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Especie|null $especie
+ * @property-read \App\Models\User $user
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PetVacina> $vacinas
+ * @property-read int|null $vacinas_count
+ * @method static \Database\Factories\PetFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Pet newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Pet newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Pet query()
@@ -93,5 +97,13 @@ class Pet extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the vacinas for the pet.
+     */
+    public function vacinas()
+    {
+        return $this->hasMany(PetVacina::class);
     }
 }

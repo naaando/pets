@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read int|null $pets_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
+ * @method static \Database\Factories\EspacoFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Espaco newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Espaco newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Espaco query()

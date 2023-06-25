@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Pet> $pets
  * @property-read int|null $pets_count
+ * @method static \Database\Factories\EspecieFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Especie newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Especie newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Especie query()
