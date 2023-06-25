@@ -1,9 +1,9 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pets/pages/eventos/evento.dart';
+import 'package:pets/pages/nova_vacina_page.dart';
 import 'package:pets/pages/home.dart';
-import 'package:pets/pages/pets/pet.dart';
+import 'package:pets/pages/novo_pet_page.dart';
 import 'package:pets/pages/welcome.dart';
 import 'package:pets/provider/user_provider.dart';
 
@@ -48,8 +48,8 @@ class App extends ConsumerWidget {
         darkTheme: darkTheme,
         routes: <String, WidgetBuilder>{
           '/home': (BuildContext context) => const HomePage(),
-          '/pet': (BuildContext context) => const PetPage(),
-          '/evento': (BuildContext context) => const EventoPage(),
+          '/novo-pet': (BuildContext context) => const NovoPetPage(),
+          '/nova-vacina': (BuildContext context) => const NovaVacinaPage(),
         },
         home: user.when(
           data: (user) => userLoaded(user),
