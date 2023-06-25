@@ -44,10 +44,11 @@ class Vacina extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'tipo',
-        'marca',
+        'nome',
+        'fabricante',
         'veterinario',
         'data',
+        'pet_id',
     ];
 
     /**

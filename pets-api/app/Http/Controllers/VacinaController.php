@@ -25,7 +25,11 @@ class VacinaController extends Controller
      */
     public function store(VacinaRequest $request)
     {
-        $vacina = Vacina::create($request->validated());
+        $vacina = new Vacina();
+        $vacina->fill($request->validated());
+        $vacina->user_id = auth()->user()->id;
+        $vacina->save();
+
         return new VacinaResource($vacina);
     }
 
@@ -42,7 +46,9 @@ class VacinaController extends Controller
      */
     public function update(VacinaRequest $request, Vacina $vacina)
     {
-        $vacina->update($request->validated());
+        $vacina->fill($request->validated());
+        $vacina->save();
+
         return new VacinaResource($vacina);
     }
 
