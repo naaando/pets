@@ -16,7 +16,7 @@ class Pet {
   String? sexo;
   String? userCreated;
   String? userUpdated;
-  String espacoId;
+  String? espacoId;
   String? obito;
 
   Uri? get fotoPerfilUrl =>

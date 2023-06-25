@@ -22,38 +22,33 @@ const VacinaSchema = CollectionSchema(
       name: r'createdAt',
       type: IsarType.string,
     ),
-    r'data': PropertySchema(
-      id: 1,
-      name: r'data',
-      type: IsarType.string,
-    ),
     r'fabricante': PropertySchema(
-      id: 2,
+      id: 1,
       name: r'fabricante',
       type: IsarType.string,
     ),
-    r'id': PropertySchema(
-      id: 3,
-      name: r'id',
-      type: IsarType.string,
-    ),
     r'nome': PropertySchema(
-      id: 4,
+      id: 2,
       name: r'nome',
       type: IsarType.string,
     ),
     r'petId': PropertySchema(
-      id: 5,
+      id: 3,
       name: r'petId',
       type: IsarType.string,
     ),
+    r'quando': PropertySchema(
+      id: 4,
+      name: r'quando',
+      type: IsarType.string,
+    ),
     r'updatedAt': PropertySchema(
-      id: 6,
+      id: 5,
       name: r'updatedAt',
       type: IsarType.string,
     ),
     r'veterinario': PropertySchema(
-      id: 7,
+      id: 6,
       name: r'veterinario',
       type: IsarType.string,
     )
@@ -62,7 +57,7 @@ const VacinaSchema = CollectionSchema(
   serialize: _vacinaSerialize,
   deserialize: _vacinaDeserialize,
   deserializeProp: _vacinaDeserializeProp,
-  idName: r'isarId',
+  idName: r'id',
   indexes: {},
   links: {},
   embeddedSchemas: {},
@@ -85,19 +80,7 @@ int _vacinaEstimateSize(
     }
   }
   {
-    final value = object.data;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
     final value = object.fabricante;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
-    final value = object.id;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
@@ -110,6 +93,12 @@ int _vacinaEstimateSize(
   }
   {
     final value = object.petId;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.quando;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
@@ -136,13 +125,12 @@ void _vacinaSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.createdAt);
-  writer.writeString(offsets[1], object.data);
-  writer.writeString(offsets[2], object.fabricante);
-  writer.writeString(offsets[3], object.id);
-  writer.writeString(offsets[4], object.nome);
-  writer.writeString(offsets[5], object.petId);
-  writer.writeString(offsets[6], object.updatedAt);
-  writer.writeString(offsets[7], object.veterinario);
+  writer.writeString(offsets[1], object.fabricante);
+  writer.writeString(offsets[2], object.nome);
+  writer.writeString(offsets[3], object.petId);
+  writer.writeString(offsets[4], object.quando);
+  writer.writeString(offsets[5], object.updatedAt);
+  writer.writeString(offsets[6], object.veterinario);
 }
 
 Vacina _vacinaDeserialize(
@@ -153,13 +141,13 @@ Vacina _vacinaDeserialize(
 ) {
   final object = Vacina(
     createdAt: reader.readStringOrNull(offsets[0]),
-    data: reader.readStringOrNull(offsets[1]),
-    fabricante: reader.readStringOrNull(offsets[2]),
-    id: reader.readStringOrNull(offsets[3]),
-    nome: reader.readStringOrNull(offsets[4]),
-    petId: reader.readStringOrNull(offsets[5]),
-    updatedAt: reader.readStringOrNull(offsets[6]),
-    veterinario: reader.readStringOrNull(offsets[7]),
+    fabricante: reader.readStringOrNull(offsets[1]),
+    id: id,
+    nome: reader.readStringOrNull(offsets[2]),
+    petId: reader.readStringOrNull(offsets[3]),
+    quando: reader.readStringOrNull(offsets[4]),
+    updatedAt: reader.readStringOrNull(offsets[5]),
+    veterinario: reader.readStringOrNull(offsets[6]),
   );
   return object;
 }
@@ -185,25 +173,25 @@ P _vacinaDeserializeProp<P>(
       return (reader.readStringOrNull(offset)) as P;
     case 6:
       return (reader.readStringOrNull(offset)) as P;
-    case 7:
-      return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
 
 Id _vacinaGetId(Vacina object) {
-  return object.isarId ?? Isar.autoIncrement;
+  return object.id ?? Isar.autoIncrement;
 }
 
 List<IsarLinkBase<dynamic>> _vacinaGetLinks(Vacina object) {
   return [];
 }
 
-void _vacinaAttach(IsarCollection<dynamic> col, Id id, Vacina object) {}
+void _vacinaAttach(IsarCollection<dynamic> col, Id id, Vacina object) {
+  object.id = id;
+}
 
 extension VacinaQueryWhereSort on QueryBuilder<Vacina, Vacina, QWhere> {
-  QueryBuilder<Vacina, Vacina, QAfterWhere> anyIsarId() {
+  QueryBuilder<Vacina, Vacina, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
@@ -211,66 +199,66 @@ extension VacinaQueryWhereSort on QueryBuilder<Vacina, Vacina, QWhere> {
 }
 
 extension VacinaQueryWhere on QueryBuilder<Vacina, Vacina, QWhereClause> {
-  QueryBuilder<Vacina, Vacina, QAfterWhereClause> isarIdEqualTo(Id isarId) {
+  QueryBuilder<Vacina, Vacina, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
-        lower: isarId,
-        upper: isarId,
+        lower: id,
+        upper: id,
       ));
     });
   }
 
-  QueryBuilder<Vacina, Vacina, QAfterWhereClause> isarIdNotEqualTo(Id isarId) {
+  QueryBuilder<Vacina, Vacina, QAfterWhereClause> idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(
-              IdWhereClause.lessThan(upper: isarId, includeUpper: false),
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
             )
             .addWhereClause(
-              IdWhereClause.greaterThan(lower: isarId, includeLower: false),
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
             );
       } else {
         return query
             .addWhereClause(
-              IdWhereClause.greaterThan(lower: isarId, includeLower: false),
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
             )
             .addWhereClause(
-              IdWhereClause.lessThan(upper: isarId, includeUpper: false),
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
             );
       }
     });
   }
 
-  QueryBuilder<Vacina, Vacina, QAfterWhereClause> isarIdGreaterThan(Id isarId,
+  QueryBuilder<Vacina, Vacina, QAfterWhereClause> idGreaterThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        IdWhereClause.greaterThan(lower: isarId, includeLower: include),
+        IdWhereClause.greaterThan(lower: id, includeLower: include),
       );
     });
   }
 
-  QueryBuilder<Vacina, Vacina, QAfterWhereClause> isarIdLessThan(Id isarId,
+  QueryBuilder<Vacina, Vacina, QAfterWhereClause> idLessThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        IdWhereClause.lessThan(upper: isarId, includeUpper: include),
+        IdWhereClause.lessThan(upper: id, includeUpper: include),
       );
     });
   }
 
-  QueryBuilder<Vacina, Vacina, QAfterWhereClause> isarIdBetween(
-    Id lowerIsarId,
-    Id upperIsarId, {
+  QueryBuilder<Vacina, Vacina, QAfterWhereClause> idBetween(
+    Id lowerId,
+    Id upperId, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
-        lower: lowerIsarId,
+        lower: lowerId,
         includeLower: includeLower,
-        upper: upperIsarId,
+        upper: upperId,
         includeUpper: includeUpper,
       ));
     });
@@ -419,151 +407,6 @@ extension VacinaQueryFilter on QueryBuilder<Vacina, Vacina, QFilterCondition> {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'createdAt',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> dataIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'data',
-      ));
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> dataIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'data',
-      ));
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> dataEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'data',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> dataGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'data',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> dataLessThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'data',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> dataBetween(
-    String? lower,
-    String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'data',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> dataStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'data',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> dataEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'data',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> dataContains(String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'data',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> dataMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'data',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> dataIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'data',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> dataIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'data',
         value: '',
       ));
     });
@@ -731,186 +574,42 @@ extension VacinaQueryFilter on QueryBuilder<Vacina, Vacina, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> idEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> idEqualTo(Id? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<Vacina, Vacina, QAfterFilterCondition> idGreaterThan(
-    String? value, {
+    Id? value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'id',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<Vacina, Vacina, QAfterFilterCondition> idLessThan(
-    String? value, {
+    Id? value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'id',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<Vacina, Vacina, QAfterFilterCondition> idBetween(
-    String? lower,
-    String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'id',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> idStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'id',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> idEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'id',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> idContains(String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'id',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> idMatches(String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'id',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> idIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'id',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> idIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'id',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> isarIdIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'isarId',
-      ));
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> isarIdIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'isarId',
-      ));
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> isarIdEqualTo(Id? value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'isarId',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> isarIdGreaterThan(
-    Id? value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'isarId',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> isarIdLessThan(
-    Id? value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'isarId',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> isarIdBetween(
     Id? lower,
     Id? upper, {
     bool includeLower = true,
@@ -918,7 +617,7 @@ extension VacinaQueryFilter on QueryBuilder<Vacina, Vacina, QFilterCondition> {
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'isarId',
+        property: r'id',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -1213,6 +912,152 @@ extension VacinaQueryFilter on QueryBuilder<Vacina, Vacina, QFilterCondition> {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'petId',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> quandoIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'quando',
+      ));
+    });
+  }
+
+  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> quandoIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'quando',
+      ));
+    });
+  }
+
+  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> quandoEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'quando',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> quandoGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'quando',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> quandoLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'quando',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> quandoBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'quando',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> quandoStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'quando',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> quandoEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'quando',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> quandoContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'quando',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> quandoMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'quando',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> quandoIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'quando',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Vacina, Vacina, QAfterFilterCondition> quandoIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'quando',
         value: '',
       ));
     });
@@ -1528,18 +1373,6 @@ extension VacinaQuerySortBy on QueryBuilder<Vacina, Vacina, QSortBy> {
     });
   }
 
-  QueryBuilder<Vacina, Vacina, QAfterSortBy> sortByData() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'data', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterSortBy> sortByDataDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'data', Sort.desc);
-    });
-  }
-
   QueryBuilder<Vacina, Vacina, QAfterSortBy> sortByFabricante() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'fabricante', Sort.asc);
@@ -1549,18 +1382,6 @@ extension VacinaQuerySortBy on QueryBuilder<Vacina, Vacina, QSortBy> {
   QueryBuilder<Vacina, Vacina, QAfterSortBy> sortByFabricanteDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'fabricante', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterSortBy> sortById() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'id', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterSortBy> sortByIdDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'id', Sort.desc);
     });
   }
 
@@ -1585,6 +1406,18 @@ extension VacinaQuerySortBy on QueryBuilder<Vacina, Vacina, QSortBy> {
   QueryBuilder<Vacina, Vacina, QAfterSortBy> sortByPetIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'petId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Vacina, Vacina, QAfterSortBy> sortByQuando() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'quando', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Vacina, Vacina, QAfterSortBy> sortByQuandoDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'quando', Sort.desc);
     });
   }
 
@@ -1626,18 +1459,6 @@ extension VacinaQuerySortThenBy on QueryBuilder<Vacina, Vacina, QSortThenBy> {
     });
   }
 
-  QueryBuilder<Vacina, Vacina, QAfterSortBy> thenByData() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'data', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterSortBy> thenByDataDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'data', Sort.desc);
-    });
-  }
-
   QueryBuilder<Vacina, Vacina, QAfterSortBy> thenByFabricante() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'fabricante', Sort.asc);
@@ -1662,18 +1483,6 @@ extension VacinaQuerySortThenBy on QueryBuilder<Vacina, Vacina, QSortThenBy> {
     });
   }
 
-  QueryBuilder<Vacina, Vacina, QAfterSortBy> thenByIsarId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isarId', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QAfterSortBy> thenByIsarIdDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isarId', Sort.desc);
-    });
-  }
-
   QueryBuilder<Vacina, Vacina, QAfterSortBy> thenByNome() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'nome', Sort.asc);
@@ -1695,6 +1504,18 @@ extension VacinaQuerySortThenBy on QueryBuilder<Vacina, Vacina, QSortThenBy> {
   QueryBuilder<Vacina, Vacina, QAfterSortBy> thenByPetIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'petId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Vacina, Vacina, QAfterSortBy> thenByQuando() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'quando', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Vacina, Vacina, QAfterSortBy> thenByQuandoDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'quando', Sort.desc);
     });
   }
 
@@ -1731,24 +1552,10 @@ extension VacinaQueryWhereDistinct on QueryBuilder<Vacina, Vacina, QDistinct> {
     });
   }
 
-  QueryBuilder<Vacina, Vacina, QDistinct> distinctByData(
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'data', caseSensitive: caseSensitive);
-    });
-  }
-
   QueryBuilder<Vacina, Vacina, QDistinct> distinctByFabricante(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'fabricante', caseSensitive: caseSensitive);
-    });
-  }
-
-  QueryBuilder<Vacina, Vacina, QDistinct> distinctById(
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'id', caseSensitive: caseSensitive);
     });
   }
 
@@ -1763,6 +1570,13 @@ extension VacinaQueryWhereDistinct on QueryBuilder<Vacina, Vacina, QDistinct> {
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'petId', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<Vacina, Vacina, QDistinct> distinctByQuando(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'quando', caseSensitive: caseSensitive);
     });
   }
 
@@ -1782,9 +1596,9 @@ extension VacinaQueryWhereDistinct on QueryBuilder<Vacina, Vacina, QDistinct> {
 }
 
 extension VacinaQueryProperty on QueryBuilder<Vacina, Vacina, QQueryProperty> {
-  QueryBuilder<Vacina, int, QQueryOperations> isarIdProperty() {
+  QueryBuilder<Vacina, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'isarId');
+      return query.addPropertyName(r'id');
     });
   }
 
@@ -1794,21 +1608,9 @@ extension VacinaQueryProperty on QueryBuilder<Vacina, Vacina, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Vacina, String?, QQueryOperations> dataProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'data');
-    });
-  }
-
   QueryBuilder<Vacina, String?, QQueryOperations> fabricanteProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'fabricante');
-    });
-  }
-
-  QueryBuilder<Vacina, String?, QQueryOperations> idProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'id');
     });
   }
 
@@ -1821,6 +1623,12 @@ extension VacinaQueryProperty on QueryBuilder<Vacina, Vacina, QQueryProperty> {
   QueryBuilder<Vacina, String?, QQueryOperations> petIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'petId');
+    });
+  }
+
+  QueryBuilder<Vacina, String?, QQueryOperations> quandoProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'quando');
     });
   }
 
@@ -1842,12 +1650,12 @@ extension VacinaQueryProperty on QueryBuilder<Vacina, Vacina, QQueryProperty> {
 // **************************************************************************
 
 Vacina _$VacinaFromJson(Map<String, dynamic> json) => Vacina(
-      id: json['id'] as String?,
+      id: json['id'] as int?,
       petId: json['pet_id'] as String?,
       nome: json['nome'] as String?,
       fabricante: json['fabricante'] as String?,
       veterinario: json['veterinario'] as String?,
-      data: json['data'] as String?,
+      quando: json['quando'] as String?,
       createdAt: json['created_at'] as String?,
       updatedAt: json['updated_at'] as String?,
     );
@@ -1858,7 +1666,7 @@ Map<String, dynamic> _$VacinaToJson(Vacina instance) => <String, dynamic>{
       'nome': instance.nome,
       'fabricante': instance.fabricante,
       'veterinario': instance.veterinario,
-      'data': instance.data,
+      'quando': instance.quando,
       'created_at': instance.createdAt,
       'updated_at': instance.updatedAt,
     };

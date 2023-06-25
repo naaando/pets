@@ -4,7 +4,9 @@ import 'package:jiffy/jiffy.dart';
 import 'package:pets/components/fab_actions.dart';
 import 'package:pets/config.dart';
 import 'package:pets/models/pet.dart';
+import 'package:pets/models/vacina.dart';
 import 'package:pets/provider/pet_provider.dart';
+import 'package:pets/provider/vacina_provider.dart';
 
 class DashboardTab extends HookConsumerWidget {
   const DashboardTab({super.key});
@@ -51,9 +53,7 @@ class DashboardTab extends HookConsumerWidget {
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
-            evento(),
-            evento(),
-            evento(),
+            ...eventos(ref),
           ],
         ));
   }
@@ -91,7 +91,26 @@ class DashboardTab extends HookConsumerWidget {
         ));
   }
 
-  evento() {
+  List<Widget> eventos(WidgetRef ref) {
+    AsyncValue<Map<String, Pet>> pets = ref.watch(petsProvider);
+    AsyncValue<Map<String, Vacina>> vacinas = ref.watch(vacinasProvider);
+
+    var petsCollection = pets.asData?.value ?? <String, Pet>{};
+
+    var eventosDeVacina = vacinas.asData?.value.values
+            .map((value) => evento(
+                  petsCollection[value.petId]?.fotoPerfilUrl.toString() ?? '',
+                  petsCollection[value.petId]?.nome ?? '',
+                  value.nome ?? '',
+                  value.quando ?? '',
+                ))
+            .toList() ??
+        [];
+
+    return eventosDeVacina;
+  }
+
+  Widget evento(String? thumbUrl, String title, String subtitle, String date) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         child: ListTile(
@@ -100,11 +119,11 @@ class DashboardTab extends HookConsumerWidget {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           leading: CircleAvatar(
-              foregroundImage: NetworkImage(
-                  "${baseUri}storage/pets/7VL11n8DzKZ2u8toLIoOASRXfJ7UOODi5HaVmOJE.jpg")),
-          title: const Text('Agnaldo'),
-          subtitle: const Text('Vacina V8'),
-          trailing: Text(Jiffy.now().format(pattern: 'dd/MM/yyyy')),
+              foregroundImage:
+                  thumbUrl != null ? NetworkImage(thumbUrl) : null),
+          title: Text(title),
+          subtitle: Text(subtitle),
+          trailing: Text(Jiffy.parse(date).format(pattern: 'dd/MM/yyyy')),
         ));
   }
 }

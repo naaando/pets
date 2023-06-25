@@ -18,7 +18,8 @@ class VacinaRepository {
 
     // ignore: prefer_for_elements_to_map_fromiterable
     return Map<String, Vacina>.fromIterable(jsonVacinas,
-        key: (json) => json['id'], value: (json) => Vacina.fromJson(json));
+        key: (json) => json['id'].toString(),
+        value: (json) => Vacina.fromJson(json));
   }
 
   Future save(Vacina vacina) async {

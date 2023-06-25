@@ -4,7 +4,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/models/vacina.dart';
-import 'package:pets/provider/form_state_provider.dart';
 import 'package:pets/provider/pet_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:pets/provider/user_provider.dart';
@@ -42,26 +41,27 @@ class NovaVacinaPage extends HookConsumerWidget {
         (ModalRoute.of(context)!.settings.arguments as Vacina?) ?? Vacina());
 
     var title = 'Nova vacina';
-    var formKey = ref.watch(petFormStateProvider);
+    var formKey = useRef(GlobalKey<FormState>());
 
     return WillPopScope(
         child: Scaffold(
             appBar: AppBar(
               title: Text(title),
-              actions: barActions(context, ref, formKey, vacina.value),
+              actions: barActions(context, ref, formKey.value, vacina.value),
             ),
-            body: body(context, ref, formKey, title, vacina),
-            floatingActionButton: saveButton(context, ref, formKey, vacina)),
+            body: body(context, ref, formKey.value, title, vacina),
+            floatingActionButton:
+                saveButton(context, ref, formKey.value, vacina)),
         onWillPop: () async => true);
   }
 
   FloatingActionButton? saveButton(BuildContext context, WidgetRef ref,
       GlobalKey<FormState> formKey, ObjectRef<Vacina> vacina) {
-    var isValid = formKey.currentState?.validate() ?? false;
+    // var isValid = formKey.currentState?.validate() ?? false;
 
-    if (!isValid) {
-      return null;
-    }
+    // if (!isValid) {
+    //   return null;
+    // }
 
     return FloatingActionButton(
       onPressed: () => salvar(vacina.value, formKey, context, ref),
@@ -94,7 +94,7 @@ class NovaVacinaPage extends HookConsumerWidget {
     Map<String, Pet> pets =
         ref.read(petsProvider).asData?.value ?? <String, Pet>{};
 
-    final dataController = makeController(vacina.value.data);
+    final dataController = makeController(vacina.value.quando);
 
     return SingleChildScrollView(
         child: Form(
@@ -170,8 +170,8 @@ class NovaVacinaPage extends HookConsumerWidget {
                       ),
                       readOnly: true,
                       onSaved: (newValue) {
-                        vacina.value.data =
-                            prepareDate(newValue) ?? vacina.value.data;
+                        vacina.value.quando =
+                            prepareDate(newValue) ?? vacina.value.quando;
                       },
                       onTap: () async {
                         var date = await showDatePicker(
@@ -182,7 +182,7 @@ class NovaVacinaPage extends HookConsumerWidget {
                         );
 
                         if (date != null) {
-                          vacina.value.data = date.toIso8601String();
+                          vacina.value.quando = date.toIso8601String();
                           dataController.text = DateFormat().format(date);
                         }
                       }),
