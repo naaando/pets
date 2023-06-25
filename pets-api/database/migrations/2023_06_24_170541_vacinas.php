@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vacinas', function (Blueprint $table) {
+        Schema::create('pet_vacinas', function (Blueprint $table) {
             $table->id();
-            $table->foreignUuid('user_id')->nullable()->references('id')->on('users');
             $table->foreignUuid('pet_id')->nullable()->references('id')->on('pets');
-            $table->string('tipo')->nullable();
-            $table->string('marca')->nullable();
+            $table->string('nome')->nullable();
+            $table->string('fabricante')->nullable();
             $table->string('veterinario')->nullable();
             $table->dateTime('data')->nullable();
+            $table->foreignUuid('user_id')->nullable()->references('id')->on('users');
             $table->timestamps();
         });
     }

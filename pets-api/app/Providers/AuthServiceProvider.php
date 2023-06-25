@@ -32,5 +32,9 @@ class AuthServiceProvider extends ServiceProvider
 
             return $user->id === $pet->user_id;
         });
+
+        Gate::define('update-vacine', function (User $user, Pet|null $pet = null) {
+            return $user->id === $pet->user_id;
+        });
     }
 }
