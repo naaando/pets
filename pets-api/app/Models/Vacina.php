@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $nome
  * @property string|null $fabricante
  * @property string|null $veterinario
- * @property \Illuminate\Support\Carbon|null $data
+ * @property \Illuminate\Support\Carbon|null $quando
  * @property string|null $user_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -47,7 +47,7 @@ class Vacina extends Model
         'nome',
         'fabricante',
         'veterinario',
-        'data',
+        'quando',
         'pet_id',
     ];
 
@@ -57,7 +57,7 @@ class Vacina extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'data' => 'datetime',
+        'quando' => 'datetime',
     ];
 
     /**

@@ -30,7 +30,7 @@ class VacinaRequest extends FormRequest
             'nome' => 'required|string',
             'fabricante' => 'required|string',
             'veterinario' => 'required|string',
-            'data' => 'required|date',
+            'quando' => 'required|date',
         ];
     }
 }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\VacinaRequest;
 use App\Http\Resources\VacinaResource;
 use App\Models\Vacina;
-use Illuminate\Http\Request;
 
 class VacinaController extends Controller
 {

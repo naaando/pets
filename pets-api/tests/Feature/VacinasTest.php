@@ -30,7 +30,7 @@ test('consegue listar vacinas dos animais do usuário', function () {
                 'nome',
                 'fabricante',
                 'veterinario',
-                'data',
+                'quando',
                 'user_id',
                 'pet_id',
                 'created_at',

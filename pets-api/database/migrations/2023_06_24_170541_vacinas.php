@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('nome')->nullable();
             $table->string('fabricante')->nullable();
             $table->string('veterinario')->nullable();
-            $table->dateTime('data')->nullable();
+            $table->dateTime('quando')->nullable();
             $table->foreignUuid('user_id')->nullable()->references('id')->on('users');
             $table->timestamps();
         });

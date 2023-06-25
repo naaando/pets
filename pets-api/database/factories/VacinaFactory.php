@@ -20,7 +20,7 @@ class VacinaFactory extends Factory
             'nome' => $this->faker->word,
             'fabricante' => $this->faker->company,
             'veterinario' => $this->faker->name(),
-            'data' => $this->faker->dateTime,
+            'quando' => $this->faker->dateTime,
         ];
     }
 }
