@@ -12,12 +12,9 @@ class VacinaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        if ($vacina = $this->route('vacina')) {
-            return $this->user()->can('update-vacine', $vacina);
-        }
-
+        $vacina = $this->route('vacina');
         $pet = Pet::findOrFail($this->input('pet_id'));
-        return $this->user()->can('create-vacine', $pet);
+        return $this->user()->can('update-vacine', $pet, $vacina);
     }
 
     /**
@@ -27,16 +24,8 @@ class VacinaRequest extends FormRequest
      */
     public function rules(): array
     {
-        if ($this->route('vacina')) {
-            return [
-                'nome' => 'required|string',
-                'fabricante' => 'required|string',
-                'veterinario' => 'required|string',
-                'data' => 'required|date',
-            ];
-        }
-
         return [
+            'user_id' => 'prohibited',
             'pet_id' => 'required|exists:pets,id',
             'nome' => 'required|string',
             'fabricante' => 'required|string',

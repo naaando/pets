@@ -6,6 +6,7 @@ namespace App\Providers;
 
 use App\Models\Pet;
 use App\Models\User;
+use App\Models\Vacina;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -33,8 +34,12 @@ class AuthServiceProvider extends ServiceProvider
             return $user->id === $pet->user_id;
         });
 
-        Gate::define('update-vacine', function (User $user, Pet|null $pet = null) {
-            return $user->id === $pet->user_id;
+        Gate::define('update-vacine', function (User $user, Pet|null $pet = null, Vacina|null $vacina = null) {
+            if ($vacina && $vacina->pet->user->isNot($user)) {
+                return false;
+            }
+
+            return $user->is($pet->user);
         });
     }
 }
