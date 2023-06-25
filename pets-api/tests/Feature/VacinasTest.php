@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Pet;
-use App\Models\PetVacina;
+use App\Models\Vacina;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\deleteJson;
@@ -14,11 +14,9 @@ test('consegue listar vacinas do animal', function () {
 
     $pet = Pet::factory()->for($user)->create();
 
-    $pet->vacinas()->createMany(
-        PetVacina::factory()->for($user)->count(3)->make()->toArray()
-    );
+    Vacina::factory()->for($user)->for($pet)->count(3)->create();
 
-    $response = $this->get("/api/pets/$pet->id/vacinas");
+    $response = getJson("/api/vacinas");
     $response->assertStatus(200);
     $response->assertJsonCount(3, 'data');
 
@@ -42,9 +40,9 @@ test('consegue criar a vacina do animal', function () {
     actingAs($user = \App\Models\User::factory()->create());
 
     $pet = Pet::factory()->for($user)->create();
-    $vacinaData = PetVacina::factory()->make()->toArray();
+    $vacinaData = Vacina::factory()->for($pet)->make()->toArray();
 
-    $response = postJson("/api/pets/$pet->id/vacinas", $vacinaData);
+    $response = postJson("/api/vacinas", $vacinaData);
 
     $response->assertStatus(201);
 });
@@ -53,10 +51,10 @@ test('consegue atualizar a vacina de um animal próprio', function () {
     actingAs($user = \App\Models\User::factory()->create());
 
     $pet = Pet::factory()->for($user)->create();
-    $vacina = PetVacina::factory()->for($user)->for($pet)->create();
-    $vacinaData = PetVacina::factory()->make()->toArray();
+    $vacina = Vacina::factory()->for($user)->for($pet)->create();
+    $vacinaData = Vacina::factory()->make()->toArray();
 
-    $response = patchJson("/api/pets/$pet->id/vacinas/$vacina->id", $vacinaData);
+    $response = patchJson("/api/vacinas/$vacina->id", $vacinaData);
 
     $response->assertStatus(200);
 });
@@ -65,9 +63,9 @@ test('consegue remover a vacina de um animal próprio', function () {
     actingAs($user = \App\Models\User::factory()->create());
 
     $pet = Pet::factory()->for($user)->create();
-    $vacina = PetVacina::factory()->for($user)->for($pet)->create();
+    $vacina = Vacina::factory()->for($user)->for($pet)->create();
 
-    $response = deleteJson("/api/pets/$pet->id/vacinas/$vacina->id");
+    $response = deleteJson("/api/vacinas/$vacina->id");
 
     $response->assertStatus(204);
 });

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\Models\PetVacina
+ * App\Models\Vacina
  *
  * @property int $id
  * @property string|null $pet_id
@@ -19,22 +19,22 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Pet|null $pet
  * @property-read \App\Models\User|null $user
- * @method static \Database\Factories\PetVacinaFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|PetVacina newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|PetVacina newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|PetVacina query()
- * @method static \Illuminate\Database\Eloquent\Builder|PetVacina whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PetVacina whereData($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PetVacina whereFabricante($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PetVacina whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PetVacina whereNome($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PetVacina wherePetId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PetVacina whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PetVacina whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PetVacina whereVeterinario($value)
+ * @method static \Database\Factories\VacinaFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Vacina newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Vacina newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Vacina query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Vacina whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Vacina whereData($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Vacina whereFabricante($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Vacina whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Vacina whereNome($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Vacina wherePetId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Vacina whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Vacina whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Vacina whereVeterinario($value)
  * @mixin \Eloquent
  */
-class PetVacina extends Model
+class Vacina extends Model
 {
     use HasFactory;
 

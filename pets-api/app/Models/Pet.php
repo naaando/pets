@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Especie|null $especie
  * @property-read \App\Models\User $user
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PetVacina> $vacinas
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Vacina> $vacinas
  * @property-read int|null $vacinas_count
  * @method static \Database\Factories\PetFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Pet newModelQuery()
@@ -104,6 +104,6 @@ class Pet extends Model
      */
     public function vacinas()
     {
-        return $this->hasMany(PetVacina::class);
+        return $this->hasMany(Vacina::class);
     }
 }
