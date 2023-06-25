@@ -1,43 +1,62 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:pets/models/pet.dart';
+import 'package:pets/models/vacina.dart';
 import 'package:pets/provider/form_state_provider.dart';
 import 'package:pets/provider/pet_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:pets/provider/user_provider.dart';
+import 'package:pets/provider/vacina_provider.dart';
 
 class NovaVacinaPage extends HookConsumerWidget {
   const NovaVacinaPage({super.key});
+
+  salvar(Vacina vacina, GlobalKey<FormState> formKey, BuildContext context,
+      WidgetRef ref) {
+    formKey.currentState!.save();
+    if (formKey.currentState!.validate()) {
+      ref.read(vacinasProvider.notifier).save(vacina).then((value) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Salvo!')),
+        );
+
+        Navigator.of(context).pop();
+      }).onError((DioException error, stackTrace) {
+        debugPrint(error.toString());
+        var msg = error.response?.data['message'] ?? error.message;
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erro ao salvar!\n\n$msg')),
+        );
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var user = ref.watch(loggedUserProvider).asData!.value!;
 
-    Pet pet = (ModalRoute.of(context)!.settings.arguments as Pet?) ??
-        Pet(
-          espacoId: user.espacoAtivoId,
-        );
+    var vacina = useRef<Vacina>(
+        (ModalRoute.of(context)!.settings.arguments as Vacina?) ?? Vacina());
 
-    var title = pet.nome.isNotEmpty ? pet.nome : 'Novo evento';
+    var title = 'Nova vacina';
     var formKey = ref.watch(petFormStateProvider);
 
     return WillPopScope(
         child: Scaffold(
-          appBar: AppBar(
-            title: Text(title),
-            actions: barActions(context, ref, pet, formKey),
-          ),
-          body: body(context, ref, formKey, title, pet),
-        ),
+            appBar: AppBar(
+              title: Text(title),
+              actions: barActions(context, ref, formKey, vacina.value),
+            ),
+            body: body(context, ref, formKey, title, vacina),
+            floatingActionButton: saveButton(context, ref, formKey, vacina)),
         onWillPop: () async => true);
   }
 
   FloatingActionButton? saveButton(BuildContext context, WidgetRef ref,
-      GlobalKey<FormState> formKey, Pet pet) {
+      GlobalKey<FormState> formKey, ObjectRef<Vacina> vacina) {
     var isValid = formKey.currentState?.validate() ?? false;
 
     if (!isValid) {
@@ -45,62 +64,37 @@ class NovaVacinaPage extends HookConsumerWidget {
     }
 
     return FloatingActionButton(
-      onPressed: () {
-        formKey.currentState!.save();
-        if (formKey.currentState!.validate()) {
-          ref.read(petsProvider.notifier).save(pet).then((value) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Salvo!')),
-            );
-
-            Navigator.of(context).pop();
-          }).onError((DioException error, stackTrace) {
-            debugPrint(error.toString());
-            var msg = error.response?.data['message'] ?? error.message;
-
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Erro ao salvar!\n\n$msg')),
-            );
-          });
-        }
-      },
+      onPressed: () => salvar(vacina.value, formKey, context, ref),
       tooltip: 'Salvar',
       child: const Icon(Icons.check),
     );
   }
 
-  List<Widget> barActions(BuildContext context, WidgetRef ref, Pet pet,
-      GlobalKey<FormState> formKey) {
-    if (pet.id != null) {
+  List<Widget> barActions(BuildContext context, WidgetRef ref,
+      GlobalKey<FormState> formKey, Vacina vacina) {
+    if (vacina.id != null) {
       return [
         IconButton(
             icon: const Icon(Icons.delete),
-            onPressed: () => showDeleteAlert(context, ref, pet))
+            onPressed: () => showDeleteAlert(context, ref, vacina))
       ];
     }
 
-    return [
-      IconButton(
-          icon: const Icon(Icons.check),
-          onPressed: () => Navigator.of(context).pop())
-    ];
-  }
-
-  TextEditingController makeController(prop) {
-    return useTextEditingController(
-        text: prop != null
-            ? DateFormat().format(DateTime.tryParse(prop as String)!)
-            : null);
+    return [];
+    // return [
+    //   IconButton(
+    //       icon: const Icon(Icons.check),
+    //       onPressed: () => Navigator.of(context).pop())
+    // ];
   }
 
   Widget body(BuildContext context, WidgetRef ref, GlobalKey<FormState> formKey,
-      String title, Pet pet) {
+      String title, ObjectRef<Vacina> vacina) {
     // Dont watch pets cause it will cause a rebuild
     Map<String, Pet> pets =
         ref.read(petsProvider).asData?.value ?? <String, Pet>{};
 
-    final administradoEmController = makeController(pet.nascimento);
-    final agendadoParaController = makeController(pet.nascimento);
+    final dataController = makeController(vacina.value.data);
 
     return SingleChildScrollView(
         child: Form(
@@ -110,17 +104,17 @@ class NovaVacinaPage extends HookConsumerWidget {
               child: Column(
                 children: [
                   DropdownButtonFormField(
-                    value: pet.mae,
+                    value: vacina.value.petId,
                     decoration: const InputDecoration(
                       hintText: 'Animal',
                       labelText: 'Animal',
                     ),
                     items: petsDropdown(pets),
-                    onChanged: (value) => pet.mae = value,
+                    onChanged: (value) => vacina.value.petId = value,
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
-                    initialValue: '',
+                    initialValue: vacina.value.nome,
                     decoration: const InputDecoration(
                       hintText: 'Nome',
                       labelText: 'Nome',
@@ -131,35 +125,53 @@ class NovaVacinaPage extends HookConsumerWidget {
                       }
                       return null;
                     },
-                    onSaved: (newValue) => pet.nome = newValue ?? pet.nome,
+                    onSaved: (newValue) =>
+                        vacina.value.nome = newValue ?? vacina.value.nome,
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
-                      initialValue: '1',
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly
-                      ],
-                      decoration: const InputDecoration(
-                        hintText: 'Dose',
-                        labelText: 'Dose',
-                        suffixIcon: Icon(Icons.vaccines),
-                      ),
-                      onSaved: (newValue) => {}
-                      // pet.observacoes = newValue ?? pet.observacoes,
-                      ),
+                    initialValue: vacina.value.fabricante,
+                    decoration: const InputDecoration(
+                      hintText: 'Fabricante',
+                      labelText: 'Fabricante',
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Fabricante é obrigatório';
+                      }
+                      return null;
+                    },
+                    onSaved: (newValue) => vacina.value.fabricante =
+                        newValue ?? vacina.value.fabricante,
+                  ),
                   const SizedBox(height: 20),
                   TextFormField(
-                      controller: agendadoParaController,
+                    initialValue: vacina.value.veterinario,
+                    decoration: const InputDecoration(
+                      hintText: 'Veterinário',
+                      labelText: 'Veterinário',
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Veterinário é obrigatório';
+                      }
+                      return null;
+                    },
+                    onSaved: (newValue) => vacina.value.veterinario =
+                        newValue ?? vacina.value.veterinario,
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                      controller: dataController,
                       decoration: const InputDecoration(
-                        hintText: 'Agendado para',
-                        labelText: 'Agendado para',
+                        hintText: 'Data',
+                        labelText: 'Data',
                         suffixIcon: Icon(Icons.alarm_on_rounded),
                       ),
                       readOnly: true,
                       onSaved: (newValue) {
-                        pet.nascimento =
-                            prepareDate(newValue) ?? pet.nascimento;
+                        vacina.value.data =
+                            prepareDate(newValue) ?? vacina.value.data;
                       },
                       onTap: () async {
                         var date = await showDatePicker(
@@ -170,36 +182,8 @@ class NovaVacinaPage extends HookConsumerWidget {
                         );
 
                         if (date != null) {
-                          pet.nascimento = date.toIso8601String();
-                          administradoEmController.text =
-                              DateFormat().format(date);
-                        }
-                      }),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                      controller: administradoEmController,
-                      decoration: const InputDecoration(
-                        hintText: 'Administrado em',
-                        labelText: 'Administrado em',
-                        suffixIcon: Icon(Icons.alarm_on_rounded),
-                      ),
-                      readOnly: true,
-                      onSaved: (newValue) {
-                        pet.nascimento =
-                            prepareDate(newValue) ?? pet.nascimento;
-                      },
-                      onTap: () async {
-                        var date = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(1900),
-                          lastDate: DateTime.now(),
-                        );
-
-                        if (date != null) {
-                          pet.nascimento = date.toIso8601String();
-                          administradoEmController.text =
-                              DateFormat().format(date);
+                          vacina.value.data = date.toIso8601String();
+                          dataController.text = DateFormat().format(date);
                         }
                       }),
                 ],
@@ -231,76 +215,41 @@ class NovaVacinaPage extends HookConsumerWidget {
           ));
   }
 
-  Widget petImage(context, WidgetRef ref, Pet pet) {
-    Widget thumbWidget;
-    final fotoPerfilUrl = useState(pet.fotoPerfilUrl.toString());
+  showDeleteAlert(BuildContext context, WidgetRef ref, Vacina vacina) {
+    // AlertDialog alert = AlertDialog(
+    //   title: const Text("Excluir animal"),
+    //   content: Text("Você tem certeza que deseja excluir ${vacina.nome}?"),
+    //   actions: [
+    //     TextButton(
+    //       child: const Text("Cancelar"),
+    //       onPressed: () {
+    //         Navigator.pop(context);
+    //       },
+    //     ),
+    //     TextButton(
+    //       child: const Text("Excluir"),
+    //       onPressed: () {
+    //         ref.read(vacinasProvider.notifier).remove(vacina);
+    //         Navigator.pop(context);
+    //         Navigator.pop(context);
+    //       },
+    //     ),
+    //   ],
+    // );
 
-    if (pet.imagem != null) {
-      thumbWidget = Image.network(
-        fotoPerfilUrl.value,
-        fit: BoxFit.cover,
-        width: MediaQuery.of(context).size.width,
-      );
-    } else {
-      thumbWidget = Container(
-          color: Colors.grey[300],
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.width,
-          child: Icon(
-            Icons.upload_rounded,
-            color: Colors.grey[400],
-            size: MediaQuery.of(context).size.width / 6,
-          ));
-    }
-
-    return InkWell(
-        child: SizedBox.square(
-          dimension: MediaQuery.of(context).size.width * 0.5,
-          child: ClipOval(child: thumbWidget),
-        ),
-        onTap: () async {
-          var image =
-              await ImagePicker().pickImage(source: ImageSource.gallery);
-
-          if (image != null) {
-            var newId = await ref
-                .read(petsProvider.notifier)
-                .updateProfilePicture(pet, image);
-
-            pet.imagem = newId;
-            fotoPerfilUrl.value = pet.fotoPerfilUrl.toString();
-          }
-        });
+    // showDialog(
+    //   context: context,
+    //   builder: (BuildContext context) {
+    //     return alert;
+    //   },
+    // );
   }
 
-  showDeleteAlert(BuildContext context, WidgetRef ref, Pet pet) {
-    AlertDialog alert = AlertDialog(
-      title: const Text("Excluir animal"),
-      content: Text("Você tem certeza que deseja excluir ${pet.nome}?"),
-      actions: [
-        TextButton(
-          child: const Text("Cancelar"),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        TextButton(
-          child: const Text("Excluir"),
-          onPressed: () {
-            ref.read(petsProvider.notifier).remove(pet);
-            Navigator.pop(context);
-            Navigator.pop(context);
-          },
-        ),
-      ],
-    );
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
+  TextEditingController makeController(prop) {
+    return useTextEditingController(
+        text: prop != null
+            ? DateFormat().format(DateTime.tryParse(prop as String)!)
+            : null);
   }
 
   String? prepareDate(newValue) {
