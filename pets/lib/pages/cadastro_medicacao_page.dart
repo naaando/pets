@@ -41,7 +41,8 @@ class CadastroMedicacaoPage extends HookConsumerWidget {
         (ModalRoute.of(context)!.settings.arguments as Medicacao?) ??
             Medicacao());
 
-    var title = 'Nova medicacao';
+    var title =
+        medicacao.value.id != null ? 'Editando medicação' : 'Nova medicação';
     var formKey = useRef(GlobalKey<FormState>());
 
     return WillPopScope(
