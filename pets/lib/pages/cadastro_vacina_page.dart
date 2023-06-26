@@ -9,8 +9,8 @@ import 'package:intl/intl.dart';
 import 'package:pets/provider/user_provider.dart';
 import 'package:pets/provider/vacina_provider.dart';
 
-class NovaVacinaPage extends HookConsumerWidget {
-  const NovaVacinaPage({super.key});
+class CadastroVacinaPage extends HookConsumerWidget {
+  const CadastroVacinaPage({super.key});
 
   salvar(Vacina vacina, GlobalKey<FormState> formKey, BuildContext context,
       WidgetRef ref) {

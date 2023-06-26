@@ -53,25 +53,29 @@ class DashboardTab extends HookConsumerWidget {
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
-            ...eventos(ref),
+            ...eventos(context, ref),
           ],
         ));
   }
 
-  petsList(context, Map<String, Pet> pets) {
+  petsList(BuildContext context, Map<String, Pet> pets) {
     var petsItems = pets.values
-        .map((pet) => Column(
-              children: [
-                CircleAvatar(
-                  radius: 40,
-                  foregroundColor: Colors.black,
-                  backgroundColor: Colors.grey[200],
-                  foregroundImage: NetworkImage(pet.fotoPerfilUrl.toString()),
-                  child: Text(pet.nome.substring(0, 2).toUpperCase()),
-                ),
-                const SizedBox(height: 8),
-                Text(pet.nome),
-              ],
+        .map((pet) => InkWell(
+              onTap: () =>
+                  Navigator.pushNamed(context, '/cadastro-pet', arguments: pet),
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    radius: 40,
+                    foregroundColor: Colors.black,
+                    backgroundColor: Colors.grey[200],
+                    foregroundImage: NetworkImage(pet.fotoPerfilUrl.toString()),
+                    child: Text(pet.nome.substring(0, 2).toUpperCase()),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(pet.nome),
+                ],
+              ),
             ))
         .toList();
 
@@ -91,7 +95,7 @@ class DashboardTab extends HookConsumerWidget {
         ));
   }
 
-  List<Widget> eventos(WidgetRef ref) {
+  List<Widget> eventos(BuildContext context, WidgetRef ref) {
     AsyncValue<Map<String, Pet>> pets = ref.watch(petsProvider);
     AsyncValue<Map<String, Vacina>> vacinas = ref.watch(vacinasProvider);
 
@@ -99,18 +103,20 @@ class DashboardTab extends HookConsumerWidget {
 
     var eventosDeVacina = vacinas.asData?.value.values
             .map((value) => evento(
-                  petsCollection[value.petId]?.fotoPerfilUrl.toString() ?? '',
-                  petsCollection[value.petId]?.nome ?? '',
-                  value.nome ?? '',
-                  value.quando ?? '',
-                ))
+                petsCollection[value.petId]?.fotoPerfilUrl.toString() ?? '',
+                petsCollection[value.petId]?.nome ?? '',
+                value.nome ?? '',
+                value.quando ?? '',
+                () => Navigator.pushNamed(context, '/cadastro-vacina',
+                    arguments: value)))
             .toList() ??
         [];
 
     return eventosDeVacina;
   }
 
-  Widget evento(String? thumbUrl, String title, String subtitle, String date) {
+  Widget evento(
+      String? thumbUrl, String title, String subtitle, String date, onTap) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         child: ListTile(
@@ -124,6 +130,7 @@ class DashboardTab extends HookConsumerWidget {
           title: Text(title),
           subtitle: Text(subtitle),
           trailing: Text(Jiffy.parse(date).format(pattern: 'dd/MM/yyyy')),
+          onTap: onTap,
         ));
   }
 }
