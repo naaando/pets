@@ -40,7 +40,7 @@ class CadastroVacinaPage extends HookConsumerWidget {
     var vacina = useRef<Vacina>(
         (ModalRoute.of(context)!.settings.arguments as Vacina?) ?? Vacina());
 
-    var title = 'Nova vacina';
+    var title = vacina.value.id != null ? 'Editando vacina' : 'Nova vacina';
     var formKey = useRef(GlobalKey<FormState>());
 
     return WillPopScope(
@@ -57,12 +57,6 @@ class CadastroVacinaPage extends HookConsumerWidget {
 
   FloatingActionButton? saveButton(BuildContext context, WidgetRef ref,
       GlobalKey<FormState> formKey, ObjectRef<Vacina> vacina) {
-    // var isValid = formKey.currentState?.validate() ?? false;
-
-    // if (!isValid) {
-    //   return null;
-    // }
-
     return FloatingActionButton(
       onPressed: () => salvar(vacina.value, formKey, context, ref),
       tooltip: 'Salvar',
@@ -81,11 +75,6 @@ class CadastroVacinaPage extends HookConsumerWidget {
     }
 
     return [];
-    // return [
-    //   IconButton(
-    //       icon: const Icon(Icons.check),
-    //       onPressed: () => Navigator.of(context).pop())
-    // ];
   }
 
   Widget body(BuildContext context, WidgetRef ref, GlobalKey<FormState> formKey,
@@ -216,33 +205,33 @@ class CadastroVacinaPage extends HookConsumerWidget {
   }
 
   showDeleteAlert(BuildContext context, WidgetRef ref, Vacina vacina) {
-    // AlertDialog alert = AlertDialog(
-    //   title: const Text("Excluir animal"),
-    //   content: Text("Você tem certeza que deseja excluir ${vacina.nome}?"),
-    //   actions: [
-    //     TextButton(
-    //       child: const Text("Cancelar"),
-    //       onPressed: () {
-    //         Navigator.pop(context);
-    //       },
-    //     ),
-    //     TextButton(
-    //       child: const Text("Excluir"),
-    //       onPressed: () {
-    //         ref.read(vacinasProvider.notifier).remove(vacina);
-    //         Navigator.pop(context);
-    //         Navigator.pop(context);
-    //       },
-    //     ),
-    //   ],
-    // );
+    AlertDialog alert = AlertDialog(
+      title: const Text("Excluir vacina"),
+      content: Text("Você tem certeza que deseja excluir ${vacina.nome}?"),
+      actions: [
+        TextButton(
+          child: const Text("Cancelar"),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        TextButton(
+          child: const Text("Excluir"),
+          onPressed: () {
+            ref.read(vacinasProvider.notifier).remove(vacina);
+            Navigator.pop(context);
+            Navigator.pop(context);
+          },
+        ),
+      ],
+    );
 
-    // showDialog(
-    //   context: context,
-    //   builder: (BuildContext context) {
-    //     return alert;
-    //   },
-    // );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   TextEditingController makeController(prop) {
