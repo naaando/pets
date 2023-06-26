@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:pets/components/fab_actions.dart';
-import 'package:pets/config.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/models/vacina.dart';
 import 'package:pets/provider/pet_provider.dart';
@@ -112,12 +111,15 @@ class DashboardTab extends HookConsumerWidget {
             .toList() ??
         [];
 
-    return eventosDeVacina;
+    var eventosPorData = eventosDeVacina
+      ..sort((a, b) => b.key.compareTo(a.key));
+
+    return eventosPorData.map((e) => e.value).toList();
   }
 
-  Widget evento(
+  MapEntry<String, Widget> evento(
       String? thumbUrl, String title, String subtitle, String date, onTap) {
-    return Padding(
+    var widget = Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         child: ListTile(
           dense: true,
@@ -132,5 +134,7 @@ class DashboardTab extends HookConsumerWidget {
           trailing: Text(Jiffy.parse(date).format(pattern: 'dd/MM/yyyy')),
           onTap: onTap,
         ));
+
+    return MapEntry(date, widget);
   }
 }
