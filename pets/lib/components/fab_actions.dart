@@ -7,7 +7,7 @@ class FabActions extends HookWidget {
   @override
   Widget build(BuildContext context) {
     var showFab = useState(false);
-    var toggle = () => showFab.value = !showFab.value;
+    toggle() => showFab.value = !showFab.value;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
@@ -32,6 +32,16 @@ class FabActions extends HookWidget {
         label: const Text('Adicionar vacina'),
         onPressed: () => {Navigator.pushNamed(context, '/cadastro-vacina')},
         icon: const Icon(Icons.vaccines),
+        heroTag: null,
+      ),
+      const SizedBox(
+        height: 8,
+      ),
+      FloatingActionButton.extended(
+        label: const Text('Adicionar medicação'),
+        onPressed: () => {Navigator.pushNamed(context, '/cadastro-medicacao')},
+        icon: const Icon(Icons.medication_liquid),
+        heroTag: null,
       ),
       const SizedBox(
         height: 8,
@@ -40,6 +50,7 @@ class FabActions extends HookWidget {
         label: const Text('Adicionar pet'),
         onPressed: () => {Navigator.pushNamed(context, '/cadastro-pet')},
         icon: const Icon(Icons.pets),
+        heroTag: null,
       ),
       const SizedBox(
         height: 8,
