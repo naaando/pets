@@ -18,6 +18,9 @@ return new class extends Migration
             $table->string('fabricante')->nullable();
             $table->string('veterinario')->nullable();
             $table->dateTime('quando')->nullable();
+            $table->integer('total_doses')->nullable();
+            $table->integer('dose_atual')->nullable();
+            $table->datetime('proxima_dose')->nullable();
             $table->foreignUuid('user_id')->nullable()->references('id')->on('users');
             $table->timestamps();
         });
