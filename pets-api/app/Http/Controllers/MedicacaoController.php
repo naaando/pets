@@ -35,28 +35,28 @@ class MedicacaoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Medicacao $medicacao)
+    public function show(Medicacao $medicaco)
     {
-        return new MedicacaoResource($medicacao);
+        return new MedicacaoResource($medicaco);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(MedicacaoRequest $request, Medicacao $medicacao)
+    public function update(MedicacaoRequest $request, Medicacao $medicaco)
     {
-        $medicacao->fill($request->validated());
-        $medicacao->save();
+        $medicaco->fill($request->validated());
+        $medicaco->save();
 
-        return new MedicacaoResource($medicacao);
+        return new MedicacaoResource($medicaco);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Medicacao $medicacao)
+    public function destroy(Medicacao $medicaco)
     {
-        $medicacao->delete();
+        $medicaco->delete();
         return response()->noContent();
     }
 }
