@@ -44,11 +44,15 @@ class Medicacao extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'pet_id',
         'nome',
         'fabricante',
         'veterinario',
         'quando',
-        'pet_id',
+        'tipo',
+        'total_doses',
+        'dose_atual',
+        'proxima_dose',
     ];
 
     /**
