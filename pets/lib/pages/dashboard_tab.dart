@@ -92,7 +92,7 @@ class DashboardTab extends HookConsumerWidget {
         width: MediaQuery.of(context).size.width,
         height: 108,
         child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 4),
+          padding: const EdgeInsets.only(left: 12, right: 4),
           // primary: false,
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
