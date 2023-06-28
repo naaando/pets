@@ -2,9 +2,9 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pets/pages/cadastro_medicacao_page.dart';
-import 'package:pets/pages/home.dart';
+import 'package:pets/pages/home_page.dart';
 import 'package:pets/pages/cadastro_pet_page.dart';
-import 'package:pets/pages/welcome.dart';
+import 'package:pets/pages/welcome_page.dart';
 import 'package:pets/provider/user_provider.dart';
 
 class App extends ConsumerWidget {
