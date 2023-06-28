@@ -2,7 +2,6 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pets/pages/cadastro_medicacao_page.dart';
-import 'package:pets/pages/cadastro_vacina_page.dart';
 import 'package:pets/pages/home.dart';
 import 'package:pets/pages/cadastro_pet_page.dart';
 import 'package:pets/pages/welcome.dart';
@@ -51,7 +50,7 @@ class App extends ConsumerWidget {
           '/home': (BuildContext context) => const HomePage(),
           '/cadastro-pet': (BuildContext context) => const CadastroPetPage(),
           '/cadastro-vacina': (BuildContext context) =>
-              const CadastroVacinaPage(),
+              const CadastroMedicacaoPage(tipo: 'vacina'),
           '/cadastro-medicacao': (BuildContext context) =>
               const CadastroMedicacaoPage(),
         },

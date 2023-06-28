@@ -10,7 +10,42 @@ import 'package:intl/intl.dart';
 import 'package:pets/provider/user_provider.dart';
 
 class CadastroMedicacaoPage extends HookConsumerWidget {
-  const CadastroMedicacaoPage({super.key});
+  final String tipo;
+
+  String get tipoTexto {
+    switch (tipo) {
+      case 'vacina':
+        return 'vacina';
+      default:
+        return 'medicação';
+    }
+  }
+
+  const CadastroMedicacaoPage({super.key, this.tipo = 'medicacao'});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    var user = ref.watch(loggedUserProvider).asData!.value!;
+
+    var medicacao = useRef<Medicacao>(
+        (ModalRoute.of(context)!.settings.arguments as Medicacao?) ??
+            Medicacao(tipo: tipo));
+
+    var title =
+        medicacao.value.id != null ? 'Editando $tipoTexto' : 'Nova $tipoTexto';
+    var formKey = useRef(GlobalKey<FormState>());
+
+    return WillPopScope(
+        child: Scaffold(
+            appBar: AppBar(
+              title: Text(title),
+              actions: barActions(context, ref, formKey.value, medicacao.value),
+            ),
+            body: body(context, ref, formKey.value, title, medicacao),
+            floatingActionButton:
+                saveButton(context, ref, formKey.value, medicacao)),
+        onWillPop: () async => true);
+  }
 
   salvar(Medicacao medicacao, GlobalKey<FormState> formKey,
       BuildContext context, WidgetRef ref) {
@@ -31,30 +66,6 @@ class CadastroMedicacaoPage extends HookConsumerWidget {
         );
       });
     }
-  }
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    var user = ref.watch(loggedUserProvider).asData!.value!;
-
-    var medicacao = useRef<Medicacao>(
-        (ModalRoute.of(context)!.settings.arguments as Medicacao?) ??
-            Medicacao());
-
-    var title =
-        medicacao.value.id != null ? 'Editando medicação' : 'Nova medicação';
-    var formKey = useRef(GlobalKey<FormState>());
-
-    return WillPopScope(
-        child: Scaffold(
-            appBar: AppBar(
-              title: Text(title),
-              actions: barActions(context, ref, formKey.value, medicacao.value),
-            ),
-            body: body(context, ref, formKey.value, title, medicacao),
-            floatingActionButton:
-                saveButton(context, ref, formKey.value, medicacao)),
-        onWillPop: () async => true);
   }
 
   FloatingActionButton? saveButton(BuildContext context, WidgetRef ref,
@@ -86,6 +97,7 @@ class CadastroMedicacaoPage extends HookConsumerWidget {
         ref.read(petsProvider).asData?.value ?? <String, Pet>{};
 
     final dataController = makeController(medicacao.value.quando);
+    final proximaDoseController = makeController(medicacao.value.proximaDose);
 
     return SingleChildScrollView(
         child: Form(
@@ -102,6 +114,8 @@ class CadastroMedicacaoPage extends HookConsumerWidget {
                     ),
                     items: petsDropdown(pets),
                     onChanged: (value) => medicacao.value.petId = value,
+                    validator: (value) =>
+                        value == null ? 'Animal é obrigatório' : null,
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
@@ -117,7 +131,7 @@ class CadastroMedicacaoPage extends HookConsumerWidget {
                       return null;
                     },
                     onSaved: (newValue) =>
-                        medicacao.value.nome = newValue ?? medicacao.value.nome,
+                        medicacao.value.nome = newValue ?? '',
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
@@ -126,14 +140,8 @@ class CadastroMedicacaoPage extends HookConsumerWidget {
                       hintText: 'Fabricante',
                       labelText: 'Fabricante',
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Fabricante é obrigatório';
-                      }
-                      return null;
-                    },
-                    onSaved: (newValue) => medicacao.value.fabricante =
-                        newValue ?? medicacao.value.fabricante,
+                    onSaved: (newValue) =>
+                        medicacao.value.fabricante = newValue ?? '',
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
@@ -142,14 +150,8 @@ class CadastroMedicacaoPage extends HookConsumerWidget {
                       hintText: 'Veterinário',
                       labelText: 'Veterinário',
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Veterinário é obrigatório';
-                      }
-                      return null;
-                    },
-                    onSaved: (newValue) => medicacao.value.veterinario =
-                        newValue ?? medicacao.value.veterinario,
+                    onSaved: (newValue) =>
+                        medicacao.value.veterinario = newValue ?? '',
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
@@ -161,8 +163,7 @@ class CadastroMedicacaoPage extends HookConsumerWidget {
                       ),
                       readOnly: true,
                       onSaved: (newValue) {
-                        medicacao.value.quando =
-                            prepareDate(newValue) ?? medicacao.value.quando;
+                        medicacao.value.quando = prepareDate(newValue) ?? '';
                       },
                       onTap: () async {
                         var date = await showDatePicker(
@@ -175,6 +176,71 @@ class CadastroMedicacaoPage extends HookConsumerWidget {
                         if (date != null) {
                           medicacao.value.quando = date.toIso8601String();
                           dataController.text = DateFormat().format(date);
+                        }
+                      }),
+                  const SizedBox(height: 20),
+                  Row(children: [
+                    Expanded(
+                        child: TextFormField(
+                      initialValue: medicacao.value.doseAtual.toString(),
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                        hintText: 'Dose atual',
+                        labelText: 'Dose atual',
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Dosagem é obrigatório';
+                        }
+                        return null;
+                      },
+                      onSaved: (newValue) => medicacao.value.doseAtual =
+                          int.tryParse(newValue ?? '') ?? 1,
+                    )),
+                    const SizedBox(width: 16),
+                    Expanded(
+                        child: TextFormField(
+                      initialValue: medicacao.value.totalDoses.toString(),
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                        hintText: 'Total de doses',
+                        labelText: 'Total de doses',
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Dosagem é obrigatório';
+                        }
+                        return null;
+                      },
+                      onSaved: (newValue) => medicacao.value.totalDoses =
+                          int.tryParse(newValue ?? '') ?? 1,
+                    )),
+                  ]),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                      controller: proximaDoseController,
+                      decoration: const InputDecoration(
+                        hintText: 'Próxima dose',
+                        labelText: 'Próxima dose',
+                        suffixIcon: Icon(Icons.alarm_add_rounded),
+                      ),
+                      readOnly: true,
+                      onSaved: (newValue) {
+                        medicacao.value.proximaDose =
+                            prepareDate(newValue) ?? '';
+                      },
+                      onTap: () async {
+                        var date = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(1900),
+                          lastDate: DateTime.now(),
+                        );
+
+                        if (date != null) {
+                          medicacao.value.proximaDose = date.toIso8601String();
+                          proximaDoseController.text =
+                              DateFormat().format(date);
                         }
                       }),
                 ],
