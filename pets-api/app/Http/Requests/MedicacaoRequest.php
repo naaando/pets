@@ -5,16 +5,16 @@ namespace App\Http\Requests;
 use App\Models\Pet;
 use Illuminate\Foundation\Http\FormRequest;
 
-class VacinaRequest extends FormRequest
+class MedicacaoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        $vacina = $this->route('vacina');
+        $medicacao = $this->route('medicacao');
         $pet = Pet::findOrFail($this->input('pet_id'));
-        return $this->user()->can('update-vacine', $pet, $vacina);
+        return $this->user()->can('update-medicacao', $pet, $medicacao);
     }
 
     /**
