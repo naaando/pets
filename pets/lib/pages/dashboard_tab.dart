@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:pets/components/fab_actions.dart';
+import 'package:pets/models/medicacao.dart';
 import 'package:pets/models/pet.dart';
-import 'package:pets/models/vacina.dart';
+import 'package:pets/provider/medicacao_provider.dart';
 import 'package:pets/provider/pet_provider.dart';
-import 'package:pets/provider/vacina_provider.dart';
 
 class DashboardTab extends HookConsumerWidget {
   const DashboardTab({super.key});
@@ -96,7 +96,7 @@ class DashboardTab extends HookConsumerWidget {
 
   List<Widget> eventos(BuildContext context, WidgetRef ref) {
     AsyncValue<Map<String, Pet>> pets = ref.watch(petsProvider);
-    AsyncValue<Map<String, Vacina>> vacinas = ref.watch(vacinasProvider);
+    AsyncValue<Map<String, Medicacao>> vacinas = ref.watch(medicacoesProvider);
 
     var petsCollection = pets.asData?.value ?? <String, Pet>{};
 

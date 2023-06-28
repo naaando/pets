@@ -2,43 +2,23 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pets/models/medicacao.dart';
 import 'package:pets/models/pet.dart';
-import 'package:pets/models/vacina.dart';
+import 'package:pets/provider/medicacao_provider.dart';
 import 'package:pets/provider/pet_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:pets/provider/user_provider.dart';
-import 'package:pets/provider/vacina_provider.dart';
 
 class CadastroVacinaPage extends HookConsumerWidget {
   const CadastroVacinaPage({super.key});
-
-  salvar(Vacina vacina, GlobalKey<FormState> formKey, BuildContext context,
-      WidgetRef ref) {
-    formKey.currentState!.save();
-    if (formKey.currentState!.validate()) {
-      ref.read(vacinasProvider.notifier).save(vacina).then((value) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Salvo!')),
-        );
-
-        Navigator.of(context).pop();
-      }).onError((DioException error, stackTrace) {
-        debugPrint(error.toString());
-        var msg = error.response?.data['message'] ?? error.message;
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erro ao salvar!\n\n$msg')),
-        );
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var user = ref.watch(loggedUserProvider).asData!.value!;
 
-    var vacina = useRef<Vacina>(
-        (ModalRoute.of(context)!.settings.arguments as Vacina?) ?? Vacina());
+    var vacina = useRef<Medicacao>(
+        (ModalRoute.of(context)!.settings.arguments as Medicacao?) ??
+            Medicacao(tipo: 'vacina'));
 
     var title = vacina.value.id != null ? 'Editando vacina' : 'Nova vacina';
     var formKey = useRef(GlobalKey<FormState>());
@@ -55,8 +35,29 @@ class CadastroVacinaPage extends HookConsumerWidget {
         onWillPop: () async => true);
   }
 
+  salvar(Medicacao vacina, GlobalKey<FormState> formKey, BuildContext context,
+      WidgetRef ref) {
+    formKey.currentState!.save();
+    if (formKey.currentState!.validate()) {
+      ref.read(medicacoesProvider.notifier).save(vacina).then((value) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Salvo!')),
+        );
+
+        Navigator.of(context).pop();
+      }).onError((DioException error, stackTrace) {
+        debugPrint(error.toString());
+        var msg = error.response?.data['message'] ?? error.message;
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erro ao salvar!\n\n$msg')),
+        );
+      });
+    }
+  }
+
   FloatingActionButton? saveButton(BuildContext context, WidgetRef ref,
-      GlobalKey<FormState> formKey, ObjectRef<Vacina> vacina) {
+      GlobalKey<FormState> formKey, ObjectRef<Medicacao> vacina) {
     return FloatingActionButton(
       onPressed: () => salvar(vacina.value, formKey, context, ref),
       tooltip: 'Salvar',
@@ -65,7 +66,7 @@ class CadastroVacinaPage extends HookConsumerWidget {
   }
 
   List<Widget> barActions(BuildContext context, WidgetRef ref,
-      GlobalKey<FormState> formKey, Vacina vacina) {
+      GlobalKey<FormState> formKey, Medicacao vacina) {
     if (vacina.id != null) {
       return [
         IconButton(
@@ -78,7 +79,7 @@ class CadastroVacinaPage extends HookConsumerWidget {
   }
 
   Widget body(BuildContext context, WidgetRef ref, GlobalKey<FormState> formKey,
-      String title, ObjectRef<Vacina> vacina) {
+      String title, ObjectRef<Medicacao> vacina) {
     // Dont watch pets cause it will cause a rebuild
     Map<String, Pet> pets =
         ref.read(petsProvider).asData?.value ?? <String, Pet>{};
@@ -204,7 +205,7 @@ class CadastroVacinaPage extends HookConsumerWidget {
           ));
   }
 
-  showDeleteAlert(BuildContext context, WidgetRef ref, Vacina vacina) {
+  showDeleteAlert(BuildContext context, WidgetRef ref, Medicacao vacina) {
     AlertDialog alert = AlertDialog(
       title: const Text("Excluir vacina"),
       content: Text("Você tem certeza que deseja excluir ${vacina.nome}?"),
@@ -218,7 +219,7 @@ class CadastroVacinaPage extends HookConsumerWidget {
         TextButton(
           child: const Text("Excluir"),
           onPressed: () {
-            ref.read(vacinasProvider.notifier).remove(vacina);
+            ref.read(medicacoesProvider.notifier).remove(vacina);
             Navigator.pop(context);
             Navigator.pop(context);
           },

@@ -7,6 +7,8 @@ part 'medicacao.g.dart';
 @JsonSerializable()
 class Medicacao {
   Id? id;
+  @JsonKey(defaultValue: 'medicacao')
+  String tipo;
 
   @JsonKey(name: 'pet_id')
   String? petId;
@@ -14,6 +16,12 @@ class Medicacao {
   String? fabricante;
   String? veterinario;
   String? quando;
+  @JsonKey(name: 'total_doses', defaultValue: 1)
+  int totalDoses;
+  @JsonKey(name: 'dose_atual', defaultValue: 1)
+  int doseAtual;
+  @JsonKey(name: 'proxima_dose')
+  String? proximaDose;
   @JsonKey(name: 'created_at')
   String? createdAt;
   @JsonKey(name: 'updated_at')
@@ -21,11 +29,14 @@ class Medicacao {
 
   Medicacao({
     this.id,
+    this.tipo = 'medicacao',
     this.petId,
     this.nome,
     this.fabricante,
     this.veterinario,
     this.quando,
+    this.totalDoses = 1,
+    this.doseAtual = 1,
     this.createdAt,
     this.updatedAt,
   });
