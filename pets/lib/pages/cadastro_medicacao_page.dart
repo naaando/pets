@@ -10,29 +10,23 @@ import 'package:intl/intl.dart';
 import 'package:pets/provider/user_provider.dart';
 
 class CadastroMedicacaoPage extends HookConsumerWidget {
-  final String tipo;
+  final String tipoPadrao;
 
-  String get tipoTexto {
-    switch (tipo) {
-      case 'vacina':
-        return 'vacina';
-      default:
-        return 'medicação';
-    }
-  }
-
-  const CadastroMedicacaoPage({super.key, this.tipo = 'medicacao'});
+  const CadastroMedicacaoPage({super.key, this.tipoPadrao = 'medicacao'});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var user = ref.watch(loggedUserProvider).asData!.value!;
+    var medicacaoRouterArg =
+        (ModalRoute.of(context)!.settings.arguments as Medicacao?);
 
-    var medicacao = useRef<Medicacao>(
-        (ModalRoute.of(context)!.settings.arguments as Medicacao?) ??
-            Medicacao(tipo: tipo));
+    var medicacao =
+        useRef<Medicacao>(medicacaoRouterArg ?? Medicacao(tipo: tipoPadrao));
 
-    var title =
-        medicacao.value.id != null ? 'Editando $tipoTexto' : 'Nova $tipoTexto';
+    var tipo = medicacao.value.tipo;
+
+    var title = medicacao.value.id != null
+        ? 'Editando ${tipoTexto(tipo)}'
+        : 'Nova ${tipoTexto(tipo)}';
     var formKey = useRef(GlobalKey<FormState>());
 
     return WillPopScope(
@@ -96,8 +90,10 @@ class CadastroMedicacaoPage extends HookConsumerWidget {
     Map<String, Pet> pets =
         ref.read(petsProvider).asData?.value ?? <String, Pet>{};
 
-    final dataController = makeController(medicacao.value.quando);
-    final proximaDoseController = makeController(medicacao.value.proximaDose);
+    final dataController =
+        useTextEditingController(text: medicacao.value.quando);
+    final proximaDoseController =
+        useTextEditingController(text: medicacao.value.proximaDose);
 
     return SingleChildScrollView(
         child: Form(
@@ -163,7 +159,8 @@ class CadastroMedicacaoPage extends HookConsumerWidget {
                       ),
                       readOnly: true,
                       onSaved: (newValue) {
-                        medicacao.value.quando = prepareDate(newValue) ?? '';
+                        medicacao.value.quando =
+                            prepareDate(newValue) ?? medicacao.value.quando;
                       },
                       onTap: () async {
                         var date = await showDatePicker(
@@ -302,11 +299,18 @@ class CadastroMedicacaoPage extends HookConsumerWidget {
     );
   }
 
-  TextEditingController makeController(prop) {
-    return useTextEditingController(
-        text: prop != null
-            ? DateFormat().format(DateTime.tryParse(prop as String)!)
-            : null);
+  String? dateFormat(String? date) {
+    if (date == null) {
+      return null;
+    }
+
+    var datetime = DateTime.tryParse(date);
+
+    if (datetime == null) {
+      return null;
+    }
+
+    return DateFormat().format(datetime);
   }
 
   String? prepareDate(newValue) {
@@ -320,5 +324,14 @@ class CadastroMedicacaoPage extends HookConsumerWidget {
     }
 
     return date.toIso8601String();
+  }
+
+  String tipoTexto(tipo) {
+    switch (tipo) {
+      case 'vacina':
+        return 'vacina';
+      default:
+        return 'medicação';
+    }
   }
 }

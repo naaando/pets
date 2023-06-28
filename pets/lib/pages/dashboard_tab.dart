@@ -52,7 +52,17 @@ class DashboardTab extends HookConsumerWidget {
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
-            ...eventos(context, ref),
+            FutureBuilder(
+              future: eventos(context, ref),
+              builder:
+                  (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
+                if (snapshot.hasData) {
+                  return Column(children: snapshot.data!);
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              },
+            )
           ],
         ));
   }
@@ -94,27 +104,29 @@ class DashboardTab extends HookConsumerWidget {
         ));
   }
 
-  List<Widget> eventos(BuildContext context, WidgetRef ref) {
-    AsyncValue<Map<String, Pet>> pets = ref.watch(petsProvider);
-    AsyncValue<Map<String, Medicacao>> vacinas = ref.watch(medicacoesProvider);
+  Future<List<Widget>> eventos(BuildContext context, WidgetRef ref) async {
+    var pets = await ref.watch(petsProvider.future);
+    var medicacoes = await ref.watch(medicacoesProvider.future);
 
-    var petsCollection = pets.asData?.value ?? <String, Pet>{};
+    var medicacoesComoEvento = medicacoes.values
+        .map((medicacao) => medicacaoComoEvento(context, pets, medicacao))
+        .toList();
 
-    var eventosDeVacina = vacinas.asData?.value.values
-            .map((value) => evento(
-                petsCollection[value.petId]?.fotoPerfilUrl.toString() ?? '',
-                petsCollection[value.petId]?.nome ?? '',
-                value.nome ?? '',
-                value.quando ?? '',
-                () => Navigator.pushNamed(context, '/cadastro-vacina',
-                    arguments: value)))
-            .toList() ??
-        [];
-
-    var eventosPorData = eventosDeVacina
+    var eventosPorData = medicacoesComoEvento
       ..sort((a, b) => b.key.compareTo(a.key));
 
     return eventosPorData.map((e) => e.value).toList();
+  }
+
+  MapEntry<String, Widget> medicacaoComoEvento(
+      BuildContext context, Map<String, Pet> pets, Medicacao value) {
+    return evento(
+        pets[value.petId]?.fotoPerfilUrl.toString() ?? '',
+        pets[value.petId]?.nome ?? '',
+        value.nome ?? '',
+        value.quando ?? '',
+        () => Navigator.pushNamed(context, '/cadastro-medicacao',
+            arguments: value));
   }
 
   MapEntry<String, Widget> evento(
