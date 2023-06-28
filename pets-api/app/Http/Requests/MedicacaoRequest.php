@@ -27,7 +27,7 @@ class MedicacaoRequest extends FormRequest
         return [
             'user_id' => 'prohibited',
             'pet_id' => 'required|exists:pets,id',
-            'tipo' => 'required|string|in:vacina,vermifugo,remedio',
+            'tipo' => 'required|string|in:vacina,vermifugo,medicacao',
             'nome' => 'required|string',
             'fabricante' => 'required|string',
             'veterinario' => 'required|string',

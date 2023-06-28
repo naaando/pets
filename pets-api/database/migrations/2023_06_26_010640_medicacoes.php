@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('medicacoes', function (Blueprint $table) {
             $table->id();
             $table->foreignUuid('pet_id')->nullable()->references('id')->on('pets');
-            $table->enum('tipo', ['vacina', 'vermifugo', 'remedio'])->nullable();
+            $table->enum('tipo', ['vacina', 'vermifugo', 'medicacao'])->nullable();
             $table->string('nome')->nullable();
             $table->string('fabricante')->nullable();
             $table->string('veterinario')->nullable();
