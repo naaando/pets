@@ -7,7 +7,6 @@ import 'package:pets/models/pet.dart';
 import 'package:pets/provider/medicacao_provider.dart';
 import 'package:pets/provider/pet_provider.dart';
 import 'package:intl/intl.dart';
-import 'package:pets/provider/user_provider.dart';
 
 class CadastroMedicacaoPage extends HookConsumerWidget {
   final String tipoPadrao;
