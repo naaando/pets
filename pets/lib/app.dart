@@ -50,7 +50,7 @@ class App extends ConsumerWidget {
           '/home': (BuildContext context) => const HomePage(),
           '/cadastro-pet': (BuildContext context) => const CadastroPetPage(),
           '/cadastro-vacina': (BuildContext context) =>
-              const CadastroMedicacaoPage(tipo: 'vacina'),
+              const CadastroMedicacaoPage(tipoPadrao: 'vacina'),
           '/cadastro-medicacao': (BuildContext context) =>
               const CadastroMedicacaoPage(),
         },
