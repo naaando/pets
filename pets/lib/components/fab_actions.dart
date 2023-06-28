@@ -29,7 +29,7 @@ class FabActions extends HookWidget {
   fabExpanded(toggle, context) {
     return [
       FloatingActionButton.extended(
-        label: const Text('Adicionar vacina'),
+        label: const Text('Vacina'),
         onPressed: () => {Navigator.pushNamed(context, '/cadastro-vacina')},
         icon: const Icon(Icons.vaccines),
         heroTag: null,
@@ -38,7 +38,7 @@ class FabActions extends HookWidget {
         height: 8,
       ),
       FloatingActionButton.extended(
-        label: const Text('Adicionar medicação'),
+        label: const Text('Medicação'),
         onPressed: () => {Navigator.pushNamed(context, '/cadastro-medicacao')},
         icon: const Icon(Icons.medication_liquid),
         heroTag: null,
@@ -47,7 +47,7 @@ class FabActions extends HookWidget {
         height: 8,
       ),
       FloatingActionButton.extended(
-        label: const Text('Adicionar pet'),
+        label: const Text('Pet'),
         onPressed: () => {Navigator.pushNamed(context, '/cadastro-pet')},
         icon: const Icon(Icons.pets),
         heroTag: null,
