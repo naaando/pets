@@ -24,7 +24,7 @@ class PetRepository {
         key: (json) => json['id'], value: (json) => Pet.fromJson(json));
   }
 
-  Future save(Pet pet) async {
+  Future<Pet> save(Pet pet) async {
     Pet? savedPet;
 
     if (pet.id == null) {
@@ -53,14 +53,16 @@ class PetRepository {
   Future<String?> updateProfilePicture(Pet pet, XFile file) async {
     Dio dio = httpClient.httpClient;
 
-    var response = await dio.post('api/pets/${pet.id}/image',
-        data: FormData.fromMap({
-          'file': MultipartFile.fromBytes(
-            await file.readAsBytes(),
-            filename: file.name,
-            contentType: MediaType.parse(lookupMimeType(file.name)!),
-          ),
-        }));
+    final formData = FormData.fromMap({
+      '_method': 'put',
+      'file': MultipartFile.fromBytes(
+        await file.readAsBytes(),
+        filename: file.name,
+        contentType: MediaType.parse(lookupMimeType(file.name)!),
+      )
+    });
+
+    var response = await dio.post('api/pets/${pet.id}/image', data: formData);
 
     pet.imagem = response.data['path'];
     return response.data['path'];

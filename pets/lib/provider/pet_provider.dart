@@ -18,12 +18,14 @@ class Pets extends _$Pets {
     return _fetch();
   }
 
-  Future<void> save(Pet pet) async {
-    final rep = ref.read(petRepositoryProvider);
-    await rep.save(pet);
-
+  Future<Pet> save(Pet pet) async {
     state = const AsyncValue.loading();
+
+    final rep = ref.read(petRepositoryProvider);
+    final savedPet = await rep.save(pet);
+
     state = await AsyncValue.guard(() async => _fetch());
+    return savedPet;
   }
 
   Future<String?> updateProfilePicture(Pet pet, XFile file) async {

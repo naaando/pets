@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -25,6 +27,7 @@ class CadastroPetPage extends HookConsumerWidget {
 
     var title = pet.nome.isNotEmpty ? pet.nome : 'Novo animal';
     var formKey = ref.watch(petFormStateProvider);
+    final petImgFile = useState<XFile?>(null);
 
     return WillPopScope(
         child: Scaffold(
@@ -32,14 +35,15 @@ class CadastroPetPage extends HookConsumerWidget {
             title: Text(title),
             actions: barActions(context, ref, pet, formKey),
           ),
-          body: body(context, ref, formKey, title, pet),
-          floatingActionButton: saveButton(context, ref, formKey, pet),
+          body: body(context, ref, formKey, title, pet, petImgFile),
+          floatingActionButton:
+              saveButton(context, ref, formKey, pet, petImgFile),
         ),
         onWillPop: () async => true);
   }
 
   FloatingActionButton? saveButton(BuildContext context, WidgetRef ref,
-      GlobalKey<FormState> formKey, Pet pet) {
+      GlobalKey<FormState> formKey, Pet pet, ValueNotifier<XFile?> petImgFile) {
     var isValid = formKey.currentState?.validate() ?? false;
 
     if (!isValid) {
@@ -47,10 +51,17 @@ class CadastroPetPage extends HookConsumerWidget {
     }
 
     return FloatingActionButton(
-      onPressed: () {
+      onPressed: () async {
         formKey.currentState!.save();
         if (formKey.currentState!.validate()) {
-          ref.read(petsProvider.notifier).save(pet).then((value) {
+          ref.read(petsProvider.notifier).save(pet).then((savedPet) {
+            if (petImgFile.value != null) {
+              ref
+                  .read(petsProvider.notifier)
+                  .updateProfilePicture(savedPet, petImgFile.value!)
+                  .then((value) => pet.imagem = value);
+            }
+
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Salvo!')),
             );
@@ -96,7 +107,7 @@ class CadastroPetPage extends HookConsumerWidget {
   }
 
   Widget body(BuildContext context, WidgetRef ref, GlobalKey<FormState> formKey,
-      String title, Pet pet) {
+      String title, Pet pet, ValueNotifier<XFile?> petImgFile) {
     // Dont watch pets cause it will cause a rebuild
     Map<String, Pet> pets =
         ref.read(petsProvider).asData?.value ?? <String, Pet>{};
@@ -119,6 +130,7 @@ class CadastroPetPage extends HookConsumerWidget {
                     context,
                     ref,
                     pet,
+                    petImgFile,
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
@@ -308,13 +320,18 @@ class CadastroPetPage extends HookConsumerWidget {
           ));
   }
 
-  Widget petImage(context, WidgetRef ref, Pet pet) {
+  Widget petImage(
+      context, WidgetRef ref, Pet pet, ValueNotifier<XFile?> petImgFile) {
     Widget thumbWidget;
-    final fotoPerfilUrl = useState(pet.fotoPerfilUrl.toString());
-
-    if (pet.imagem != null) {
+    if (petImgFile.value != null) {
+      thumbWidget = Image.file(
+        File(petImgFile.value!.path),
+        fit: BoxFit.cover,
+        width: MediaQuery.of(context).size.width,
+      );
+    } else if (pet.imagem != null) {
       thumbWidget = Image.network(
-        fotoPerfilUrl.value,
+        pet.fotoPerfilUrl.toString(),
         fit: BoxFit.cover,
         width: MediaQuery.of(context).size.width,
       );
@@ -339,14 +356,7 @@ class CadastroPetPage extends HookConsumerWidget {
           var image =
               await ImagePicker().pickImage(source: ImageSource.gallery);
 
-          if (image != null) {
-            var newId = await ref
-                .read(petsProvider.notifier)
-                .updateProfilePicture(pet, image);
-
-            pet.imagem = newId;
-            fotoPerfilUrl.value = pet.fotoPerfilUrl.toString();
-          }
+          petImgFile.value = image;
         });
   }
 
