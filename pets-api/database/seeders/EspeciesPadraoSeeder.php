@@ -13,32 +13,32 @@ class EspeciesPadraoSeeder extends Seeder
      */
     public function run(): void
     {
-        Especie::create([
+        Especie::firstOrCreate([
             'id' => 'cachorro',
             'nome' => 'Cachorro',
         ]);
 
-        Especie::create([
+        Especie::firstOrCreate([
             'id' => 'gato',
             'nome' => 'Gato',
         ]);
 
-        Especie::create([
+        Especie::firstOrCreate([
             'id' => 'peixe',
             'nome' => 'Peixe',
         ]);
 
-        Especie::create([
+        Especie::firstOrCreate([
             'id' => 'passaro',
             'nome' => 'Pássaro',
         ]);
 
-        Especie::create([
+        Especie::firstOrCreate([
             'id' => 'roedor',
             'nome' => 'Roedor',
         ]);
 
-        Especie::create([
+        Especie::firstOrCreate([
             'id' => 'reptil',
             'nome' => 'Réptil',
         ]);
