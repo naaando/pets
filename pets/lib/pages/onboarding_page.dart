@@ -16,7 +16,7 @@ class OnboardingPage extends HookConsumerWidget {
     );
 
     return Scaffold(
-      // backgroundColor: Colors[],
+      backgroundColor: Colors.grey[100],
       body: Center(
           child: Stack(
         alignment: Alignment.center,
