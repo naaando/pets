@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:pets/app.dart';
 
 void main() async {
@@ -12,9 +11,7 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  String storageLocation = (await getApplicationDocumentsDirectory()).path;
-  await FastCachedImageConfig.init(
-      subDir: storageLocation, clearCacheAfter: const Duration(days: 15));
+  await FastCachedImageConfig.init();
 
   runApp(
     const ProviderScope(
