@@ -22,5 +22,25 @@ class EspeciesPadraoSeeder extends Seeder
             'id' => 'gato',
             'nome' => 'Gato',
         ]);
+
+        Especie::create([
+            'id' => 'peixe',
+            'nome' => 'Peixe',
+        ]);
+
+        Especie::create([
+            'id' => 'passaro',
+            'nome' => 'Pássaro',
+        ]);
+
+        Especie::create([
+            'id' => 'roedor',
+            'nome' => 'Roedor',
+        ]);
+
+        Especie::create([
+            'id' => 'reptil',
+            'nome' => 'Réptil',
+        ]);
     }
 }
