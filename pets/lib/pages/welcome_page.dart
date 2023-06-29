@@ -2,6 +2,7 @@
 
 import 'dart:ui';
 
+import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pets/components/square_tile.dart';
@@ -96,8 +97,8 @@ class WelcomePage extends ConsumerWidget {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
-        Image.network(
-          'https://source.unsplash.com/random/?pets',
+        FastCachedImage(
+          url: 'https://source.unsplash.com/random/?pets',
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           fit: BoxFit.cover,

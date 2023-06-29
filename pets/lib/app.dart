@@ -66,10 +66,9 @@ class App extends ConsumerWidget {
   }
 
   Widget userLoaded(user) {
-    if (user != null) {
-      return const HomePage();
+    if (user == null) {
+      return WelcomePage();
     }
-
-    return WelcomePage();
+    return const HomePage();
   }
 }

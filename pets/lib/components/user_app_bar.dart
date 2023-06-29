@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pets/provider/user_provider.dart';
+import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 
 class UserAppBar extends HookConsumerWidget implements PreferredSizeWidget {
   const UserAppBar({
@@ -33,7 +34,9 @@ class UserAppBar extends HookConsumerWidget implements PreferredSizeWidget {
           ),
           CircleAvatar(
             radius: 14,
-            backgroundImage: NetworkImage(user.picture!),
+            backgroundImage: FastCachedImageProvider(
+              user.picture!,
+            ),
             backgroundColor: Colors.transparent,
           )
         ],

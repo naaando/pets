@@ -1,3 +1,4 @@
+import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
@@ -78,7 +79,8 @@ class DashboardTab extends HookConsumerWidget {
                     radius: 40,
                     foregroundColor: Colors.black,
                     backgroundColor: Colors.grey[200],
-                    foregroundImage: NetworkImage(pet.fotoPerfilUrl.toString()),
+                    foregroundImage:
+                        FastCachedImageProvider(pet.fotoPerfilUrl.toString()),
                     child: Text(pet.nome.substring(0, 2).toUpperCase()),
                   ),
                   const SizedBox(height: 8),
@@ -139,7 +141,7 @@ class DashboardTab extends HookConsumerWidget {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           leading: CircleAvatar(
               foregroundImage:
-                  thumbUrl != null ? NetworkImage(thumbUrl) : null),
+                  thumbUrl != null ? FastCachedImageProvider(thumbUrl) : null),
           title: Text(title),
           subtitle: Text(subtitle),
           trailing: Text(Jiffy.parse(date).format(pattern: 'dd/MM/yyyy')),
