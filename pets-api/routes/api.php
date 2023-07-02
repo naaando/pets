@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthFacebookController;
 use App\Http\Controllers\AuthGoogleIdTokenController;
 use App\Http\Controllers\EspecieController;
 use App\Http\Controllers\MedicacaoController;
@@ -20,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('auth/google-idtoken', AuthGoogleIdTokenController::class);
+Route::post('auth/facebook', AuthFacebookController::class);
+
 Route::middleware('auth:sanctum')->get('/user', [UserController::class, 'show']);
 Route::middleware('auth:sanctum')->get('/especies', [EspecieController::class, 'index']);
 Route::middleware('auth:sanctum')->apiResource('pets', PetController::class);
