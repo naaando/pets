@@ -17,11 +17,15 @@ class App extends ConsumerWidget {
     return AdaptiveTheme(
       light: ThemeData(
         brightness: Brightness.light,
-        primarySwatch: Colors.red,
-        // hintColor: Colors.grey.shade300,
+        primaryColor: Colors.red,
+        colorScheme: ColorScheme.fromSwatch(
+            primarySwatch: Colors.red,
+            accentColor: Colors.red,
+            errorColor: Colors.white,
+            brightness: Brightness.light),
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.transparent),
+            borderSide: const BorderSide(color: Colors.transparent),
             borderRadius: BorderRadius.circular(8),
           ),
           fillColor: Colors.grey.shade100,
@@ -30,8 +34,11 @@ class App extends ConsumerWidget {
       ),
       dark: ThemeData(
         brightness: Brightness.dark,
-        primarySwatch: Colors.red,
-        hintColor: Colors.redAccent,
+        primaryColor: Colors.red,
+        colorScheme: ColorScheme.fromSwatch(
+            primarySwatch: Colors.red,
+            accentColor: Colors.black,
+            brightness: Brightness.dark),
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.red.shade200),

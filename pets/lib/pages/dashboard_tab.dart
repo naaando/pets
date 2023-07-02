@@ -2,6 +2,7 @@ import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:pets/components/chip_evento.dart';
 import 'package:pets/components/fab_actions.dart';
 import 'package:pets/models/medicacao.dart';
 import 'package:pets/models/pet.dart';
@@ -45,25 +46,8 @@ class DashboardTab extends HookConsumerWidget {
                 error: (object, stackTrace) => const Text('Error'),
                 loading: () => const CircularProgressIndicator()),
             const SizedBox(height: 18),
-            const Padding(
-              padding: EdgeInsets.all(18),
-              child: Text(
-                'Linha do tempo',
-                textAlign: TextAlign.start,
-                style: TextStyle(fontWeight: FontWeight.w600),
-              ),
-            ),
-            FutureBuilder(
-              future: eventos(context, ref),
-              builder:
-                  (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
-                if (snapshot.hasData) {
-                  return Column(children: snapshot.data!);
-                } else {
-                  return const CircularProgressIndicator();
-                }
-              },
-            )
+            agendados(context, ref),
+            linhaDoTempo(context, ref)
           ],
         ));
   }
@@ -105,6 +89,54 @@ class DashboardTab extends HookConsumerWidget {
         ));
   }
 
+  Widget agendados(context, ref) {
+    return FutureBuilder(
+      future: eventos(context, ref),
+      builder: (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
+        if (snapshot.hasData) {
+          return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                    padding: EdgeInsets.all(18),
+                    child: Text(
+                      'Agendados',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    )),
+                ...snapshot.data!
+              ]);
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
+    );
+  }
+
+  Widget linhaDoTempo(context, ref) {
+    return FutureBuilder(
+      future: eventos(context, ref),
+      builder: (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
+        if (snapshot.hasData) {
+          return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                    padding: EdgeInsets.all(18),
+                    child: Text(
+                      'Linha do tempo',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    )),
+                ...snapshot.data!
+              ]);
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
+    );
+  }
+
   Future<List<Widget>> eventos(BuildContext context, WidgetRef ref) async {
     var pets = await ref.watch(petsProvider.future);
     var medicacoes = await ref.watch(medicacoesProvider.future);
@@ -135,7 +167,6 @@ class DashboardTab extends HookConsumerWidget {
     var widget = Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         child: ListTile(
-          dense: true,
           tileColor: Colors.grey[200],
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -144,7 +175,12 @@ class DashboardTab extends HookConsumerWidget {
                   thumbUrl != null ? FastCachedImageProvider(thumbUrl) : null),
           title: Text(title),
           subtitle: Text(subtitle),
-          trailing: Text(Jiffy.parse(date).format(pattern: 'dd/MM/yyyy')),
+          trailing:
+              Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Text(Jiffy.parse(date).format(pattern: 'dd/MM/yyyy')),
+            const SizedBox(height: 4),
+            ChipEvento.vacina()
+          ]),
           onTap: onTap,
         ));
 
