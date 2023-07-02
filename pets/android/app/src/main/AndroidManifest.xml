@@ -1,5 +1,8 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
     package="br.com.fssoftware.pets">
+    <queries>
+        <provider android:authorities="com.facebook.katana.provider.PlatformProvider" />
+    </queries>
    <application
         android:label="pets"
         android:name="${applicationName}"
@@ -39,8 +42,4 @@
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>
-
-    <queries>
-        <provider android:authorities="com.facebook.katana.provider.PlatformProvider" />
-    </queries>
 </manifest>
