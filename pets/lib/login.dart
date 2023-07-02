@@ -9,7 +9,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 googleSignIn(WidgetRef ref) async {
   GoogleSignIn googleSignIn = GoogleSignIn(
     serverClientId:
-        '323626532097-tnpc95mi6bvjrtkk3sfhpcmkkc1kjlmo.apps.googleusercontent.com',
+        '323626532097-j524lnkhnrmm3rq2i62dnk2qi70on3np.apps.googleusercontent.com',
     scopes: [
       'openid',
       'https://www.googleapis.com/auth/userinfo.email',
