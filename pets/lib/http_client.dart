@@ -1,16 +1,16 @@
 import 'package:dio/dio.dart';
 import 'package:pets/config.dart';
 
-class HttpClient {
-  late Dio httpClient = Dio(options);
+BaseOptions baseOptions = BaseOptions(
+    baseUrl: baseUri.toString(),
+    contentType: Headers.jsonContentType,
+    responseType: ResponseType.json,
+    headers: {
+      'Accept': 'application/json',
+    });
 
-  BaseOptions options = BaseOptions(
-      baseUrl: baseUri.toString(),
-      contentType: Headers.jsonContentType,
-      responseType: ResponseType.json,
-      headers: {
-        'Accept': 'application/json',
-      });
+class HttpClient {
+  late Dio httpClient = Dio(baseOptions);
 
   HttpClient();
 

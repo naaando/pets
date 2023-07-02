@@ -65,8 +65,9 @@ class WelcomePage extends ConsumerWidget {
                           GestureDetector(
                             onTap: () => googleSignIn(ref),
                             child: SquareTile(
-                                imagePath: 'assets/images/google.png',
-                                title: "Continue with Google"),
+                              imagePath: 'assets/images/google.png',
+                              title: "Entrar com Google",
+                            ),
                           ),
 
                           SizedBox(height: 10),
@@ -78,10 +79,14 @@ class WelcomePage extends ConsumerWidget {
 
                           // SizedBox(height: 10),
 
-                          // // facebook button
-                          // SquareTile(
-                          //     imagePath: 'assets/images/facebook.png',
-                          //     title: "Continue with Facebook"),
+                          // facebook button
+                          GestureDetector(
+                            onTap: () => facebookSignIn(ref),
+                            child: SquareTile(
+                              imagePath: 'assets/images/facebook.png',
+                              title: "Entrar com Facebook",
+                            ),
+                          ),
                         ],
                       ),
                     ),
