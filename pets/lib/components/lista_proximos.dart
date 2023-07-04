@@ -37,7 +37,7 @@ class ListaProximos extends ConsumerWidget {
     );
   }
 
-  Future<List<Widget>> eventos(context, ref) async {
+  Future<List<Widget>> eventos(BuildContext context, WidgetRef ref) async {
     var pets = await ref.watch(petsProvider.future);
     var medicacoes = await ref.watch(medicacoesProvider.future);
 

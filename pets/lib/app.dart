@@ -17,7 +17,8 @@ class App extends ConsumerWidget {
     return AdaptiveTheme(
       light: ThemeData(
         brightness: Brightness.light,
-        primaryColor: Colors.red,
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.red, brightness: Brightness.light),
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
             borderSide: const BorderSide(color: Colors.transparent),
@@ -29,7 +30,8 @@ class App extends ConsumerWidget {
       ),
       dark: ThemeData(
         brightness: Brightness.dark,
-        primaryColor: Colors.red,
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.red, brightness: Brightness.dark),
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.red.shade200),

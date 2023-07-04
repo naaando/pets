@@ -17,40 +17,44 @@ class ListaPets extends ConsumerWidget {
         loading: () => const CircularProgressIndicator());
   }
 
-  lista(context, pets) {
-    var petsItems = pets.values
-        .map((pet) => InkWell(
-              onTap: () =>
-                  Navigator.pushNamed(context, '/cadastro-pet', arguments: pet),
-              child: Column(
-                children: [
-                  CircleAvatar(
-                    radius: 40,
-                    foregroundColor: Colors.black,
-                    backgroundColor: Colors.grey[200],
-                    foregroundImage:
-                        FastCachedImageProvider(pet.fotoPerfilUrl.toString()),
-                    child: Text(pet.nome.substring(0, 2).toUpperCase()),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(pet.nome),
-                ],
-              ),
-            ))
-        .toList();
+  lista(context, Map<String, Pet> pets) {
+    final list =
+        pets.values.map<Widget>((pet) => toListItem(context, pet)).toList();
 
     return SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: 108,
-        child: ListView(
-          padding: const EdgeInsets.only(left: 12, right: 4),
-          // primary: false,
-          scrollDirection: Axis.horizontal,
-          shrinkWrap: true,
-          children: petsItems
-              .map((e) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4), child: e))
-              .toList(),
-        ));
+      width: MediaQuery.of(context).size.width,
+      height: 108,
+      child: ListView(
+        padding: const EdgeInsets.only(left: 12, right: 4),
+        // primary: false,
+        scrollDirection: Axis.horizontal,
+        shrinkWrap: true,
+        children: list,
+      ),
+    );
+  }
+
+  Widget toListItem(BuildContext context, Pet pet) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4),
+      child: InkWell(
+        onTap: () =>
+            Navigator.pushNamed(context, '/cadastro-pet', arguments: pet),
+        child: Column(
+          children: [
+            CircleAvatar(
+              radius: 40,
+              foregroundColor: Colors.black,
+              backgroundColor: Colors.grey[200],
+              foregroundImage:
+                  FastCachedImageProvider(pet.fotoPerfilUrl.toString()),
+              child: Text(pet.nome.substring(0, 2).toUpperCase()),
+            ),
+            const SizedBox(height: 8),
+            Text(pet.nome),
+          ],
+        ),
+      ),
+    );
   }
 }
