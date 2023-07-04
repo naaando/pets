@@ -18,11 +18,6 @@ class App extends ConsumerWidget {
       light: ThemeData(
         brightness: Brightness.light,
         primaryColor: Colors.red,
-        colorScheme: ColorScheme.fromSwatch(
-            primarySwatch: Colors.red,
-            accentColor: Colors.red,
-            errorColor: Colors.white,
-            brightness: Brightness.light),
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
             borderSide: const BorderSide(color: Colors.transparent),
@@ -35,10 +30,6 @@ class App extends ConsumerWidget {
       dark: ThemeData(
         brightness: Brightness.dark,
         primaryColor: Colors.red,
-        colorScheme: ColorScheme.fromSwatch(
-            primarySwatch: Colors.red,
-            accentColor: Colors.black,
-            brightness: Brightness.dark),
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.red.shade200),
