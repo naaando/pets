@@ -42,7 +42,8 @@ class ListaProximos extends ConsumerWidget {
     var medicacoes = await ref.watch(medicacoesProvider.future);
 
     var medicacoesComoEvento = medicacoes.values
-        .map((medicacao) => medicacaoComoEvento(context, pets, medicacao))
+        .map<MapEntry<String, Widget>>(
+            (medicacao) => medicacaoComoEvento(context, pets, medicacao))
         .toList();
 
     var eventosPorData = medicacoesComoEvento
