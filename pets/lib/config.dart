@@ -1,1 +1,1 @@
-final Uri baseUri = Uri.parse('http://door1.fssoftware.com.br:21999/');
+final Uri baseUri = Uri.parse('http://pets.fssoftware.com.br/');
