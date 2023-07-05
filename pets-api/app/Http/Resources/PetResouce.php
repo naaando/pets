@@ -14,6 +14,8 @@ class PetResouce extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return parent::toArray($request) + [
+            'imagem_url' => $this->imagem ? url(Storage::url($this->imagem)) : null
+        ];
     }
 }
