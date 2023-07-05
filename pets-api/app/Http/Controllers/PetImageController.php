@@ -17,10 +17,10 @@ class PetImageController extends Controller
             'file' => 'required|image',
         ]);
 
-        $path = $request->file('file')->storePublicly('pets', 'public');
+        $path = $request->file('file')->store('pets');
 
         if ($pet->imagem) {
-            Storage::disk('public')->delete($pet->imagem);
+            Storage::delete($pet->imagem);
         }
 
         $pet->imagem = $path;
@@ -34,7 +34,7 @@ class PetImageController extends Controller
      */
     public function destroy(Pet $pet)
     {
-        Storage::disk('public')->delete($pet->imagem);
+        Storage::delete($pet->imagem);
         $pet->imagem = null;
         $pet->save();
         return response('', 204);
