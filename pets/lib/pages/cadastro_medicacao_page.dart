@@ -254,7 +254,7 @@ class CadastroMedicacaoPage extends HookConsumerWidget {
                   ? Row(children: [
                       CircleAvatar(
                         backgroundImage:
-                            FastCachedImageProvider(v.fotoPerfilUrl.toString()),
+                            FastCachedImageProvider(v.imagemUrl.toString()),
                       ),
                       const SizedBox(width: 8),
                       Text(v.nome)

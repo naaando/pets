@@ -47,7 +47,7 @@ class ListaPets extends ConsumerWidget {
               foregroundColor: Colors.black,
               backgroundColor: Colors.grey[200],
               foregroundImage:
-                  FastCachedImageProvider(pet.fotoPerfilUrl.toString()),
+                  FastCachedImageProvider(pet.imagemUrl.toString()),
               child: Text(pet.nome.substring(0, 2).toUpperCase()),
             ),
             const SizedBox(height: 8),

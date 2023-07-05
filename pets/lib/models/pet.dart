@@ -18,9 +18,7 @@ class Pet {
   String? userUpdated;
   String? espacoId;
   String? obito;
-
-  Uri? get fotoPerfilUrl =>
-      imagem != null ? baseUri.replace(path: 'storage/$imagem') : null;
+  Uri? imagemUrl;
 
   Pet(
       {this.id,
@@ -30,6 +28,7 @@ class Pet {
       this.dateCreated,
       this.especieId,
       this.imagem,
+      this.imagemUrl,
       this.nascimento,
       this.castracao,
       this.mae,
@@ -50,6 +49,8 @@ class Pet {
       dateUpdated: json['date_updated'],
       especieId: json['especie_id'],
       imagem: json['imagem'],
+      imagemUrl:
+          json['imagem_url'] != null ? Uri.parse(json['imagem_url']) : null,
       mae: json['mae'],
       nascimento: json['nascimento'],
       castracao: json['castracao'],

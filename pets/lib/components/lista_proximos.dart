@@ -55,7 +55,7 @@ class ListaProximos extends ConsumerWidget {
   MapEntry<String, Widget> medicacaoComoEvento(
       BuildContext context, Map<String, Pet> pets, Medicacao value) {
     return evento(
-        pets[value.petId]?.fotoPerfilUrl.toString() ?? '',
+        pets[value.petId]?.imagemUrl.toString() ?? '',
         pets[value.petId]?.nome ?? '',
         value.nome ?? '',
         value.quando ?? '',

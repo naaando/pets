@@ -42,7 +42,7 @@ class PetsTab extends HookConsumerWidget {
                         borderRadius: BorderRadius.circular(5.0),
                         child: pet.imagem != null
                             ? Image.network(
-                                pet.fotoPerfilUrl.toString(),
+                                pet.imagemUrl.toString(),
                                 fit: BoxFit.cover,
                                 width: MediaQuery.of(context).size.width,
                               )
