@@ -17,7 +17,7 @@ class PetImageController extends Controller
             'file' => 'required|image',
         ]);
 
-        $path = $request->file('file')->store('pets');
+        $path = $request->file('file')->storePublicly('pets');
 
         if ($pet->imagem) {
             Storage::delete($pet->imagem);
