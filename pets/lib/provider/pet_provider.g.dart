@@ -21,7 +21,7 @@ final petRepositoryProvider = AutoDisposeProvider<PetRepository>.internal(
 );
 
 typedef PetRepositoryRef = AutoDisposeProviderRef<PetRepository>;
-String _$petsHash() => r'44abab411cab785d65818385a165fa3bb37beaf5';
+String _$petsHash() => r'e40d3adcd139a33af44ba9cf2a4edbefa189bfc0';
 
 /// See also [Pets].
 @ProviderFor(Pets)
