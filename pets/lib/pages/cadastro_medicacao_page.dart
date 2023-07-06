@@ -200,8 +200,8 @@ class CadastroMedicacaoPage extends HookConsumerWidget {
                       ),
                       readOnly: true,
                       onSaved: (newValue) {
-                        medicacao.value.proximaDose =
-                            prepareDate(newValue) ?? '';
+                        medicacao.value.proximaDose = prepareDate(newValue) ??
+                            medicacao.value.proximaDose;
                       },
                       onTap: () async {
                         var date = await showDatePicker(
