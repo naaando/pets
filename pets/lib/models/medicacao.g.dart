@@ -177,13 +177,13 @@ Medicacao _medicacaoDeserialize(
     id: id,
     nome: reader.readStringOrNull(offsets[3]),
     petId: reader.readStringOrNull(offsets[4]),
+    proximaDose: reader.readStringOrNull(offsets[5]),
     quando: reader.readStringOrNull(offsets[6]),
     tipo: reader.readStringOrNull(offsets[7]) ?? 'medicacao',
     totalDoses: reader.readLongOrNull(offsets[8]) ?? 1,
     updatedAt: reader.readStringOrNull(offsets[9]),
     veterinario: reader.readStringOrNull(offsets[10]),
   );
-  object.proximaDose = reader.readStringOrNull(offsets[5]);
   return object;
 }
 
@@ -2263,11 +2263,12 @@ Medicacao _$MedicacaoFromJson(Map<String, dynamic> json) => Medicacao(
       fabricante: json['fabricante'] as String?,
       veterinario: json['veterinario'] as String?,
       quando: json['quando'] as String?,
+      proximaDose: json['proxima_dose'] as String?,
       totalDoses: json['total_doses'] as int? ?? 1,
       doseAtual: json['dose_atual'] as int? ?? 1,
       createdAt: json['created_at'] as String?,
       updatedAt: json['updated_at'] as String?,
-    )..proximaDose = json['proxima_dose'] as String?;
+    );
 
 Map<String, dynamic> _$MedicacaoToJson(Medicacao instance) => <String, dynamic>{
       'id': instance.id,

@@ -19,8 +19,8 @@ class ProximaMedicacaoPage extends HookConsumerWidget {
     var medicacaoRouterArg =
         (ModalRoute.of(context)!.settings.arguments as Medicacao?);
 
-    var medicacao =
-        useRef<Medicacao>(medicacaoRouterArg ?? Medicacao(tipo: tipoPadrao));
+    final medicacaoInicial = medicacaoRouterArg ?? Medicacao(tipo: tipoPadrao);
+    var medicacao = useRef<Medicacao>(Medicacao.proximaDose(medicacaoInicial));
 
     var tipo = medicacao.value.tipo;
 
@@ -84,7 +84,7 @@ class ProximaMedicacaoPage extends HookConsumerWidget {
 
   Widget body(BuildContext context, WidgetRef ref, GlobalKey<FormState> formKey,
       String title, ObjectRef<Medicacao> medicacao) {
-    // Dont watch pets cause it will cause a rebuild
+    // Dont watch pets because it will cause a rebuild
     Map<String, Pet> pets =
         ref.read(petsProvider).asData?.value ?? <String, Pet>{};
 
@@ -94,128 +94,107 @@ class ProximaMedicacaoPage extends HookConsumerWidget {
         useTextEditingController(text: medicacao.value.proximaDose);
 
     return SingleChildScrollView(
-        child: Form(
-            key: formKey,
-            child: Padding(
-              padding: const EdgeInsets.all(25),
-              child: Column(
-                children: [
-                  DropdownButtonFormField(
-                    value: medicacao.value.petId,
-                    decoration: const InputDecoration(
-                      hintText: 'Animal',
-                      labelText: 'Animal',
-                    ),
-                    items: petsDropdown(pets),
-                    onChanged: (value) => medicacao.value.petId = value,
-                    validator: (value) =>
-                        value == null ? 'Animal é obrigatório' : null,
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    initialValue: medicacao.value.nome,
-                    decoration: const InputDecoration(
-                      hintText: 'Nome',
-                      labelText: 'Nome',
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Nome é obrigatório';
-                      }
-                      return null;
-                    },
-                    onSaved: (newValue) =>
-                        medicacao.value.nome = newValue ?? '',
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    initialValue: medicacao.value.fabricante,
-                    decoration: const InputDecoration(
-                      hintText: 'Fabricante',
-                      labelText: 'Fabricante',
-                    ),
-                    onSaved: (newValue) =>
-                        medicacao.value.fabricante = newValue ?? '',
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    initialValue: medicacao.value.veterinario,
-                    decoration: const InputDecoration(
-                      hintText: 'Veterinário',
-                      labelText: 'Veterinário',
-                    ),
-                    onSaved: (newValue) =>
-                        medicacao.value.veterinario = newValue ?? '',
-                  ),
-                  const SizedBox(height: 20),
-                  DateTimeFormField(
-                    controller: dataController,
-                    decoration: const InputDecoration(
-                      hintText: 'Data',
-                      labelText: 'Data',
-                      prefixText: 'Em ',
-                      suffixIcon: Icon(Icons.alarm_on_rounded),
-                    ),
-                    onDateChanged: (dateTime) {
-                      medicacao.value.quando = dateTime?.toIso8601String();
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  DateTimeFormField(
-                    controller: proximaDoseController,
-                    decoration: const InputDecoration(
-                      hintText: 'Próxima dose',
-                      labelText: 'Próxima dose',
-                      helperText: 'Deixe em branco se não houver',
-                      prefixText: 'Em ',
-                      suffixIcon: Icon(Icons.alarm_add_rounded),
-                    ),
-                    onDateChanged: (dateTime) => medicacao.value.proximaDose =
-                        dateTime?.toIso8601String(),
-                  ),
-                  // const SizedBox(height: 20),
-                  // Row(children: [
-                  //   Expanded(
-                  //       child: TextFormField(
-                  //     initialValue: medicacao.value.doseAtual.toString(),
-                  //     readOnly: true,
-                  //     keyboardType: TextInputType.number,
-                  //     decoration: const InputDecoration(
-                  //       hintText: 'Dose atual',
-                  //       labelText: 'Dose atual',
-                  //     ),
-                  //     validator: (value) {
-                  //       if (value == null || value.isEmpty) {
-                  //         return 'Dosagem é obrigatório';
-                  //       }
-                  //       return null;
-                  //     },
-                  //     onSaved: (newValue) => medicacao.value.doseAtual =
-                  //         int.tryParse(newValue ?? '') ?? 1,
-                  //   )),
-                  //   const SizedBox(width: 16),
-                  //   Expanded(
-                  //       child: TextFormField(
-                  //     initialValue: medicacao.value.totalDoses.toString(),
-                  //     readOnly: true,
-                  //     keyboardType: TextInputType.number,
-                  //     decoration: const InputDecoration(
-                  //       hintText: 'Total de doses',
-                  //       labelText: 'Total de doses',
-                  //     ),
-                  //     validator: (value) {
-                  //       if (value == null || value.isEmpty) {
-                  //         return 'Dosagem é obrigatório';
-                  //       }
-                  //       return null;
-                  //     },
-                  //     onSaved: (newValue) => medicacao.value.totalDoses =
-                  //         int.tryParse(newValue ?? '') ?? 1,
-                  //   )),
-                  // ]),
-                ],
+      child: Form(
+        key: formKey,
+        child: Padding(
+          padding: const EdgeInsets.all(25),
+          child: Column(
+            children: [
+              DropdownButtonFormField(
+                value: medicacao.value.petId,
+                decoration: const InputDecoration(
+                  hintText: 'Animal',
+                  labelText: 'Animal',
+                ),
+                items: petsDropdown(pets),
+                onChanged: (value) => medicacao.value.petId = value,
+                validator: (value) =>
+                    value == null ? 'Animal é obrigatório' : null,
               ),
-            )));
+              const SizedBox(height: 20),
+              TextFormField(
+                initialValue: medicacao.value.nome,
+                decoration: const InputDecoration(
+                  hintText: 'Nome',
+                  labelText: 'Nome',
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Nome é obrigatório';
+                  }
+                  return null;
+                },
+                onSaved: (newValue) => medicacao.value.nome = newValue ?? '',
+              ),
+              const SizedBox(height: 20),
+              TextFormField(
+                initialValue: medicacao.value.fabricante,
+                decoration: const InputDecoration(
+                  hintText: 'Fabricante',
+                  labelText: 'Fabricante',
+                ),
+                onSaved: (newValue) =>
+                    medicacao.value.fabricante = newValue ?? '',
+              ),
+              const SizedBox(height: 20),
+              TextFormField(
+                initialValue: medicacao.value.veterinario,
+                decoration: const InputDecoration(
+                  hintText: 'Veterinário',
+                  labelText: 'Veterinário',
+                ),
+                onSaved: (newValue) =>
+                    medicacao.value.veterinario = newValue ?? '',
+              ),
+              const SizedBox(height: 20),
+              DateTimeFormField(
+                controller: dataController,
+                decoration: const InputDecoration(
+                  hintText: 'Data',
+                  labelText: 'Data',
+                  prefixText: 'Em ',
+                  suffixIcon: Icon(Icons.alarm_on_rounded),
+                ),
+                onDateChanged: (dateTime) {
+                  medicacao.value.quando = dateTime?.toIso8601String();
+                },
+              ),
+              const SizedBox(height: 20),
+              TextFormField(
+                initialValue: medicacao.value.doseAtual.toString(),
+                readOnly: true,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  hintText: 'Dose atual',
+                  labelText: 'Dose atual',
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Dosagem é obrigatório';
+                  }
+                  return null;
+                },
+                onSaved: (newValue) => medicacao.value.doseAtual =
+                    int.tryParse(newValue ?? '') ?? 1,
+              ),
+              const SizedBox(height: 20),
+              DateTimeFormField(
+                controller: proximaDoseController,
+                decoration: const InputDecoration(
+                  hintText: 'Próxima dose',
+                  labelText: 'Próxima dose',
+                  helperText: 'Deixe em branco se não houver',
+                  prefixText: 'Em ',
+                  suffixIcon: Icon(Icons.alarm_add_rounded),
+                ),
+                onDateChanged: (dateTime) =>
+                    medicacao.value.proximaDose = dateTime?.toIso8601String(),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   List<DropdownMenuItem<String>> petsDropdown(Map<String, Pet> pets) {

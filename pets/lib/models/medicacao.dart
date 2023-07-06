@@ -35,6 +35,7 @@ class Medicacao {
     this.fabricante,
     this.veterinario,
     this.quando,
+    this.proximaDose,
     this.totalDoses = 1,
     this.doseAtual = 1,
     this.createdAt,
@@ -44,4 +45,21 @@ class Medicacao {
   factory Medicacao.fromJson(Map<String, dynamic> json) =>
       _$MedicacaoFromJson(json);
   Map<String, dynamic> toJson() => _$MedicacaoToJson(this);
+
+  factory Medicacao.proximaDose(Medicacao medicacao) {
+    return Medicacao(
+      id: medicacao.id,
+      tipo: medicacao.tipo,
+      petId: medicacao.petId,
+      nome: medicacao.nome,
+      fabricante: medicacao.fabricante,
+      veterinario: medicacao.veterinario,
+      quando: medicacao.proximaDose,
+      totalDoses: medicacao.totalDoses,
+      doseAtual: medicacao.doseAtual + 1,
+      proximaDose: null,
+      createdAt: medicacao.createdAt,
+      updatedAt: medicacao.updatedAt,
+    );
+  }
 }
