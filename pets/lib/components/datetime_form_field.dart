@@ -5,12 +5,16 @@ class DateTimeFormField extends StatelessWidget {
   final TextEditingController controller;
   final InputDecoration decoration;
   final Function(DateTime?) onDateChanged;
+  final DateTime firstDate;
+  final DateTime lastDate;
 
   const DateTimeFormField({
     Key? key,
     required this.controller,
     required this.decoration,
     required this.onDateChanged,
+    required this.firstDate,
+    required this.lastDate,
   }) : super(key: key);
 
   @override
@@ -28,9 +32,9 @@ class DateTimeFormField extends StatelessWidget {
       onTap: () {
         showDatePicker(
           context: context,
-          initialDate: DateTime.now(),
-          firstDate: DateTime.now(),
-          lastDate: DateTime.now().add(const Duration(days: 365)),
+          initialDate: dateTime ?? DateTime.now(),
+          firstDate: firstDate,
+          lastDate: lastDate,
         ).then((date) {
           if (date == null) {
             return;
@@ -38,7 +42,9 @@ class DateTimeFormField extends StatelessWidget {
 
           showTimePicker(
             context: context,
-            initialTime: TimeOfDay.now(),
+            initialTime: dateTime is DateTime
+                ? TimeOfDay.fromDateTime(dateTime)
+                : TimeOfDay.now(),
           ).then((time) {
             if (time == null) {
               return;
