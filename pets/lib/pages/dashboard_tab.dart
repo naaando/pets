@@ -41,7 +41,7 @@ class DashboardTab extends HookConsumerWidget {
             SizedBox(height: 18),
             ListaProximos(),
             ListaOcorridos(),
-            SizedBox(height: 18),
+            SizedBox(height: 80), // Para não ficar escondido pelo FAB
           ],
         ));
   }
