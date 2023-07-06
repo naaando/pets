@@ -62,6 +62,7 @@ class Medicacao extends Model
      */
     protected $casts = [
         'quando' => 'datetime',
+        'proxima_dose' => 'datetime',
     ];
 
     /**
