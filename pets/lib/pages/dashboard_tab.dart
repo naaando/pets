@@ -28,8 +28,8 @@ class DashboardTab extends HookConsumerWidget {
     return Theme(
         data: themeData,
         child: ListView(
-          children: [
-            const Padding(
+          children: const [
+            Padding(
               padding: EdgeInsets.all(18),
               child: Text(
                 'Seus pets',
@@ -37,10 +37,11 @@ class DashboardTab extends HookConsumerWidget {
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
-            const ListaPets(),
-            const SizedBox(height: 18),
-            const ListaProximos(),
-            const ListaOcorridos()
+            ListaPets(),
+            SizedBox(height: 18),
+            ListaProximos(),
+            ListaOcorridos(),
+            SizedBox(height: 18),
           ],
         ));
   }
