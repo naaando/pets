@@ -3,11 +3,11 @@ import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pets/components/datetime_form_field.dart';
 import 'package:pets/models/medicacao.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/provider/medicacao_provider.dart';
 import 'package:pets/provider/pet_provider.dart';
-import 'package:intl/intl.dart';
 
 class CadastroMedicacaoPage extends HookConsumerWidget {
   final String tipoPadrao;
@@ -150,87 +150,31 @@ class CadastroMedicacaoPage extends HookConsumerWidget {
                         medicacao.value.veterinario = newValue ?? '',
                   ),
                   const SizedBox(height: 20),
-                  TextFormField(
-                      controller: dataController,
-                      decoration: const InputDecoration(
-                        hintText: 'Data',
-                        labelText: 'Data',
-                        prefixText: 'Em ',
-                        suffixIcon: Icon(Icons.alarm_on_rounded),
-                      ),
-                      readOnly: true,
-                      onSaved: (newValue) {
-                        medicacao.value.quando =
-                            prepareDate(newValue) ?? medicacao.value.quando;
-                      },
-                      onTap: () async {
-                        var date = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(1900),
-                          lastDate: DateTime.now(),
-                        );
-
-                        // ignore: use_build_context_synchronously
-                        var time = await showTimePicker(
-                          context: context,
-                          initialTime: TimeOfDay.now(),
-                        );
-
-                        var dateTime = date?.add(Duration(
-                          hours: time!.hour,
-                          minutes: time.minute,
-                          seconds: 0,
-                        ));
-
-                        if (dateTime != null) {
-                          medicacao.value.quando = dateTime.toIso8601String();
-                          dataController.text = DateFormat().format(dateTime);
-                        }
-                      }),
+                  DateTimeFormField(
+                    controller: dataController,
+                    decoration: const InputDecoration(
+                      hintText: 'Data',
+                      labelText: 'Data',
+                      prefixText: 'Em ',
+                      suffixIcon: Icon(Icons.alarm_on_rounded),
+                    ),
+                    onDateChanged: (dateTime) {
+                      medicacao.value.quando = dateTime?.toIso8601String();
+                    },
+                  ),
                   const SizedBox(height: 20),
-                  TextFormField(
-                      controller: proximaDoseController,
-                      decoration: const InputDecoration(
-                        hintText: 'Próxima dose',
-                        labelText: 'Próxima dose',
-                        helperText: 'Deixe em branco se não houver',
-                        prefixText: 'Em ',
-                        suffixIcon: Icon(Icons.alarm_add_rounded),
-                      ),
-                      readOnly: true,
-                      onSaved: (newValue) {
-                        medicacao.value.proximaDose = prepareDate(newValue) ??
-                            medicacao.value.proximaDose;
-                      },
-                      onTap: () async {
-                        var date = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime.now(),
-                          lastDate:
-                              DateTime.now().add(const Duration(days: 365)),
-                        );
-
-                        // ignore: use_build_context_synchronously
-                        var time = await showTimePicker(
-                          context: context,
-                          initialTime: TimeOfDay.now(),
-                        );
-
-                        var dateTime = date?.add(Duration(
-                          hours: time!.hour,
-                          minutes: time.minute,
-                          seconds: 0,
-                        ));
-
-                        if (dateTime != null) {
-                          medicacao.value.proximaDose =
-                              dateTime.toIso8601String();
-                          proximaDoseController.text =
-                              DateFormat().format(dateTime);
-                        }
-                      }),
+                  DateTimeFormField(
+                    controller: proximaDoseController,
+                    decoration: const InputDecoration(
+                      hintText: 'Próxima dose',
+                      labelText: 'Próxima dose',
+                      helperText: 'Deixe em branco se não houver',
+                      prefixText: 'Em ',
+                      suffixIcon: Icon(Icons.alarm_add_rounded),
+                    ),
+                    onDateChanged: (dateTime) => medicacao.value.proximaDose =
+                        dateTime?.toIso8601String(),
+                  )
                   // const SizedBox(height: 20),
                   // Row(children: [
                   //   Expanded(
@@ -328,33 +272,6 @@ class CadastroMedicacaoPage extends HookConsumerWidget {
         return alert;
       },
     );
-  }
-
-  String? dateFormat(String? date) {
-    if (date == null) {
-      return null;
-    }
-
-    var datetime = DateTime.tryParse(date);
-
-    if (datetime == null) {
-      return null;
-    }
-
-    return DateFormat().format(datetime);
-  }
-
-  String? prepareDate(newValue) {
-    if (newValue == null || newValue.isEmpty) {
-      return null;
-    }
-
-    DateTime? date = DateTime.tryParse(newValue);
-    if (date == null) {
-      return null;
-    }
-
-    return date.toIso8601String();
   }
 
   String tipoTexto(tipo) {
