@@ -23,7 +23,7 @@ class PetsTab extends HookConsumerWidget {
     return GridView.count(
       crossAxisCount: 2,
       scrollDirection: Axis.vertical,
-      padding: const EdgeInsets.all(25),
+      padding: const EdgeInsets.all(25).add(const EdgeInsets.only(bottom: 80)),
       crossAxisSpacing: 25,
       mainAxisSpacing: 25,
       children: pets
