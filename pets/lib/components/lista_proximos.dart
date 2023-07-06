@@ -4,42 +4,17 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:pets/models/medicacao.dart';
 import 'package:pets/models/pet.dart';
-import 'package:pets/provider/medicacao_provider.dart';
 import 'package:pets/provider/pet_provider.dart';
+import 'package:pets/provider/proxima_medicacao_provider.dart';
 
 import 'chip_evento.dart';
 
 class ListaProximos extends ConsumerWidget {
   const ListaProximos({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return FutureBuilder(
-      future: eventos(context, ref),
-      builder: (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
-        if (snapshot.hasData) {
-          return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Padding(
-                    padding: EdgeInsets.all(18),
-                    child: Text(
-                      'Agendados',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(fontWeight: FontWeight.w600),
-                    )),
-                ...snapshot.data!
-              ]);
-        } else {
-          return const CircularProgressIndicator();
-        }
-      },
-    );
-  }
-
   Future<List<Widget>> eventos(BuildContext context, WidgetRef ref) async {
     var pets = await ref.watch(petsProvider.future);
-    var medicacoes = await ref.watch(medicacoesProvider.future);
+    var medicacoes = await ref.watch(proximasMedicacoesProvider.future);
 
     var medicacoesComoEvento = medicacoes.values
         .map<MapEntry<String, Widget>>(
@@ -52,6 +27,43 @@ class ListaProximos extends ConsumerWidget {
     return eventosPorData.map((e) => e.value).toList();
   }
 
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return FutureBuilder(
+      future: eventos(context, ref),
+      builder: (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
+        if (snapshot.hasData) {
+          var columnArray = [
+            const Padding(
+                padding: EdgeInsets.all(18),
+                child: Text(
+                  'Agendados',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                )),
+            ...snapshot.data!
+          ];
+
+          if (snapshot.data!.isEmpty) {
+            columnArray.add(
+              const Padding(
+                padding: EdgeInsets.all(18),
+                child: Text('Nenhuma medicação agendada'),
+              ),
+            );
+          }
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: columnArray,
+          );
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
+    );
+  }
+
   MapEntry<String, Widget> medicacaoComoEvento(
       BuildContext context, Map<String, Pet> pets, Medicacao value) {
     return evento(
@@ -59,7 +71,7 @@ class ListaProximos extends ConsumerWidget {
         pets[value.petId]?.nome ?? '',
         value.nome ?? '',
         value.quando ?? '',
-        () => Navigator.pushNamed(context, '/cadastro-medicacao',
+        () => Navigator.pushNamed(context, '/proxima-medicacao',
             arguments: value));
   }
 
