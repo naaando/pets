@@ -152,7 +152,8 @@ class CadastroMedicacaoPage extends HookConsumerWidget {
                   const SizedBox(height: 20),
                   DateTimeFormField(
                     controller: dataController,
-                    firstDate: DateTime.now().add(const Duration(days: 365)),
+                    firstDate:
+                        DateTime.now().subtract(const Duration(days: 365)),
                     lastDate: DateTime.now().add(const Duration(days: 365)),
                     decoration: const InputDecoration(
                       hintText: 'Data',
