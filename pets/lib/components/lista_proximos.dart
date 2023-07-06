@@ -48,7 +48,7 @@ class ListaProximos extends ConsumerWidget {
             columnArray.add(
               const Padding(
                 padding: EdgeInsets.all(18),
-                child: Text('Nenhuma medicação agendada'),
+                child: Text('Nenhum agendamento'),
               ),
             );
           }
@@ -65,18 +65,13 @@ class ListaProximos extends ConsumerWidget {
   }
 
   MapEntry<String, Widget> medicacaoComoEvento(
-      BuildContext context, Map<String, Pet> pets, Medicacao value) {
-    return evento(
-        pets[value.petId]?.imagemUrl.toString() ?? '',
-        pets[value.petId]?.nome ?? '',
-        value.nome ?? '',
-        value.quando ?? '',
-        () => Navigator.pushNamed(context, '/proxima-medicacao',
-            arguments: value));
-  }
+      BuildContext context, Map<String, Pet> pets, Medicacao medicacao) {
+    Pet pet = pets[medicacao.petId]!;
+    String? thumbUrl = pet.imagem != null ? pet.imagemUrl.toString() : null;
+    String title = pet.nome;
+    String subtitle = medicacao.nome ?? '';
+    String date = medicacao.proximaDose ?? '';
 
-  MapEntry<String, Widget> evento(
-      String? thumbUrl, String title, String subtitle, String date, onTap) {
     var widget = Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         child: ListTile(
@@ -90,11 +85,12 @@ class ListaProximos extends ConsumerWidget {
           subtitle: Text(subtitle),
           trailing:
               Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text(Jiffy.parse(date).format(pattern: 'dd/MM/yyyy')),
+            Text(Jiffy.parse(date).fromNow()),
             const SizedBox(height: 4),
             ChipEvento.vacina()
           ]),
-          onTap: onTap,
+          onTap: () => Navigator.pushNamed(context, '/proxima-medicacao',
+              arguments: medicacao),
         ));
 
     return MapEntry(date, widget);

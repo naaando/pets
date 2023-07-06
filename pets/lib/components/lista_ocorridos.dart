@@ -32,18 +32,30 @@ class ListaOcorridos extends ConsumerWidget {
       future: eventos(),
       builder: (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
         if (snapshot.hasData) {
+          var columnArray = [
+            const Padding(
+                padding: EdgeInsets.all(18),
+                child: Text(
+                  'Linha do tempo',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                )),
+            ...snapshot.data!
+          ];
+
+          if (snapshot.data!.isEmpty) {
+            columnArray.add(
+              const Padding(
+                padding: EdgeInsets.all(18),
+                child: Text('Nenhuma anotação'),
+              ),
+            );
+          }
+
           return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Padding(
-                    padding: EdgeInsets.all(18),
-                    child: Text(
-                      'Linha do tempo',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(fontWeight: FontWeight.w600),
-                    )),
-                ...snapshot.data!
-              ]);
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: columnArray,
+          );
         } else {
           return const CircularProgressIndicator();
         }
@@ -52,37 +64,33 @@ class ListaOcorridos extends ConsumerWidget {
   }
 
   MapEntry<String, Widget> medicacaoComoEvento(
-      BuildContext context, Map<String, Pet> pets, Medicacao value) {
-    return evento(
-        pets[value.petId]?.imagemUrl.toString() ?? '',
-        pets[value.petId]?.nome ?? '',
-        value.nome ?? '',
-        value.quando ?? '',
-        () => Navigator.pushNamed(context, '/cadastro-medicacao',
-            arguments: value));
-  }
+      BuildContext context, Map<String, Pet> pets, Medicacao medicacao) {
+    Pet pet = pets[medicacao.petId]!;
+    String? thumbUrl = pet.imagem != null ? pet.imagemUrl.toString() : null;
+    String title = pet.nome;
+    String subtitle = medicacao.nome ?? '';
+    String date = medicacao.quando ?? '';
 
-  MapEntry<String, Widget> evento(
-      String? thumbUrl, String title, String subtitle, String date, onTap) {
     var widget = Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        child: ListTile(
-          tileColor: Colors.grey[200],
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          leading: CircleAvatar(
-              foregroundImage:
-                  thumbUrl != null ? FastCachedImageProvider(thumbUrl) : null),
-          title: Text(title),
-          subtitle: Text(subtitle),
-          trailing:
-              Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text(Jiffy.parse(date).format(pattern: 'dd/MM/yyyy')),
-            const SizedBox(height: 4),
-            ChipEvento.vacina()
-          ]),
-          onTap: onTap,
-        ));
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      child: ListTile(
+        tileColor: Colors.grey[200],
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        leading: CircleAvatar(
+            foregroundImage:
+                thumbUrl != null ? FastCachedImageProvider(thumbUrl) : null),
+        title: Text(title),
+        subtitle: Text(subtitle),
+        trailing:
+            Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Text(Jiffy.parse(date).fromNow()),
+          const SizedBox(height: 4),
+          ChipEvento.vacina()
+        ]),
+        onTap: () => Navigator.pushNamed(context, '/cadastro-medicacao',
+            arguments: medicacao),
+      ),
+    );
 
     return MapEntry(date, widget);
   }
