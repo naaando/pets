@@ -155,6 +155,7 @@ class CadastroMedicacaoPage extends HookConsumerWidget {
                       decoration: const InputDecoration(
                         hintText: 'Data',
                         labelText: 'Data',
+                        prefixText: 'Em ',
                         suffixIcon: Icon(Icons.alarm_on_rounded),
                       ),
                       readOnly: true,
@@ -170,55 +171,31 @@ class CadastroMedicacaoPage extends HookConsumerWidget {
                           lastDate: DateTime.now(),
                         );
 
-                        if (date != null) {
-                          medicacao.value.quando = date.toIso8601String();
-                          dataController.text = DateFormat().format(date);
+                        // ignore: use_build_context_synchronously
+                        var time = await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay.now(),
+                        );
+
+                        var dateTime = date?.add(Duration(
+                          hours: time!.hour,
+                          minutes: time.minute,
+                          seconds: 0,
+                        ));
+
+                        if (dateTime != null) {
+                          medicacao.value.quando = dateTime.toIso8601String();
+                          dataController.text = DateFormat().format(dateTime);
                         }
                       }),
-                  const SizedBox(height: 20),
-                  Row(children: [
-                    Expanded(
-                        child: TextFormField(
-                      initialValue: medicacao.value.doseAtual.toString(),
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        hintText: 'Dose atual',
-                        labelText: 'Dose atual',
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Dosagem é obrigatório';
-                        }
-                        return null;
-                      },
-                      onSaved: (newValue) => medicacao.value.doseAtual =
-                          int.tryParse(newValue ?? '') ?? 1,
-                    )),
-                    const SizedBox(width: 16),
-                    Expanded(
-                        child: TextFormField(
-                      initialValue: medicacao.value.totalDoses.toString(),
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        hintText: 'Total de doses',
-                        labelText: 'Total de doses',
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Dosagem é obrigatório';
-                        }
-                        return null;
-                      },
-                      onSaved: (newValue) => medicacao.value.totalDoses =
-                          int.tryParse(newValue ?? '') ?? 1,
-                    )),
-                  ]),
                   const SizedBox(height: 20),
                   TextFormField(
                       controller: proximaDoseController,
                       decoration: const InputDecoration(
                         hintText: 'Próxima dose',
                         labelText: 'Próxima dose',
+                        helperText: 'Deixe em branco se não houver',
+                        prefixText: 'Em ',
                         suffixIcon: Icon(Icons.alarm_add_rounded),
                       ),
                       readOnly: true,
@@ -235,12 +212,65 @@ class CadastroMedicacaoPage extends HookConsumerWidget {
                               DateTime.now().add(const Duration(days: 365)),
                         );
 
-                        if (date != null) {
-                          medicacao.value.proximaDose = date.toIso8601String();
+                        // ignore: use_build_context_synchronously
+                        var time = await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay.now(),
+                        );
+
+                        var dateTime = date?.add(Duration(
+                          hours: time!.hour,
+                          minutes: time.minute,
+                          seconds: 0,
+                        ));
+
+                        if (dateTime != null) {
+                          medicacao.value.proximaDose =
+                              dateTime.toIso8601String();
                           proximaDoseController.text =
-                              DateFormat().format(date);
+                              DateFormat().format(dateTime);
                         }
                       }),
+                  // const SizedBox(height: 20),
+                  // Row(children: [
+                  //   Expanded(
+                  //       child: TextFormField(
+                  //     initialValue: medicacao.value.doseAtual.toString(),
+                  //     readOnly: true,
+                  //     keyboardType: TextInputType.number,
+                  //     decoration: const InputDecoration(
+                  //       hintText: 'Dose atual',
+                  //       labelText: 'Dose atual',
+                  //     ),
+                  //     validator: (value) {
+                  //       if (value == null || value.isEmpty) {
+                  //         return 'Dosagem é obrigatório';
+                  //       }
+                  //       return null;
+                  //     },
+                  //     onSaved: (newValue) => medicacao.value.doseAtual =
+                  //         int.tryParse(newValue ?? '') ?? 1,
+                  //   )),
+                  //   const SizedBox(width: 16),
+                  //   Expanded(
+                  //       child: TextFormField(
+                  //     initialValue: medicacao.value.totalDoses.toString(),
+                  //     readOnly: true,
+                  //     keyboardType: TextInputType.number,
+                  //     decoration: const InputDecoration(
+                  //       hintText: 'Total de doses',
+                  //       labelText: 'Total de doses',
+                  //     ),
+                  //     validator: (value) {
+                  //       if (value == null || value.isEmpty) {
+                  //         return 'Dosagem é obrigatório';
+                  //       }
+                  //       return null;
+                  //     },
+                  //     onSaved: (newValue) => medicacao.value.totalDoses =
+                  //         int.tryParse(newValue ?? '') ?? 1,
+                  //   )),
+                  // ]),
                 ],
               ),
             )));
