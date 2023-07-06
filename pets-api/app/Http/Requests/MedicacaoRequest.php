@@ -29,11 +29,11 @@ class MedicacaoRequest extends FormRequest
             'pet_id' => 'required|exists:pets,id',
             'tipo' => 'required|string|in:vacina,vermifugo,medicacao',
             'nome' => 'required|string',
-            'fabricante' => 'required|string',
-            'veterinario' => 'required|string',
+            'fabricante' => 'optional|nullable|string',
+            'veterinario' => 'optional|nullable|string',
             'quando' => 'required|date',
-            'total_doses' => 'required|integer|gte:1|gte:dose_atual',
-            'dose_atual' => 'required|integer|gte:1|lte:total_doses',
+            // 'total_doses' => 'required|integer|gte:1|gte:dose_atual',
+            // 'dose_atual' => 'required|integer|gte:1|lte:total_doses',
             'proxima_dose' => 'optional|nullable|date|after:quando|after_or_equal:today',
         ];
     }
