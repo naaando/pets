@@ -4,8 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:pets/models/medicacao.dart';
 import 'package:pets/models/pet.dart';
+import 'package:pets/provider/medicacao_provider.dart';
 import 'package:pets/provider/pet_provider.dart';
-import 'package:pets/provider/proxima_medicacao_provider.dart';
 
 import 'chip_evento.dart';
 
@@ -14,9 +14,10 @@ class ListaProximos extends ConsumerWidget {
 
   Future<List<Widget>> eventos(BuildContext context, WidgetRef ref) async {
     var pets = await ref.watch(petsProvider.future);
-    var medicacoes = await ref.watch(proximasMedicacoesProvider.future);
+    var medicacoes = await ref.watch(medicacoesProvider.future);
 
     var medicacoesComoEvento = medicacoes.values
+        .where((element) => element.proximaDose != null)
         .map<MapEntry<String, Widget>>(
             (medicacao) => medicacaoComoEvento(context, pets, medicacao))
         .toList();
