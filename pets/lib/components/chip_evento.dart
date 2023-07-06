@@ -12,6 +12,17 @@ class ChipEvento extends StatelessWidget {
     required this.color,
   });
 
+  factory ChipEvento.parse(String label) {
+    switch (label) {
+      case 'vacina':
+        return ChipEvento.vacina();
+      case 'medicacao':
+        return ChipEvento.medicacao();
+      default:
+        return ChipEvento.vacina();
+    }
+  }
+
   factory ChipEvento.vacina() => const ChipEvento(
         label: 'Vacina',
         icon: Icons.vaccines,

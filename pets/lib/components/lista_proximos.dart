@@ -87,7 +87,7 @@ class ListaProximos extends ConsumerWidget {
               Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text(Jiffy.parse(date).fromNow()),
             const SizedBox(height: 4),
-            ChipEvento.vacina()
+            ChipEvento.parse(medicacao.tipo)
           ]),
           onTap: () => Navigator.pushNamed(context, '/proxima-medicacao',
               arguments: medicacao),
