@@ -32,20 +32,26 @@ class DateTimeFormField extends StatelessWidget {
           firstDate: DateTime.now(),
           lastDate: DateTime.now().add(const Duration(days: 365)),
         ).then((date) {
+          if (date == null) {
+            return;
+          }
+
           showTimePicker(
             context: context,
             initialTime: TimeOfDay.now(),
           ).then((time) {
-            var dateTime = date?.add(Duration(
-              hours: time!.hour,
+            if (time == null) {
+              return;
+            }
+
+            var dateTime = date.add(Duration(
+              hours: time.hour,
               minutes: time.minute,
               seconds: 0,
             ));
 
-            if (dateTime != null) {
-              controller.text = DateFormat().format(dateTime);
-              onDateChanged(dateTime);
-            }
+            controller.text = DateFormat().format(dateTime);
+            onDateChanged(dateTime);
           });
         });
       },
