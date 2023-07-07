@@ -8,6 +8,7 @@ import 'package:pets/provider/medicacao_provider.dart';
 import 'package:pets/provider/pet_provider.dart';
 
 import 'chip_evento.dart';
+import 'skeleton_list_tile.dart';
 
 class ListaOcorridos extends ConsumerWidget {
   const ListaOcorridos({Key? key}) : super(key: key);
@@ -31,17 +32,18 @@ class ListaOcorridos extends ConsumerWidget {
     return FutureBuilder(
       future: eventos(),
       builder: (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
+        List<Widget> columnArray = [
+          const Padding(
+              padding: EdgeInsets.all(18),
+              child: Text(
+                'Linha do tempo',
+                textAlign: TextAlign.start,
+                style: TextStyle(fontWeight: FontWeight.w600),
+              )),
+        ];
+
         if (snapshot.hasData) {
-          var columnArray = [
-            const Padding(
-                padding: EdgeInsets.all(18),
-                child: Text(
-                  'Linha do tempo',
-                  textAlign: TextAlign.start,
-                  style: TextStyle(fontWeight: FontWeight.w600),
-                )),
-            ...snapshot.data!
-          ];
+          columnArray.addAll(snapshot.data!);
 
           if (snapshot.data!.isEmpty) {
             columnArray.add(
@@ -51,14 +53,19 @@ class ListaOcorridos extends ConsumerWidget {
               ),
             );
           }
-
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: columnArray,
-          );
         } else {
-          return const CircularProgressIndicator();
+          columnArray.add(
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              child: SkeletonListTile(),
+            ),
+          );
         }
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: columnArray,
+        );
       },
     );
   }

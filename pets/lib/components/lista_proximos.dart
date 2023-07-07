@@ -8,6 +8,7 @@ import 'package:pets/provider/medicacao_provider.dart';
 import 'package:pets/provider/pet_provider.dart';
 
 import 'chip_evento.dart';
+import 'skeleton_list_tile.dart';
 
 class ListaProximos extends ConsumerWidget {
   const ListaProximos({Key? key}) : super(key: key);
@@ -33,17 +34,19 @@ class ListaProximos extends ConsumerWidget {
     return FutureBuilder(
       future: eventos(context, ref),
       builder: (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
+        List<Widget> columnArray = [
+          const Padding(
+            padding: EdgeInsets.all(18),
+            child: Text(
+              'Agendados',
+              textAlign: TextAlign.start,
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
+          ),
+        ];
+
         if (snapshot.hasData) {
-          var columnArray = [
-            const Padding(
-                padding: EdgeInsets.all(18),
-                child: Text(
-                  'Agendados',
-                  textAlign: TextAlign.start,
-                  style: TextStyle(fontWeight: FontWeight.w600),
-                )),
-            ...snapshot.data!
-          ];
+          columnArray.addAll(snapshot.data!);
 
           if (snapshot.data!.isEmpty) {
             columnArray.add(
@@ -53,14 +56,19 @@ class ListaProximos extends ConsumerWidget {
               ),
             );
           }
-
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: columnArray,
-          );
         } else {
-          return const CircularProgressIndicator();
+          columnArray.add(
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              child: SkeletonListTile(),
+            ),
+          );
         }
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: columnArray,
+        );
       },
     );
   }
