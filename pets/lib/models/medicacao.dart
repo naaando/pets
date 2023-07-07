@@ -48,7 +48,6 @@ class Medicacao {
 
   factory Medicacao.proximaDose(Medicacao medicacao) {
     return Medicacao(
-      id: medicacao.id,
       tipo: medicacao.tipo,
       petId: medicacao.petId,
       nome: medicacao.nome,
