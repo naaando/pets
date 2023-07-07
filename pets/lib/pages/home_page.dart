@@ -15,10 +15,13 @@ class HomePage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final pets = ref.watch(petsProvider);
 
-    return pets.when(
-      loading: loading,
-      error: error,
-      data: loaded,
+    return DefaultTabController(
+      length: 2,
+      child: pets.when(
+        loading: loading,
+        error: error,
+        data: loaded,
+      ),
     );
   }
 
@@ -47,25 +50,23 @@ class HomePage extends HookConsumerWidget {
   }
 
   Widget defaultView() {
-    return DefaultTabController(
-        length: 2,
-        child: Scaffold(
-            appBar: const UserAppBar(),
-            body: const TabBarView(
-              children: [
-                DashboardTab(),
-                PetsTab(),
-              ],
-            ),
-            bottomNavigationBar: ClipRRect(
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(20)),
-              child: Container(
-                color: Colors.red,
-                padding: const EdgeInsets.only(top: 10),
-                child: MainTabBar(),
-              ),
-            )));
+    return Scaffold(
+      appBar: const UserAppBar(),
+      body: const TabBarView(
+        children: [
+          DashboardTab(),
+          PetsTab(),
+        ],
+      ),
+      bottomNavigationBar: ClipRRect(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        child: Container(
+          color: Colors.red,
+          padding: const EdgeInsets.only(top: 10),
+          child: MainTabBar(),
+        ),
+      ),
+    );
   }
 
   Widget emptyPetList() {
