@@ -4,8 +4,6 @@ import 'package:pets/components/fab_actions.dart';
 import 'package:pets/components/lista_ocorridos.dart';
 import 'package:pets/components/lista_pets.dart';
 import 'package:pets/components/lista_proximos.dart';
-import 'package:pets/models/pet.dart';
-import 'package:pets/provider/pet_provider.dart';
 
 class DashboardTab extends HookConsumerWidget {
   const DashboardTab({super.key});
@@ -26,23 +24,24 @@ class DashboardTab extends HookConsumerWidget {
     ));
 
     return Theme(
-        data: themeData,
-        child: ListView(
-          children: const [
-            Padding(
-              padding: EdgeInsets.all(18),
-              child: Text(
-                'Seus pets',
-                textAlign: TextAlign.start,
-                style: TextStyle(fontWeight: FontWeight.w600),
-              ),
+      data: themeData,
+      child: ListView(
+        children: const [
+          Padding(
+            padding: EdgeInsets.all(18),
+            child: Text(
+              'Seus pets',
+              textAlign: TextAlign.start,
+              style: TextStyle(fontWeight: FontWeight.w600),
             ),
-            ListaPets(),
-            SizedBox(height: 18),
-            ListaProximos(),
-            ListaOcorridos(),
-            SizedBox(height: 80), // Para não ficar escondido pelo FAB
-          ],
-        ));
+          ),
+          ListaPets(),
+          SizedBox(height: 18),
+          ListaProximos(),
+          ListaOcorridos(),
+          SizedBox(height: 80), // Para não ficar escondido pelo FAB
+        ],
+      ),
+    );
   }
 }

@@ -51,7 +51,7 @@ class CadastroPetPage extends HookConsumerWidget {
     }
 
     return FloatingActionButton(
-      onPressed: () async {
+      onPressed: () {
         formKey.currentState!.save();
         if (formKey.currentState!.validate()) {
           ref.read(petsProvider.notifier).save(pet).then((savedPet) {
