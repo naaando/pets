@@ -55,6 +55,7 @@ dependencies:
   fast_cached_network_image: ^1.2.0
   flutter_facebook_auth: ^6.0.0
   shimmer: ^3.0.0
+  alarm: ^1.1.5
 
 dev_dependencies:
   flutter_test:

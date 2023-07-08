@@ -1,3 +1,4 @@
+import 'package:alarm/alarm.dart';
 import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -10,6 +11,8 @@ void main() async {
   Jiffy.setLocale('pt_BR');
 
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Alarm.init();
 
   await FastCachedImageConfig.init();
 
