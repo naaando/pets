@@ -45,15 +45,17 @@ class Medicacao extends Model
      */
     protected $fillable = [
         'pet_id',
+        'inicial_id',
+        'antecessora_id',
         'nome',
         'fabricante',
         'veterinario',
         'quando',
         'tipo',
-        'total_doses',
-        'dose_atual',
-        'proxima_dose',
+        'completado',
     ];
+
+    protected $appends = ['total_doses'];
 
     /**
      * The attributes that should be cast.
@@ -79,6 +81,21 @@ class Medicacao extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getTotalDosesAttribute()
+    {
+        return $this->inicial()->count() ?? 1;
+    }
+
+    public function inicial()
+    {
+        return $this->belongsTo(Medicacao::class, 'inicial_id');
+    }
+
+    public function antecessora()
+    {
+        return $this->belongsTo(Medicacao::class, 'antecessora_id');
     }
 
     protected $table = 'medicacoes';

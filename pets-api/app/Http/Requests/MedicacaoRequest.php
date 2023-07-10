@@ -27,14 +27,14 @@ class MedicacaoRequest extends FormRequest
         return [
             'user_id' => 'prohibited',
             'pet_id' => 'required|exists:pets,id',
+            'inicial_id' => 'required|nullable|exists:medicacoes,id',
+            'antecessora_id' => 'required_with:inicial_id|exists:medicacoes,id',
             'tipo' => 'required|string|in:vacina,vermifugo,medicacao',
             'nome' => 'required|string',
             'fabricante' => 'nullable|string',
             'veterinario' => 'nullable|string',
             'quando' => 'required|date',
-            // 'total_doses' => 'required|integer|gte:1|gte:dose_atual',
-            // 'dose_atual' => 'required|integer|gte:1|lte:total_doses',
-            'proxima_dose' => 'nullable|date|after:quando|after_or_equal:today',
+            'completado' => 'required|boolean',
         ];
     }
 }
