@@ -20,6 +20,7 @@ class ListaOcorridos extends ConsumerWidget {
       var medicacoes = await ref.watch(medicacoesProvider.future);
 
       var medicacoesComoEvento = medicacoes.values
+          .where((element) => element.completado)
           .map((medicacao) => medicacaoComoEvento(context, pets, medicacao))
           .toList();
 
@@ -94,8 +95,8 @@ class ListaOcorridos extends ConsumerWidget {
           const SizedBox(height: 4),
           ChipEvento.parse(medicacao.tipo)
         ]),
-        onTap: () => Navigator.pushNamed(context, '/cadastro-medicacao',
-            arguments: medicacao),
+        onTap: () =>
+            Navigator.pushNamed(context, '/medicacao', arguments: medicacao),
       ),
     );
 

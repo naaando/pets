@@ -39,7 +39,7 @@ class FabActions extends HookWidget {
       ),
       FloatingActionButton.extended(
         label: const Text('Medicação'),
-        onPressed: () => {Navigator.pushNamed(context, '/cadastro-medicacao')},
+        onPressed: () => {Navigator.pushNamed(context, '/medicacao')},
         icon: const Icon(Icons.medication_liquid),
         heroTag: null,
       ),

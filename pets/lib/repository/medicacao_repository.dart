@@ -22,7 +22,7 @@ class MedicacaoRepository {
         value: (json) => Medicacao.fromJson(json));
   }
 
-  Future save(Medicacao medicacao) async {
+  Future<Medicacao?> save(Medicacao medicacao) async {
     Medicacao? savedMedicacao;
 
     if (medicacao.id == null) {

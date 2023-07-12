@@ -23,7 +23,7 @@ final medicacaoRepositoryProvider =
 );
 
 typedef MedicacaoRepositoryRef = AutoDisposeProviderRef<MedicacaoRepository>;
-String _$medicacoesHash() => r'1376f9273fcccee2f3658b3fe55c29ef6b5c3275';
+String _$medicacoesHash() => r'f12eaa70df53d56a2cd1b2528141e3f2b9e00d06';
 
 /// See also [Medicacoes].
 @ProviderFor(Medicacoes)

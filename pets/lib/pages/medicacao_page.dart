@@ -3,67 +3,98 @@ import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:pets/components/datetime_form_field.dart';
 import 'package:pets/models/medicacao.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/provider/medicacao_provider.dart';
 import 'package:pets/provider/pet_provider.dart';
 
-class ProximaMedicacaoPage extends HookConsumerWidget {
+class MedicacaoPage extends HookConsumerWidget {
   final String tipoPadrao;
 
-  const ProximaMedicacaoPage({super.key, this.tipoPadrao = 'medicacao'});
+  const MedicacaoPage({
+    super.key,
+    this.tipoPadrao = 'medicacao',
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var medicacaoRouterArg =
         (ModalRoute.of(context)!.settings.arguments as Medicacao?);
 
-    final medicacaoInicial = medicacaoRouterArg ?? Medicacao(tipo: tipoPadrao);
-    var medicacao = useRef<Medicacao>(Medicacao.proximaDose(medicacaoInicial));
+    var medicacao =
+        useState<Medicacao>(medicacaoRouterArg ?? Medicacao(tipo: tipoPadrao));
+
+    var proximaData = useState<String?>(null);
 
     var tipo = medicacao.value.tipo;
 
-    var title = 'Próxima ${tipoTexto(tipo)}';
+    var title = medicacao.value.id != null
+        ? 'Editando ${tipoTexto(tipo)}'
+        : 'Nova ${tipoTexto(tipo)}';
+
     var formKey = useRef(GlobalKey<FormState>());
 
     return WillPopScope(
         child: Scaffold(
-            appBar: AppBar(
-              title: Text(title),
-              actions: barActions(context, ref, formKey.value, medicacao.value),
-            ),
-            body: body(context, ref, formKey.value, title, medicacao),
-            floatingActionButton:
-                saveButton(context, ref, formKey.value, medicacao)),
+          appBar: AppBar(
+            title: Text(title),
+            actions: barActions(context, ref, formKey.value, medicacao.value),
+          ),
+          body: body(
+            context,
+            ref,
+            formKey.value,
+            title,
+            medicacao,
+            proximaData,
+          ),
+          floatingActionButton: saveButton(
+            context,
+            ref,
+            formKey.value,
+            medicacao,
+            proximaData.value,
+          ),
+        ),
         onWillPop: () async => true);
   }
 
-  salvar(Medicacao medicacao, GlobalKey<FormState> formKey,
-      BuildContext context, WidgetRef ref) {
-    formKey.currentState!.save();
-    if (formKey.currentState!.validate()) {
-      ref.read(medicacoesProvider.notifier).save(medicacao).then((value) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Salvo!')),
-        );
-
-        Navigator.of(context).pop();
-      }).onError((DioException error, stackTrace) {
-        debugPrint(error.toString());
-        var msg = error.response?.data['message'] ?? error.message;
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erro ao salvar!\n\n$msg')),
-        );
-      });
-    }
-  }
-
-  FloatingActionButton? saveButton(BuildContext context, WidgetRef ref,
-      GlobalKey<FormState> formKey, ObjectRef<Medicacao> medicacao) {
+  FloatingActionButton? saveButton(
+    BuildContext context,
+    WidgetRef ref,
+    GlobalKey<FormState> formKey,
+    ValueNotifier<Medicacao> medicacao,
+    String? proximaData,
+  ) {
     return FloatingActionButton(
-      onPressed: () => salvar(medicacao.value, formKey, context, ref),
+      onPressed: () {
+        formKey.currentState!.save();
+
+        if (formKey.currentState!.validate()) {
+          ref
+              .read(medicacoesProvider.notifier)
+              .save(
+                medicacao.value,
+                proximaData,
+              )
+              .then((value) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Salvo!')),
+            );
+
+            Navigator.of(context).pop();
+          }).onError((DioException error, stackTrace) {
+            debugPrint(error.toString());
+            var msg = error.response?.data['message'] ?? error.message;
+
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Erro ao salvar!\n\n$msg')),
+            );
+          });
+        }
+      },
       tooltip: 'Salvar',
       child: const Icon(Icons.check),
     );
@@ -82,16 +113,21 @@ class ProximaMedicacaoPage extends HookConsumerWidget {
     return [];
   }
 
-  Widget body(BuildContext context, WidgetRef ref, GlobalKey<FormState> formKey,
-      String title, ObjectRef<Medicacao> medicacao) {
-    // Dont watch pets because it will cause a rebuild
+  Widget body(
+    BuildContext context,
+    WidgetRef ref,
+    GlobalKey<FormState> formKey,
+    String title,
+    ValueNotifier<Medicacao> medicacao,
+    ValueNotifier<String?> proximaData,
+  ) {
+    // Dont watch pets cause it will cause a rebuild
     Map<String, Pet> pets =
         ref.read(petsProvider).asData?.value ?? <String, Pet>{};
 
-    final dataController =
-        useTextEditingController(text: medicacao.value.quando);
-    final proximaDoseController =
-        useTextEditingController(text: medicacao.value.proximaDose);
+    final dataController = useTextEditingController(
+      text: medicacao.value.quando,
+    );
 
     return SingleChildScrollView(
       child: Form(
@@ -159,46 +195,59 @@ class ProximaMedicacaoPage extends HookConsumerWidget {
                 ),
                 onDateChanged: (dateTime) {
                   medicacao.value.quando = dateTime?.toIso8601String();
-                },
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                initialValue: medicacao.value.doseAtual.toString(),
-                readOnly: true,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  hintText: 'Dose atual',
-                  labelText: 'Dose atual',
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Dosagem é obrigatório';
+
+                  if (dateTime is DateTime) {
+                    medicacao.value.completado =
+                        dateTime.isBefore(DateTime.now());
                   }
-                  return null;
+
+                  medicacao.notifyListeners();
                 },
-                onSaved: (newValue) => medicacao.value.doseAtual =
-                    int.tryParse(newValue ?? '') ?? 1,
               ),
-              const SizedBox(height: 20),
-              DateTimeFormField(
-                controller: proximaDoseController,
-                firstDate: DateTime.now(),
-                lastDate: DateTime.now().add(const Duration(days: 365)),
-                decoration: const InputDecoration(
-                  hintText: 'Próxima dose',
-                  labelText: 'Próxima dose',
-                  helperText: 'Deixe em branco se não houver',
-                  prefixText: 'Em ',
-                  suffixIcon: Icon(Icons.alarm_add_rounded),
-                ),
-                onDateChanged: (dateTime) =>
-                    medicacao.value.proximaDose = dateTime?.toIso8601String(),
+              ...quandoDataForPassadoExibirProximaData(
+                medicacao,
+                proximaData,
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  List<Widget> quandoDataForPassadoExibirProximaData(
+    ValueNotifier<Medicacao> medicacao,
+    ValueNotifier<String?> proximaData,
+  ) {
+    final proximaDoseController = useTextEditingController(
+      text: proximaData.value ?? '',
+    );
+
+    if (medicacao.value.quando is! String) {
+      return [];
+    }
+
+    if (Jiffy.parse(medicacao.value.quando!).isAfter(Jiffy.now())) {
+      return [];
+    }
+
+    return [
+      const SizedBox(height: 20),
+      DateTimeFormField(
+        firstDate: DateTime.now(),
+        lastDate: DateTime.now().add(const Duration(days: 365)),
+        controller: proximaDoseController,
+        decoration: const InputDecoration(
+          hintText: 'Próxima dose',
+          labelText: 'Próxima dose',
+          helperText: 'Em branco se não houver próxima dose',
+          prefixText: 'Em ',
+          suffixIcon: Icon(Icons.alarm_add_rounded),
+        ),
+        onDateChanged: (dateTime) =>
+            proximaData.value = dateTime?.toIso8601String(),
+      )
+    ];
   }
 
   List<DropdownMenuItem<String>> petsDropdown(Map<String, Pet> pets) {

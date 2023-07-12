@@ -17,50 +17,50 @@ const MedicacaoSchema = CollectionSchema(
   name: r'Medicacao',
   id: -908804645793675552,
   properties: {
-    r'createdAt': PropertySchema(
+    r'antecessoraId': PropertySchema(
       id: 0,
+      name: r'antecessoraId',
+      type: IsarType.long,
+    ),
+    r'completado': PropertySchema(
+      id: 1,
+      name: r'completado',
+      type: IsarType.bool,
+    ),
+    r'createdAt': PropertySchema(
+      id: 2,
       name: r'createdAt',
       type: IsarType.string,
     ),
-    r'doseAtual': PropertySchema(
-      id: 1,
-      name: r'doseAtual',
-      type: IsarType.long,
-    ),
     r'fabricante': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'fabricante',
       type: IsarType.string,
     ),
+    r'inicialId': PropertySchema(
+      id: 4,
+      name: r'inicialId',
+      type: IsarType.long,
+    ),
     r'nome': PropertySchema(
-      id: 3,
+      id: 5,
       name: r'nome',
       type: IsarType.string,
     ),
     r'petId': PropertySchema(
-      id: 4,
+      id: 6,
       name: r'petId',
       type: IsarType.string,
     ),
-    r'proximaDose': PropertySchema(
-      id: 5,
-      name: r'proximaDose',
-      type: IsarType.string,
-    ),
     r'quando': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'quando',
       type: IsarType.string,
     ),
     r'tipo': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'tipo',
       type: IsarType.string,
-    ),
-    r'totalDoses': PropertySchema(
-      id: 8,
-      name: r'totalDoses',
-      type: IsarType.long,
     ),
     r'updatedAt': PropertySchema(
       id: 9,
@@ -105,20 +105,9 @@ int _medicacaoEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
-  {
-    final value = object.nome;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
+  bytesCount += 3 + object.nome.length * 3;
   {
     final value = object.petId;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
-    final value = object.proximaDose;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
@@ -151,15 +140,15 @@ void _medicacaoSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.createdAt);
-  writer.writeLong(offsets[1], object.doseAtual);
-  writer.writeString(offsets[2], object.fabricante);
-  writer.writeString(offsets[3], object.nome);
-  writer.writeString(offsets[4], object.petId);
-  writer.writeString(offsets[5], object.proximaDose);
-  writer.writeString(offsets[6], object.quando);
-  writer.writeString(offsets[7], object.tipo);
-  writer.writeLong(offsets[8], object.totalDoses);
+  writer.writeLong(offsets[0], object.antecessoraId);
+  writer.writeBool(offsets[1], object.completado);
+  writer.writeString(offsets[2], object.createdAt);
+  writer.writeString(offsets[3], object.fabricante);
+  writer.writeLong(offsets[4], object.inicialId);
+  writer.writeString(offsets[5], object.nome);
+  writer.writeString(offsets[6], object.petId);
+  writer.writeString(offsets[7], object.quando);
+  writer.writeString(offsets[8], object.tipo);
   writer.writeString(offsets[9], object.updatedAt);
   writer.writeString(offsets[10], object.veterinario);
 }
@@ -171,16 +160,16 @@ Medicacao _medicacaoDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Medicacao(
-    createdAt: reader.readStringOrNull(offsets[0]),
-    doseAtual: reader.readLongOrNull(offsets[1]) ?? 1,
-    fabricante: reader.readStringOrNull(offsets[2]),
+    antecessoraId: reader.readLongOrNull(offsets[0]),
+    completado: reader.readBoolOrNull(offsets[1]) ?? false,
+    createdAt: reader.readStringOrNull(offsets[2]),
+    fabricante: reader.readStringOrNull(offsets[3]),
     id: id,
-    nome: reader.readStringOrNull(offsets[3]),
-    petId: reader.readStringOrNull(offsets[4]),
-    proximaDose: reader.readStringOrNull(offsets[5]),
-    quando: reader.readStringOrNull(offsets[6]),
-    tipo: reader.readStringOrNull(offsets[7]) ?? 'medicacao',
-    totalDoses: reader.readLongOrNull(offsets[8]) ?? 1,
+    inicialId: reader.readLongOrNull(offsets[4]),
+    nome: reader.readStringOrNull(offsets[5]) ?? '',
+    petId: reader.readStringOrNull(offsets[6]),
+    quando: reader.readStringOrNull(offsets[7]),
+    tipo: reader.readStringOrNull(offsets[8]) ?? 'medicacao',
     updatedAt: reader.readStringOrNull(offsets[9]),
     veterinario: reader.readStringOrNull(offsets[10]),
   );
@@ -195,23 +184,23 @@ P _medicacaoDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 1:
-      return (reader.readLongOrNull(offset) ?? 1) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 2:
       return (reader.readStringOrNull(offset)) as P;
     case 3:
       return (reader.readStringOrNull(offset)) as P;
     case 4:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 5:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset) ?? '') as P;
     case 6:
       return (reader.readStringOrNull(offset)) as P;
     case 7:
-      return (reader.readStringOrNull(offset) ?? 'medicacao') as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 8:
-      return (reader.readLongOrNull(offset) ?? 1) as P;
+      return (reader.readStringOrNull(offset) ?? 'medicacao') as P;
     case 9:
       return (reader.readStringOrNull(offset)) as P;
     case 10:
@@ -312,6 +301,90 @@ extension MedicacaoQueryWhere
 
 extension MedicacaoQueryFilter
     on QueryBuilder<Medicacao, Medicacao, QFilterCondition> {
+  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition>
+      antecessoraIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'antecessoraId',
+      ));
+    });
+  }
+
+  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition>
+      antecessoraIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'antecessoraId',
+      ));
+    });
+  }
+
+  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition>
+      antecessoraIdEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'antecessoraId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition>
+      antecessoraIdGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'antecessoraId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition>
+      antecessoraIdLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'antecessoraId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition>
+      antecessoraIdBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'antecessoraId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition> completadoEqualTo(
+      bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'completado',
+        value: value,
+      ));
+    });
+  }
+
   QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition> createdAtIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -457,60 +530,6 @@ extension MedicacaoQueryFilter
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'createdAt',
         value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition> doseAtualEqualTo(
-      int value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'doseAtual',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition>
-      doseAtualGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'doseAtual',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition> doseAtualLessThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'doseAtual',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition> doseAtualBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'doseAtual',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
       ));
     });
   }
@@ -735,24 +754,79 @@ extension MedicacaoQueryFilter
     });
   }
 
-  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition> nomeIsNull() {
+  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition> inicialIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'nome',
+        property: r'inicialId',
       ));
     });
   }
 
-  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition> nomeIsNotNull() {
+  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition>
+      inicialIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'nome',
+        property: r'inicialId',
+      ));
+    });
+  }
+
+  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition> inicialIdEqualTo(
+      int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'inicialId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition>
+      inicialIdGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'inicialId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition> inicialIdLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'inicialId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition> inicialIdBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'inicialId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
       ));
     });
   }
 
   QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition> nomeEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -765,7 +839,7 @@ extension MedicacaoQueryFilter
   }
 
   QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition> nomeGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -780,7 +854,7 @@ extension MedicacaoQueryFilter
   }
 
   QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition> nomeLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -795,8 +869,8 @@ extension MedicacaoQueryFilter
   }
 
   QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition> nomeBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -1022,158 +1096,6 @@ extension MedicacaoQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'petId',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition>
-      proximaDoseIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'proximaDose',
-      ));
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition>
-      proximaDoseIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'proximaDose',
-      ));
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition> proximaDoseEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'proximaDose',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition>
-      proximaDoseGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'proximaDose',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition> proximaDoseLessThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'proximaDose',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition> proximaDoseBetween(
-    String? lower,
-    String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'proximaDose',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition>
-      proximaDoseStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'proximaDose',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition> proximaDoseEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'proximaDose',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition> proximaDoseContains(
-      String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'proximaDose',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition> proximaDoseMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'proximaDose',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition>
-      proximaDoseIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'proximaDose',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition>
-      proximaDoseIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'proximaDose',
         value: '',
       ));
     });
@@ -1451,60 +1373,6 @@ extension MedicacaoQueryFilter
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'tipo',
         value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition> totalDosesEqualTo(
-      int value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'totalDoses',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition>
-      totalDosesGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'totalDoses',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition> totalDosesLessThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'totalDoses',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterFilterCondition> totalDosesBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'totalDoses',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
       ));
     });
   }
@@ -1818,6 +1686,30 @@ extension MedicacaoQueryLinks
     on QueryBuilder<Medicacao, Medicacao, QFilterCondition> {}
 
 extension MedicacaoQuerySortBy on QueryBuilder<Medicacao, Medicacao, QSortBy> {
+  QueryBuilder<Medicacao, Medicacao, QAfterSortBy> sortByAntecessoraId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'antecessoraId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Medicacao, Medicacao, QAfterSortBy> sortByAntecessoraIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'antecessoraId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Medicacao, Medicacao, QAfterSortBy> sortByCompletado() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'completado', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Medicacao, Medicacao, QAfterSortBy> sortByCompletadoDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'completado', Sort.desc);
+    });
+  }
+
   QueryBuilder<Medicacao, Medicacao, QAfterSortBy> sortByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.asc);
@@ -1830,18 +1722,6 @@ extension MedicacaoQuerySortBy on QueryBuilder<Medicacao, Medicacao, QSortBy> {
     });
   }
 
-  QueryBuilder<Medicacao, Medicacao, QAfterSortBy> sortByDoseAtual() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'doseAtual', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterSortBy> sortByDoseAtualDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'doseAtual', Sort.desc);
-    });
-  }
-
   QueryBuilder<Medicacao, Medicacao, QAfterSortBy> sortByFabricante() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'fabricante', Sort.asc);
@@ -1851,6 +1731,18 @@ extension MedicacaoQuerySortBy on QueryBuilder<Medicacao, Medicacao, QSortBy> {
   QueryBuilder<Medicacao, Medicacao, QAfterSortBy> sortByFabricanteDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'fabricante', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Medicacao, Medicacao, QAfterSortBy> sortByInicialId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'inicialId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Medicacao, Medicacao, QAfterSortBy> sortByInicialIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'inicialId', Sort.desc);
     });
   }
 
@@ -1878,18 +1770,6 @@ extension MedicacaoQuerySortBy on QueryBuilder<Medicacao, Medicacao, QSortBy> {
     });
   }
 
-  QueryBuilder<Medicacao, Medicacao, QAfterSortBy> sortByProximaDose() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'proximaDose', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterSortBy> sortByProximaDoseDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'proximaDose', Sort.desc);
-    });
-  }
-
   QueryBuilder<Medicacao, Medicacao, QAfterSortBy> sortByQuando() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'quando', Sort.asc);
@@ -1911,18 +1791,6 @@ extension MedicacaoQuerySortBy on QueryBuilder<Medicacao, Medicacao, QSortBy> {
   QueryBuilder<Medicacao, Medicacao, QAfterSortBy> sortByTipoDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'tipo', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterSortBy> sortByTotalDoses() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'totalDoses', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterSortBy> sortByTotalDosesDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'totalDoses', Sort.desc);
     });
   }
 
@@ -1953,6 +1821,30 @@ extension MedicacaoQuerySortBy on QueryBuilder<Medicacao, Medicacao, QSortBy> {
 
 extension MedicacaoQuerySortThenBy
     on QueryBuilder<Medicacao, Medicacao, QSortThenBy> {
+  QueryBuilder<Medicacao, Medicacao, QAfterSortBy> thenByAntecessoraId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'antecessoraId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Medicacao, Medicacao, QAfterSortBy> thenByAntecessoraIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'antecessoraId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Medicacao, Medicacao, QAfterSortBy> thenByCompletado() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'completado', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Medicacao, Medicacao, QAfterSortBy> thenByCompletadoDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'completado', Sort.desc);
+    });
+  }
+
   QueryBuilder<Medicacao, Medicacao, QAfterSortBy> thenByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.asc);
@@ -1962,18 +1854,6 @@ extension MedicacaoQuerySortThenBy
   QueryBuilder<Medicacao, Medicacao, QAfterSortBy> thenByCreatedAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterSortBy> thenByDoseAtual() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'doseAtual', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterSortBy> thenByDoseAtualDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'doseAtual', Sort.desc);
     });
   }
 
@@ -2001,6 +1881,18 @@ extension MedicacaoQuerySortThenBy
     });
   }
 
+  QueryBuilder<Medicacao, Medicacao, QAfterSortBy> thenByInicialId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'inicialId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Medicacao, Medicacao, QAfterSortBy> thenByInicialIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'inicialId', Sort.desc);
+    });
+  }
+
   QueryBuilder<Medicacao, Medicacao, QAfterSortBy> thenByNome() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'nome', Sort.asc);
@@ -2025,18 +1917,6 @@ extension MedicacaoQuerySortThenBy
     });
   }
 
-  QueryBuilder<Medicacao, Medicacao, QAfterSortBy> thenByProximaDose() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'proximaDose', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterSortBy> thenByProximaDoseDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'proximaDose', Sort.desc);
-    });
-  }
-
   QueryBuilder<Medicacao, Medicacao, QAfterSortBy> thenByQuando() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'quando', Sort.asc);
@@ -2058,18 +1938,6 @@ extension MedicacaoQuerySortThenBy
   QueryBuilder<Medicacao, Medicacao, QAfterSortBy> thenByTipoDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'tipo', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterSortBy> thenByTotalDoses() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'totalDoses', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QAfterSortBy> thenByTotalDosesDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'totalDoses', Sort.desc);
     });
   }
 
@@ -2100,6 +1968,18 @@ extension MedicacaoQuerySortThenBy
 
 extension MedicacaoQueryWhereDistinct
     on QueryBuilder<Medicacao, Medicacao, QDistinct> {
+  QueryBuilder<Medicacao, Medicacao, QDistinct> distinctByAntecessoraId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'antecessoraId');
+    });
+  }
+
+  QueryBuilder<Medicacao, Medicacao, QDistinct> distinctByCompletado() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'completado');
+    });
+  }
+
   QueryBuilder<Medicacao, Medicacao, QDistinct> distinctByCreatedAt(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -2107,16 +1987,16 @@ extension MedicacaoQueryWhereDistinct
     });
   }
 
-  QueryBuilder<Medicacao, Medicacao, QDistinct> distinctByDoseAtual() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'doseAtual');
-    });
-  }
-
   QueryBuilder<Medicacao, Medicacao, QDistinct> distinctByFabricante(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'fabricante', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<Medicacao, Medicacao, QDistinct> distinctByInicialId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'inicialId');
     });
   }
 
@@ -2134,13 +2014,6 @@ extension MedicacaoQueryWhereDistinct
     });
   }
 
-  QueryBuilder<Medicacao, Medicacao, QDistinct> distinctByProximaDose(
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'proximaDose', caseSensitive: caseSensitive);
-    });
-  }
-
   QueryBuilder<Medicacao, Medicacao, QDistinct> distinctByQuando(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -2152,12 +2025,6 @@ extension MedicacaoQueryWhereDistinct
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'tipo', caseSensitive: caseSensitive);
-    });
-  }
-
-  QueryBuilder<Medicacao, Medicacao, QDistinct> distinctByTotalDoses() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'totalDoses');
     });
   }
 
@@ -2184,15 +2051,21 @@ extension MedicacaoQueryProperty
     });
   }
 
-  QueryBuilder<Medicacao, String?, QQueryOperations> createdAtProperty() {
+  QueryBuilder<Medicacao, int?, QQueryOperations> antecessoraIdProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'createdAt');
+      return query.addPropertyName(r'antecessoraId');
     });
   }
 
-  QueryBuilder<Medicacao, int, QQueryOperations> doseAtualProperty() {
+  QueryBuilder<Medicacao, bool, QQueryOperations> completadoProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'doseAtual');
+      return query.addPropertyName(r'completado');
+    });
+  }
+
+  QueryBuilder<Medicacao, String?, QQueryOperations> createdAtProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'createdAt');
     });
   }
 
@@ -2202,7 +2075,13 @@ extension MedicacaoQueryProperty
     });
   }
 
-  QueryBuilder<Medicacao, String?, QQueryOperations> nomeProperty() {
+  QueryBuilder<Medicacao, int?, QQueryOperations> inicialIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'inicialId');
+    });
+  }
+
+  QueryBuilder<Medicacao, String, QQueryOperations> nomeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'nome');
     });
@@ -2211,12 +2090,6 @@ extension MedicacaoQueryProperty
   QueryBuilder<Medicacao, String?, QQueryOperations> petIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'petId');
-    });
-  }
-
-  QueryBuilder<Medicacao, String?, QQueryOperations> proximaDoseProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'proximaDose');
     });
   }
 
@@ -2229,12 +2102,6 @@ extension MedicacaoQueryProperty
   QueryBuilder<Medicacao, String, QQueryOperations> tipoProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'tipo');
-    });
-  }
-
-  QueryBuilder<Medicacao, int, QQueryOperations> totalDosesProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'totalDoses');
     });
   }
 
@@ -2257,30 +2124,30 @@ extension MedicacaoQueryProperty
 
 Medicacao _$MedicacaoFromJson(Map<String, dynamic> json) => Medicacao(
       id: json['id'] as int?,
+      inicialId: json['inicial_id'] as int?,
+      antecessoraId: json['antecessora_id'] as int?,
       tipo: json['tipo'] as String? ?? 'medicacao',
       petId: json['pet_id'] as String?,
-      nome: json['nome'] as String?,
+      nome: json['nome'] as String? ?? '',
       fabricante: json['fabricante'] as String?,
       veterinario: json['veterinario'] as String?,
       quando: json['quando'] as String?,
-      proximaDose: json['proxima_dose'] as String?,
-      totalDoses: json['total_doses'] as int? ?? 1,
-      doseAtual: json['dose_atual'] as int? ?? 1,
       createdAt: json['created_at'] as String?,
       updatedAt: json['updated_at'] as String?,
+      completado: json['completado'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$MedicacaoToJson(Medicacao instance) => <String, dynamic>{
       'id': instance.id,
       'tipo': instance.tipo,
       'pet_id': instance.petId,
+      'inicial_id': instance.inicialId,
+      'antecessora_id': instance.antecessoraId,
       'nome': instance.nome,
       'fabricante': instance.fabricante,
       'veterinario': instance.veterinario,
       'quando': instance.quando,
-      'total_doses': instance.totalDoses,
-      'dose_atual': instance.doseAtual,
-      'proxima_dose': instance.proximaDose,
       'created_at': instance.createdAt,
       'updated_at': instance.updatedAt,
+      'completado': instance.completado,
     };

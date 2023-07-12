@@ -6,12 +6,12 @@ part of 'alarm_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$alarmsHash() => r'91548d7acdc238dddae9c33f3d75c265cb618245';
+String _$alarmsHash() => r'9645377c8082786d2a2fa3664d702eebd5f6bac0';
 
 /// See also [Alarms].
 @ProviderFor(Alarms)
 final alarmsProvider =
-    AutoDisposeAsyncNotifierProvider<Alarms, List<AlarmSettings>>.internal(
+    AutoDisposeAsyncNotifierProvider<Alarms, List<dynamic>>.internal(
   Alarms.new,
   name: r'alarmsProvider',
   debugGetCreateSourceHash:
@@ -20,5 +20,5 @@ final alarmsProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$Alarms = AutoDisposeAsyncNotifier<List<AlarmSettings>>;
+typedef _$Alarms = AutoDisposeAsyncNotifier<List<dynamic>>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

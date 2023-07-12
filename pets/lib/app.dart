@@ -1,10 +1,9 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pets/pages/cadastro_medicacao_page.dart';
+import 'package:pets/pages/medicacao_page.dart';
 import 'package:pets/pages/home_page.dart';
 import 'package:pets/pages/cadastro_pet_page.dart';
-import 'package:pets/pages/proxima_medicacao_page.dart';
 import 'package:pets/pages/welcome_page.dart';
 import 'package:pets/provider/user_provider.dart';
 
@@ -51,11 +50,9 @@ class App extends ConsumerWidget {
           '/home': (BuildContext context) => const HomePage(),
           '/cadastro-pet': (BuildContext context) => const CadastroPetPage(),
           '/cadastro-vacina': (BuildContext context) =>
-              const CadastroMedicacaoPage(tipoPadrao: 'vacina'),
-          '/cadastro-medicacao': (BuildContext context) =>
-              const CadastroMedicacaoPage(),
-          '/proxima-medicacao': (BuildContext context) =>
-              const ProximaMedicacaoPage(),
+              const MedicacaoPage(tipoPadrao: 'vacina'),
+          '/medicacao': (BuildContext context) => const MedicacaoPage(),
+          '/proxima-medicacao': (BuildContext context) => const MedicacaoPage(),
         },
         home: user.when(
           data: (user) => userLoaded(user),

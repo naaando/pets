@@ -18,7 +18,7 @@ class ListaProximos extends ConsumerWidget {
     var medicacoes = await ref.watch(medicacoesProvider.future);
 
     var medicacoesComoEvento = medicacoes.values
-        .where((element) => element.proximaDose != null)
+        .where((element) => !element.completado)
         .map<MapEntry<String, Widget>>(
             (medicacao) => medicacaoComoEvento(context, pets, medicacao))
         .toList();
@@ -79,7 +79,7 @@ class ListaProximos extends ConsumerWidget {
     String? thumbUrl = pet.imagem != null ? pet.imagemUrl.toString() : null;
     String title = pet.nome;
     String subtitle = medicacao.nome ?? '';
-    String date = medicacao.proximaDose ?? '';
+    String date = medicacao.quando ?? '';
 
     var widget = Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
