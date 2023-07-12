@@ -27,8 +27,8 @@ class MedicacaoRequest extends FormRequest
         return [
             'user_id' => 'prohibited',
             'pet_id' => 'required|exists:pets,id',
-            'inicial_id' => 'required|nullable|exists:medicacoes,id',
-            'antecessora_id' => 'required_with:inicial_id|exists:medicacoes,id',
+            'inicial_id' => 'nullable|exists:medicacoes,id',
+            'antecessora_id' => 'nullable|required_with:inicial_id|exists:medicacoes,id',
             'tipo' => 'required|string|in:vacina,vermifugo,medicacao',
             'nome' => 'required|string',
             'fabricante' => 'nullable|string',
