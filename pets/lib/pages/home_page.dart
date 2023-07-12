@@ -58,13 +58,15 @@ class HomePage extends HookConsumerWidget {
           PetsTab(),
         ],
       ),
-      bottomNavigationBar: ClipRRect(
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-        child: Container(
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.only(top: 6),
+        margin: const EdgeInsets.all(6),
+        clipBehavior: Clip.antiAlias,
+        decoration: const BoxDecoration(
           color: Colors.red,
-          padding: const EdgeInsets.only(top: 10),
-          child: MainTabBar(),
+          borderRadius: BorderRadius.all(Radius.circular(20)),
         ),
+        child: MainTabBar(),
       ),
     );
   }
