@@ -64,4 +64,18 @@ class Medicacao {
       completado: false,
     );
   }
+
+  bool deveCompletar() {
+    if (quando == null) {
+      return false;
+    }
+
+    var dateTime = DateTime.tryParse(quando!);
+
+    if (dateTime is DateTime) {
+      completado = dateTime.isBefore(DateTime.now());
+    }
+
+    return completado;
+  }
 }

@@ -25,6 +25,7 @@ class MedicacaoPage extends HookConsumerWidget {
 
     var medicacao =
         useState<Medicacao>(medicacaoRouterArg ?? Medicacao(tipo: tipoPadrao));
+    medicacao.value.deveCompletar();
 
     var proximaData = useState<String?>(null);
 
@@ -195,12 +196,6 @@ class MedicacaoPage extends HookConsumerWidget {
                 ),
                 onDateChanged: (dateTime) {
                   medicacao.value.quando = dateTime?.toIso8601String();
-
-                  if (dateTime is DateTime) {
-                    medicacao.value.completado =
-                        dateTime.isBefore(DateTime.now());
-                  }
-
                   medicacao.notifyListeners();
                 },
               ),
