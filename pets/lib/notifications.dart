@@ -24,6 +24,16 @@ const MethodChannel platform =
 
 const String portName = 'notification_send_port';
 
+const AndroidNotificationDetails androidNotificationDetails =
+    AndroidNotificationDetails(
+  'your channel id',
+  'your channel name',
+  channelDescription: 'your channel description',
+  importance: Importance.max,
+  priority: Priority.high,
+  ticker: 'ticker',
+);
+
 class ReceivedNotification {
   ReceivedNotification({
     required this.id,
@@ -76,16 +86,6 @@ Future<void> _configureLocalTimeZone() async {
 
 notificationsInitializer() async {
   await _configureLocalTimeZone();
-
-  // const AndroidNotificationDetails androidNotificationDetails =
-  //     AndroidNotificationDetails(
-  //   'your channel id',
-  //   'your channel name',
-  //   channelDescription: 'your channel description',
-  //   importance: Importance.max,
-  //   priority: Priority.high,
-  //   ticker: 'ticker',
-  // );
 
   final NotificationAppLaunchDetails? notificationAppLaunchDetails = !kIsWeb &&
           Platform.isLinux
