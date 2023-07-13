@@ -56,7 +56,7 @@ class DateTimeFormField extends StatelessWidget {
               seconds: 0,
             ));
 
-            controller.text = DateFormat().format(dateTime);
+            controller.text = dateTime.toUtc().toIso8601String();
             onDateChanged(dateTime);
           });
         });
