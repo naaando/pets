@@ -47,6 +47,7 @@ class Medicacao {
 
   factory Medicacao.fromJson(Map<String, dynamic> json) =>
       _$MedicacaoFromJson(json);
+
   Map<String, dynamic> toJson() => _$MedicacaoToJson(this);
 
   factory Medicacao.proximaDose(Medicacao medicacao, String proximaDose) {

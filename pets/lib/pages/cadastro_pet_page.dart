@@ -331,7 +331,7 @@ class CadastroPetPage extends HookConsumerWidget {
       );
     } else if (pet.imagem != null) {
       thumbWidget = Image.network(
-        pet.imagemUrl.toString(),
+        pet.imagemUri.toString(),
         fit: BoxFit.cover,
         width: MediaQuery.of(context).size.width,
       );

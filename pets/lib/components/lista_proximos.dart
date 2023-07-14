@@ -76,7 +76,7 @@ class ListaProximos extends ConsumerWidget {
   MapEntry<String, Widget> medicacaoComoEvento(
       BuildContext context, Map<String, Pet> pets, Medicacao medicacao) {
     Pet pet = pets[medicacao.petId]!;
-    String? thumbUrl = pet.imagem != null ? pet.imagemUrl.toString() : null;
+    String? thumbUrl = pet.imagem != null ? pet.imagemUri.toString() : null;
     String title = pet.nome;
     String subtitle = medicacao.nome ?? '';
     String date = medicacao.quando ?? '';
@@ -94,7 +94,7 @@ class ListaProximos extends ConsumerWidget {
           subtitle: Text(subtitle),
           trailing:
               Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text(Jiffy.parse(date).fromNow()),
+            Text(Jiffy.parse(date, isUtc: true).toLocal().fromNow()),
             const SizedBox(height: 4),
             ChipEvento.parse(medicacao.tipo)
           ]),

@@ -60,6 +60,7 @@ class Pet {
   });
 
   factory Pet.fromJson(Map<String, dynamic> json) => _$PetFromJson(json);
+
   Map<String, dynamic> toJson() => _$PetToJson(this);
 
   Map<String, dynamic> toMap() {

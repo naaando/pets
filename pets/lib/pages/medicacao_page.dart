@@ -222,7 +222,9 @@ class MedicacaoPage extends HookConsumerWidget {
       return [];
     }
 
-    if (Jiffy.parse(medicacao.value.quando!).isAfter(Jiffy.now())) {
+    if (Jiffy.parse(medicacao.value.quando!, isUtc: true)
+        .toLocal()
+        .isAfter(Jiffy.now())) {
       return [];
     }
 
@@ -253,7 +255,7 @@ class MedicacaoPage extends HookConsumerWidget {
                   ? Row(children: [
                       CircleAvatar(
                         backgroundImage:
-                            FastCachedImageProvider(v.imagemUrl.toString()),
+                            FastCachedImageProvider(v.imagemUri.toString()),
                       ),
                       const SizedBox(width: 8),
                       Text(v.nome)

@@ -8,4 +8,9 @@ class Especie {
   String nome;
 
   Especie({required this.id, required this.nome});
+
+  factory Especie.fromJson(Map<String, dynamic> json) =>
+      _$EspecieFromJson(json);
+
+  Map<String, dynamic> toJson() => _$EspecieToJson(this);
 }

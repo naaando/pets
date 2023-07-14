@@ -50,19 +50,15 @@ class Medicacoes extends _$Medicacoes {
       return;
     }
 
-    // var alarmProviderRef = ref.read(alarmsProvider.notifier);
+    var alarmProviderRef = ref.read(alarmsProvider.notifier);
 
-    // int alarmId = medicacaoSalva.id!;
+    int alarmId = medicacaoSalva.id!;
 
-    // // if (alarmProviderRef.get(alarmId) != null) {
-    // //   alarmProviderRef.remove(alarmId);
-    // // }
-
-    // alarmProviderRef.add(
-    //   alarmId,
-    //   'Medicação',
-    //   'Medicação sem nome',
-    //   DateTime.parse(medicacaoSalva.proximaDose!),
-    // );
+    alarmProviderRef.add(
+      alarmId,
+      medicacaoSalva.nome,
+      medicacaoSalva.nome,
+      DateTime.parse(medicacaoSalva.quando!),
+    );
   }
 }

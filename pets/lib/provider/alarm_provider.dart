@@ -1,4 +1,8 @@
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../notifications.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 part 'alarm_provider.g.dart';
 
@@ -6,48 +10,32 @@ part 'alarm_provider.g.dart';
 class Alarms extends _$Alarms {
   @override
   FutureOr<List<dynamic>> build() async {
-    // return getAlarms();
     return [];
   }
 
-  Future<void> add(int id, String notificationTitle, String notificationBody,
-      DateTime dateTime) async {
+  Future<void> add(
+    int id,
+    String notificationTitle,
+    String notificationBody,
+    DateTime dateTime,
+  ) async {
     state = const AsyncValue.loading();
 
-    // final alarmSettings = AlarmSettings(
-    //   id: id,
-    //   dateTime: dateTime,
-    //   assetAudioPath: 'assets/alarms/mixkit-alarm-digital-clock-beep-989.wav',
-    //   loopAudio: true,
-    //   vibrate: true,
-    //   fadeDuration: 3.0,
-    //   notificationTitle: notificationTitle,
-    //   notificationBody: notificationBody,
-    //   enableNotificationOnKill: true,
-    // );
+    var diff = dateTime.difference(DateTime.now()).inSeconds;
 
-    // final result = await Alarm.set(alarmSettings: alarmSettings);
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      id,
+      notificationTitle,
+      notificationBody,
+      tz.TZDateTime.now(tz.local).add(Duration(seconds: diff)),
+      const NotificationDetails(
+        android: androidNotificationDetails,
+      ),
+      androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+    );
 
-    // state = await AsyncValue.guard(() async => getAlarms());
-
-    // return result;
+    state = await AsyncValue.guard(() async => []);
   }
-
-  // AlarmSettings? get(int id) {
-  //   return Alarm.getAlarm(id);
-  // }
-
-  Future<void> remove(id) async {
-    // state = const AsyncValue.loading();
-
-    // var result = await Alarm.stop(id);
-
-    // state = await AsyncValue.guard(() async => getAlarms());
-
-    // return result;
-  }
-
-  // List<AlarmSettings> getAlarms() {
-  //   return Alarm.getAlarms();
-  // }
 }

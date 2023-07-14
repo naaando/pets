@@ -19,7 +19,7 @@ class DateTimeFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateTime? dateTime = DateTime.tryParse(controller.text);
+    DateTime? dateTime = DateTime.tryParse(controller.text)?.toLocal();
 
     if (dateTime is DateTime) {
       controller.text = DateFormat().format(dateTime);
@@ -56,8 +56,8 @@ class DateTimeFormField extends StatelessWidget {
               seconds: 0,
             ));
 
-            controller.text = dateTime.toUtc().toIso8601String();
-            onDateChanged(dateTime);
+            controller.text = dateTime.toIso8601String();
+            onDateChanged(dateTime.toUtc());
           });
         });
       },

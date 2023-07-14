@@ -5,8 +5,9 @@ import 'package:pets/components/user_app_bar.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/pages/dashboard_tab.dart';
 import 'package:pets/pages/onboarding_page.dart';
-import 'package:pets/pages/pets_tab.dart';
 import 'package:pets/provider/pet_provider.dart';
+
+import 'pets_list_tab.dart';
 
 class HomePage extends HookConsumerWidget {
   const HomePage({super.key});
@@ -55,7 +56,7 @@ class HomePage extends HookConsumerWidget {
       body: const TabBarView(
         children: [
           DashboardTab(),
-          PetsTab(),
+          PetsListTab(),
         ],
       ),
       bottomNavigationBar: Container(

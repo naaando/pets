@@ -4,9 +4,6 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:timezone/data/latest_all.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
-import 'package:flutter_timezone/flutter_timezone.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -75,18 +72,7 @@ void notificationTapBackground(NotificationResponse notificationResponse) {
   }
 }
 
-Future<void> _configureLocalTimeZone() async {
-  if (kIsWeb || Platform.isLinux) {
-    return;
-  }
-  tz.initializeTimeZones();
-  final String timeZoneName = await FlutterTimezone.getLocalTimezone();
-  tz.setLocalLocation(tz.getLocation(timeZoneName));
-}
-
 notificationsInitializer() async {
-  await _configureLocalTimeZone();
-
   final NotificationAppLaunchDetails? notificationAppLaunchDetails = !kIsWeb &&
           Platform.isLinux
       ? null
