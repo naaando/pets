@@ -70,7 +70,7 @@ class Medicacao {
       return false;
     }
 
-    var dateTime = DateTime.tryParse(quando!);
+    var dateTime = DateTime.tryParse(quando!)?.toLocal();
 
     if (dateTime is DateTime) {
       completado = dateTime.isBefore(DateTime.now());
