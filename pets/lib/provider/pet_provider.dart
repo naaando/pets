@@ -1,5 +1,6 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:pets/models/pet.dart';
+import 'package:pets/provider/especie_provider.dart';
 import 'package:pets/provider/http_provider.dart';
 import 'package:pets/repository/pet_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -47,7 +48,14 @@ class Pets extends _$Pets {
   }
 
   FutureOr<Map<String, Pet>> _fetch() async {
+    final especieRepository = ref.read(especieRepositoryProvider);
+    var especies = await especieRepository.findAll();
+
     final rep = ref.read(petRepositoryProvider);
-    return await rep.findAll();
+    var pets = await rep.findAll();
+
+    return pets.map(
+      (key, value) => MapEntry(key, value..especie = especies[value.especieId]),
+    );
   }
 }
