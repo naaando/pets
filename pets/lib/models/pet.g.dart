@@ -12,7 +12,7 @@ Pet _$PetFromJson(Map<String, dynamic> json) => Pet(
       castrado: json['castrado'] as bool?,
       updatedAt: json['updated_at'] as String?,
       createdAt: json['created_at'] as String?,
-      especieId: json['especieId'] as String?,
+      especieId: json['especie_id'] as String?,
       especie: json['especie'] == null
           ? null
           : Especie.fromJson(json['especie'] as Map<String, dynamic>),
@@ -24,7 +24,7 @@ Pet _$PetFromJson(Map<String, dynamic> json) => Pet(
       pai: json['pai'] as String?,
       sexo: json['sexo'] as String?,
       raca: json['raca'] as String?,
-      espacoId: json['espacoId'] as String?,
+      espacoId: json['espaco_id'] as String?,
       obito: json['obito'] as String?,
       userCreated: json['userCreated'] as String?,
       userUpdated: json['userUpdated'] as String?,
@@ -36,7 +36,7 @@ Map<String, dynamic> _$PetToJson(Pet instance) => <String, dynamic>{
       'castrado': instance.castrado,
       'created_at': instance.createdAt,
       'updated_at': instance.updatedAt,
-      'especieId': instance.especieId,
+      'especie_id': instance.especieId,
       'especie': instance.especie,
       'imagem': instance.imagem,
       'mae': instance.mae,
@@ -47,7 +47,7 @@ Map<String, dynamic> _$PetToJson(Pet instance) => <String, dynamic>{
       'sexo': instance.sexo,
       'userCreated': instance.userCreated,
       'userUpdated': instance.userUpdated,
-      'espacoId': instance.espacoId,
+      'espaco_id': instance.espacoId,
       'obito': instance.obito,
       'imagem_url': instance.imagemUrl,
     };

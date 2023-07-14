@@ -15,6 +15,7 @@ class Pet {
   @JsonKey(name: 'updated_at')
   String? updatedAt;
 
+  @JsonKey(name: 'especie_id')
   String? especieId;
 
   Especie? especie;
@@ -27,6 +28,8 @@ class Pet {
   String? sexo;
   String? userCreated;
   String? userUpdated;
+
+  @JsonKey(name: 'espaco_id')
   String? espacoId;
   String? obito;
 
