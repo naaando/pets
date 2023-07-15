@@ -122,14 +122,17 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
 
 flutter_launcher_icons:
-  android: "launcher_icon"
+  android: true
   ios: true
   image_path: "assets/icons/app_icon.png"
+  adaptive_icon_foreground: "assets/icons/app_icon_adaptive.png"
+  adaptive_icon_background: "#FF5757"
+  remove_alpha_ios: true
   min_sdk_android: 21 # android min sdk min:16, default 21
   web:
     generate: true
-    background_color: "#ffffff"
-    theme_color: "#ffffff"
+    background_color: "#FF5757"
+    theme_color: "#FF5757"
   windows:
     generate: true
     icon_size: 48 # min:48, max:256, default: 48
