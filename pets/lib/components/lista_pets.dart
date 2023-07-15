@@ -1,6 +1,7 @@
 import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pets/components/skeleton_lista_pets.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/provider/pet_provider.dart';
 
@@ -14,7 +15,7 @@ class ListaPets extends ConsumerWidget {
     return pets.when(
         data: (pets) => lista(context, pets),
         error: (object, stackTrace) => const Text('Error'),
-        loading: () => const CircularProgressIndicator());
+        loading: () => const SkeletonListaPets());
   }
 
   lista(context, List<Pet> pets) {
