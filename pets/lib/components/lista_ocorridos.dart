@@ -1,4 +1,3 @@
-import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
@@ -77,7 +76,7 @@ class ListaOcorridos extends ConsumerWidget {
     Pet pet = pets[medicacao.petId]!;
     String? thumbUrl = pet.imagem != null ? pet.imagemUri.toString() : null;
     String title = pet.nome;
-    String subtitle = medicacao.nome ?? '';
+    String subtitle = medicacao.nome;
     String date = medicacao.quando ?? '';
 
     var widget = Padding(
