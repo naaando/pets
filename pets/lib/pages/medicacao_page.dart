@@ -137,14 +137,17 @@ class MedicacaoPage extends HookConsumerWidget {
           padding: const EdgeInsets.all(25),
           child: Column(
             children: [
-              DropdownButtonFormField(
-                value: medicacao.value.petId,
+              DropdownButtonFormField<Pet?>(
+                value: medicacao.value.pet,
                 decoration: const InputDecoration(
                   hintText: 'Animal',
                   labelText: 'Animal',
                 ),
-                items: petsDropdown(pets),
-                onChanged: (value) => medicacao.value.petId = value,
+                items: petsDropdown(medicacao.value.pet, pets),
+                onChanged: (Pet? value) {
+                  medicacao.value.petId = value?.id;
+                  medicacao.value.pet = value;
+                },
                 validator: (value) =>
                     value == null ? 'Animal é obrigatório' : null,
               ),
@@ -247,10 +250,17 @@ class MedicacaoPage extends HookConsumerWidget {
     ];
   }
 
-  List<DropdownMenuItem<String>> petsDropdown(Map<String, Pet> pets) {
+  List<DropdownMenuItem<Pet?>> petsDropdown(
+    Pet? currentPet,
+    Map<String, Pet> pets,
+  ) {
+    if (currentPet != null && currentPet.id != null) {
+      pets.update(currentPet.id!, (value) => currentPet);
+    }
+
     return pets.values
         .map((v) => DropdownMenuItem(
-              value: v.id,
+              value: v,
               child: v.imagem != null
                   ? Row(children: [
                       CircleAvatar(

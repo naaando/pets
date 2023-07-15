@@ -1,6 +1,8 @@
 import 'package:isar/isar.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import 'pet.dart';
+
 part 'medicacao.g.dart';
 
 @collection
@@ -13,6 +15,8 @@ class Medicacao {
 
   @JsonKey(name: 'pet_id')
   String? petId;
+
+  Pet? pet;
 
   @JsonKey(name: 'inicial_id')
   int? inicialId;
@@ -36,6 +40,7 @@ class Medicacao {
     this.antecessoraId,
     this.tipo = 'medicacao',
     this.petId,
+    this.pet,
     this.nome = '',
     this.fabricante,
     this.veterinario,

@@ -1,6 +1,7 @@
 import 'package:pets/models/medicacao.dart';
 import 'package:pets/provider/alarm_provider.dart';
 import 'package:pets/provider/http_provider.dart';
+import 'package:pets/provider/pet_provider.dart';
 import 'package:pets/repository/medicacao_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -41,8 +42,14 @@ class Medicacoes extends _$Medicacoes {
   }
 
   FutureOr<Map<String, Medicacao>> _fetch() async {
+    final pets = await ref.read(petsProvider.future);
     final rep = ref.read(medicacaoRepositoryProvider);
-    return await rep.findAll();
+
+    var medicacoes = await rep.findAll();
+
+    return medicacoes.map(
+      (key, value) => MapEntry(key, value..pet = pets[value.petId]),
+    );
   }
 
   Future<void> updateAlarms(Medicacao? medicacaoSalva) async {
@@ -57,7 +64,7 @@ class Medicacoes extends _$Medicacoes {
     alarmProviderRef.add(
       alarmId,
       medicacaoSalva.nome,
-      medicacaoSalva.nome,
+      "de ${medicacaoSalva.pet?.nome}",
       DateTime.parse(medicacaoSalva.quando!),
     );
   }
