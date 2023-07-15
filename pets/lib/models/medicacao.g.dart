@@ -2128,6 +2128,9 @@ Medicacao _$MedicacaoFromJson(Map<String, dynamic> json) => Medicacao(
       antecessoraId: json['antecessora_id'] as int?,
       tipo: json['tipo'] as String? ?? 'medicacao',
       petId: json['pet_id'] as String?,
+      pet: json['pet'] == null
+          ? null
+          : Pet.fromJson(json['pet'] as Map<String, dynamic>),
       nome: json['nome'] as String? ?? '',
       fabricante: json['fabricante'] as String?,
       veterinario: json['veterinario'] as String?,
@@ -2141,6 +2144,7 @@ Map<String, dynamic> _$MedicacaoToJson(Medicacao instance) => <String, dynamic>{
       'id': instance.id,
       'tipo': instance.tipo,
       'pet_id': instance.petId,
+      'pet': instance.pet,
       'inicial_id': instance.inicialId,
       'antecessora_id': instance.antecessoraId,
       'nome': instance.nome,

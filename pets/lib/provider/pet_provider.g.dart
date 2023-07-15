@@ -21,6 +21,23 @@ final petRepositoryProvider = AutoDisposeProvider<PetRepository>.internal(
 );
 
 typedef PetRepositoryRef = AutoDisposeProviderRef<PetRepository>;
+String _$petsOrderedByUpdateHash() =>
+    r'34d0418d4c6fc6cb6400c6f10187ef3772cdf4d0';
+
+/// See also [petsOrderedByUpdate].
+@ProviderFor(petsOrderedByUpdate)
+final petsOrderedByUpdateProvider =
+    AutoDisposeFutureProvider<List<Pet>>.internal(
+  petsOrderedByUpdate,
+  name: r'petsOrderedByUpdateProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$petsOrderedByUpdateHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef PetsOrderedByUpdateRef = AutoDisposeFutureProviderRef<List<Pet>>;
 String _$petsHash() => r'3acf8f1a89c52233e3db7239d4a17d6166985f4b';
 
 /// See also [Pets].

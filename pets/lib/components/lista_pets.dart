@@ -9,7 +9,7 @@ class ListaPets extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    AsyncValue<Map<String, Pet>> pets = ref.watch(petsProvider);
+    AsyncValue<List<Pet>> pets = ref.watch(petsOrderedByUpdateProvider);
 
     return pets.when(
         data: (pets) => lista(context, pets),
@@ -17,9 +17,8 @@ class ListaPets extends ConsumerWidget {
         loading: () => const CircularProgressIndicator());
   }
 
-  lista(context, Map<String, Pet> pets) {
-    final list =
-        pets.values.map<Widget>((pet) => toListItem(context, pet)).toList();
+  lista(context, List<Pet> pets) {
+    final list = pets.map<Widget>((pet) => toListItem(context, pet)).toList();
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,

@@ -16,6 +16,7 @@ class Medicacao {
   @JsonKey(name: 'pet_id')
   String? petId;
 
+  @ignore
   Pet? pet;
 
   @JsonKey(name: 'inicial_id')
@@ -34,6 +35,7 @@ class Medicacao {
   String? updatedAt;
   bool completado;
 
+  @ignore
   get tipoExtenso {
     switch (tipo) {
       case 'medicacao':

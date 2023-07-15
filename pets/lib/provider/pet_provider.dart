@@ -12,6 +12,19 @@ PetRepository petRepository(PetRepositoryRef ref) {
   return PetRepository(ref.watch(httpClientProvider));
 }
 
+// ordered per updatedAt
+@riverpod
+Future<List<Pet>> petsOrderedByUpdate(PetsOrderedByUpdateRef ref) async {
+  final pets = await ref.watch(petsProvider.future);
+
+  return pets.values.toList()
+    ..sort((a, b) {
+      return a.updatedAt is String
+          ? DateTime.parse(a.updatedAt ?? '').microsecondsSinceEpoch
+          : DateTime.parse(a.createdAt ?? '').microsecondsSinceEpoch;
+    });
+}
+
 @riverpod
 class Pets extends _$Pets {
   @override
