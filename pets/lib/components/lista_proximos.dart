@@ -19,7 +19,7 @@ class ListaProximos extends ConsumerWidget {
 
     var medicacoesComoEvento = medicacoes.values
         .where((element) => !element.completado)
-        .map<MapEntry<String, Widget>>(
+        .map<MapEntry<int, Widget>>(
             (medicacao) => medicacaoComoEvento(context, pets, medicacao))
         .toList();
 
@@ -73,33 +73,41 @@ class ListaProximos extends ConsumerWidget {
     );
   }
 
-  MapEntry<String, Widget> medicacaoComoEvento(
+  MapEntry<int, Widget> medicacaoComoEvento(
       BuildContext context, Map<String, Pet> pets, Medicacao medicacao) {
     Pet pet = pets[medicacao.petId]!;
     String? thumbUrl = pet.imagem != null ? pet.imagemUri.toString() : null;
     String title = pet.nome;
     String subtitle = medicacao.nome;
-    String date = medicacao.quando ?? '';
+    Jiffy date = Jiffy.parse(medicacao.quando!, isUtc: true).toLocal();
+    bool isPast = date.isAfter(Jiffy.now());
+    Color? tileColor = isPast ? Colors.grey[200] : Colors.yellow.shade700;
 
     var widget = Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         child: ListTile(
-          tileColor: Colors.grey[200],
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          tileColor: tileColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
           leading: PetCircleAvatar(thumbUrl: thumbUrl),
           title: Text(title),
           subtitle: Text(subtitle),
-          trailing:
-              Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text(Jiffy.parse(date, isUtc: true).toLocal().fromNow()),
-            const SizedBox(height: 4),
-            ChipEvento.parse(medicacao.tipo)
-          ]),
-          onTap: () => Navigator.pushNamed(context, '/proxima-medicacao',
-              arguments: medicacao),
+          trailing: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(date.fromNow()),
+              const SizedBox(height: 4),
+              ChipEvento.parse(medicacao.tipo),
+            ],
+          ),
+          onTap: () => Navigator.pushNamed(
+            context,
+            '/proxima-medicacao',
+            arguments: medicacao,
+          ),
         ));
 
-    return MapEntry(date, widget);
+    return MapEntry(date.millisecondsSinceEpoch, widget);
   }
 }
