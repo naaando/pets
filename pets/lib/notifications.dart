@@ -86,7 +86,7 @@ notificationsInitializer() async {
   }
 
   const AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('@mipmap/launcher_icon');
+      AndroidInitializationSettings('@drawable/ic_launcher_foreground');
 
   final List<DarwinNotificationCategory> darwinNotificationCategories =
       <DarwinNotificationCategory>[
