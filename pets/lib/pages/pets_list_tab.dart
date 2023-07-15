@@ -58,13 +58,26 @@ class PetsListTab extends HookConsumerWidget {
   }
 
   Widget barraDePesquisa(ValueNotifier<String> pesquisa) {
+    final controller = useTextEditingController();
+    controller.addListener(() {
+      pesquisa.value = controller.text;
+    });
+
     return Container(
       padding: const EdgeInsets.only(bottom: 15),
       child: TextField(
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
+        controller: controller,
+        decoration: InputDecoration(
           labelText: 'Pesquisar',
+          prefixIcon: const Icon(Icons.search),
+          suffixIcon: pesquisa.value == ''
+              ? null
+              : IconButton(
+                  onPressed: () => controller.clear(),
+                  icon: const Icon(Icons.clear),
+                ),
         ),
+        textInputAction: TextInputAction.search,
         onChanged: (value) {
           pesquisa.value = value;
         },
