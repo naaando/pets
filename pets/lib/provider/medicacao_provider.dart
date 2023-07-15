@@ -20,9 +20,11 @@ class Medicacoes extends _$Medicacoes {
   }
 
   Future<void> save(Medicacao medicacao, String? proximaData) async {
+    final pets = await ref.read(petsProvider.future);
     final rep = ref.read(medicacaoRepositoryProvider);
 
     var medicacaoSalva = await rep.save(medicacao);
+    medicacaoSalva?.pet = pets[medicacaoSalva.petId];
     await updateAlarms(medicacaoSalva);
 
     if (proximaData != null) {
@@ -63,7 +65,7 @@ class Medicacoes extends _$Medicacoes {
 
     alarmProviderRef.add(
       alarmId,
-      medicacaoSalva.nome,
+      "${medicacaoSalva.tipoExtenso}: ${medicacaoSalva.nome}",
       "de ${medicacaoSalva.pet?.nome}",
       DateTime.parse(medicacaoSalva.quando!),
     );

@@ -34,6 +34,19 @@ class Medicacao {
   String? updatedAt;
   bool completado;
 
+  get tipoExtenso {
+    switch (tipo) {
+      case 'medicacao':
+        return 'Medicação';
+      case 'vacina':
+        return 'Vacina';
+      case 'vermifugo':
+        return 'Vermífugo';
+      default:
+        return 'Medicação';
+    }
+  }
+
   Medicacao({
     this.id,
     this.inicialId,
