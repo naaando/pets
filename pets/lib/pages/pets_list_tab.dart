@@ -76,6 +76,7 @@ class PetsListTab extends HookConsumerWidget {
     textOrPlaceholder(value, placeholder) => TextSpan(
           text: value ?? placeholder,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                fontWeight: value != null ? FontWeight.w500 : FontWeight.w400,
                 color: value != null ? Colors.grey[900] : Colors.grey[600],
               ),
         );
@@ -127,6 +128,7 @@ class PetsListTab extends HookConsumerWidget {
                                           : null,
                                       'indefinido'),
                                 ])),
+                                const SizedBox(height: 3),
                                 RichText(
                                     text: TextSpan(children: [
                                   TextSpan(
@@ -136,16 +138,6 @@ class PetsListTab extends HookConsumerWidget {
                                   ),
                                   textOrPlaceholder(
                                       pet.especie?.nome, 'indefinida'),
-                                ])),
-                                const SizedBox(height: 3),
-                                RichText(
-                                    text: TextSpan(children: [
-                                  TextSpan(
-                                    text: 'Sexo ',
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  ),
-                                  textOrPlaceholder(pet.sexo, 'indefinido'),
                                 ])),
                                 const SizedBox(height: 3),
                                 RichText(
