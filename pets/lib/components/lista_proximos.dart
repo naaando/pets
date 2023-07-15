@@ -8,6 +8,7 @@ import 'package:pets/provider/medicacao_provider.dart';
 import 'package:pets/provider/pet_provider.dart';
 
 import 'chip_evento.dart';
+import 'pet_circle_avatar.dart';
 import 'skeleton_list_tile.dart';
 
 class ListaProximos extends ConsumerWidget {
@@ -87,9 +88,7 @@ class ListaProximos extends ConsumerWidget {
           tileColor: Colors.grey[200],
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          leading: CircleAvatar(
-              foregroundImage:
-                  thumbUrl != null ? FastCachedImageProvider(thumbUrl) : null),
+          leading: PetCircleAvatar(thumbUrl: thumbUrl),
           title: Text(title),
           subtitle: Text(subtitle),
           trailing:

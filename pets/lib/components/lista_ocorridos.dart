@@ -85,8 +85,10 @@ class ListaOcorridos extends ConsumerWidget {
         tileColor: Colors.grey[200],
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         leading: CircleAvatar(
-            foregroundImage:
-                thumbUrl != null ? FastCachedImageProvider(thumbUrl) : null),
+          foregroundImage:
+              thumbUrl != null ? FastCachedImageProvider(thumbUrl) : null,
+          child: Icon(Icons.pets),
+        ),
         title: Text(title),
         subtitle: Text(subtitle),
         trailing:
