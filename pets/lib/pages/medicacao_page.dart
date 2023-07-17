@@ -29,11 +29,9 @@ class MedicacaoPage extends HookConsumerWidget {
 
     var proximaData = useState<String?>(null);
 
-    var tipo = medicacao.value.tipo;
-
     var title = medicacao.value.id != null
-        ? 'Editando ${tipoTexto(tipo)}'
-        : 'Nova ${tipoTexto(tipo)}';
+        ? 'Editando ${medicacao.value.tipoExtenso}'
+        : 'Nova ${medicacao.value.tipoExtenso}';
 
     var formKey = useRef(GlobalKey<FormState>());
 
@@ -137,6 +135,30 @@ class MedicacaoPage extends HookConsumerWidget {
           padding: const EdgeInsets.all(25),
           child: Column(
             children: [
+              DropdownButtonFormField<String>(
+                value: medicacao.value.tipo,
+                decoration: const InputDecoration(
+                  hintText: 'Tipo',
+                  labelText: 'Tipo',
+                ),
+                items: const [
+                  DropdownMenuItem(
+                    value: 'medicacao',
+                    child: Text('Medicação'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'vacina',
+                    child: Text('Vacina'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'vermifugo',
+                    child: Text('Vermífugo'),
+                  )
+                ],
+                onChanged: (String? value) =>
+                    medicacao.value.tipo = value ?? 'medicacao',
+              ),
+              const SizedBox(height: 20),
               DropdownButtonFormField<Pet?>(
                 value: medicacao.value.pet,
                 decoration: const InputDecoration(
@@ -309,14 +331,5 @@ class MedicacaoPage extends HookConsumerWidget {
         return alert;
       },
     );
-  }
-
-  String tipoTexto(tipo) {
-    switch (tipo) {
-      case 'vacina':
-        return 'vacina';
-      default:
-        return 'medicação';
-    }
   }
 }
