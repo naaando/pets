@@ -41,16 +41,18 @@ class PetsListTab extends HookConsumerWidget {
             .compareTo(ratio(a.nome, pesquisa.value));
       });
 
-    return SingleChildScrollView(
+    return Padding(
       padding: const EdgeInsets.all(15),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
           barraDePesquisa(pesquisa),
-          Column(
-            children: petsFiltrados
-                .map<Widget>((Pet pet) => petCard(context, pet))
-                .toList(),
+          Expanded(
+            child: ListView(
+              children: petsFiltrados
+                  .map<Widget>((Pet pet) => petCard(context, pet))
+                  .toList(),
+            ),
           )
         ],
       ),
@@ -64,7 +66,7 @@ class PetsListTab extends HookConsumerWidget {
     });
 
     return Container(
-      padding: const EdgeInsets.only(bottom: 15),
+      padding: const EdgeInsets.only(bottom: 20),
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
@@ -86,126 +88,128 @@ class PetsListTab extends HookConsumerWidget {
   }
 
   Widget petCard(BuildContext context, Pet pet) {
+    var labelStyle = Theme.of(context).textTheme.bodyMedium?.copyWith(
+          color: Colors.grey[700],
+        );
+
     textOrPlaceholder(value, placeholder) => TextSpan(
           text: value ?? placeholder,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                fontWeight: value != null ? FontWeight.w500 : FontWeight.w400,
-                color: value != null ? Colors.grey[900] : Colors.grey[600],
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontWeight: value != null ? FontWeight.w600 : FontWeight.w400,
+                color: value != null ? Colors.red[400] : Colors.grey[900],
               ),
         );
 
+    var info = [
+      RichText(
+          text: TextSpan(children: [
+        TextSpan(
+          text: 'Idade ',
+          style: labelStyle,
+        ),
+        textOrPlaceholder(
+          pet.nascimento != null
+              ? Jiffy.parse(pet.nascimento ?? '').fromNow()
+              : null,
+          'indefinido',
+        ),
+      ])),
+      const SizedBox(height: 3),
+      RichText(
+          text: TextSpan(children: [
+        TextSpan(
+          text: 'Espécie ',
+          style: labelStyle,
+        ),
+        textOrPlaceholder(
+          pet.especie?.nome,
+          'indefinida',
+        ),
+      ])),
+      const SizedBox(height: 3),
+      RichText(
+          text: TextSpan(children: [
+        TextSpan(
+          text: 'Raça ',
+          style: labelStyle,
+        ),
+        textOrPlaceholder(
+          pet.raca,
+          'indefinida',
+        ),
+      ])),
+    ];
+
+    var badges = [
+      Badge(
+        backgroundColor: pet.castrado == true ? Colors.teal : Colors.red[400],
+        label: pet.castrado == true
+            ? const Text('Castrado')
+            : const Text('Não castrado'),
+      ),
+      const SizedBox(height: 3),
+      Badge(
+        backgroundColor: pet.sexo == 'macho' ? Colors.blue : Colors.pink[300],
+        label: pet.sexo == 'macho' ? const Text('Macho') : const Text('Fêmea'),
+      ),
+    ];
+
+    if (pet.obito != null) {
+      badges.addAll([
+        const SizedBox(height: 3),
+        const Badge(
+          backgroundColor: Colors.grey,
+          label: Text('Falecido'),
+        ),
+      ]);
+    }
+
     return InkWell(
-      child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 15),
-          child: SizedBox(
-            height: 120,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                leadingImage(context, pet),
-                Expanded(
-                  child: Container(
-                    alignment: Alignment.topRight,
-                    padding: const EdgeInsets.only(left: 22, top: 6),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
+      child: SizedBox(
+        height: 120,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            leadingImage(context, pet),
+            Expanded(
+              child: Container(
+                alignment: Alignment.topRight,
+                padding: const EdgeInsets.only(left: 22, top: 3),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text(
+                      pet.nome,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Text(
-                          pet.nome,
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                        const SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                // idade
-                                RichText(
-                                    text: TextSpan(children: [
-                                  TextSpan(
-                                    text: 'Idade ',
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  ),
-                                  textOrPlaceholder(
-                                      pet.nascimento != null
-                                          ? Jiffy.parse(pet.nascimento ?? '')
-                                              .fromNow()
-                                          : null,
-                                      'indefinido'),
-                                ])),
-                                const SizedBox(height: 3),
-                                RichText(
-                                    text: TextSpan(children: [
-                                  TextSpan(
-                                    text: 'Espécie ',
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  ),
-                                  textOrPlaceholder(
-                                      pet.especie?.nome, 'indefinida'),
-                                ])),
-                                const SizedBox(height: 3),
-                                RichText(
-                                    text: TextSpan(children: [
-                                  TextSpan(
-                                    text: 'Raça ',
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  ),
-                                  textOrPlaceholder(pet.raca, 'indefinida'),
-                                ])),
-                              ],
-                            ),
-                            const SizedBox(width: 20),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Badge(
-                                  backgroundColor: pet.castrado == true
-                                      ? Colors.teal
-                                      : Colors.orange,
-                                  label: pet.castrado == true
-                                      ? const Text('Castrado')
-                                      : const Text('Não castrado'),
-                                ),
-                                const SizedBox(height: 3),
-                                Badge(
-                                  backgroundColor: pet.sexo == 'macho'
-                                      ? Colors.blue
-                                      : Colors.pink[300],
-                                  label: pet.sexo == 'macho'
-                                      ? const Text('Macho')
-                                      : const Text('Fêmea'),
-                                ),
-                                const SizedBox(height: 3),
-                                Badge(
-                                  backgroundColor: pet.obito == null
-                                      ? Colors.lightGreen
-                                      : Colors.grey,
-                                  label: pet.obito == null
-                                      ? const Text('Vivo')
-                                      : const Text('Falecido'),
-                                ),
-                              ],
-                            )
-                          ],
+                          children: info,
                         ),
+                        const SizedBox(width: 20),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: badges,
+                        )
                       ],
                     ),
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          )),
+          ],
+        ),
+      ),
       onTap: () {
         Navigator.pushNamed(context, '/cadastro-pet', arguments: pet);
       },
