@@ -13,8 +13,8 @@ import 'package:pets/provider/especie_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:pets/provider/user_provider.dart';
 
-class CadastroPetPage extends HookConsumerWidget {
-  const CadastroPetPage({super.key});
+class PetPage extends HookConsumerWidget {
+  const PetPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

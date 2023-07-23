@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pets/pages/medicacao_page.dart';
 import 'package:pets/pages/home_page.dart';
-import 'package:pets/pages/cadastro_pet_page.dart';
+import 'package:pets/pages/pet_page.dart';
 import 'package:pets/pages/welcome_page.dart';
 import 'package:pets/provider/user_provider.dart';
 
@@ -48,7 +48,7 @@ class App extends ConsumerWidget {
         darkTheme: darkTheme,
         routes: <String, WidgetBuilder>{
           '/home': (BuildContext context) => const HomePage(),
-          '/cadastro-pet': (BuildContext context) => const CadastroPetPage(),
+          '/cadastro-pet': (BuildContext context) => const PetPage(),
           '/cadastro-vacina': (BuildContext context) =>
               const MedicacaoPage(tipoPadrao: 'vacina'),
           '/medicacao': (BuildContext context) => const MedicacaoPage(),
