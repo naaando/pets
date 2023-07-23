@@ -128,110 +128,96 @@ class MedicacaoPage extends HookConsumerWidget {
       text: medicacao.value.quando,
     );
 
-    return SingleChildScrollView(
-      child: Form(
-        key: formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(25),
-          child: Column(
-            children: [
-              DropdownButtonFormField<String>(
-                value: medicacao.value.tipo,
-                decoration: const InputDecoration(
-                  hintText: 'Tipo',
-                  labelText: 'Tipo',
-                ),
-                items: const [
-                  DropdownMenuItem(
-                    value: 'medicacao',
-                    child: Text('Medicação'),
-                  ),
-                  DropdownMenuItem(
-                    value: 'vacina',
-                    child: Text('Vacina'),
-                  ),
-                  DropdownMenuItem(
-                    value: 'vermifugo',
-                    child: Text('Vermífugo'),
-                  )
-                ],
-                onChanged: (String? value) =>
-                    medicacao.value.tipo = value ?? 'medicacao',
-              ),
-              const SizedBox(height: 20),
-              DropdownButtonFormField<Pet?>(
-                value: medicacao.value.pet,
-                decoration: const InputDecoration(
-                  hintText: 'Animal',
-                  labelText: 'Animal',
-                ),
-                items: petsDropdown(medicacao.value.pet, pets),
-                onChanged: (Pet? value) {
-                  medicacao.value.petId = value?.id;
-                  medicacao.value.pet = value;
-                },
-                validator: (value) =>
-                    value == null ? 'Animal é obrigatório' : null,
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                initialValue: medicacao.value.nome,
-                decoration: const InputDecoration(
-                  hintText: 'Nome',
-                  labelText: 'Nome',
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Nome é obrigatório';
-                  }
-                  return null;
-                },
-                onSaved: (newValue) => medicacao.value.nome = newValue ?? '',
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                initialValue: medicacao.value.fabricante,
-                decoration: const InputDecoration(
-                  hintText: 'Fabricante',
-                  labelText: 'Fabricante',
-                ),
-                onSaved: (newValue) =>
-                    medicacao.value.fabricante = newValue ?? '',
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                initialValue: medicacao.value.veterinario,
-                decoration: const InputDecoration(
-                  hintText: 'Veterinário',
-                  labelText: 'Veterinário',
-                ),
-                onSaved: (newValue) =>
-                    medicacao.value.veterinario = newValue ?? '',
-              ),
-              const SizedBox(height: 20),
-              DateTimeFormField(
-                controller: dataController,
-                firstDate: DateTime.now().subtract(const Duration(days: 365)),
-                lastDate: DateTime.now().add(const Duration(days: 365)),
-                decoration: const InputDecoration(
-                  hintText: 'Data',
-                  labelText: 'Data',
-                  prefixText: 'Em ',
-                  suffixIcon: Icon(Icons.alarm_on_rounded),
-                ),
-                onDateChanged: (dateTime) {
-                  medicacao.value.quando = dateTime?.toIso8601String();
-                  medicacao.notifyListeners();
-                },
-              ),
-              ...quandoDataForPassadoExibirProximaData(
-                medicacao,
-                proximaData,
-              ),
-            ],
-          ),
-        ),
+    return Form(
+      key: formKey,
+      child: ListView(
+        children: [
+          conteudoPrincipal(medicacao, pets, dataController),
+          outrasInformacoes(medicacao),
+          repetir(medicacao, proximaData),
+          const SizedBox(height: 60),
+        ],
       ),
+    );
+  }
+
+  conteudoPrincipal(medicacao, pets, dataController) {
+    return ExpansionTile(
+      title: const Text('Principal'),
+      leading: const Icon(Icons.event),
+      initiallyExpanded: true,
+      childrenPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
+      children: [
+        DropdownButtonFormField<String>(
+          value: medicacao.value.tipo,
+          decoration: const InputDecoration(
+            hintText: 'Tipo',
+            labelText: 'Tipo',
+          ),
+          items: const [
+            DropdownMenuItem(
+              value: 'medicacao',
+              child: Text('Medicação'),
+            ),
+            DropdownMenuItem(
+              value: 'vacina',
+              child: Text('Vacina'),
+            ),
+            DropdownMenuItem(
+              value: 'vermifugo',
+              child: Text('Vermífugo'),
+            )
+          ],
+          onChanged: (String? value) =>
+              medicacao.value.tipo = value ?? 'medicacao',
+        ),
+        const SizedBox(height: 20),
+        DropdownButtonFormField<Pet?>(
+          value: medicacao.value.pet,
+          decoration: const InputDecoration(
+            hintText: 'Animal',
+            labelText: 'Animal',
+          ),
+          items: petsDropdown(medicacao.value.pet, pets),
+          onChanged: (Pet? value) {
+            medicacao.value.petId = value?.id;
+            medicacao.value.pet = value;
+          },
+          validator: (value) => value == null ? 'Animal é obrigatório' : null,
+        ),
+        const SizedBox(height: 20),
+        TextFormField(
+          initialValue: medicacao.value.nome,
+          decoration: const InputDecoration(
+            hintText: 'Nome',
+            labelText: 'Nome',
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Nome é obrigatório';
+            }
+            return null;
+          },
+          onSaved: (newValue) => medicacao.value.nome = newValue ?? '',
+        ),
+        const SizedBox(height: 20),
+        DateTimeFormField(
+          controller: dataController,
+          firstDate: DateTime.now().subtract(const Duration(days: 365)),
+          lastDate: DateTime.now().add(const Duration(days: 365)),
+          decoration: const InputDecoration(
+            hintText: 'Data',
+            labelText: 'Data',
+            prefixText: 'Em ',
+            suffixIcon: Icon(Icons.alarm_on_rounded),
+          ),
+          onDateChanged: (dateTime) {
+            medicacao.value.quando = dateTime?.toIso8601String();
+            medicacao.notifyListeners();
+          },
+        ),
+        const SizedBox(height: 12),
+      ],
     );
   }
 
@@ -331,5 +317,156 @@ class MedicacaoPage extends HookConsumerWidget {
         return alert;
       },
     );
+  }
+
+  outrasInformacoes(medicacao) {
+    return ExpansionTile(
+      title: const Text('Outras informações'),
+      leading: const Icon(Icons.dataset),
+      childrenPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
+      children: [
+        TextFormField(
+          initialValue: medicacao.value.fabricante,
+          decoration: const InputDecoration(
+            hintText: 'Fabricante',
+            labelText: 'Fabricante',
+          ),
+          onSaved: (newValue) => medicacao.value.fabricante = newValue ?? '',
+        ),
+        const SizedBox(height: 20),
+        TextFormField(
+          initialValue: medicacao.value.veterinario,
+          decoration: const InputDecoration(
+            hintText: 'Veterinário',
+            labelText: 'Veterinário',
+          ),
+          onSaved: (newValue) => medicacao.value.veterinario = newValue ?? '',
+        ),
+        const SizedBox(height: 12),
+      ],
+    );
+  }
+
+  repetir(medicacao, proximaData) {
+    var repetidor = useState({});
+
+    return ExpansionTile(
+      title: const Text('Repetir'),
+      leading: const Icon(Icons.alarm),
+      childrenPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
+      children: [
+        Row(
+          children: [
+            Expanded(
+                child: TextFormField(
+              initialValue: repetidor.value['repetir_em.intervalo'],
+              decoration: const InputDecoration(
+                hintText: 'Intervalo',
+                labelText: 'Intervalo',
+              ),
+              onChanged: (value) {
+                repetidor.value['repetir_em.intervalo'] = value;
+                repetidor.value = {...repetidor.value};
+              },
+            )),
+            const SizedBox(width: 10),
+            Expanded(
+              child: SizedBox(
+                height: 60,
+                child: DropdownButtonFormField(
+                  value: repetidor.value['repetir_em.tipo'],
+                  items: ['minutos', 'horas', 'dias']
+                      .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                      .toList(),
+                  onChanged: (value) {
+                    repetidor.value['repetir_em.tipo'] = value;
+                    repetidor.value = {...repetidor.value};
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 20),
+        Row(
+          children: [
+            Expanded(
+                child: TextFormField(
+              initialValue: repetidor.value['durante.intervalo'],
+              decoration: const InputDecoration(
+                hintText: 'Durante',
+                labelText: 'Durante',
+              ),
+              onChanged: (value) {
+                repetidor.value['durante.intervalo'] = value;
+                repetidor.value = {...repetidor.value};
+              },
+            )),
+            const SizedBox(width: 10),
+            Expanded(
+              child: SizedBox(
+                height: 60,
+                child: DropdownButtonFormField(
+                  value: repetidor.value['durante.tipo'],
+                  items: ['vezes', 'horas', 'dias', 'mes']
+                      .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                      .toList(),
+                  onChanged: (value) {
+                    repetidor.value['durante.tipo'] = value;
+                    repetidor.value = {...repetidor.value};
+                  },
+                ),
+              ),
+            )
+          ],
+        ),
+        const SizedBox(height: 20),
+        ...debugHorarios(
+          medicacao,
+          repetidor.value['repetir_em.intervalo'],
+          repetidor.value['repetir_em.tipo'],
+          repetidor.value['durante.intervalo'],
+          repetidor.value['durante.tipo'],
+        ),
+      ],
+    );
+  }
+
+  debugHorarios(
+    medicacao,
+    String? repetirEmIntervalo,
+    String? repetirEmTipo,
+    String? duranteIntervalo,
+    String? duranteTipo,
+  ) {
+    var filled = [
+      medicacao.value.quando,
+      repetirEmIntervalo,
+      repetirEmTipo,
+      duranteIntervalo,
+      duranteTipo
+    ].every((element) => element is String && element != '');
+
+    if (!filled) {
+      return [];
+    }
+
+    var quando = Jiffy.parse(medicacao.value.quando, isUtc: true).toLocal();
+
+    var last = quando.addDuration(Duration(
+      days: int.parse(duranteIntervalo!),
+    ));
+
+    var list = <Jiffy>[];
+
+    var current = quando;
+    while (current.isBefore(last)) {
+      list.add(current);
+      current = current.add(
+        hours: int.parse(repetirEmIntervalo!),
+      );
+    }
+
+    return list.map((Jiffy date) => Text(date.yMMMEdjm));
   }
 }
