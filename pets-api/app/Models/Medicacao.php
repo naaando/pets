@@ -53,6 +53,7 @@ class Medicacao extends Model
         'quando',
         'tipo',
         'completado',
+        'atributos',
     ];
 
     protected $appends = ['total_doses'];

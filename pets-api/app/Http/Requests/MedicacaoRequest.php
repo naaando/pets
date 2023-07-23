@@ -35,6 +35,7 @@ class MedicacaoRequest extends FormRequest
             'veterinario' => 'nullable|string',
             'quando' => 'required|date',
             'completado' => 'required|boolean',
+            'atributos' => 'nullable|array',
         ];
     }
 }
