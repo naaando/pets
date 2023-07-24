@@ -25,7 +25,7 @@ Pet _$PetFromJson(Map<String, dynamic> json) => Pet(
       sexo: json['sexo'] as String?,
       raca: json['raca'] as String?,
       espacoId: json['espaco_id'] as String?,
-      obito: json['obito'] as String?,
+      falecimento: json['falecimento'] as String?,
       userCreated: json['userCreated'] as String?,
       userUpdated: json['userUpdated'] as String?,
     );
@@ -48,6 +48,6 @@ Map<String, dynamic> _$PetToJson(Pet instance) => <String, dynamic>{
       'userCreated': instance.userCreated,
       'userUpdated': instance.userUpdated,
       'espaco_id': instance.espacoId,
-      'obito': instance.obito,
+      'falecimento': instance.falecimento,
       'imagem_url': instance.imagemUrl,
     };

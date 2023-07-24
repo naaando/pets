@@ -35,7 +35,7 @@ class Pet {
 
   @JsonKey(name: 'espaco_id')
   String? espacoId;
-  String? obito;
+  String? falecimento;
 
   @JsonKey(name: 'imagem_url')
   String? imagemUrl;
@@ -61,7 +61,7 @@ class Pet {
     this.sexo,
     this.raca,
     required this.espacoId,
-    this.obito,
+    this.falecimento,
     this.userCreated,
     this.userUpdated,
   });
