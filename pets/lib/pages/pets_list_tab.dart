@@ -140,19 +140,25 @@ class PetsListTab extends HookConsumerWidget {
       ])),
     ];
 
-    var badges = [
+    var badges = <Widget>[
       Badge(
         backgroundColor: pet.castrado == true ? Colors.teal : Colors.red[400],
         label: pet.castrado == true
             ? const Text('Castrado')
             : const Text('Não castrado'),
       ),
-      const SizedBox(height: 3),
-      Badge(
-        backgroundColor: pet.sexo == 'macho' ? Colors.blue : Colors.pink[300],
-        label: pet.sexo == 'macho' ? const Text('Macho') : const Text('Fêmea'),
-      ),
     ];
+
+    if (pet.sexo != null) {
+      badges.addAll([
+        const SizedBox(height: 3),
+        Badge(
+          backgroundColor: pet.sexo == 'macho' ? Colors.blue : Colors.pink[300],
+          label:
+              pet.sexo == 'macho' ? const Text('Macho') : const Text('Fêmea'),
+        ),
+      ]);
+    }
 
     if (pet.obito != null) {
       badges.addAll([
