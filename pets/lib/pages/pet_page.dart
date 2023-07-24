@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pets/components/datetime_form_field.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/models/especie.dart';
 import 'package:pets/provider/form_state_provider.dart';
@@ -20,12 +21,14 @@ class PetPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var user = ref.watch(loggedUserProvider).asData!.value!;
 
-    Pet pet = (ModalRoute.of(context)!.settings.arguments as Pet?) ??
+    var petFromRoute = (ModalRoute.of(context)!.settings.arguments as Pet?) ??
         Pet(
           espacoId: user.espacoAtivoId,
         );
 
-    var title = pet.nome.isNotEmpty ? pet.nome : 'Novo animal';
+    var pet = useState(petFromRoute);
+
+    var title = pet.value.id != null ? pet.value.nome : 'Novo animal';
     var formKey = ref.watch(petFormStateProvider);
     final petImgFile = useState<XFile?>(null);
 
@@ -33,11 +36,11 @@ class PetPage extends HookConsumerWidget {
         child: Scaffold(
           appBar: AppBar(
             title: Text(title),
-            actions: barActions(context, ref, pet, formKey),
+            actions: barActions(context, ref, pet.value, formKey),
           ),
           body: body(context, ref, formKey, title, pet, petImgFile),
           floatingActionButton:
-              saveButton(context, ref, formKey, pet, petImgFile),
+              saveButton(context, ref, formKey, pet.value, petImgFile),
         ),
         onWillPop: () async => true);
   }
@@ -99,15 +102,8 @@ class PetPage extends HookConsumerWidget {
     ];
   }
 
-  TextEditingController makeController(prop) {
-    return useTextEditingController(
-        text: prop != null
-            ? DateFormat().format(DateTime.tryParse(prop as String)!)
-            : null);
-  }
-
   Widget body(BuildContext context, WidgetRef ref, GlobalKey<FormState> formKey,
-      String title, Pet pet, ValueNotifier<XFile?> petImgFile) {
+      String title, ValueNotifier<Pet> pet, ValueNotifier<XFile?> petImgFile) {
     // Dont watch pets cause it will cause a rebuild
     Map<String, Pet> pets =
         ref.read(petsProvider).asData?.value ?? <String, Pet>{};
@@ -115,9 +111,11 @@ class PetPage extends HookConsumerWidget {
     Map<String, Especie> especie =
         ref.watch(especiesProvider).asData?.value ?? <String, Especie>{};
 
-    final nascimentoController = makeController(pet.nascimento);
-    final castracaoController = makeController(pet.castracao);
-    final obitoController = makeController(pet.obito);
+    final nascimentoController =
+        useTextEditingController(text: pet.value.nascimento);
+    final castracaoController =
+        useTextEditingController(text: pet.value.castracao);
+    final obitoController = useTextEditingController(text: pet.value.obito);
 
     return SingleChildScrollView(
         child: Form(
@@ -129,18 +127,18 @@ class PetPage extends HookConsumerWidget {
                   petImage(
                     context,
                     ref,
-                    pet,
+                    pet.value,
                     petImgFile,
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
-                    initialValue: pet.nome,
+                    initialValue: pet.value.nome,
                     decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.pets),
                       hintText: 'Nome do animal',
                       labelText: 'Nome',
                     ),
-                    onSaved: (newValue) => pet.nome = newValue!,
+                    onSaved: (newValue) => pet.value.nome = newValue!,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Nome é obrigatório';
@@ -149,7 +147,7 @@ class PetPage extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 20),
                   DropdownButtonFormField(
-                    value: pet.especieId,
+                    value: pet.value.especieId,
                     decoration: const InputDecoration(
                       hintText: 'Espécie do animal',
                       labelText: 'Espécie',
@@ -160,20 +158,20 @@ class PetPage extends HookConsumerWidget {
                               child: Text(v.value.nome),
                             ))
                         .toList(),
-                    onChanged: (value) => pet.especieId = value,
+                    onChanged: (value) => pet.value.especieId = value,
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
-                    initialValue: pet.raca,
+                    initialValue: pet.value.raca,
                     decoration: const InputDecoration(
                       hintText: 'Raça do animal',
                       labelText: 'Raça',
                     ),
-                    onSaved: (newValue) => pet.raca = newValue!,
+                    onSaved: (newValue) => pet.value.raca = newValue!,
                   ),
                   const SizedBox(height: 20),
                   DropdownButtonFormField(
-                    value: pet.sexo,
+                    value: pet.value.sexo,
                     decoration: const InputDecoration(
                       hintText: 'Sexo',
                       labelText: 'Sexo',
@@ -188,101 +186,70 @@ class PetPage extends HookConsumerWidget {
                         child: Text('Feminino'),
                       ),
                     ],
-                    onChanged: (value) => pet.sexo = value,
+                    onChanged: (value) => pet.value.sexo = value,
                   ),
                   const SizedBox(height: 20),
-                  TextFormField(
-                      controller: nascimentoController,
-                      decoration: const InputDecoration(
-                        hintText: 'Data de nascimento',
-                        labelText: 'Data de nascimento',
-                      ),
-                      readOnly: true,
-                      onSaved: (newValue) {
-                        pet.nascimento =
-                            prepareDate(newValue) ?? pet.nascimento;
-                      },
-                      onTap: () async {
-                        var date = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(1900),
-                          lastDate: DateTime.now(),
-                        );
-
-                        if (date != null) {
-                          pet.nascimento = date.toIso8601String();
-                          nascimentoController.text = DateFormat().format(date);
-                        }
-                      }),
+                  DateTimeFormField(
+                    controller: nascimentoController,
+                    firstDate: DateTime(1900),
+                    lastDate: DateTime.now(),
+                    decoration: const InputDecoration(
+                      hintText: 'Data de nascimento',
+                      labelText: 'Data de nascimento',
+                    ),
+                    onDateChanged: (dateTime) {
+                      pet.value.nascimento = dateTime?.toIso8601String();
+                      pet.notifyListeners();
+                    },
+                  ),
                   const SizedBox(height: 20),
-                  TextFormField(
-                      controller: castracaoController,
-                      decoration: const InputDecoration(
-                        hintText: 'Data de castração (aproximada)',
-                        labelText: 'Data de castração (aproximada)',
-                      ),
-                      readOnly: true,
-                      onSaved: (newValue) {
-                        pet.castracao = prepareDate(newValue) ?? pet.castracao;
-                      },
-                      onTap: () async {
-                        var date = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(1900),
-                          lastDate: DateTime.now(),
-                        );
-
-                        if (date != null) {
-                          pet.castracao = date.toIso8601String();
-                          castracaoController.text = DateFormat().format(date);
-                        }
-                      }),
+                  DateTimeFormField(
+                    controller: castracaoController,
+                    firstDate: DateTime(1900),
+                    lastDate: DateTime.now(),
+                    decoration: const InputDecoration(
+                      hintText: 'Data de castração (aproximada)',
+                      labelText: 'Data de castração (aproximada)',
+                    ),
+                    onDateChanged: (dateTime) {
+                      pet.value.castracao = dateTime?.toIso8601String();
+                      pet.notifyListeners();
+                    },
+                  ),
                   const SizedBox(height: 20),
                   DropdownButtonFormField(
-                    value: pet.maeId,
+                    value: pet.value.maeId,
                     decoration: const InputDecoration(
                       hintText: 'Mãe',
                       labelText: 'Mãe',
                     ),
                     items: femalePetsDropdown(pets),
-                    onChanged: (value) => pet.maeId = value,
+                    onChanged: (value) => pet.value.maeId = value,
                   ),
                   const SizedBox(height: 20),
                   DropdownButtonFormField(
-                    value: pet.paiId,
+                    value: pet.value.paiId,
                     decoration: const InputDecoration(
                       hintText: 'Pai',
                       labelText: 'Pai',
                     ),
                     items: malePetsDropdown(pets),
-                    onChanged: (value) => pet.paiId = value,
+                    onChanged: (value) => pet.value.paiId = value,
                   ),
                   const SizedBox(height: 20),
-                  TextFormField(
-                      controller: obitoController,
-                      decoration: const InputDecoration(
-                        hintText: 'Data de óbito',
-                        labelText: 'Data de óbito',
-                      ),
-                      readOnly: true,
-                      onSaved: (newValue) {
-                        pet.obito = prepareDate(newValue) ?? pet.obito;
-                      },
-                      onTap: () async {
-                        var date = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(1900),
-                          lastDate: DateTime.now(),
-                        );
-
-                        if (date != null) {
-                          pet.obito = date.toIso8601String();
-                          obitoController.text = DateFormat().format(date);
-                        }
-                      }),
+                  DateTimeFormField(
+                    controller: obitoController,
+                    firstDate: DateTime(1900),
+                    lastDate: DateTime.now(),
+                    decoration: const InputDecoration(
+                      hintText: 'Data de óbito',
+                      labelText: 'Data de óbito',
+                    ),
+                    onDateChanged: (dateTime) {
+                      pet.value.obito = dateTime?.toIso8601String();
+                      pet.notifyListeners();
+                    },
+                  ),
                 ],
               ),
             )));
