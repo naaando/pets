@@ -70,6 +70,8 @@ class Pet extends Model
         'nascimento',
         'falecimento',
         'castracao',
+        'mae_id',
+        'pai_id',
     ];
 
     /**

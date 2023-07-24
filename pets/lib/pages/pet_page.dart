@@ -241,23 +241,23 @@ class PetPage extends HookConsumerWidget {
                       }),
                   const SizedBox(height: 20),
                   DropdownButtonFormField(
-                    value: pet.mae,
+                    value: pet.maeId,
                     decoration: const InputDecoration(
                       hintText: 'Mãe',
                       labelText: 'Mãe',
                     ),
                     items: femalePetsDropdown(pets),
-                    onChanged: (value) => pet.mae = value,
+                    onChanged: (value) => pet.maeId = value,
                   ),
                   const SizedBox(height: 20),
                   DropdownButtonFormField(
-                    value: pet.pai,
+                    value: pet.paiId,
                     decoration: const InputDecoration(
                       hintText: 'Pai',
                       labelText: 'Pai',
                     ),
                     items: malePetsDropdown(pets),
-                    onChanged: (value) => pet.pai = value,
+                    onChanged: (value) => pet.paiId = value,
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
@@ -290,7 +290,7 @@ class PetPage extends HookConsumerWidget {
 
   List<DropdownMenuItem<String>> malePetsDropdown(Map<String, Pet> pets) {
     return pets.values
-        .where((animal) => animal.sexo == 'masculino')
+        .where((animal) => animal.sexo == 'macho')
         .map((v) => DropdownMenuItem(
               value: v.id,
               child: Text(v.nome),
@@ -306,7 +306,7 @@ class PetPage extends HookConsumerWidget {
 
   List<DropdownMenuItem<String>> femalePetsDropdown(Map<String, Pet> pets) {
     return pets.values
-        .where((animal) => animal.sexo == 'feminino')
+        .where((animal) => animal.sexo == 'femea')
         .map((v) => DropdownMenuItem(
               value: v.id,
               child: Text(v.nome),

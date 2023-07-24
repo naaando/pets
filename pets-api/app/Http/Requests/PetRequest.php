@@ -26,14 +26,16 @@ class PetRequest extends FormRequest
     {
         return [
             'nome' => 'required|string',
-            'imagem' => 'string',
-            'espaco_id' => 'exists:espacos,id',
-            'especie_id' => 'exists:especies,id',
-            'raca' => 'string',
-            'sexo' => 'in:macho,femea',
-            'nascimento' => 'date',
-            'falecimento' => 'date',
-            'castracao' => 'date',
+            'imagem' => 'nullable|string',
+            'espaco_id' => 'nullable|exists:espacos,id',
+            'especie_id' => 'nullable|exists:especies,id',
+            'raca' => 'nullable|string',
+            'sexo' => 'nullable|in:macho,femea',
+            'nascimento' => 'nullable|date',
+            'falecimento' => 'nullable|date',
+            'castracao' => 'nullable|date',
+            'mae_id' => 'nullable|exists:pets,id',
+            'pai_id' => 'nullable|exists:pets,id',
         ];
     }
 }

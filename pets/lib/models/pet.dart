@@ -20,10 +20,14 @@ class Pet {
 
   Especie? especie;
   String? imagem;
-  String? mae;
+
+  @JsonKey(name: 'mae_id')
+  String? maeId;
   String? nascimento;
   String? castracao;
-  String? pai;
+
+  @JsonKey(name: 'pai_id')
+  String? paiId;
   String? raca;
   String? sexo;
   String? userCreated;
@@ -52,8 +56,8 @@ class Pet {
     this.imagemUrl,
     this.nascimento,
     this.castracao,
-    this.mae,
-    this.pai,
+    this.maeId,
+    this.paiId,
     this.sexo,
     this.raca,
     required this.espacoId,
@@ -65,27 +69,4 @@ class Pet {
   factory Pet.fromJson(Map<String, dynamic> json) => _$PetFromJson(json);
 
   Map<String, dynamic> toJson() => _$PetToJson(this);
-
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'nome': nome,
-      'castrado': castrado,
-      'created_at': createdAt,
-      'updated_at': updatedAt,
-      'especie_id': especieId,
-      'imagem': imagem,
-      'mae': mae,
-      'nascimento': nascimento,
-      'castracao': castracao,
-      'obito': obito,
-      'pai': pai,
-      'raca': raca,
-      'sexo': sexo,
-      'espaco_id': espacoId,
-      'user_created': userCreated,
-      'user_updated': userUpdated,
-    }..removeWhere(
-        (key, value) => value == null || (value is String && value.isEmpty));
-  }
 }

@@ -41,12 +41,13 @@ class PetRepository {
   }
 
   Future<Pet> _create(Pet pet) async {
-    var jsonPet = await httpClient.postJson('api/pets', pet.toMap());
+    var jsonPet = await httpClient.postJson('api/pets', pet.toJson());
     return Pet.fromJson(jsonPet);
   }
 
   Future<Pet> _update(Pet pet) async {
-    var petJson = await httpClient.patchJson('api/pets/${pet.id}', pet.toMap());
+    var petJson =
+        await httpClient.patchJson('api/pets/${pet.id}', pet.toJson());
     return Pet.fromJson(petJson);
   }
 
