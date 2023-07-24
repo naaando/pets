@@ -109,7 +109,8 @@ class PetsListTab extends HookConsumerWidget {
         ),
         textOrPlaceholder(
           pet.nascimento != null
-              ? Jiffy.parse(pet.nascimento ?? '').fromNow()
+              ? Jiffy.parse(pet.nascimento ?? '')
+                  .fromNow(withPrefixAndSuffix: false)
               : null,
           'indefinido',
         ),
