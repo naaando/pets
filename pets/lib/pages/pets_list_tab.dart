@@ -161,7 +161,7 @@ class PetsListTab extends HookConsumerWidget {
       ]);
     }
 
-    if (pet.obito != null) {
+    if (pet.falecimento != null) {
       badges.addAll([
         const SizedBox(height: 3),
         const Badge(
