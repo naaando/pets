@@ -115,7 +115,8 @@ class PetPage extends HookConsumerWidget {
         useTextEditingController(text: pet.value.nascimento);
     final castracaoController =
         useTextEditingController(text: pet.value.castracao);
-    final obitoController = useTextEditingController(text: pet.value.obito);
+    final falecimentoController =
+        useTextEditingController(text: pet.value.falecimento);
 
     return SingleChildScrollView(
         child: Form(
@@ -238,7 +239,7 @@ class PetPage extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 20),
                   DateTimeFormField(
-                    controller: obitoController,
+                    controller: falecimentoController,
                     firstDate: DateTime(1900),
                     lastDate: DateTime.now(),
                     decoration: const InputDecoration(
@@ -246,7 +247,7 @@ class PetPage extends HookConsumerWidget {
                       labelText: 'Data de óbito',
                     ),
                     onDateChanged: (dateTime) {
-                      pet.value.obito = dateTime?.toIso8601String();
+                      pet.value.falecimento = dateTime?.toIso8601String();
                       pet.notifyListeners();
                     },
                   ),
