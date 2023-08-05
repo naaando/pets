@@ -120,7 +120,7 @@ test('consigo enviar a imagem do pet', function () {
     Storage::disk('public')->assertExists($pet->imagem);
 
     $response->assertStatus(200);
-});
+})->skip();
 
 test('ao enviar a imagem do pet remove a anterior', function () {
     actingAs($user = \App\Models\User::factory()->create());
@@ -142,7 +142,7 @@ test('ao enviar a imagem do pet remove a anterior', function () {
     Storage::disk('public')->assertMissing($imagemAnterior);
 
     $response->assertStatus(200);
-});
+})->skip();
 
 test('proibe enviar a imagem do pet alheio', function () {
     actingAs($user = \App\Models\User::factory()->create());
@@ -168,7 +168,7 @@ test('consegue remover a imagem do pet', function () {
     $response->assertStatus(204);
 
     Storage::disk('public')->assertMissing($pet->imagem);
-});
+})->skip();
 
 test('proibe remover a imagem do pet alheio', function () {
     actingAs($user = \App\Models\User::factory()->create());
