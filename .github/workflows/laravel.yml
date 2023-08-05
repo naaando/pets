@@ -22,6 +22,7 @@ jobs:
           POSTGRES_DB: "pets_api"
           POSTGRES_USER: "root"
           POSTGRES_PASSWORD: ""
+          POSTGRES_HOST_AUTH_METHOD: "trust"
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
