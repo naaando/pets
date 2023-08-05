@@ -14,7 +14,10 @@ class MedicacaoController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $medicacoes = Medicacao::where('user_id', $user->id)->get();
+
+        $medicacoes = Medicacao::where('user_id', $user->id)
+            ->whereHas('pet')
+            ->get();
 
         return MedicacaoResource::collection($medicacoes);
     }

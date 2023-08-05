@@ -22,9 +22,7 @@ class MedicacaoFactory extends Factory
             'veterinario' => $this->faker->name(),
             'quando' => $this->faker->dateTime,
             'tipo' => $this->faker->randomElement(['vacina', 'vermifugo', 'remedio']),
-            'total_doses' => $this->faker->numberBetween(1, 10),
             'dose_atual' => $this->faker->numberBetween(1, 10),
-            'proxima_dose' => $this->faker->dateTime,
         ];
     }
 }

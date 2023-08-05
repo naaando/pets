@@ -85,3 +85,16 @@ test('impede de atualizar a medicacao de um animal alheio', function () {
 
     $response->assertStatus(403);
 })->skip();
+
+test('filtra medicacoes de pets removidos', function () {
+    actingAs($user = User::factory()->create());
+
+    $pet = Pet::factory()->for($user)->create();
+    Medicacao::factory()->for($user)->for($pet)->create();
+
+    $pet->delete();
+
+    $response = getJson("/api/medicacoes");
+    $response->assertStatus(200);
+    $response->assertJsonCount(0, 'data');
+})->only();
