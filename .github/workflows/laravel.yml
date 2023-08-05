@@ -3,13 +3,17 @@ name: Laravel
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - pets-api
   pull_request:
     branches: [ "main" ]
+    paths:
+      - pets-api
 
 defaults:
   run:
     working-directory: pets-api
-  
+
 jobs:
   tests:
     name: "Run Pest tests"
