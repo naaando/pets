@@ -45,8 +45,8 @@ jobs:
     - name: Execute tests (Unit and Feature tests)
       run: php artisan test
       env:
-          POSTGRES_HOST: postgres
-          POSTGRES_PORT: 5432
-          POSTGRES_DB: "pets_api"
-          POSTGRES_USER: "root"
-          POSTGRES_PASSWORD: "root"
+          DB_HOST: postgres
+          DB_PORT: 5432
+          DB_DATABASE: "pets_api"
+          DB_USER: "root"
+          DB_PASSWORD: "root"
