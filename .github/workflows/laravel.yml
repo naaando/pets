@@ -15,16 +15,19 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      postgres:
+      pgsql:
         image: postgres
+        # Baseado no .env.example
         env:
+          POSTGRES_DB: "pets_api"
+          POSTGRES_USER: "root"
           POSTGRES_PASSWORD: ""
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-          
+
     steps:
     - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
       with:
