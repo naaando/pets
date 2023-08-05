@@ -51,8 +51,9 @@ jobs:
       - name: Tests
         run: ./vendor/bin/pest --coverage --min=50
         env:
-            DB_HOST: localhost
-            DB_PORT: 5432
-            DB_DATABASE: "pets_api"
-            DB_USER: "root"
-            DB_PASSWORD: "root"
+          DB_CONNECTION: pgsql
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_DATABASE: "pets_api"
+          DB_USER: "root"
+          DB_PASSWORD: "root"
