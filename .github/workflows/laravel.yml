@@ -18,6 +18,8 @@ jobs:
     services:
       postgres:
         image: postgres
+        ports:
+          - 5432:5432
         # Baseado no .env.example
         env:
           POSTGRES_DB: "pets_api"
@@ -45,7 +47,7 @@ jobs:
     - name: Execute tests (Unit and Feature tests)
       run: php artisan test
       env:
-          DB_HOST: postgres
+          DB_HOST: localhost
           DB_PORT: 5432
           DB_DATABASE: "pets_api"
           DB_USER: "root"
