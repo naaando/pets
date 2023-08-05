@@ -44,6 +44,7 @@ test('ao enviar a imagem do pet remove a anterior', function () {
     assertNotEmpty($pet->imagem);
 
     Storage::disk()->assertMissing($imagemAnterior);
+    Storage::disk()->assertExists($pet->imagem);
 
     $response->assertStatus(200);
 });
