@@ -15,14 +15,13 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      pgsql:
+      postgres:
         image: postgres
         # Baseado no .env.example
         env:
           POSTGRES_DB: "pets_api"
           POSTGRES_USER: "root"
-          POSTGRES_PASSWORD: ""
-          POSTGRES_HOST_AUTH_METHOD: "trust"
+          POSTGRES_PASSWORD: "root"
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -44,3 +43,9 @@ jobs:
       run: chmod -R 777 storage bootstrap/cache
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       run: vendor/bin/pest
+      env:
+          POSTGRES_HOST: postgres
+          POSTGRES_PORT: 5432
+          POSTGRES_DB: "pets_api"
+          POSTGRES_USER: "root"
+          POSTGRES_PASSWORD: "root"
