@@ -97,4 +97,4 @@ test('filtra medicacoes de pets removidos', function () {
     $response = getJson("/api/medicacoes");
     $response->assertStatus(200);
     $response->assertJsonCount(0, 'data');
-})->only();
+});
