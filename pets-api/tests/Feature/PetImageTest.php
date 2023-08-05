@@ -11,7 +11,7 @@ use function PHPUnit\Framework\assertNotEmpty;
 test('consigo enviar a imagem do pet', function () {
     actingAs($user = \App\Models\User::factory()->create());
 
-    Storage::fake('public');
+    Storage::fake();
 
     $pet = Pet::factory()->for($user)->create();
     $response = putJson("/api/pets/$pet->id/image", [
@@ -21,18 +21,18 @@ test('consigo enviar a imagem do pet', function () {
     $pet->refresh();
     assertNotEmpty($pet->imagem);
 
-    Storage::disk('public')->assertExists($pet->imagem);
+    Storage::disk()->assertExists($pet->imagem);
 
     $response->assertStatus(200);
-})->skip();
+});
 
 test('ao enviar a imagem do pet remove a anterior', function () {
     actingAs($user = \App\Models\User::factory()->create());
 
-    Storage::fake('public');
+    Storage::fake();
 
     $pet = Pet::factory()->for($user)->create();
-    $imagemAnterior = UploadedFile::fake()->image('avatar.jpg')->storePublicly('pets', 'public');
+    $imagemAnterior = UploadedFile::fake()->image('avatar.jpg')->storePublicly('pets');
     $pet->imagem = $imagemAnterior;
     $pet->save();
 
@@ -43,10 +43,10 @@ test('ao enviar a imagem do pet remove a anterior', function () {
     $pet->refresh();
     assertNotEmpty($pet->imagem);
 
-    Storage::disk('public')->assertMissing($imagemAnterior);
+    Storage::disk()->assertMissing($imagemAnterior);
 
     $response->assertStatus(200);
-})->skip();
+});
 
 test('proibe enviar a imagem do pet alheio', function () {
     actingAs($user = \App\Models\User::factory()->create());
@@ -62,29 +62,29 @@ test('proibe enviar a imagem do pet alheio', function () {
 test('consegue remover a imagem do pet', function () {
     actingAs($user = \App\Models\User::factory()->create());
 
-    Storage::fake('public');
+    Storage::fake();
 
     $pet = Pet::factory()->for($user)->create();
-    $pet->imagem = UploadedFile::fake()->image('avatar.jpg')->storePublicly('pets', 'public');
+    $pet->imagem = UploadedFile::fake()->image('avatar.jpg')->storePublicly('pets');
     $pet->save();
 
     $response = deleteJson("/api/pets/$pet->id/image");
     $response->assertStatus(204);
 
-    Storage::disk('public')->assertMissing($pet->imagem);
-})->skip();
+    Storage::disk()->assertMissing($pet->imagem);
+});
 
 test('proibe remover a imagem do pet alheio', function () {
     actingAs($user = \App\Models\User::factory()->create());
 
-    Storage::fake('public');
+    Storage::fake();
 
     $pet = Pet::factory()->for($user)->create();
-    $pet->imagem = UploadedFile::fake()->image('avatar.jpg')->storePublicly('pets', 'public');
+    $pet->imagem = UploadedFile::fake()->image('avatar.jpg')->storePublicly('pets');
     $pet->save();
 
     $response = deleteJson("/api/pets/$pet->id/image");
     $response->assertStatus(403);
 
-    Storage::disk('public')->assertExists($pet->imagem);
+    Storage::disk()->assertExists($pet->imagem);
 })->todo();
