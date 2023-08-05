@@ -1,0 +1,40 @@
+name: Deploy
+on:
+  workflow_run:
+    workflows: ["Laravel"]
+    branches: ["main"]
+    types:
+      - completed
+jobs:
+  deploy:
+      name: "Deploy"
+      runs-on: ubuntu-latest
+      steps:
+        - name: Configure SSH
+          run: |
+            mkdir -p ~/.ssh/
+            echo "$SSH_KEY" > ~/.ssh/staging.key
+            chmod 600 ~/.ssh/staging.key
+            cat >>~/.ssh/config <<END
+            Host pets
+              HostName $SSH_HOST
+              User $SSH_USER
+              IdentityFile ~/.ssh/staging.key
+              StrictHostKeyChecking no
+            END
+          env:
+            SSH_USER: ${{ secrets.SSH_USER }}
+            SSH_KEY: ${{ secrets.SSH_KEY }}
+            SSH_HOST: ${{ secrets.SSH_HOST }}
+
+        - name: Update repository
+          run: ssh pets 'cd ~/pets/pets-api && git fetch && git reset --hard origin/main'
+
+        - name: Composer install
+          run: ssh pets 'cd ~/pets/pets-api && composer install -o --no-dev'
+
+        - name: Run migrations
+          run: ssh pets 'cd ~/pets/pets-api && php artisan migrate'
+
+        - name: Reboot app
+          run: ssh pets 'cd ~/pets/pets-api && php artisan octane:reload'
