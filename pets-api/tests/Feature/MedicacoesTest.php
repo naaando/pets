@@ -37,7 +37,7 @@ test('consegue listar medicacoes dos animais do usuário', function () {
             ],
         ],
     ]);
-})->skip();
+});
 
 test('consegue criar a medicacao do animal', function () {
     actingAs($user = User::factory()->create());
@@ -71,7 +71,7 @@ test('consegue remover a medicacao de um animal próprio', function () {
     $response = deleteJson("/api/medicacoes/$medicacao->id");
 
     $response->assertStatus(204);
-})->skip();
+});
 
 test('impede de atualizar a medicacao de um animal alheio', function () {
     actingAs($user = User::factory()->create());
@@ -84,7 +84,7 @@ test('impede de atualizar a medicacao de um animal alheio', function () {
     $response = patchJson("/api/medicacoes/$medicacao->id", $medicacaoData);
 
     $response->assertStatus(403);
-})->skip();
+});
 
 test('filtra medicacoes de pets removidos', function () {
     actingAs($user = User::factory()->create());
