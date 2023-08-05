@@ -21,7 +21,7 @@ class MedicacaoFactory extends Factory
             'fabricante' => $this->faker->company,
             'veterinario' => $this->faker->name(),
             'quando' => $this->faker->dateTime,
-            'tipo' => $this->faker->randomElement(['vacina', 'vermifugo', 'remedio']),
+            'tipo' => $this->faker->randomElement(['vacina', 'vermifugo', 'medicacao']),
             'dose_atual' => $this->faker->numberBetween(1, 10),
         ];
     }
