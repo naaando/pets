@@ -45,6 +45,9 @@ jobs:
           tools: composer:v2
           coverage: xdebug
 
+      - name: Copy .env
+        run: cp .env.example .env
+
       - name: Install Dependencies
         run: composer install --verbose --no-interaction --prefer-dist --optimize-autoloader
 
