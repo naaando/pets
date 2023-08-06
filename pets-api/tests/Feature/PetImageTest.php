@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Pet;
+use App\Models\User;
 use Illuminate\Http\UploadedFile;
 
 use function Pest\Laravel\actingAs;
@@ -9,7 +10,7 @@ use function Pest\Laravel\putJson;
 use function PHPUnit\Framework\assertNotEmpty;
 
 test('consigo enviar a imagem do pet', function () {
-    actingAs($user = \App\Models\User::factory()->create());
+    actingAs($user = User::factory()->create());
 
     Storage::fake();
 
@@ -27,7 +28,7 @@ test('consigo enviar a imagem do pet', function () {
 });
 
 test('ao enviar a imagem do pet remove a anterior', function () {
-    actingAs($user = \App\Models\User::factory()->create());
+    actingAs($user = User::factory()->create());
 
     Storage::fake();
 
@@ -50,7 +51,7 @@ test('ao enviar a imagem do pet remove a anterior', function () {
 });
 
 test('proibe enviar a imagem do pet alheio', function () {
-    actingAs($user = \App\Models\User::factory()->create());
+    actingAs($user = User::factory()->create());
 
     $pet = Pet::factory()->create();
     $response = putJson("/api/pets/$pet->id/image", [
@@ -61,7 +62,7 @@ test('proibe enviar a imagem do pet alheio', function () {
 })->todo();
 
 test('consegue remover a imagem do pet', function () {
-    actingAs($user = \App\Models\User::factory()->create());
+    actingAs($user = User::factory()->create());
 
     Storage::fake();
 
@@ -76,7 +77,7 @@ test('consegue remover a imagem do pet', function () {
 });
 
 test('proibe remover a imagem do pet alheio', function () {
-    actingAs($user = \App\Models\User::factory()->create());
+    actingAs($user = User::factory()->create());
 
     Storage::fake();
 
