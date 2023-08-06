@@ -2,6 +2,7 @@
 
 use App\Models\Pet;
 
+use App\Models\User;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\deleteJson;
 use function Pest\Laravel\getJson;
@@ -17,7 +18,7 @@ test('proibe usuário não autenticado', function () {
 });
 
 test('proibe listar animal alheio', function () {
-    actingAs($user = \App\Models\User::factory()->create());
+    actingAs($user = User::factory()->create());
 
     $pet = Pet::factory()->create();
     $response = getJson("/api/pets/$pet->id");
@@ -26,7 +27,7 @@ test('proibe listar animal alheio', function () {
 })->todo();
 
 test('proibe atualização de animal alheio', function () {
-    actingAs($user = \App\Models\User::factory()->create());
+    actingAs($user = User::factory()->create());
 
     $pet = Pet::factory()->create();
     $petData = Pet::factory()->make()->toArray();
@@ -36,7 +37,7 @@ test('proibe atualização de animal alheio', function () {
 });
 
 test('proibe remover um animal alheio', function () {
-    actingAs($user = \App\Models\User::factory()->create());
+    actingAs($user = User::factory()->create());
 
     $pet = Pet::factory()->create();
     $response = deleteJson("/api/pets/$pet->id");
@@ -45,7 +46,7 @@ test('proibe remover um animal alheio', function () {
 })->todo();
 
 test('consegue listar coleção de animais', function () {
-    actingAs($user = \App\Models\User::factory()->create());
+    actingAs($user = User::factory()->create());
 
     Pet::factory()->for($user)->count(10)->create();
 
@@ -55,7 +56,7 @@ test('consegue listar coleção de animais', function () {
 });
 
 test('o retorno da coleção filtra animais alheios corretamente', function () {
-    actingAs($user = \App\Models\User::factory()->create());
+    actingAs($user = User::factory()->create());
 
     Pet::factory()->for($user)->count(1)->create();
     Pet::factory()->count(10)->create();
@@ -66,7 +67,7 @@ test('o retorno da coleção filtra animais alheios corretamente', function () {
 });
 
 test('consegue listar meu animal', function () {
-    actingAs($user = \App\Models\User::factory()->create());
+    actingAs($user = User::factory()->create());
 
     $pet = Pet::factory()->create();
     $response = getJson("/api/pets/$pet->id");
@@ -74,7 +75,7 @@ test('consegue listar meu animal', function () {
 });
 
 test('consegue criar um animal', function () {
-    actingAs($user = \App\Models\User::factory()->create());
+    actingAs($user = User::factory()->create());
 
     $petData = Pet::factory()->make();
     $response = postJson('/api/pets', $petData->toArray());
@@ -83,7 +84,7 @@ test('consegue criar um animal', function () {
 });
 
 test('consegue atualizar animal próprio', function () {
-    actingAs($user = \App\Models\User::factory()->create());
+    actingAs($user = User::factory()->create());
 
     $pet = Pet::factory()->for($user)->create();
     $petData = Pet::factory()->make()->toArray();
@@ -93,7 +94,7 @@ test('consegue atualizar animal próprio', function () {
 });
 
 test('consegue remover um animal próprio', function () {
-    actingAs($user = \App\Models\User::factory()->create());
+    actingAs($user = User::factory()->create());
 
     $pet = Pet::factory()->for($user)->create();
     $response = deleteJson("/api/pets/$pet->id");
