@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:pets/components/datetime_form_field.dart';
+import 'package:pets/components/pet_dropdown_menu_item_child.dart';
 import 'package:pets/models/medicacao.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/provider/medicacao_provider.dart';
@@ -267,18 +268,9 @@ class MedicacaoPage extends HookConsumerWidget {
     }
 
     return pets.values
-        .map((v) => DropdownMenuItem(
-              value: v,
-              child: v.imagem != null
-                  ? Row(children: [
-                      CircleAvatar(
-                        backgroundImage:
-                            FastCachedImageProvider(v.imagemUri.toString()),
-                      ),
-                      const SizedBox(width: 8),
-                      Text(v.nome)
-                    ])
-                  : Text(v.nome),
+        .map((pet) => DropdownMenuItem(
+              value: pet,
+              child: PetDropdownMenuItemChild(pet),
             ))
         .toList()
       ..insert(

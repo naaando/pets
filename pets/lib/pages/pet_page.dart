@@ -6,6 +6,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pets/components/datetime_form_field.dart';
+import 'package:pets/components/pet_dropdown_menu_item_child.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/models/especie.dart';
 import 'package:pets/provider/form_state_provider.dart';
@@ -259,9 +260,9 @@ class PetPage extends HookConsumerWidget {
   List<DropdownMenuItem<String>> malePetsDropdown(Map<String, Pet> pets) {
     return pets.values
         .where((animal) => animal.sexo == 'macho')
-        .map((v) => DropdownMenuItem(
-              value: v.id,
-              child: Text(v.nome),
+        .map((pet) => DropdownMenuItem(
+              value: pet.id,
+              child: PetDropdownMenuItemChild(pet),
             ))
         .toList()
       ..insert(
@@ -275,17 +276,20 @@ class PetPage extends HookConsumerWidget {
   List<DropdownMenuItem<String>> femalePetsDropdown(Map<String, Pet> pets) {
     return pets.values
         .where((animal) => animal.sexo == 'femea')
-        .map((v) => DropdownMenuItem(
-              value: v.id,
-              child: Text(v.nome),
-            ))
+        .map(
+          (pet) => DropdownMenuItem(
+            value: pet.id,
+            child: PetDropdownMenuItemChild(pet),
+          ),
+        )
         .toList()
       ..insert(
-          0,
-          const DropdownMenuItem(
-            value: null,
-            child: Text('Desconhecido'),
-          ));
+        0,
+        const DropdownMenuItem(
+          value: null,
+          child: Text('Desconhecido'),
+        ),
+      );
   }
 
   Widget petImage(

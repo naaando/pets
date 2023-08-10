@@ -44,7 +44,7 @@ class ListaPets extends ConsumerWidget {
         child: Column(
           children: [
             PetAvatar.fromPet(
-              pet: pet,
+              pet,
               size: 40,
             ),
             const SizedBox(height: 8),
