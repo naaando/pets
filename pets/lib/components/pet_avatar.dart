@@ -26,7 +26,7 @@ class PetAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final primary = Theme.of(context).colorScheme.primaryContainer;
+    final primary = Theme.of(context).colorScheme.onPrimaryContainer;
     final myTextStyle = textStyle ?? Theme.of(context).textTheme.headlineSmall;
 
     return CircleAvatar(
@@ -36,7 +36,7 @@ class PetAvatar extends StatelessWidget {
       foregroundImage: image,
       child: Text(nome,
           style: myTextStyle?.copyWith(
-            color: Theme.of(context).colorScheme.primary,
+            color: Theme.of(context).colorScheme.onPrimary,
           )),
     );
   }

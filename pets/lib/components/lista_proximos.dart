@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:pets/components/my_physical_shape.dart';
 import 'package:pets/components/pet_avatar.dart';
 import 'package:pets/models/medicacao.dart';
 import 'package:pets/models/pet.dart';
@@ -81,15 +82,15 @@ class ListaProximos extends ConsumerWidget {
     String subtitle = medicacao.nome;
     Jiffy date = Jiffy.parse(medicacao.quando!, isUtc: true).toLocal();
     bool isPast = date.isAfter(Jiffy.now());
-    Color? tileColor = isPast ? Colors.grey[200] : Colors.yellow.shade700;
+
+    final primaryContainer = Theme.of(context).colorScheme.primaryContainer;
+    Color tileColor = isPast ? primaryContainer : Colors.yellow.shade700;
 
     var widget = Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      child: MyPhysicalShape(
+        color: tileColor,
         child: ListTile(
-          tileColor: tileColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
           leading: PetAvatar.fromPet(pet),
           title: Text(title),
           subtitle: Text(subtitle),
@@ -106,7 +107,9 @@ class ListaProximos extends ConsumerWidget {
             '/proxima-medicacao',
             arguments: medicacao,
           ),
-        ));
+        ),
+      ),
+    );
 
     return MapEntry(date.millisecondsSinceEpoch, widget);
   }

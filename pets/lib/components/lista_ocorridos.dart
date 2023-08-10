@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:pets/components/my_physical_shape.dart';
 import 'package:pets/components/pet_avatar.dart';
 import 'package:pets/models/medicacao.dart';
 import 'package:pets/models/pet.dart';
@@ -79,22 +80,27 @@ class ListaOcorridos extends ConsumerWidget {
     String subtitle = medicacao.nome;
     String date = medicacao.quando ?? '';
 
+    final primaryContainer = Theme.of(context).colorScheme.primaryContainer;
+
     var widget = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      child: ListTile(
-        tileColor: Colors.grey[200],
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        leading: PetAvatar.fromPet(pet),
-        title: Text(title),
-        subtitle: Text(subtitle),
-        trailing:
-            Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(Jiffy.parse(date, isUtc: true).toLocal().fromNow()),
-          const SizedBox(height: 4),
-          ChipEvento.parse(medicacao.tipo)
-        ]),
-        onTap: () =>
-            Navigator.pushNamed(context, '/medicacao', arguments: medicacao),
+      child: MyPhysicalShape(
+        color: primaryContainer,
+        child: ListTile(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          leading: PetAvatar.fromPet(pet),
+          title: Text(title),
+          subtitle: Text(subtitle),
+          trailing:
+              Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Text(Jiffy.parse(date, isUtc: true).toLocal().fromNow()),
+            const SizedBox(height: 4),
+            ChipEvento.parse(medicacao.tipo)
+          ]),
+          onTap: () =>
+              Navigator.pushNamed(context, '/medicacao', arguments: medicacao),
+        ),
       ),
     );
 
