@@ -1,6 +1,7 @@
 import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pets/components/pet_avatar.dart';
 import 'package:pets/components/skeleton_lista_pets.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/provider/pet_provider.dart';
@@ -42,13 +43,9 @@ class ListaPets extends ConsumerWidget {
             Navigator.pushNamed(context, '/cadastro-pet', arguments: pet),
         child: Column(
           children: [
-            CircleAvatar(
-              radius: 40,
-              foregroundColor: Colors.black,
-              backgroundColor: Colors.grey[200],
-              foregroundImage:
-                  FastCachedImageProvider(pet.imagemUri.toString()),
-              child: Text(pet.nome.substring(0, 2).toUpperCase()),
+            PetAvatar.fromPet(
+              pet: pet,
+              size: 40,
             ),
             const SizedBox(height: 8),
             Text(pet.nome),
