@@ -12,14 +12,14 @@ class PetAvatar extends StatelessWidget {
     super.key,
     required this.image,
     required this.nome,
-    this.size,
+    this.size = 20,
     this.textStyle,
   });
 
   PetAvatar.fromPet(
     Pet pet, {
     super.key,
-    this.size,
+    this.size = 20,
     this.textStyle,
   })  : image = FastCachedImageProvider(pet.imagemUri.toString()),
         nome = pet.nome.substring(0, 2).toUpperCase();
@@ -34,10 +34,11 @@ class PetAvatar extends StatelessWidget {
       foregroundColor: Colors.black,
       backgroundColor: primary,
       foregroundImage: image,
-      child: Text(nome,
-          style: myTextStyle?.copyWith(
-            color: Theme.of(context).colorScheme.onPrimary,
-          )),
+      child: Icon(
+        Icons.pets,
+        color: Theme.of(context).colorScheme.primaryContainer,
+        size: size! * 0.85,
+      ),
     );
   }
 }
