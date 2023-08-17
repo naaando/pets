@@ -46,6 +46,7 @@ class App extends ConsumerWidget {
         title: 'Cuidados com pets',
         theme: theme,
         darkTheme: darkTheme,
+        themeMode: ThemeMode.system,
         routes: <String, WidgetBuilder>{
           '/home': (BuildContext context) => const HomePage(),
           '/cadastro-pet': (BuildContext context) => const PetPage(),
