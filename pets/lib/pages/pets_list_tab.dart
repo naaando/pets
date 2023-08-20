@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:pets/components/fab_actions.dart';
+import 'package:pets/components/pet_avatar.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/provider/pet_provider.dart';
 import 'package:fuzzywuzzy/fuzzywuzzy.dart';
@@ -224,23 +225,6 @@ class PetsListTab extends HookConsumerWidget {
   }
 
   leadingImage(BuildContext context, Pet pet) {
-    return SizedBox.square(
-      dimension: 100,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(18.0),
-        child: pet.imagem != null
-            ? Image.network(
-                pet.imagemUri.toString(),
-                fit: BoxFit.cover,
-              )
-            : Container(
-                color: Colors.grey[300],
-                child: Icon(
-                  Icons.pets_outlined,
-                  color: Colors.grey[400],
-                ),
-              ),
-      ),
-    );
+    return PetAvatar.fromPet(pet, size: 50);
   }
 }
