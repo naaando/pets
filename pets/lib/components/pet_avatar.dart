@@ -26,18 +26,22 @@ class PetAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final primary = Theme.of(context).colorScheme.onPrimaryContainer;
+    // final backgroundColor = Theme.of(context).colorScheme.primaryContainer;
+    // final iconColor = Theme.of(context).colorScheme.onPrimaryContainer;
+    final backgroundColor = Theme.of(context).colorScheme.primary;
+    final iconColor = Theme.of(context).colorScheme.primaryContainer;
+
     final myTextStyle = textStyle ?? Theme.of(context).textTheme.headlineSmall;
 
     return CircleAvatar(
       radius: size,
       foregroundColor: Colors.black,
-      backgroundColor: primary,
+      backgroundColor: backgroundColor,
       foregroundImage: image,
       child: Icon(
         Icons.pets,
-        color: Theme.of(context).colorScheme.primaryContainer,
-        size: size! * 0.85,
+        color: iconColor,
+        size: size!,
       ),
     );
   }

@@ -83,8 +83,8 @@ class ListaProximos extends ConsumerWidget {
     Jiffy date = Jiffy.parse(medicacao.quando!, isUtc: true).toLocal();
     bool isPast = date.isAfter(Jiffy.now());
 
-    final primaryContainer = Theme.of(context).colorScheme.primaryContainer;
-    Color tileColor = isPast ? primaryContainer : Colors.yellow.shade700;
+    final defaultTileColor = Theme.of(context).colorScheme.primary;
+    Color tileColor = isPast ? defaultTileColor : Colors.yellow.shade700;
 
     var widget = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),

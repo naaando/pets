@@ -18,7 +18,7 @@ class App extends ConsumerWidget {
       light: ThemeData(
         brightness: Brightness.light,
         colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.red, brightness: Brightness.light),
+            seedColor: Colors.purple, brightness: Brightness.light),
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
             borderSide: const BorderSide(color: Colors.transparent),
@@ -31,7 +31,7 @@ class App extends ConsumerWidget {
       dark: ThemeData(
         brightness: Brightness.dark,
         colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.red, brightness: Brightness.dark),
+            seedColor: Colors.purple, brightness: Brightness.dark),
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.red.shade200),

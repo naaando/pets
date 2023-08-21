@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pets/components/main_tab_bar.dart';
+import 'package:pets/components/pets_bottom_navigation_bar.dart';
 import 'package:pets/components/user_app_bar.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/pages/dashboard_tab.dart';
@@ -51,24 +51,15 @@ class HomePage extends HookConsumerWidget {
   }
 
   Widget defaultView() {
-    return Scaffold(
-      appBar: const UserAppBar(),
-      body: const TabBarView(
+    return const Scaffold(
+      appBar: UserAppBar(),
+      body: TabBarView(
         children: [
           DashboardTab(),
           PetsListTab(),
         ],
       ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.only(top: 6),
-        margin: const EdgeInsets.all(6),
-        clipBehavior: Clip.antiAlias,
-        decoration: const BoxDecoration(
-          color: Colors.red,
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-        ),
-        child: MainTabBar(),
-      ),
+      bottomNavigationBar: PetsBottomNavigationBar(),
     );
   }
 
