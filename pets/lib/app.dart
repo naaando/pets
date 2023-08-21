@@ -6,6 +6,7 @@ import 'package:pets/pages/home_page.dart';
 import 'package:pets/pages/pet_page.dart';
 import 'package:pets/pages/welcome_page.dart';
 import 'package:pets/provider/user_provider.dart';
+import 'package:pets/theme.dart';
 
 class App extends ConsumerWidget {
   const App({super.key});
@@ -15,32 +16,8 @@ class App extends ConsumerWidget {
     final user = ref.watch(loggedUserProvider);
 
     return AdaptiveTheme(
-      light: ThemeData(
-        brightness: Brightness.light,
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.purple, brightness: Brightness.light),
-        inputDecorationTheme: InputDecorationTheme(
-          border: OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.transparent),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          fillColor: Colors.grey.shade100,
-          filled: true,
-        ),
-      ),
-      dark: ThemeData(
-        brightness: Brightness.dark,
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.purple, brightness: Brightness.dark),
-        inputDecorationTheme: InputDecorationTheme(
-          border: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.red.shade200),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          fillColor: Colors.grey.shade100,
-          filled: true,
-        ),
-      ),
+      light: lightTheme(),
+      dark: darkTheme(),
       initial: AdaptiveThemeMode.system,
       builder: (theme, darkTheme) => MaterialApp(
         title: 'Cuidados com pets',
