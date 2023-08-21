@@ -10,7 +10,7 @@ class PetsBottomNavigationBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var pets = ref.watch(petsProvider);
 
-    final indicatorColor = Theme.of(context).colorScheme.primary;
+    final indicatorColor = Theme.of(context).colorScheme.onPrimary;
     final decorationColor = Theme.of(context).colorScheme.primaryContainer;
     final labelColor = Theme.of(context).colorScheme.onPrimaryContainer;
 
