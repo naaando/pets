@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
 
-ColorScheme lightColorScheme = ColorScheme.fromSeed(
-  seedColor: Colors.purple,
-  brightness: Brightness.light,
-);
-
-ColorScheme darkColorScheme = ColorScheme.fromSeed(
-  seedColor: Colors.purple,
-  brightness: Brightness.dark,
-);
-
 ThemeData lightTheme() {
-  return baseTheme(lightColorScheme);
+  return baseTheme(ColorScheme.fromSeed(
+    seedColor: Colors.purple,
+    brightness: Brightness.light,
+  ));
 }
 
 ThemeData darkTheme() {
-  final base = baseTheme(darkColorScheme);
+  final base = baseTheme(ColorScheme.fromSeed(
+    seedColor: Colors.purple,
+    brightness: Brightness.dark,
+  ));
 
   return base.copyWith(
+    brightness: Brightness.dark,
     inputDecorationTheme: base.inputDecorationTheme.copyWith(
       fillColor: Colors.grey.shade900,
     ),
