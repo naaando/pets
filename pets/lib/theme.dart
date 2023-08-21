@@ -29,7 +29,8 @@ ThemeData baseTheme(ColorScheme scheme) {
         borderRadius: BorderRadius.circular(16),
       ),
       color: scheme.primaryContainer,
-      elevation: 2,
+      shadowColor: Colors.black54,
+      elevation: 4,
     ),
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(
