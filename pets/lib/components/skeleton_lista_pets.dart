@@ -6,9 +6,12 @@ class SkeletonListaPets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final baseColor = Theme.of(context).colorScheme.surfaceVariant;
+    final highlightColor = Theme.of(context).colorScheme.primaryContainer;
+
     return Shimmer.fromColors(
-      baseColor: Colors.grey.shade300,
-      highlightColor: Colors.grey.shade100,
+      baseColor: baseColor,
+      highlightColor: highlightColor,
       enabled: true,
       child: FittedBox(
         fit: BoxFit.fill,
@@ -19,19 +22,21 @@ class SkeletonListaPets extends StatelessWidget {
             children: List.filled(
               5,
               Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        radius: 40,
-                        backgroundColor: Colors.grey.shade300,
-                      ),
-                      const SizedBox(height: 8),
-                      Text('LOADING',
-                          style:
-                              TextStyle(backgroundColor: Colors.grey.shade300)),
-                    ],
-                  )),
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: Column(
+                  children: [
+                    CircleAvatar(
+                      radius: 40,
+                      backgroundColor: baseColor,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'LOADING',
+                      style: TextStyle(backgroundColor: baseColor),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
         ),
