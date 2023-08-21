@@ -27,7 +27,10 @@ class UserAppBar extends HookConsumerWidget implements PreferredSizeWidget {
         children: [
           Text(
             'Olá, ${user.name}',
-            style: const TextStyle(color: Colors.black54, fontSize: 12),
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface,
+              fontSize: 12,
+            ),
           ),
           const SizedBox(
             width: 12,
