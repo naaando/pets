@@ -8,16 +8,10 @@ ThemeData lightTheme() {
 }
 
 ThemeData darkTheme() {
-  final base = baseTheme(ColorScheme.fromSeed(
+  return baseTheme(ColorScheme.fromSeed(
     seedColor: Colors.purple,
     brightness: Brightness.dark,
   ));
-
-  return base.copyWith(
-    inputDecorationTheme: base.inputDecorationTheme.copyWith(
-      fillColor: Colors.grey.shade900,
-    ),
-  );
 }
 
 ThemeData baseTheme(ColorScheme scheme) {
@@ -34,11 +28,12 @@ ThemeData baseTheme(ColorScheme scheme) {
     ),
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide(color: Colors.red.shade200),
+        borderRadius: BorderRadius.circular(50),
       ),
-      fillColor: Colors.grey.shade100,
-      filled: true,
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(50),
+        borderSide: BorderSide(color: scheme.surfaceVariant, width: 2),
+      ),
     ),
   );
 }
