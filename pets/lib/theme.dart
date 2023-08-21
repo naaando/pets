@@ -14,7 +14,6 @@ ThemeData darkTheme() {
   ));
 
   return base.copyWith(
-    brightness: Brightness.dark,
     inputDecorationTheme: base.inputDecorationTheme.copyWith(
       fillColor: Colors.grey.shade900,
     ),
@@ -23,6 +22,7 @@ ThemeData darkTheme() {
 
 ThemeData baseTheme(ColorScheme scheme) {
   return ThemeData(
+    brightness: scheme.brightness,
     colorScheme: scheme,
     cardTheme: CardTheme(
       shape: RoundedRectangleBorder(
