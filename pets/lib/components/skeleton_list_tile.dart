@@ -6,22 +6,25 @@ class SkeletonListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).colorScheme.surfaceVariant;
+    final themeHighlight = Theme.of(context).colorScheme.primaryContainer;
+
     return Shimmer.fromColors(
-      baseColor: Colors.grey.shade300,
-      highlightColor: Colors.grey.shade100,
+      baseColor: theme,
+      highlightColor: themeHighlight,
       enabled: true,
       child: ListTile(
         leading: CircleAvatar(
           radius: 20,
-          backgroundColor: Colors.grey.shade300,
+          backgroundColor: theme,
         ),
         title: Container(
           height: 16,
-          color: Colors.grey.shade300,
+          color: theme,
         ),
         subtitle: Container(
           height: 16,
-          color: Colors.grey.shade300,
+          color: theme,
         ),
       ),
     );
