@@ -89,15 +89,16 @@ class PetsListTab extends HookConsumerWidget {
   }
 
   Widget petCard(BuildContext context, Pet pet) {
+    final primaryColor = Theme.of(context).colorScheme.primary;
     var labelStyle = Theme.of(context).textTheme.bodyMedium?.copyWith(
-          color: Colors.grey[700],
+        // color: Colors.grey[700],
         );
 
     textOrPlaceholder(value, placeholder) => TextSpan(
           text: value ?? placeholder,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontWeight: value != null ? FontWeight.w600 : FontWeight.w400,
-                color: value != null ? Colors.red[400] : Colors.grey[900],
+                color: value != null ? primaryColor : null,
               ),
         );
 
@@ -173,49 +174,51 @@ class PetsListTab extends HookConsumerWidget {
     }
 
     return InkWell(
-      child: SizedBox(
-        height: 120,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            leadingImage(context, pet),
-            Expanded(
-              child: Container(
-                alignment: Alignment.topRight,
-                padding: const EdgeInsets.only(left: 22, top: 3),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Text(
-                      pet.nome,
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: info,
-                        ),
-                        const SizedBox(width: 20),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: badges,
-                        )
-                      ],
-                    ),
-                  ],
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              leadingImage(context, pet),
+              Expanded(
+                child: Container(
+                  alignment: Alignment.topRight,
+                  padding: const EdgeInsets.only(left: 22, top: 3),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Text(
+                        pet.nome,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: info,
+                          ),
+                          const SizedBox(width: 20),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: badges,
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       onTap: () {
