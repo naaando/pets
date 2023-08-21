@@ -1,46 +1,45 @@
 import 'package:flutter/material.dart';
 
+ColorScheme lightColorScheme = ColorScheme.fromSeed(
+  seedColor: Colors.purple,
+  brightness: Brightness.light,
+);
+
+ColorScheme darkColorScheme = ColorScheme.fromSeed(
+  seedColor: Colors.purple,
+  brightness: Brightness.dark,
+);
+
 ThemeData lightTheme() {
-  return ThemeData(
-    brightness: Brightness.light,
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: Colors.purple,
-      brightness: Brightness.light,
-    ),
-    cardTheme: CardTheme(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
-    ),
-    inputDecorationTheme: InputDecorationTheme(
-      border: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.transparent),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      fillColor: Colors.grey.shade100,
-      filled: true,
+  return baseTheme(lightColorScheme);
+}
+
+ThemeData darkTheme() {
+  final base = baseTheme(darkColorScheme);
+
+  return base.copyWith(
+    inputDecorationTheme: base.inputDecorationTheme.copyWith(
+      fillColor: Colors.grey.shade900,
     ),
   );
 }
 
-ThemeData darkTheme() {
+ThemeData baseTheme(ColorScheme scheme) {
   return ThemeData(
-    brightness: Brightness.dark,
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: Colors.purple,
-      brightness: Brightness.dark,
-    ),
+    colorScheme: scheme,
     cardTheme: CardTheme(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
+      color: scheme.primaryContainer,
+      elevation: 2,
     ),
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.red.shade200),
         borderRadius: BorderRadius.circular(8),
+        borderSide: BorderSide(color: Colors.red.shade200),
       ),
-      fillColor: Colors.grey.shade900,
+      fillColor: Colors.grey.shade100,
       filled: true,
     ),
   );
