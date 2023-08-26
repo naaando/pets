@@ -42,7 +42,7 @@ class PetsListTab extends HookConsumerWidget {
       });
 
     return Padding(
-      padding: const EdgeInsets.all(15),
+      padding: const EdgeInsets.all(6),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
