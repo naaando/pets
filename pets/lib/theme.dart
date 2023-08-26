@@ -22,9 +22,9 @@ ThemeData baseTheme(ColorScheme scheme) {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
-      color: scheme.primaryContainer,
-      shadowColor: Colors.black54,
-      elevation: 4,
+      color: scheme.primaryContainer.withOpacity(0.5),
+      shadowColor: scheme.primaryContainer.withOpacity(0.5),
+      elevation: 0,
     ),
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(

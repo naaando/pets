@@ -16,7 +16,7 @@ class PetsBottomNavigationBar extends ConsumerWidget {
 
     return Container(
       padding: const EdgeInsets.only(top: 6),
-      margin: const EdgeInsets.all(6),
+      margin: const EdgeInsets.all(6).copyWith(top: 2),
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         color: decorationColor,

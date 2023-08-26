@@ -8,10 +8,12 @@ class MyPhysicalShape extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return PhysicalShape(
       color: color,
-      shadowColor: Colors.black54,
-      elevation: 4,
+      shadowColor: theme.cardTheme.shadowColor ?? Colors.transparent,
+      elevation: theme.cardTheme.elevation ?? 0,
       clipper: ShapeBorderClipper(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
