@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 ThemeData lightTheme() {
   return baseTheme(ColorScheme.fromSeed(
-    seedColor: Colors.purple,
+    seedColor: Colors.red,
     brightness: Brightness.light,
   ));
 }
 
 ThemeData darkTheme() {
   return baseTheme(ColorScheme.fromSeed(
-    seedColor: Colors.purple,
+    seedColor: Colors.deepPurple,
     brightness: Brightness.dark,
   ));
 }
@@ -28,12 +28,17 @@ ThemeData baseTheme(ColorScheme scheme) {
     ),
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(50),
+        borderRadius: BorderRadius.circular(16),
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(50),
-        borderSide: BorderSide(color: scheme.surfaceVariant, width: 2),
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(
+          color: scheme.onSurfaceVariant.withOpacity(0.2),
+          width: 2,
+        ),
       ),
+      filled: true,
+      fillColor: scheme.surfaceVariant.withOpacity(0.4),
     ),
   );
 }
