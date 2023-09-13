@@ -31,11 +31,19 @@ class MedicacaoRequest extends FormRequest
             'antecessora_id' => 'nullable|required_with:inicial_id|exists:medicacoes,id',
             'tipo' => 'required|string|in:vacina,vermifugo,medicacao',
             'nome' => 'required|string',
-            'fabricante' => 'nullable|string',
-            'veterinario' => 'nullable|string',
+            'fabricante' => 'prohibited',
+            'veterinario' => 'prohibited',
             'quando' => 'required|date',
             'completado' => 'required|boolean',
             'atributos' => 'nullable|array',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'fabricante.prohibited' => 'Use os atributos.',
+            'veterinario.prohibited' => 'Use os atributos.',
         ];
     }
 }

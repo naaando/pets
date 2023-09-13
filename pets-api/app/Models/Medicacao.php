@@ -48,8 +48,6 @@ class Medicacao extends Model
         'inicial_id',
         'antecessora_id',
         'nome',
-        'fabricante',
-        'veterinario',
         'quando',
         'tipo',
         'completado',
@@ -66,6 +64,7 @@ class Medicacao extends Model
     protected $casts = [
         'quando' => 'datetime',
         'proxima_dose' => 'datetime',
+        'atributos' => 'array',
     ];
 
     /**

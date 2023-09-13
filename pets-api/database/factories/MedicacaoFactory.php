@@ -18,11 +18,13 @@ class MedicacaoFactory extends Factory
     {
         return [
             'nome' => $this->faker->word,
-            'fabricante' => $this->faker->company,
-            'veterinario' => $this->faker->name(),
+            'completado' => $this->faker->boolean,
+            'atributos' => [
+                'fabricante' => $this->faker->company,
+                'veterinario' => $this->faker->name(),
+            ],
             'quando' => $this->faker->dateTime,
             'tipo' => $this->faker->randomElement(['vacina', 'vermifugo', 'medicacao']),
-            'dose_atual' => $this->faker->numberBetween(1, 10),
         ];
     }
 }

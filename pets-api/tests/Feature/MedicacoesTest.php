@@ -48,7 +48,7 @@ test('consegue criar a medicacao do animal', function () {
     $response = postJson("/api/medicacoes", $medicacaoData);
 
     $response->assertStatus(201);
-})->skip();
+});
 
 test('consegue atualizar a medicacao de um animal próprio', function () {
     actingAs($user = User::factory()->create());
