@@ -60,7 +60,7 @@ test('consegue atualizar a medicacao de um animal próprio', function () {
     $response = patchJson("/api/medicacoes/$medicacao->id", $medicacaoData);
 
     $response->assertStatus(200);
-})->skip();
+});
 
 test('consegue remover a medicacao de um animal próprio', function () {
     actingAs($user = User::factory()->create());
