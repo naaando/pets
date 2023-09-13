@@ -24,7 +24,7 @@ test('proibe listar animal alheio', function () {
     $response = getJson("/api/pets/$pet->id");
 
     $response->assertStatus(403);
-})->todo();
+});
 
 test('proibe atualização de animal alheio', function () {
     actingAs($user = User::factory()->create());
@@ -43,7 +43,7 @@ test('proibe remover um animal alheio', function () {
     $response = deleteJson("/api/pets/$pet->id");
 
     $response->assertStatus(403);
-})->todo();
+});
 
 test('consegue listar coleção de animais', function () {
     actingAs($user = User::factory()->create());
@@ -69,7 +69,7 @@ test('o retorno da coleção filtra animais alheios corretamente', function () {
 test('consegue listar meu animal', function () {
     actingAs($user = User::factory()->create());
 
-    $pet = Pet::factory()->create();
+    $pet = Pet::factory()->for($user)->create();
     $response = getJson("/api/pets/$pet->id");
     $response->assertStatus(200);
 });

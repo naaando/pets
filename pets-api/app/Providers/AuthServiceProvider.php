@@ -7,6 +7,7 @@ namespace App\Providers;
 use App\Models\Medicacao;
 use App\Models\Pet;
 use App\Models\User;
+use App\Policies\PetPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -18,7 +19,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        //
+        Pet::class => PetPolicy::class,
     ];
 
     /**
