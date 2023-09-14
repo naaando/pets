@@ -5,15 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Requests\MedicacaoRequest;
 use App\Http\Resources\MedicacaoResource;
 use App\Models\Medicacao;
+use Illuminate\Http\Request;
 
 class MedicacaoController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Medicacao::class, 'medicaco');
+    }
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $user = auth()->user();
+        $user = $request->user();
 
         $medicacoes = Medicacao::where('user_id', $user->id)
             ->whereHas('pet')
@@ -29,7 +35,7 @@ class MedicacaoController extends Controller
     {
         $medicacao = new Medicacao();
         $medicacao->fill($request->validated());
-        $medicacao->user_id = auth()->user()->id;
+        $medicacao->user_id = $request->user()->id;
         $medicacao->save();
 
         return new MedicacaoResource($medicacao);

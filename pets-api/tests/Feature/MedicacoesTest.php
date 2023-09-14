@@ -74,7 +74,7 @@ test('consegue remover a medicacao de um animal próprio', function () {
 });
 
 test('impede de atualizar a medicacao de um animal alheio', function () {
-    actingAs($user = User::factory()->create());
+    actingAs(User::factory()->create());
     $outroUsuario = User::factory();
 
     $pet = Pet::factory()->for($outroUsuario)->create();
