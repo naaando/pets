@@ -59,7 +59,7 @@ test('proibe enviar a imagem do pet alheio', function () {
     ]);
 
     $response->assertStatus(403);
-})->todo();
+});
 
 test('consegue remover a imagem do pet', function () {
     actingAs($user = User::factory()->create());
@@ -81,7 +81,7 @@ test('proibe remover a imagem do pet alheio', function () {
 
     Storage::fake();
 
-    $pet = Pet::factory()->for($user)->create();
+    $pet = Pet::factory()->create();
     $pet->imagem = UploadedFile::fake()->image('avatar.jpg')->storePublicly('pets');
     $pet->save();
 
@@ -89,4 +89,4 @@ test('proibe remover a imagem do pet alheio', function () {
     $response->assertStatus(403);
 
     Storage::disk()->assertExists($pet->imagem);
-})->todo();
+});

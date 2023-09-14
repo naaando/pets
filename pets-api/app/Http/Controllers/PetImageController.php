@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Storage;
 
 class PetImageController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Pet::class, 'pet');
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -34,6 +39,7 @@ class PetImageController extends Controller
      */
     public function destroy(Pet $pet)
     {
+        $this->authorize('delete', $pet);
         Storage::delete($pet->imagem);
         $pet->imagem = null;
         $pet->save();
