@@ -19,19 +19,20 @@ ThemeData baseTheme(ColorScheme scheme) {
     brightness: scheme.brightness,
     colorScheme: scheme,
     cardTheme: CardTheme(
+      clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(8),
       ),
-      color: scheme.primaryContainer.withOpacity(0.5),
-      shadowColor: scheme.primaryContainer.withOpacity(0.5),
-      elevation: 0,
+      color: scheme.primaryContainer,
+      shadowColor: scheme.primaryContainer,
+      elevation: 1,
     ),
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(8),
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(8),
         borderSide: BorderSide(
           color: scheme.onSurfaceVariant.withOpacity(0.2),
           width: 2,
