@@ -87,8 +87,6 @@ class ListaOcorridos extends ConsumerWidget {
       child: MyPhysicalShape(
         color: defaultTileColor,
         child: ListTile(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           leading: PetAvatar.fromPet(pet),
           title: Text(title),
           subtitle: Text(subtitle),
