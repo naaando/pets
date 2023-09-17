@@ -68,7 +68,7 @@ class PetsListTab extends HookConsumerWidget {
     });
 
     return Container(
-      padding: const EdgeInsets.only(bottom: 20),
+      padding: const EdgeInsets.only(bottom: 6),
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
