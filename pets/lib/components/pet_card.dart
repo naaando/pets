@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pets/components/pet_avatar.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:pets/components/pet_square_avatar.dart';
 import 'package:pets/models/pet.dart';
 
 class PetCard extends StatelessWidget {
@@ -12,50 +13,53 @@ class PetCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              leadingImage(context, pet),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.topRight,
-                  padding: const EdgeInsets.only(left: 22, top: 3),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Text(
-                        pet.nome,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: info(context),
-                          ),
-                          const SizedBox(width: 20),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: badges(),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            leadingImage(context, pet),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(14),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text(
+                      pet.nome,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    const SizedBox(height: 4),
+                    Wrap(
+                      spacing: 2,
+                      runSpacing: 3,
+                      children: badges(),
+                    ),
+                    const SizedBox(height: 6),
+                    Table(
+                      children: [
+                        ...info(context).map(
+                          (row) {
+                            return TableRow(
+                              children: row.map(
+                                (widget) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(bottom: 4),
+                                    child: widget,
+                                  );
+                                },
+                              ).toList(),
+                            );
+                          },
+                        ).toList(),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       onTap: () {
@@ -64,8 +68,8 @@ class PetCard extends StatelessWidget {
     );
   }
 
-  List<Widget> info(BuildContext context) {
-    final idade = infoText(
+  List<List<Widget>> info(BuildContext context) {
+    final idade = info2Text(
       context,
       'Idade ',
       pet.nascimento != null
@@ -74,13 +78,13 @@ class PetCard extends StatelessWidget {
           : null,
     );
 
-    final especie = infoText(
+    final especie = info2Text(
       context,
       'Espécie ',
       pet.especie?.nome,
     );
 
-    final raca = infoText(
+    final raca = info2Text(
       context,
       'Raça ',
       pet.raca,
@@ -88,9 +92,7 @@ class PetCard extends StatelessWidget {
 
     return [
       idade,
-      const SizedBox(height: 3),
       especie,
-      const SizedBox(height: 3),
       raca,
     ];
   }
@@ -107,7 +109,7 @@ class PetCard extends StatelessWidget {
 
     if (pet.sexo != null) {
       badges.addAll([
-        const SizedBox(height: 3),
+        // const SizedBox(height: 3),
         Badge(
           backgroundColor: pet.sexo == 'macho' ? Colors.blue : Colors.pink[300],
           label:
@@ -118,7 +120,7 @@ class PetCard extends StatelessWidget {
 
     if (pet.falecimento != null) {
       badges.addAll([
-        const SizedBox(height: 3),
+        // const SizedBox(height: 3),
         const Badge(
           backgroundColor: Colors.grey,
           label: Text('Falecido'),
@@ -130,7 +132,7 @@ class PetCard extends StatelessWidget {
   }
 
   leadingImage(BuildContext context, Pet pet) {
-    return PetAvatar.fromPet(pet, size: 50);
+    return PetSquareAvatar.fromPet(pet, size: 70);
   }
 
   RichText infoText(BuildContext context, String label, String? value) {
@@ -154,5 +156,24 @@ class PetCard extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  List<Text> info2Text(BuildContext context, String label, String? value) {
+    var labelStyle = Theme.of(context).textTheme.bodyMedium;
+    final fontWeight = value != null ? FontWeight.w600 : FontWeight.w400;
+
+    return [
+      Text(
+        label,
+        style: labelStyle,
+      ),
+      Text(
+        value ?? '-',
+        style: Theme.of(context)
+            .textTheme
+            .bodyMedium
+            ?.copyWith(fontWeight: fontWeight),
+      )
+    ];
   }
 }
