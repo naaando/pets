@@ -9,15 +9,14 @@ class MyPhysicalShape extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final shape = theme.listTileTheme.shape;
 
     return PhysicalShape(
       color: color,
       shadowColor: theme.cardTheme.shadowColor ?? Colors.transparent,
       elevation: theme.cardTheme.elevation ?? 0,
       clipper: ShapeBorderClipper(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: shape!,
       ),
       child: child,
     );

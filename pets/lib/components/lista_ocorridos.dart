@@ -80,10 +80,10 @@ class ListaOcorridos extends ConsumerWidget {
     String subtitle = medicacao.nome;
     String date = medicacao.quando ?? '';
 
-    final defaultTileColor = Theme.of(context).colorScheme.primaryContainer;
+    final defaultTileColor = Theme.of(context).colorScheme.onPrimary;
 
     var widget = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       child: MyPhysicalShape(
         color: defaultTileColor,
         child: ListTile(

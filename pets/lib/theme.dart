@@ -18,6 +18,11 @@ ThemeData baseTheme(ColorScheme scheme) {
   return ThemeData(
     brightness: scheme.brightness,
     colorScheme: scheme,
+    listTileTheme: ListTileThemeData(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+    ),
     cardTheme: CardTheme(
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
@@ -25,7 +30,7 @@ ThemeData baseTheme(ColorScheme scheme) {
       ),
       color: scheme.primaryContainer,
       shadowColor: scheme.primaryContainer,
-      elevation: 1,
+      elevation: 4,
     ),
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(

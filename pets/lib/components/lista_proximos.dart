@@ -83,23 +83,37 @@ class ListaProximos extends ConsumerWidget {
     Jiffy date = Jiffy.parse(medicacao.quando!, isUtc: true).toLocal();
     bool isPast = date.isAfter(Jiffy.now());
 
+    final scheme = Theme.of(context).colorScheme;
     final defaultTileColor = Theme.of(context).colorScheme.primary;
     Color tileColor = isPast ? defaultTileColor : Colors.yellow.shade700;
 
     var widget = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: MyPhysicalShape(
         color: tileColor,
         child: ListTile(
           leading: PetAvatar.fromPet(pet),
           title: Text(title),
           subtitle: Text(subtitle),
-          trailing: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text(date.fromNow()),
-              const SizedBox(height: 4),
-              ChipEvento.parse(medicacao.tipo),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(date.fromNow()),
+                  const SizedBox(height: 4),
+                  ChipEvento.parse(medicacao.tipo),
+                ],
+              ),
+              const SizedBox(width: 8),
+              IconButton.outlined(
+                padding: const EdgeInsets.all(8),
+                onPressed: () {},
+                icon: const Icon(Icons.check),
+                color: scheme.primary,
+              ),
             ],
           ),
           onTap: () => Navigator.pushNamed(
