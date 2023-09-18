@@ -12,7 +12,6 @@ import 'package:pets/models/especie.dart';
 import 'package:pets/provider/form_state_provider.dart';
 import 'package:pets/provider/pet_provider.dart';
 import 'package:pets/provider/especie_provider.dart';
-import 'package:intl/intl.dart';
 import 'package:pets/provider/user_provider.dart';
 
 class PetPage extends HookConsumerWidget {
@@ -145,6 +144,8 @@ class PetPage extends HookConsumerWidget {
                       if (value == null || value.isEmpty) {
                         return 'Nome é obrigatório';
                       }
+
+                      return null;
                     },
                   ),
                   const SizedBox(height: 20),

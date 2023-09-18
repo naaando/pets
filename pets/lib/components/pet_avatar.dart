@@ -26,8 +26,6 @@ class PetAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final backgroundColor = Theme.of(context).colorScheme.primaryContainer;
-    // final iconColor = Theme.of(context).colorScheme.onPrimaryContainer;
     final backgroundColor = Theme.of(context).colorScheme.primary;
     final iconColor = Theme.of(context).colorScheme.primaryContainer;
 
