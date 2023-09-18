@@ -15,29 +15,30 @@ ThemeData darkTheme() {
 }
 
 ThemeData baseTheme(ColorScheme scheme) {
+  final borderRadius = BorderRadius.circular(8);
+  final roundedShape = RoundedRectangleBorder(
+    borderRadius: borderRadius,
+  );
+
   return ThemeData(
     brightness: scheme.brightness,
     colorScheme: scheme,
     listTileTheme: ListTileThemeData(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
+      shape: roundedShape,
     ),
     cardTheme: CardTheme(
       clipBehavior: Clip.antiAlias,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
+      shape: roundedShape,
       color: scheme.primaryContainer,
       shadowColor: scheme.primaryContainer,
       elevation: 4,
     ),
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: borderRadius,
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: borderRadius,
         borderSide: BorderSide(
           color: scheme.onSurfaceVariant.withOpacity(0.2),
           width: 2,
