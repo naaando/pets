@@ -24,33 +24,13 @@ class DashboardTab extends HookConsumerWidget {
   }
 
   Widget content(BuildContext context, WidgetRef ref) {
-    var themeData = Theme.of(context).copyWith(
-        cardTheme: CardTheme.of(context).copyWith(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      color: Colors.grey[200],
-      elevation: 0,
-    ));
-
-    return Theme(
-      data: themeData,
-      child: ListView(
-        children: const [
-          Padding(
-            padding: EdgeInsets.all(18),
-            child: Text(
-              'Seus pets',
-              textAlign: TextAlign.start,
-              style: TextStyle(fontWeight: FontWeight.w600),
-            ),
-          ),
-          ListaPets(),
-          SizedBox(height: 18),
-          ListaProximos(),
-          ListaOcorridos(),
-          SizedBox(height: 80), // Para não ficar escondido pelo FAB
-        ],
-      ),
+    return ListView(
+      children: const [
+        ListaPets(),
+        ListaProximos(),
+        ListaOcorridos(),
+        SizedBox(height: 80), // Para não ficar escondido pelo FAB
+      ],
     );
   }
 }

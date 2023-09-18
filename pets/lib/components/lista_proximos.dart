@@ -37,7 +37,7 @@ class ListaProximos extends ConsumerWidget {
       builder: (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
         List<Widget> columnArray = [
           const Padding(
-            padding: EdgeInsets.all(18),
+            padding: EdgeInsets.all(8),
             child: Text(
               'Agendados',
               textAlign: TextAlign.start,
@@ -52,7 +52,7 @@ class ListaProximos extends ConsumerWidget {
           if (snapshot.data!.isEmpty) {
             columnArray.add(
               const Padding(
-                padding: EdgeInsets.all(18),
+                padding: EdgeInsets.all(8),
                 child: Text('Nenhum agendamento'),
               ),
             );
@@ -60,7 +60,7 @@ class ListaProximos extends ConsumerWidget {
         } else {
           columnArray.add(
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
               child: SkeletonListTile(),
             ),
           );
@@ -88,7 +88,7 @@ class ListaProximos extends ConsumerWidget {
     Color tileColor = isPast ? defaultTileColor : Colors.yellow.shade700;
 
     var widget = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       child: MyPhysicalShape(
         color: tileColor,
         child: ListTile(

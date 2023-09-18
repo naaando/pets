@@ -36,7 +36,7 @@ class ListaOcorridos extends ConsumerWidget {
       builder: (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
         List<Widget> columnArray = [
           const Padding(
-              padding: EdgeInsets.all(18),
+              padding: EdgeInsets.all(8),
               child: Text(
                 'Linha do tempo',
                 textAlign: TextAlign.start,
@@ -50,7 +50,7 @@ class ListaOcorridos extends ConsumerWidget {
           if (snapshot.data!.isEmpty) {
             columnArray.add(
               const Padding(
-                padding: EdgeInsets.all(18),
+                padding: EdgeInsets.all(8),
                 child: Text('Nenhuma anotação'),
               ),
             );
@@ -73,17 +73,20 @@ class ListaOcorridos extends ConsumerWidget {
   }
 
   MapEntry<String, Widget> medicacaoComoEvento(
-      BuildContext context, Map<String, Pet> pets, Medicacao medicacao) {
+    BuildContext context,
+    Map<String, Pet> pets,
+    Medicacao medicacao,
+  ) {
     Pet pet = pets[medicacao.petId]!;
     String? thumbUrl = pet.imagem != null ? pet.imagemUri.toString() : null;
     String title = pet.nome;
     String subtitle = medicacao.nome;
     String date = medicacao.quando ?? '';
 
-    final defaultTileColor = Theme.of(context).colorScheme.onPrimary;
+    final defaultTileColor = Theme.of(context).colorScheme.primaryContainer;
 
     var widget = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       child: MyPhysicalShape(
         color: defaultTileColor,
         child: ListTile(
@@ -96,8 +99,11 @@ class ListaOcorridos extends ConsumerWidget {
             const SizedBox(height: 4),
             ChipEvento.parse(medicacao.tipo)
           ]),
-          onTap: () =>
-              Navigator.pushNamed(context, '/medicacao', arguments: medicacao),
+          onTap: () => Navigator.pushNamed(
+            context,
+            '/medicacao',
+            arguments: medicacao,
+          ),
         ),
       ),
     );

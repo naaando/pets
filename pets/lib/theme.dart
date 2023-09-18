@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 ThemeData lightTheme() {
   return baseTheme(ColorScheme.fromSeed(
-    seedColor: Colors.red,
+    seedColor: Colors.deepPurple,
     brightness: Brightness.light,
   ));
 }
@@ -15,6 +15,7 @@ ThemeData darkTheme() {
 }
 
 ThemeData baseTheme(ColorScheme scheme) {
+  const elevation = 2.0;
   final borderRadius = BorderRadius.circular(8);
   final roundedShape = RoundedRectangleBorder(
     borderRadius: borderRadius,
@@ -31,7 +32,7 @@ ThemeData baseTheme(ColorScheme scheme) {
       shape: roundedShape,
       color: scheme.primaryContainer,
       shadowColor: scheme.primaryContainer,
-      elevation: 4,
+      elevation: elevation,
     ),
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(

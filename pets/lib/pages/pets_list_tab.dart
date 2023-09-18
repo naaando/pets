@@ -42,20 +42,22 @@ class PetsListTab extends HookConsumerWidget {
       });
 
     return Padding(
-      padding: const EdgeInsets.all(6),
+      padding: const EdgeInsets.all(0),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
           barraDePesquisa(pesquisa),
           Expanded(
             child: ListView(
-              children: petsFiltrados
-                  .map<Widget>(
-                    (Pet pet) => PetCard(pet),
-                  )
-                  .toList(),
+              children: [
+                ...petsFiltrados.map<Widget>(
+                  (Pet pet) => PetCard(pet),
+                ),
+                const SizedBox(height: 80),
+              ],
             ),
-          )
+          ),
+          // Para não ficar escondido pelo FAB
         ],
       ),
     );

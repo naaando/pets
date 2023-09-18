@@ -13,10 +13,24 @@ class ListaPets extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     AsyncValue<List<Pet>> pets = ref.watch(petsOrderedByUpdateProvider);
 
-    return pets.when(
-        data: (pets) => lista(context, pets),
-        error: (object, stackTrace) => const Text('Error'),
-        loading: () => const SkeletonListaPets());
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.all(8),
+          child: Text(
+            'Seus pets',
+            textAlign: TextAlign.start,
+            style: TextStyle(fontWeight: FontWeight.w600),
+          ),
+        ),
+        pets.when(
+          data: (pets) => lista(context, pets),
+          error: (object, stackTrace) => const Text('Error'),
+          loading: () => const SkeletonListaPets(),
+        ),
+      ],
+    );
   }
 
   lista(context, List<Pet> pets) {
