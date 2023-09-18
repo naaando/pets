@@ -26,10 +26,8 @@ class PetSquareAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final backgroundColor = Theme.of(context).colorScheme.primaryContainer;
-    // final iconColor = Theme.of(context).colorScheme.onPrimaryContainer;
-    final backgroundColor = Theme.of(context).colorScheme.primary;
-    final iconColor = Theme.of(context).colorScheme.background;
+    final backgroundColor = Theme.of(context).colorScheme.onPrimaryContainer;
+    final iconColor = Theme.of(context).colorScheme.onPrimary;
 
     final myTextStyle = textStyle ?? Theme.of(context).textTheme.headlineSmall;
 
@@ -38,13 +36,11 @@ class PetSquareAvatar extends StatelessWidget {
       fit: BoxFit.cover,
       width: size! * 2,
       height: size! * 2,
-      // use pet icon on error builder
       errorBuilder: (context, error, stackTrace) => Container(
         width: size! * 2,
         height: size! * 2,
         decoration: BoxDecoration(
           color: backgroundColor,
-          // borderRadius: BorderRadius.circular(size!),
         ),
         child: Icon(
           Icons.pets,
@@ -53,13 +49,5 @@ class PetSquareAvatar extends StatelessWidget {
         ),
       ),
     );
-
-    // return Image(
-    //   radius: size,
-    //   foregroundColor: Colors.black,
-    //   backgroundColor: backgroundColor,
-    //   foregroundImage: image,
-    //   child:
-    // );
   }
 }

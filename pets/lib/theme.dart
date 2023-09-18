@@ -15,7 +15,7 @@ ThemeData darkTheme() {
 }
 
 ThemeData baseTheme(ColorScheme scheme) {
-  const elevation = 2.0;
+  const elevation = 1.0;
   final borderRadius = BorderRadius.circular(8);
   final roundedShape = RoundedRectangleBorder(
     borderRadius: borderRadius,

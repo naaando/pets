@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pets/components/pet_avatar.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:pets/components/pet_square_avatar.dart';
 import 'package:pets/models/pet.dart';
@@ -109,7 +108,6 @@ class PetCard extends StatelessWidget {
 
     if (pet.sexo != null) {
       badges.addAll([
-        // const SizedBox(height: 3),
         Badge(
           backgroundColor: pet.sexo == 'macho' ? Colors.blue : Colors.pink[300],
           label:
@@ -120,7 +118,6 @@ class PetCard extends StatelessWidget {
 
     if (pet.falecimento != null) {
       badges.addAll([
-        // const SizedBox(height: 3),
         const Badge(
           backgroundColor: Colors.grey,
           label: Text('Falecido'),
@@ -133,29 +130,6 @@ class PetCard extends StatelessWidget {
 
   leadingImage(BuildContext context, Pet pet) {
     return PetSquareAvatar.fromPet(pet, size: 70);
-  }
-
-  RichText infoText(BuildContext context, String label, String? value) {
-    var labelStyle = Theme.of(context).textTheme.bodyMedium;
-    final fontWeight = value != null ? FontWeight.w600 : FontWeight.w400;
-
-    return RichText(
-      text: TextSpan(
-        children: [
-          TextSpan(
-            text: label,
-            style: labelStyle,
-          ),
-          TextSpan(
-            text: value ?? '-',
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium
-                ?.copyWith(fontWeight: fontWeight),
-          )
-        ],
-      ),
-    );
   }
 
   List<Text> info2Text(BuildContext context, String label, String? value) {
