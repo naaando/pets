@@ -22,6 +22,7 @@ ThemeData baseTheme(ColorScheme scheme) {
   );
 
   return ThemeData(
+    scaffoldBackgroundColor: scheme.background,
     brightness: scheme.brightness,
     colorScheme: scheme,
     listTileTheme: ListTileThemeData(
