@@ -58,7 +58,7 @@ class ListaOcorridos extends ConsumerWidget {
         } else {
           columnArray.add(
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 3),
               child: SkeletonListTile(),
             ),
           );
@@ -86,7 +86,7 @@ class ListaOcorridos extends ConsumerWidget {
     final defaultTileColor = Theme.of(context).colorScheme.primaryContainer;
 
     var widget = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       child: MyPhysicalShape(
         color: defaultTileColor,
         child: ListTile(

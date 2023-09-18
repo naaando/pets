@@ -60,7 +60,7 @@ class ListaProximos extends ConsumerWidget {
         } else {
           columnArray.add(
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
               child: SkeletonListTile(),
             ),
           );
@@ -88,7 +88,7 @@ class ListaProximos extends ConsumerWidget {
     Color tileColor = isPast ? defaultTileColor : Colors.yellow.shade700;
 
     var widget = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       child: MyPhysicalShape(
         color: tileColor,
         child: ListTile(
