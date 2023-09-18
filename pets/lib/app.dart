@@ -1,4 +1,3 @@
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pets/pages/medicacao_page.dart';
@@ -15,29 +14,24 @@ class App extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(loggedUserProvider);
 
-    return AdaptiveTheme(
-      light: lightTheme(),
-      dark: darkTheme(),
-      initial: AdaptiveThemeMode.system,
-      builder: (theme, darkTheme) => MaterialApp(
-        title: 'Cuidados com pets',
-        theme: theme,
-        darkTheme: darkTheme,
-        themeMode: ThemeMode.system,
-        routes: <String, WidgetBuilder>{
-          '/home': (BuildContext context) => const HomePage(),
-          '/cadastro-pet': (BuildContext context) => const PetPage(),
-          '/cadastro-vacina': (BuildContext context) =>
-              const MedicacaoPage(tipoPadrao: 'vacina'),
-          '/medicacao': (BuildContext context) => const MedicacaoPage(),
-          '/proxima-medicacao': (BuildContext context) => const MedicacaoPage(),
-        },
-        home: user.when(
-          data: (user) => userLoaded(user),
-          error: (err, stack) => Text(err.toString()),
-          loading: () => const Center(
-            child: CircularProgressIndicator(),
-          ),
+    return MaterialApp(
+      title: 'Cuidados com pets',
+      theme: lightTheme(),
+      darkTheme: darkTheme(),
+      themeMode: ThemeMode.system,
+      routes: <String, WidgetBuilder>{
+        '/home': (BuildContext context) => const HomePage(),
+        '/cadastro-pet': (BuildContext context) => const PetPage(),
+        '/cadastro-vacina': (BuildContext context) =>
+            const MedicacaoPage(tipoPadrao: 'vacina'),
+        '/medicacao': (BuildContext context) => const MedicacaoPage(),
+        '/proxima-medicacao': (BuildContext context) => const MedicacaoPage(),
+      },
+      home: user.when(
+        data: (user) => userLoaded(user),
+        error: (err, stack) => Text(err.toString()),
+        loading: () => const Center(
+          child: CircularProgressIndicator(),
         ),
       ),
     );
