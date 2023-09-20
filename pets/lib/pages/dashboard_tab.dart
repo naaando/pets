@@ -12,11 +12,8 @@ class DashboardTab extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: RefreshIndicator(
-        color: Colors.red,
         child: content(context, ref),
-        onRefresh: () {
-          return ref.refresh(petsProvider.future);
-        },
+        onRefresh: () => ref.refresh(petsProvider.future),
       ),
     );
   }

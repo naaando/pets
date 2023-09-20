@@ -14,18 +14,21 @@ class PetsListTab extends HookConsumerWidget {
     AsyncValue<Map<String, Pet>> pets = ref.watch(petsProvider);
 
     return Scaffold(
-      body: pets.when(
-        loading: () => const CircularProgressIndicator(),
-        error: (err, stack) => throw err,
-        data: (pets) => body(
-          context,
-          pets.values.toList()
-            ..sort((a, b) {
-              return a.updatedAt is String
-                  ? DateTime.parse(a.updatedAt ?? '').microsecondsSinceEpoch
-                  : DateTime.parse(a.createdAt ?? '').microsecondsSinceEpoch;
-            }),
+      body: RefreshIndicator(
+        child: pets.when(
+          loading: () => const CircularProgressIndicator(),
+          error: (err, stack) => throw err,
+          data: (pets) => body(
+            context,
+            pets.values.toList()
+              ..sort((a, b) {
+                return a.updatedAt is String
+                    ? DateTime.parse(a.updatedAt ?? '').microsecondsSinceEpoch
+                    : DateTime.parse(a.createdAt ?? '').microsecondsSinceEpoch;
+              }),
+          ),
         ),
+        onRefresh: () => ref.refresh(petsProvider.future),
       ),
     );
   }
