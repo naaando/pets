@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pets/components/fab_actions.dart';
 import 'package:pets/components/pet_card.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/provider/pet_provider.dart';
@@ -28,7 +27,6 @@ class PetsListTab extends HookConsumerWidget {
             }),
         ),
       ),
-      floatingActionButton: const FabActions(),
     );
   }
 

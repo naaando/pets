@@ -10,43 +10,41 @@ class PetsBottomNavigationBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var pets = ref.watch(petsProvider);
 
+    final scheme = Theme.of(context).colorScheme;
     final indicatorColor = Theme.of(context).colorScheme.onPrimary;
-    final decorationColor = Theme.of(context).colorScheme.primaryContainer;
-    final labelColor = Theme.of(context).colorScheme.onPrimaryContainer;
 
-    return Container(
-      padding: const EdgeInsets.only(top: 6),
-      margin: const EdgeInsets.all(6).copyWith(top: 2),
+    return BottomAppBar(
       clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        color: decorationColor,
-        borderRadius: const BorderRadius.all(Radius.circular(20)),
-      ),
+      shape: const CircularNotchedRectangle(),
+      notchMargin: 12,
+      elevation: 0,
+      color: Colors.white,
       child: TabBar(
         tabs: [
-          Tab(
-            icon: Icon(Icons.dashboard_rounded, color: labelColor),
+          const Tab(
+            icon: Icon(Icons.home_rounded),
+            text: 'Home',
           ),
           Tab(
             icon: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Icon(Icons.pets, color: labelColor),
+                const Icon(Icons.pets_rounded),
                 const SizedBox(width: 5),
-                Text(pets.when(
-                    data: (Map<String, Pet> pets) => pets.length.toString(),
-                    error: (object, stackTrace) => 'E',
-                    loading: () => '')),
+                Text(
+                  pets.when(
+                      data: (Map<String, Pet> pets) => pets.length.toString(),
+                      error: (object, stackTrace) => 'E',
+                      loading: () => ''),
+                ),
               ],
             ),
+            text: 'Pets',
           ),
         ],
-        labelColor: labelColor,
-        indicator: BoxDecoration(
-            color: indicatorColor, borderRadius: BorderRadius.circular(20)),
-        padding: const EdgeInsets.only(left: 6, right: 6, bottom: 6),
-        splashBorderRadius: BorderRadius.circular(20),
+        labelColor: scheme.onPrimaryContainer,
+        indicator: BoxDecoration(color: indicatorColor),
       ),
     );
   }

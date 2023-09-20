@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pets/components/fab_actions.dart';
 import 'package:pets/components/lista_ocorridos.dart';
 import 'package:pets/components/lista_pets.dart';
 import 'package:pets/components/lista_proximos.dart';
@@ -19,7 +18,6 @@ class DashboardTab extends HookConsumerWidget {
           return ref.refresh(petsProvider.future);
         },
       ),
-      floatingActionButton: const FabActions(),
     );
   }
 

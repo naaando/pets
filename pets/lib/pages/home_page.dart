@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pets/components/menu.dart';
 import 'package:pets/components/pets_bottom_navigation_bar.dart';
 import 'package:pets/components/user_app_bar.dart';
 import 'package:pets/models/pet.dart';
@@ -21,7 +23,7 @@ class HomePage extends HookConsumerWidget {
       child: pets.when(
         loading: loading,
         error: error,
-        data: loaded,
+        data: (pets) => loaded(pets),
       ),
     );
   }
@@ -44,26 +46,36 @@ class HomePage extends HookConsumerWidget {
 
   Widget loaded(Map<String, Pet> pets) {
     if (pets.isEmpty) {
-      return emptyPetList();
+      return const OnboardingPage();
     }
 
     return defaultView();
   }
 
   Widget defaultView() {
-    return const Scaffold(
-      appBar: UserAppBar(),
-      body: TabBarView(
+    final showMenu = useState(false);
+    toggle() => showMenu.value = !showMenu.value;
+
+    return Scaffold(
+      appBar: const UserAppBar(),
+      body: Stack(
         children: [
-          DashboardTab(),
-          PetsListTab(),
+          const TabBarView(
+            children: [
+              DashboardTab(),
+              PetsListTab(),
+            ],
+          ),
+          showMenu.value ? Menu(showMenu) : const SizedBox(),
         ],
       ),
-      bottomNavigationBar: PetsBottomNavigationBar(),
+      bottomNavigationBar: const PetsBottomNavigationBar(),
+      extendBody: true,
+      floatingActionButton: FloatingActionButton(
+        onPressed: toggle,
+        child: showMenu.value ? const Icon(Icons.close) : const Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
-  }
-
-  Widget emptyPetList() {
-    return const OnboardingPage();
   }
 }
