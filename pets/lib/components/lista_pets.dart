@@ -39,8 +39,8 @@ class ListaPets extends ConsumerWidget {
       width: MediaQuery.of(context).size.width,
       height: 108,
       child: ListView(
-        padding: const EdgeInsets.only(left: 12, right: 4),
-        // primary: false,
+        padding: const EdgeInsets.only(left: 8, right: 4),
+        primary: false,
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
         children: list,
