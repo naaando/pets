@@ -7,50 +7,74 @@ class OnboardingPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var backgroundImageWidget = backgroundImage(context);
-    var spacer = const SizedBox(height: 360);
-    var textStyle = const TextStyle(color: Color.fromRGBO(57, 57, 57, 1));
-    var textualContentWidget = DefaultTextStyle(
-      style: textStyle,
-      child: textualContent(context, spacer, textStyle),
+    final scheme = Theme.of(context).colorScheme;
+
+    final backgroundImageWidget = backgroundImage(context);
+
+    final textualContentWidget = DefaultTextStyle(
+      style: TextStyle(color: scheme.onPrimaryContainer),
+      child: textualContent(
+        context,
+        const SizedBox(height: 360),
+      ),
     );
 
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: scheme.primaryContainer,
       body: Center(
-          child: Stack(
-        alignment: Alignment.center,
-        children: [backgroundImageWidget, textualContentWidget],
-      )),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            backgroundImageWidget,
+            textualContentWidget,
+          ],
+        ),
+      ),
     );
   }
 
   Column textualContent(
-      BuildContext context, SizedBox centerSpacer, TextStyle textStyle) {
+    BuildContext context,
+    SizedBox centerSpacer,
+  ) {
+    final theme = Theme.of(context);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.max,
       children: [
-        const Text('Olá, seja bem vindo!', style: TextStyle(fontSize: 24)),
-        const SizedBox(height: 6),
+        Text(
+          'Olá, seja bem vindo!',
+          style: theme.textTheme.headlineMedium!
+              .copyWith(color: theme.colorScheme.onPrimaryContainer),
+        ),
+        const SizedBox(height: 16),
         SizedBox(
-            width: MediaQuery.of(context).size.width * 0.6,
-            child: RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(style: textStyle, children: const [
-                  TextSpan(text: 'Você ainda '),
-                  TextSpan(
-                      text: 'não cadastrou',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  TextSpan(text: ' nenhum dos seus pets')
-                ]))),
+          width: MediaQuery.of(context).size.width * 0.5,
+          child: RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              style: TextStyle(color: theme.colorScheme.onPrimaryContainer),
+              children: const [
+                TextSpan(text: 'Você ainda '),
+                TextSpan(
+                  text: 'não cadastrou',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                TextSpan(text: ' nenhum dos seus pets')
+              ],
+            ),
+          ),
+        ),
         centerSpacer,
         const Text('Que tal cadastrar um agora?'),
         const SizedBox(height: 20),
-        FilledButton(
-            onPressed: () => Navigator.pushNamed(context, '/cadastro-pet'),
-            child: const Text('Cadastrar novo pet'))
+        FilledButton.icon(
+          onPressed: () => Navigator.pushNamed(context, '/cadastro-pet'),
+          label: const Text('Cadastrar novo pet'),
+          icon: const Icon(Icons.add),
+        )
       ],
     );
   }
