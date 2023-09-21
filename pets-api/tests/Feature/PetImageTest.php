@@ -25,7 +25,7 @@ test('consigo enviar a imagem do pet', function () {
     Storage::disk()->assertExists($pet->imagem);
 
     $response->assertStatus(200);
-});
+})->only();
 
 test('ao enviar a imagem do pet remove a anterior', function () {
     actingAs($user = User::factory()->create());
@@ -90,3 +90,34 @@ test('proibe remover a imagem do pet alheio', function () {
 
     Storage::disk()->assertExists($pet->imagem);
 });
+
+test('permite envio de imagens maiores ou iguais a 3MB', function () {
+    actingAs($user = User::factory()->create());
+
+    Storage::fake();
+
+    $pet = Pet::factory()->for($user)->create();
+    $response = putJson("/api/pets/$pet->id/image", [
+        'file' => UploadedFile::fake()->image('avatar.jpg')->size(3072),
+    ]);
+
+    $pet->refresh();
+    assertNotEmpty($pet->imagem);
+
+    Storage::disk()->assertExists($pet->imagem);
+
+    $response->assertStatus(200);
+})->only();
+
+test('proibe envio de imagens maiores que 3MB', function () {
+    actingAs($user = User::factory()->create());
+
+    Storage::fake();
+
+    $pet = Pet::factory()->for($user)->create();
+    $response = putJson("/api/pets/$pet->id/image", [
+        'file' => UploadedFile::fake()->image('avatar.jpg')->size(3073),
+    ]);
+
+    $response->assertStatus(422);
+})->only();

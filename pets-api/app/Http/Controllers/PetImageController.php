@@ -19,7 +19,7 @@ class PetImageController extends Controller
     public function update(Request $request, Pet $pet)
     {
         $request->validate([
-            'file' => 'required|image',
+            'file' => 'required|image|max:3072',
         ]);
 
         $path = $request->file('file')->storePublicly('pets');
