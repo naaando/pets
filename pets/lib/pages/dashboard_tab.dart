@@ -24,7 +24,7 @@ class DashboardTab extends HookConsumerWidget {
         ListaPets(),
         ListaProximos(),
         ListaOcorridos(),
-        SizedBox(height: 80), // Para não ficar escondido pelo FAB
+        SizedBox(height: 20), // Para não ficar escondido pelo FAB
       ],
     );
   }

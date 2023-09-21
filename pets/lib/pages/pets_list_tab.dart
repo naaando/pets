@@ -54,11 +54,10 @@ class PetsListTab extends HookConsumerWidget {
                 ...petsFiltrados.map<Widget>(
                   (Pet pet) => PetCard(pet),
                 ),
-                const SizedBox(height: 80),
+                const SizedBox(height: 20), // Para não ficar escondido pelo FAB
               ],
             ),
           ),
-          // Para não ficar escondido pelo FAB
         ],
       ),
     );

@@ -10,15 +10,10 @@ class PetsBottomNavigationBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var pets = ref.watch(petsProvider);
 
-    final scheme = Theme.of(context).colorScheme;
-    final indicatorColor = Theme.of(context).colorScheme.onPrimary;
-
     return BottomAppBar(
       clipBehavior: Clip.antiAlias,
       shape: const CircularNotchedRectangle(),
       notchMargin: 12,
-      elevation: 0,
-      color: Colors.white,
       child: TabBar(
         tabs: [
           const Tab(
@@ -43,8 +38,6 @@ class PetsBottomNavigationBar extends ConsumerWidget {
             text: 'Pets',
           ),
         ],
-        labelColor: scheme.onPrimaryContainer,
-        indicator: BoxDecoration(color: indicatorColor),
       ),
     );
   }

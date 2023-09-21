@@ -49,5 +49,14 @@ ThemeData baseTheme(ColorScheme scheme) {
       filled: true,
       fillColor: scheme.surfaceVariant.withOpacity(0.4),
     ),
+    bottomAppBarTheme: BottomAppBarTheme(
+      color: scheme.primaryContainer,
+      elevation: 24.0,
+    ),
+    tabBarTheme: TabBarTheme(
+      labelColor: scheme.onPrimaryContainer,
+      unselectedLabelColor: scheme.onPrimaryContainer.withOpacity(0.45),
+      indicator: BoxDecoration(color: scheme.primaryContainer),
+    ),
   );
 }
