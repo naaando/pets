@@ -25,7 +25,7 @@ test('consigo enviar a imagem do pet', function () {
     Storage::disk()->assertExists($pet->imagem);
 
     $response->assertStatus(200);
-})->only();
+});
 
 test('ao enviar a imagem do pet remove a anterior', function () {
     actingAs($user = User::factory()->create());
@@ -107,7 +107,7 @@ test('permite envio de imagens maiores ou iguais a 10MB', function () {
     Storage::disk()->assertExists($pet->imagem);
 
     $response->assertStatus(200);
-})->only();
+});
 
 test('proibe envio de imagens maiores que 10MB', function () {
     actingAs($user = User::factory()->create());
@@ -120,4 +120,4 @@ test('proibe envio de imagens maiores que 10MB', function () {
     ]);
 
     $response->assertStatus(422);
-})->only();
+});
