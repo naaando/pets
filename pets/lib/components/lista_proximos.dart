@@ -6,6 +6,7 @@ import 'package:pets/components/pet_avatar.dart';
 import 'package:pets/components/placeholder_proximos.dart';
 import 'package:pets/models/medicacao.dart';
 import 'package:pets/provider/eventos_provider.dart';
+import 'package:pets/provider/medicacao_provider.dart';
 
 import 'chip_evento.dart';
 import 'skeleton_list_tile.dart';
@@ -32,6 +33,7 @@ class ListaProximos extends ConsumerWidget {
         const SizedBox(height: 8),
         ref.watch(eventosProvider).when(
               data: (medicacoes) => lista(
+                ref,
                 context,
                 medicacoes.where((m) => !m.completado).toList(),
               ),
@@ -66,14 +68,18 @@ class ListaProximos extends ConsumerWidget {
     );
   }
 
-  Widget lista(BuildContext context, List<Medicacao> medicacoes) {
+  Widget lista(
+    WidgetRef ref,
+    BuildContext context,
+    List<Medicacao> medicacoes,
+  ) {
     if (medicacoes.isEmpty) {
       return PlaceholderProximos(showMenu);
     }
 
     final medicacoesComoEvento = medicacoes
         .map<MapEntry<int, Widget>>(
-            (medicacao) => medicacaoComoEvento(context, medicacao))
+            (medicacao) => medicacaoComoEvento(ref, context, medicacao))
         .toList();
 
     final eventosPorData = medicacoesComoEvento
@@ -86,6 +92,7 @@ class ListaProximos extends ConsumerWidget {
   }
 
   MapEntry<int, Widget> medicacaoComoEvento(
+    WidgetRef ref,
     BuildContext context,
     Medicacao medicacao,
   ) {
@@ -97,7 +104,7 @@ class ListaProximos extends ConsumerWidget {
     bool isPast = date.isAfter(Jiffy.now());
 
     final scheme = Theme.of(context).colorScheme;
-    final defaultTileColor = Theme.of(context).colorScheme.primary;
+    final defaultTileColor = Colors.lightBlue.shade200;
     Color tileColor = isPast ? defaultTileColor : Colors.yellow.shade700;
 
     var widget = Padding(
@@ -121,11 +128,15 @@ class ListaProximos extends ConsumerWidget {
                 ],
               ),
               const SizedBox(width: 8),
-              IconButton.outlined(
-                padding: const EdgeInsets.all(8),
-                onPressed: () {},
-                icon: const Icon(Icons.check),
+              Material(
+                shape: const CircleBorder(),
                 color: scheme.primary,
+                child: IconButton(
+                  visualDensity: VisualDensity.compact,
+                  onPressed: () => completar(ref, context, medicacao),
+                  icon: const Icon(Icons.check),
+                  color: scheme.onPrimary,
+                ),
               ),
             ],
           ),
@@ -139,5 +150,19 @@ class ListaProximos extends ConsumerWidget {
     );
 
     return MapEntry(date.millisecondsSinceEpoch, widget);
+  }
+
+  completar(
+    WidgetRef ref,
+    BuildContext context,
+    Medicacao medicacao,
+  ) {
+    medicacao.completado = true;
+    ref.read(medicacoesProvider.notifier).save(medicacao, null).then(
+      (value) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Salvo!')));
+      },
+    );
   }
 }
