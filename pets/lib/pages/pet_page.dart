@@ -33,16 +33,55 @@ class PetPage extends HookConsumerWidget {
     final petImgFile = useState<XFile?>(null);
 
     return WillPopScope(
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(title),
-            actions: barActions(context, ref, pet.value, formKey),
-          ),
-          body: body(context, ref, formKey, title, pet, petImgFile),
-          floatingActionButton:
-              saveButton(context, ref, formKey, pet.value, petImgFile),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(title),
+          actions: barActions(context, ref, pet.value, formKey),
         ),
-        onWillPop: () async => true);
+        body: body(context, ref, formKey, title, pet, petImgFile),
+        floatingActionButton: saveButton(
+          context,
+          ref,
+          formKey,
+          pet.value,
+          petImgFile,
+        ),
+      ),
+      onWillPop: () async {
+        return await showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text("Cancelar alterações?"),
+            content: const Text(
+              "Para salvar as alterações use o botão suspenso no canto inferior direito.",
+            ),
+            actions: <Widget>[
+              FilledButton(
+                onPressed: () {
+                  Navigator.of(context, rootNavigator: true)
+                      .pop(true); // dismisses only the dialog and returns false
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                ),
+                child: const Text('Não salvar'),
+              ),
+              FilledButton(
+                onPressed: () {
+                  Navigator.of(context, rootNavigator: true)
+                      .pop(false); // dismisses only the dialog and returns true
+                },
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.blue),
+                ),
+                child: const Text('Voltar'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   FloatingActionButton? saveButton(BuildContext context, WidgetRef ref,
