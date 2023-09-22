@@ -4,7 +4,6 @@ import 'package:jiffy/jiffy.dart';
 import 'package:pets/components/my_physical_shape.dart';
 import 'package:pets/components/pet_avatar.dart';
 import 'package:pets/components/placeholder_ocorridos.dart';
-import 'package:pets/components/placeholder_proximos.dart';
 import 'package:pets/models/medicacao.dart';
 import 'package:pets/provider/eventos_provider.dart';
 
@@ -12,7 +11,9 @@ import 'chip_evento.dart';
 import 'skeleton_list_tile.dart';
 
 class ListaOcorridos extends ConsumerWidget {
-  const ListaOcorridos({Key? key}) : super(key: key);
+  final ValueNotifier<bool> showMenu;
+
+  const ListaOcorridos(this.showMenu, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -64,7 +65,7 @@ class ListaOcorridos extends ConsumerWidget {
 
   Widget lista(BuildContext context, List<Medicacao> medicacoes) {
     if (medicacoes.isEmpty) {
-      return const PlaceholderOcorridos();
+      return PlaceholderOcorridos(showMenu);
     }
 
     final medicacoesComoEvento = medicacoes

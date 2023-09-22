@@ -11,7 +11,9 @@ import 'chip_evento.dart';
 import 'skeleton_list_tile.dart';
 
 class ListaProximos extends ConsumerWidget {
-  const ListaProximos({Key? key}) : super(key: key);
+  final ValueNotifier<bool> showMenu;
+
+  const ListaProximos(this.showMenu, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -63,7 +65,7 @@ class ListaProximos extends ConsumerWidget {
 
   Widget lista(BuildContext context, List<Medicacao> medicacoes) {
     if (medicacoes.isEmpty) {
-      return const PlaceholderProximos();
+      return PlaceholderProximos(showMenu);
     }
 
     final medicacoesComoEvento = medicacoes

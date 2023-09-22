@@ -60,10 +60,10 @@ class HomePage extends HookConsumerWidget {
       appBar: const UserAppBar(),
       body: Stack(
         children: [
-          const TabBarView(
+          TabBarView(
             children: [
-              DashboardTab(),
-              PetsListTab(),
+              DashboardTab(showMenu),
+              const PetsListTab(),
             ],
           ),
           showMenu.value ? Menu(showMenu) : const SizedBox(),

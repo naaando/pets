@@ -6,7 +6,9 @@ import 'package:pets/components/lista_proximos.dart';
 import 'package:pets/provider/pet_provider.dart';
 
 class DashboardTab extends HookConsumerWidget {
-  const DashboardTab({super.key});
+  final ValueNotifier<bool> showMenu;
+
+  const DashboardTab(this.showMenu, {super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -32,13 +34,13 @@ class DashboardTab extends HookConsumerWidget {
         ),
         Container(
           padding: const EdgeInsets.all(12),
-          child: const ListaProximos(),
+          child: ListaProximos(showMenu),
         ),
         Container(
           padding: const EdgeInsets.all(12),
-          child: const ListaOcorridos(),
+          child: ListaOcorridos(showMenu),
         ),
-        const SizedBox(height: 120), // Para não ficar escondido pelo FAB
+        const SizedBox(height: 100), // Para não ficar escondido pelo FAB
       ],
     );
   }
