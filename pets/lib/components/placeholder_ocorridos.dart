@@ -75,7 +75,7 @@ class PlaceholderOcorridos extends StatelessWidget {
           child: FilledButton.icon(
             onPressed: () => showMenu.value = !showMenu.value,
             icon: const Icon(Icons.add),
-            label: const Text('Criar agendamento'),
+            label: const Text('Registrar evento'),
           ),
         ),
       ],

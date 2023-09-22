@@ -31,7 +31,10 @@ class ListaProximos extends ConsumerWidget {
         ),
         const SizedBox(height: 8),
         ref.watch(eventosProvider).when(
-              data: (medicacoes) => lista(context, medicacoes),
+              data: (medicacoes) => lista(
+                context,
+                medicacoes.where((m) => !m.completado).toList(),
+              ),
               error: erro,
               loading: carregando,
             ),
@@ -69,7 +72,6 @@ class ListaProximos extends ConsumerWidget {
     }
 
     final medicacoesComoEvento = medicacoes
-        .where((element) => !element.completado)
         .map<MapEntry<int, Widget>>(
             (medicacao) => medicacaoComoEvento(context, medicacao))
         .toList();
