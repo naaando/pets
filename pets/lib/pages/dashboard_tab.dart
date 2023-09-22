@@ -12,19 +12,33 @@ class DashboardTab extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: RefreshIndicator(
-        child: content(context, ref),
+        child: SingleChildScrollView(
+          child: content(context, ref),
+        ),
         onRefresh: () => ref.refresh(petsProvider.future),
       ),
     );
   }
 
   Widget content(BuildContext context, WidgetRef ref) {
-    return ListView(
-      children: const [
-        ListaPets(),
-        ListaProximos(),
-        ListaOcorridos(),
-        SizedBox(height: 20), // Para não ficar escondido pelo FAB
+    final theme = Theme.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(12),
+          child: const ListaPets(),
+        ),
+        Container(
+          padding: const EdgeInsets.all(12),
+          child: const ListaProximos(),
+        ),
+        Container(
+          padding: const EdgeInsets.all(12),
+          child: const ListaOcorridos(),
+        ),
+        const SizedBox(height: 120), // Para não ficar escondido pelo FAB
       ],
     );
   }

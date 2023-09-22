@@ -20,6 +20,9 @@ ThemeData baseTheme(ColorScheme scheme) {
   final roundedShape = RoundedRectangleBorder(
     borderRadius: borderRadius,
   );
+  final fullRoundedShape = RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(100),
+  );
 
   return ThemeData(
     scaffoldBackgroundColor: scheme.background,
@@ -57,6 +60,11 @@ ThemeData baseTheme(ColorScheme scheme) {
       labelColor: scheme.onPrimaryContainer,
       unselectedLabelColor: scheme.onPrimaryContainer.withOpacity(0.45),
       indicator: BoxDecoration(color: scheme.primaryContainer),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        shape: fullRoundedShape,
+      ),
     ),
   );
 }

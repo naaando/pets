@@ -10,36 +10,44 @@ class ListaPets extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
     AsyncValue<List<Pet>> pets = ref.watch(petsOrderedByUpdateProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.all(8),
-          child: Text(
-            'Seus pets',
-            textAlign: TextAlign.start,
-            style: TextStyle(fontWeight: FontWeight.w600),
+        Text(
+          'Seus pets',
+          textAlign: TextAlign.start,
+          style: theme.textTheme.titleLarge!.copyWith(
+            color: theme.colorScheme.onBackground,
           ),
         ),
-        pets.when(
-          data: (pets) => lista(context, pets),
-          error: (object, stackTrace) => const Text('Error'),
-          loading: () => const SkeletonListaPets(),
+        const SizedBox(height: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surfaceVariant,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: pets.when(
+            data: (pets) => lista(context, pets),
+            error: (object, stackTrace) => const Text('Error'),
+            loading: () => const SkeletonListaPets(),
+          ),
         ),
       ],
     );
   }
 
-  lista(context, List<Pet> pets) {
+  Widget lista(context, List<Pet> pets) {
     final list = pets.map<Widget>((pet) => toListItem(context, pet)).toList();
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: 108,
+      height: 110,
       child: ListView(
-        padding: const EdgeInsets.only(left: 8, right: 4),
+        padding: const EdgeInsets.only(left: 4, right: 4),
         primary: false,
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
@@ -49,19 +57,38 @@ class ListaPets extends ConsumerWidget {
   }
 
   Widget toListItem(BuildContext context, Pet pet) {
-    return Padding(
+    final theme = Theme.of(context);
+
+    return Container(
       padding: const EdgeInsets.symmetric(horizontal: 4),
+      width: 90,
       child: InkWell(
         onTap: () =>
             Navigator.pushNamed(context, '/cadastro-pet', arguments: pet),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            PetAvatar.fromPet(
-              pet,
-              size: 40,
+            Container(
+              padding: const EdgeInsets.all(1.5),
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                border: Border.all(
+                  color: theme.colorScheme.primary,
+                  width: 2,
+                ),
+                shape: BoxShape.circle,
+              ),
+              child: PetAvatar.fromPet(
+                pet,
+                size: 40,
+              ),
             ),
             const SizedBox(height: 8),
-            Text(pet.nome),
+            Text(
+              pet.nome,
+              overflow: TextOverflow.ellipsis,
+              style: theme.textTheme.labelMedium,
+            ),
           ],
         ),
       ),
