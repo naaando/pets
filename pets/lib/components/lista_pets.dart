@@ -27,7 +27,6 @@ class ListaPets extends ConsumerWidget {
         Container(
           padding: const EdgeInsets.symmetric(vertical: 8),
           decoration: BoxDecoration(
-            color: theme.colorScheme.surfaceVariant,
             borderRadius: BorderRadius.circular(8),
           ),
           child: pets.when(
@@ -47,7 +46,7 @@ class ListaPets extends ConsumerWidget {
       width: MediaQuery.of(context).size.width,
       height: 110,
       child: ListView(
-        padding: const EdgeInsets.only(left: 4, right: 4),
+        padding: const EdgeInsets.only(left: 0, right: 4),
         primary: false,
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,

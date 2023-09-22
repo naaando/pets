@@ -96,7 +96,7 @@ class ListaOcorridos extends ConsumerWidget {
     final defaultTileColor = Theme.of(context).colorScheme.primaryContainer;
 
     var widget = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      padding: const EdgeInsets.symmetric(vertical: 3),
       child: MyPhysicalShape(
         color: defaultTileColor,
         child: ListTile(
