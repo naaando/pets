@@ -90,7 +90,6 @@ class ListaOcorridos extends ConsumerWidget {
     Medicacao medicacao,
   ) {
     final pet = medicacao.pet!;
-    String? thumbUrl = pet.imagem != null ? pet.imagemUri.toString() : null;
     String title = pet.nome;
     String subtitle = medicacao.nome;
     Jiffy date = Jiffy.parse(medicacao.quando!, isUtc: true).toLocal();

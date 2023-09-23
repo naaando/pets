@@ -5,11 +5,9 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'especie_provider.g.dart';
 
-@Riverpod()
-EspecieRepository especieRepository(EspecieRepositoryRef ref) {
-  final httpClient = ref.watch(httpClientProvider);
-
-  return EspecieRepository(httpClient);
+@riverpod
+Raw<EspecieRepository> especieRepository(EspecieRepositoryRef ref) {
+  return EspecieRepository(ref.read(httpClientProvider));
 }
 
 @Riverpod()

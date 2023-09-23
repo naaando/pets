@@ -7,8 +7,6 @@ class PlaceholderProximos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-
     final theme = Theme.of(context);
 
     return Stack(

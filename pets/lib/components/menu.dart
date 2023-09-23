@@ -69,7 +69,10 @@ class Menu extends HookWidget {
       ),
       FloatingActionButton.extended(
         label: const Text('Vacina'),
-        onPressed: () => {Navigator.pushNamed(context, '/cadastro-vacina')},
+        onPressed: () {
+          toggleMenu();
+          Navigator.pushNamed(context, '/cadastro-vacina');
+        },
         icon: const Icon(Icons.vaccines),
         heroTag: null,
       ),
@@ -78,7 +81,10 @@ class Menu extends HookWidget {
       ),
       FloatingActionButton.extended(
         label: const Text('Medicação'),
-        onPressed: () => {Navigator.pushNamed(context, '/medicacao')},
+        onPressed: () {
+          toggleMenu();
+          Navigator.pushNamed(context, '/medicacao');
+        },
         icon: const Icon(Icons.medication_liquid),
         heroTag: null,
       ),
@@ -87,7 +93,10 @@ class Menu extends HookWidget {
       ),
       FloatingActionButton.extended(
         label: const Text('Pet'),
-        onPressed: () => {Navigator.pushNamed(context, '/cadastro-pet')},
+        onPressed: () {
+          toggleMenu();
+          Navigator.pushNamed(context, '/cadastro-pet');
+        },
         icon: const Icon(Icons.pets),
         heroTag: null,
       ),

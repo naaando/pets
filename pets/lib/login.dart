@@ -29,7 +29,7 @@ googleSignIn(WidgetRef ref) async {
   var sanctumToken =
       await dio.getUri(baseUri.replace(path: '/api/auth/google-idtoken'));
 
-  final userRepository = await ref.read(userRepositoryProvider.future);
+  final userRepository = await ref.read(userRepositoryProvider);
   userRepository.setUserWithSanctumToken(sanctumToken.data);
 }
 
@@ -43,6 +43,6 @@ facebookSignIn(WidgetRef ref) async {
       baseUri.replace(path: '/api/auth/facebook'),
       data: result.accessToken);
 
-  final userRepository = await ref.read(userRepositoryProvider.future);
+  final userRepository = await ref.read(userRepositoryProvider);
   userRepository.setUserWithSanctumToken(sanctumToken.data);
 }

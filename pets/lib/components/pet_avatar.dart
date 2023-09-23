@@ -29,8 +29,6 @@ class PetAvatar extends StatelessWidget {
     final backgroundColor = Theme.of(context).colorScheme.primary;
     final iconColor = Theme.of(context).colorScheme.primaryContainer;
 
-    final myTextStyle = textStyle ?? Theme.of(context).textTheme.headlineSmall;
-
     return CircleAvatar(
       radius: size,
       foregroundColor: Colors.black,

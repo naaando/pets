@@ -19,17 +19,17 @@ class PetPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var user = ref.watch(loggedUserProvider).asData!.value!;
+    final user = ref.watch(loggedUserProvider).asData!.value!;
 
-    var petFromRoute = (ModalRoute.of(context)!.settings.arguments as Pet?) ??
+    final petFromRoute = (ModalRoute.of(context)!.settings.arguments as Pet?) ??
         Pet(
           espacoId: user.espacoAtivoId,
         );
 
-    var pet = useState(petFromRoute);
+    final pet = useState(petFromRoute);
 
-    var title = pet.value.id != null ? pet.value.nome : 'Novo animal';
-    var formKey = ref.watch(petFormStateProvider);
+    final title = pet.value.id != null ? pet.value.nome : 'Novo animal';
+    final formKey = ref.watch(petFormStateProvider);
     final petImgFile = useState<XFile?>(null);
 
     return WillPopScope(
@@ -56,25 +56,21 @@ class PetPage extends HookConsumerWidget {
               "Para salvar as alterações use o botão suspenso no canto inferior direito.",
             ),
             actions: <Widget>[
-              FilledButton(
+              TextButton(
                 onPressed: () {
                   Navigator.of(context, rootNavigator: true)
                       .pop(true); // dismisses only the dialog and returns false
                 },
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                child: const Text(
+                  'Não salvar',
+                  style: TextStyle(color: Colors.red),
                 ),
-                child: const Text('Não salvar'),
               ),
-              FilledButton(
+              TextButton(
                 onPressed: () {
                   Navigator.of(context, rootNavigator: true)
                       .pop(false); // dismisses only the dialog and returns true
                 },
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.blue),
-                ),
                 child: const Text('Voltar'),
               ),
             ],
@@ -141,8 +137,14 @@ class PetPage extends HookConsumerWidget {
     ];
   }
 
-  Widget body(BuildContext context, WidgetRef ref, GlobalKey<FormState> formKey,
-      String title, ValueNotifier<Pet> pet, ValueNotifier<XFile?> petImgFile) {
+  Widget body(
+    BuildContext context,
+    WidgetRef ref,
+    GlobalKey<FormState> formKey,
+    String title,
+    ValueNotifier<Pet> pet,
+    ValueNotifier<XFile?> petImgFile,
+  ) {
     // Dont watch pets cause it will cause a rebuild
     Map<String, Pet> pets =
         ref.read(petsProvider).asData?.value ?? <String, Pet>{};

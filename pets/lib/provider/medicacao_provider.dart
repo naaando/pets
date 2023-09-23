@@ -8,7 +8,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'medicacao_provider.g.dart';
 
 @riverpod
-MedicacaoRepository medicacaoRepository(MedicacaoRepositoryRef ref) {
+Raw<MedicacaoRepository> medicacaoRepository(MedicacaoRepositoryRef ref) {
   return MedicacaoRepository(ref.read(httpClientProvider));
 }
 
@@ -33,6 +33,8 @@ class Medicacoes extends _$Medicacoes {
 
     ref.invalidateSelf();
     await future;
+
+    return medicacaoSalva;
   }
 
   Future<void> remove(medicacao) async {

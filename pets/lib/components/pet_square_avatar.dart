@@ -29,8 +29,6 @@ class PetSquareAvatar extends StatelessWidget {
     final backgroundColor = Theme.of(context).colorScheme.onPrimaryContainer;
     final iconColor = Theme.of(context).colorScheme.onPrimary;
 
-    final myTextStyle = textStyle ?? Theme.of(context).textTheme.headlineSmall;
-
     return Image(
       image: image,
       fit: BoxFit.cover,

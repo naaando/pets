@@ -7,7 +7,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'user_provider.g.dart';
 
 @Riverpod()
-Future<UserRepository> userRepository(UserRepositoryRef ref) async {
+Raw<Future<UserRepository>> userRepository(UserRepositoryRef ref) async {
   final httpClient = ref.watch(httpClientProvider);
   final isar = await ref.watch(isarProvider.future);
 
@@ -18,7 +18,7 @@ Future<UserRepository> userRepository(UserRepositoryRef ref) async {
 class LoggedUser extends _$LoggedUser {
   @override
   FutureOr<User?> build() async {
-    final rep = await ref.watch(userRepositoryProvider.future);
+    final rep = await ref.watch(userRepositoryProvider);
 
     rep.addListener(() {
       state = AsyncValue.data(rep.user);

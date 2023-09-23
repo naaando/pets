@@ -23,8 +23,6 @@ class DashboardTab extends HookConsumerWidget {
   }
 
   Widget content(BuildContext context, WidgetRef ref) {
-    final theme = Theme.of(context);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
