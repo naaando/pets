@@ -1,6 +1,9 @@
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pets/http_client.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final httpClientProvider = Provider((ref) {
+part 'http_provider.g.dart';
+
+@riverpod
+HttpClient httpClient(HttpClientRef ref) {
   return HttpClient();
-});
+}

@@ -6,7 +6,7 @@ part of 'especie_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$especieRepositoryHash() => r'39aa8d9e71e4931e37eb3cba3418963a2ba568ce';
+String _$especieRepositoryHash() => r'2d353140615b9e56e0e5fdc1c754a543b6d5df16';
 
 /// See also [especieRepository].
 @ProviderFor(especieRepository)
@@ -22,7 +22,7 @@ final especieRepositoryProvider =
 );
 
 typedef EspecieRepositoryRef = AutoDisposeProviderRef<EspecieRepository>;
-String _$especiesHash() => r'55c05068d748f0543444cf9cc44734a538749c31';
+String _$especiesHash() => r'60ea5da4a66fd8d89cfa305bd0d71335e4b9a6fb';
 
 /// See also [Especies].
 @ProviderFor(Especies)

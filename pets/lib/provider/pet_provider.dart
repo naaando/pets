@@ -9,20 +9,24 @@ part 'pet_provider.g.dart';
 
 @riverpod
 PetRepository petRepository(PetRepositoryRef ref) {
-  return PetRepository(ref.watch(httpClientProvider));
+  return PetRepository(ref.read(httpClientProvider));
 }
 
 // ordered per updatedAt
 @riverpod
 Future<List<Pet>> petsOrderedByUpdate(PetsOrderedByUpdateRef ref) async {
-  final pets = await ref.watch(petsProvider.future);
+  final pets = ref.watch(petsProvider);
 
-  return pets.values.toList()
-    ..sort((a, b) {
-      return a.updatedAt is String
-          ? DateTime.parse(a.updatedAt ?? '').microsecondsSinceEpoch
-          : DateTime.parse(a.createdAt ?? '').microsecondsSinceEpoch;
-    });
+  return pets.when(
+    data: (pets) => pets.values.toList()
+      ..sort(
+        (a, b) => a.updatedAt is String
+            ? DateTime.parse(a.updatedAt ?? '').microsecondsSinceEpoch
+            : DateTime.parse(a.createdAt ?? '').microsecondsSinceEpoch,
+      ),
+    error: (e, s) => throw e,
+    loading: () => [],
+  );
 }
 
 @riverpod

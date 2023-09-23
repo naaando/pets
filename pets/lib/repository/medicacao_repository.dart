@@ -11,8 +11,10 @@ class MedicacaoRepository {
     return Medicacao.fromJson(jsonMedicacao);
   }
 
-  Future<Map<String, Medicacao>> findAll(
-      {String? petId, bool forceRefresh = false}) async {
+  Future<Map<String, Medicacao>> findAll({
+    String? petId,
+    bool forceRefresh = false,
+  }) async {
     var jsonMedicacaos =
         await httpClient.getJson('api/medicacoes?pet_id=$petId');
 

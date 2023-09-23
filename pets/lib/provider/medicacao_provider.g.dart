@@ -7,7 +7,7 @@ part of 'medicacao_provider.dart';
 // **************************************************************************
 
 String _$medicacaoRepositoryHash() =>
-    r'6c5b4417bc8cafd3a69d3927f7973163a7ca6f47';
+    r'08940e3b1a3801966ee44db4a2586c72305e2212';
 
 /// See also [medicacaoRepository].
 @ProviderFor(medicacaoRepository)
@@ -23,7 +23,7 @@ final medicacaoRepositoryProvider =
 );
 
 typedef MedicacaoRepositoryRef = AutoDisposeProviderRef<MedicacaoRepository>;
-String _$medicacoesHash() => r'2d0119199a51bff60b2698623e4ee38956a1ad59';
+String _$medicacoesHash() => r'3329fe0340f2df799dbdc8ce8ef9b5a5bc3ee4cc';
 
 /// See also [Medicacoes].
 @ProviderFor(Medicacoes)
