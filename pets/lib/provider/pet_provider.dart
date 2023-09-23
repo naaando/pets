@@ -42,7 +42,8 @@ class Pets extends _$Pets {
     final rep = ref.read(petRepositoryProvider);
     final savedPet = await rep.save(pet);
 
-    state = await AsyncValue.guard(() async => _fetch());
+    ref.invalidateSelf();
+    await future;
     return savedPet;
   }
 
@@ -50,8 +51,8 @@ class Pets extends _$Pets {
     final rep = ref.read(petRepositoryProvider);
     final imgUrl = await rep.updateProfilePicture(pet, file);
 
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async => _fetch());
+    ref.invalidateSelf();
+    await future;
 
     return imgUrl;
   }
@@ -60,8 +61,8 @@ class Pets extends _$Pets {
     final rep = ref.read(petRepositoryProvider);
     await rep.remove(pet);
 
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async => _fetch());
+    ref.invalidateSelf();
+    await future;
   }
 
   FutureOr<Map<String, Pet>> _fetch() async {
