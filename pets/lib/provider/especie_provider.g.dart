@@ -6,7 +6,7 @@ part of 'especie_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$especieRepositoryHash() => r'2d353140615b9e56e0e5fdc1c754a543b6d5df16';
+String _$especieRepositoryHash() => r'39aa8d9e71e4931e37eb3cba3418963a2ba568ce';
 
 /// See also [especieRepository].
 @ProviderFor(especieRepository)
@@ -22,7 +22,7 @@ final especieRepositoryProvider =
 );
 
 typedef EspecieRepositoryRef = AutoDisposeProviderRef<EspecieRepository>;
-String _$especiesHash() => r'60ea5da4a66fd8d89cfa305bd0d71335e4b9a6fb';
+String _$especiesHash() => r'55c05068d748f0543444cf9cc44734a538749c31';
 
 /// See also [Especies].
 @ProviderFor(Especies)
@@ -37,4 +37,5 @@ final especiesProvider =
 );
 
 typedef _$Especies = AutoDisposeAsyncNotifier<Map<String, Especie>>;
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

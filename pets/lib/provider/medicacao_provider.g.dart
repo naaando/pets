@@ -23,7 +23,7 @@ final medicacaoRepositoryProvider =
 );
 
 typedef MedicacaoRepositoryRef = AutoDisposeProviderRef<MedicacaoRepository>;
-String _$medicacoesHash() => r'92701d668a422df44bfb82116613093837f529f5';
+String _$medicacoesHash() => r'2d0119199a51bff60b2698623e4ee38956a1ad59';
 
 /// See also [Medicacoes].
 @ProviderFor(Medicacoes)
@@ -38,4 +38,5 @@ final medicacoesProvider = AutoDisposeAsyncNotifierProvider<Medicacoes,
 );
 
 typedef _$Medicacoes = AutoDisposeAsyncNotifier<Map<String, Medicacao>>;
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
