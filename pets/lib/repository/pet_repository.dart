@@ -65,7 +65,6 @@ class PetRepository {
 
     var response = await dio.post('api/pets/${pet.id}/image', data: formData);
 
-    pet.imagem = response.data['path'];
     return response.data['path'];
   }
 }

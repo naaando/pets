@@ -36,11 +36,16 @@ class Pets extends _$Pets {
     return _fetch();
   }
 
-  Future<Pet> save(Pet pet) async {
+  Future<Pet> save(Pet pet, [XFile? image]) async {
     state = const AsyncValue.loading();
 
     final rep = ref.read(petRepositoryProvider);
-    final savedPet = await rep.save(pet);
+    var savedPet = await rep.save(pet);
+
+    if (image != null) {
+      final imageUrl = await updateProfilePicture(savedPet, image);
+      savedPet = savedPet.copyWith(imagemUrl: imageUrl);
+    }
 
     ref.invalidateSelf();
     await future;
@@ -73,7 +78,8 @@ class Pets extends _$Pets {
     var pets = await rep.findAll();
 
     return pets.map(
-      (key, value) => MapEntry(key, value..especie = especies[value.especieId]),
+      (key, value) =>
+          MapEntry(key, value.copyWith(especie: especies[value.especieId])),
     );
   }
 }

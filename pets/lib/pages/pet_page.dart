@@ -92,14 +92,10 @@ class PetPage extends HookConsumerWidget {
       onPressed: () {
         formKey.currentState!.save();
         if (formKey.currentState!.validate()) {
-          ref.read(petsProvider.notifier).save(pet).then((savedPet) {
-            if (petImgFile.value != null) {
-              ref
-                  .read(petsProvider.notifier)
-                  .updateProfilePicture(savedPet, petImgFile.value!)
-                  .then((value) => pet.imagem = value);
-            }
-
+          ref
+              .read(petsProvider.notifier)
+              .save(pet, petImgFile.value)
+              .then((savedPet) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Salvo!')),
             );
@@ -180,7 +176,9 @@ class PetPage extends HookConsumerWidget {
                       hintText: 'Nome do animal',
                       labelText: 'Nome',
                     ),
-                    onSaved: (newValue) => pet.value.nome = newValue!,
+                    onSaved: (newValue) {
+                      pet.value = pet.value.copyWith(nome: newValue ?? '');
+                    },
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Nome é obrigatório';
@@ -202,7 +200,9 @@ class PetPage extends HookConsumerWidget {
                               child: Text(v.value.nome),
                             ))
                         .toList(),
-                    onChanged: (value) => pet.value.especieId = value,
+                    onChanged: (value) {
+                      pet.value = pet.value.copyWith(especieId: value);
+                    },
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
@@ -211,7 +211,9 @@ class PetPage extends HookConsumerWidget {
                       hintText: 'Raça do animal',
                       labelText: 'Raça',
                     ),
-                    onSaved: (newValue) => pet.value.raca = newValue!,
+                    onSaved: (newValue) {
+                      pet.value = pet.value.copyWith(raca: newValue);
+                    },
                   ),
                   const SizedBox(height: 20),
                   DropdownButtonFormField(
@@ -230,7 +232,9 @@ class PetPage extends HookConsumerWidget {
                         child: Text('Feminino'),
                       ),
                     ],
-                    onChanged: (value) => pet.value.sexo = value,
+                    onChanged: (value) {
+                      pet.value = pet.value.copyWith(sexo: value);
+                    },
                   ),
                   const SizedBox(height: 20),
                   DateTimeFormField(
@@ -242,8 +246,9 @@ class PetPage extends HookConsumerWidget {
                       labelText: 'Data de nascimento',
                     ),
                     onDateChanged: (dateTime) {
-                      pet.value.nascimento = dateTime?.toIso8601String();
-                      pet.notifyListeners();
+                      pet.value = pet.value.copyWith(
+                        nascimento: dateTime?.toIso8601String(),
+                      );
                     },
                   ),
                   const SizedBox(height: 20),
@@ -256,8 +261,9 @@ class PetPage extends HookConsumerWidget {
                       labelText: 'Data de castração (aproximada)',
                     ),
                     onDateChanged: (dateTime) {
-                      pet.value.castracao = dateTime?.toIso8601String();
-                      pet.notifyListeners();
+                      pet.value = pet.value.copyWith(
+                        castracao: dateTime?.toIso8601String(),
+                      );
                     },
                   ),
                   const SizedBox(height: 20),
@@ -268,18 +274,21 @@ class PetPage extends HookConsumerWidget {
                       labelText: 'Mãe',
                     ),
                     items: femalePetsDropdown(pets),
-                    onChanged: (value) => pet.value.maeId = value,
+                    onChanged: (value) {
+                      pet.value = pet.value.copyWith(maeId: value);
+                    },
                   ),
                   const SizedBox(height: 20),
                   DropdownButtonFormField(
-                    value: pet.value.paiId,
-                    decoration: const InputDecoration(
-                      hintText: 'Pai',
-                      labelText: 'Pai',
-                    ),
-                    items: malePetsDropdown(pets),
-                    onChanged: (value) => pet.value.paiId = value,
-                  ),
+                      value: pet.value.paiId,
+                      decoration: const InputDecoration(
+                        hintText: 'Pai',
+                        labelText: 'Pai',
+                      ),
+                      items: malePetsDropdown(pets),
+                      onChanged: (value) {
+                        pet.value = pet.value.copyWith(paiId: value);
+                      }),
                   const SizedBox(height: 20),
                   DateTimeFormField(
                     controller: falecimentoController,
@@ -290,8 +299,9 @@ class PetPage extends HookConsumerWidget {
                       labelText: 'Data de óbito',
                     ),
                     onDateChanged: (dateTime) {
-                      pet.value.falecimento = dateTime?.toIso8601String();
-                      pet.notifyListeners();
+                      pet.value = pet.value.copyWith(
+                        falecimento: dateTime?.toIso8601String(),
+                      );
                     },
                   ),
                 ],
