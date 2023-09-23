@@ -36,28 +36,60 @@ class MedicacaoPage extends HookConsumerWidget {
     var formKey = useRef(GlobalKey<FormState>());
 
     return WillPopScope(
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(title),
-            actions: barActions(context, ref, formKey.value, medicacao.value),
-          ),
-          body: body(
-            context,
-            ref,
-            formKey.value,
-            title,
-            medicacao,
-            proximaData,
-          ),
-          floatingActionButton: saveButton(
-            context,
-            ref,
-            formKey.value,
-            medicacao,
-            proximaData.value,
-          ),
+      onWillPop: () => pedirParaSalvarDialog(context),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(title),
+          actions: barActions(context, ref, formKey.value, medicacao.value),
         ),
-        onWillPop: () async => true);
+        body: body(
+          context,
+          ref,
+          formKey.value,
+          title,
+          medicacao,
+          proximaData,
+        ),
+        floatingActionButton: saveButton(
+          context,
+          ref,
+          formKey.value,
+          medicacao,
+          proximaData.value,
+        ),
+      ),
+    );
+  }
+
+  Future<bool> pedirParaSalvarDialog(BuildContext context) async {
+    return await showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text("Sair sem salvar?"),
+        content: const Text(
+          "Para salvar as alterações use o botão suspenso no canto inferior direito.",
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context, rootNavigator: true).pop(true);
+            },
+            child: const Text(
+              'Sair sem salvar',
+              style: TextStyle(color: Colors.red),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context, rootNavigator: true).pop(false);
+            },
+            child: const Text(
+              'Voltar ao cadastro',
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   FloatingActionButton? saveButton(
@@ -71,28 +103,34 @@ class MedicacaoPage extends HookConsumerWidget {
       onPressed: () {
         formKey.currentState!.save();
 
-        if (formKey.currentState!.validate()) {
-          ref
-              .read(medicacoesProvider.notifier)
-              .save(
-                medicacao.value,
-                proximaData,
-              )
-              .then((value) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Salvo!')),
-            );
+        if (!formKey.currentState!.validate()) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Campos inválidos!')),
+          );
 
-            Navigator.of(context).pop();
-          }).onError((DioException error, stackTrace) {
-            debugPrint(error.toString());
-            var msg = error.response?.data['message'] ?? error.message;
-
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Erro ao salvar!\n\n$msg')),
-            );
-          });
+          return;
         }
+
+        ref
+            .read(medicacoesProvider.notifier)
+            .save(
+              medicacao.value,
+              proximaData,
+            )
+            .then((value) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Salvo!')),
+          );
+
+          Navigator.of(context).pop();
+        }).onError((DioException error, stackTrace) {
+          debugPrint(error.toString());
+          var msg = error.response?.data['message'] ?? error.message;
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Erro ao salvar!\n\n$msg')),
+          );
+        });
       },
       tooltip: 'Salvar',
       child: const Icon(Icons.check),
