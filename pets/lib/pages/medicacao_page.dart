@@ -341,7 +341,7 @@ class MedicacaoPage extends HookConsumerWidget {
           ));
   }
 
-  showDeleteAlert(
+  void showDeleteAlert(
     BuildContext context,
     WidgetRef ref,
     Medicacao medicacao,
@@ -375,7 +375,7 @@ class MedicacaoPage extends HookConsumerWidget {
     );
   }
 
-  outrasInformacoes(ValueNotifier<Medicacao> medicacao) {
+  Widget outrasInformacoes(ValueNotifier<Medicacao> medicacao) {
     return ExpansionTile(
       title: const Text('Outras informações'),
       leading: const Icon(Icons.dataset),
@@ -407,8 +407,8 @@ class MedicacaoPage extends HookConsumerWidget {
     );
   }
 
-  repetir(medicacao, proximaData) {
-    var repetidor = useState({});
+  Widget repetir(medicacao, proximaData) {
+    final repetidor = useState({});
 
     return ExpansionTile(
       title: const Text('Repetir'),
