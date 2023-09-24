@@ -6,4 +6,11 @@
 
 Monorepo do Pets.
 
-Um projeto de gerenciamento de animais.
+Um projeto de gerenciamento de animais feito com Flutter e Laravel.
+
+---
+
+_Disclaimer_
+
+Embora o projeto tenha seu código aberto para poder ser estudado, 
+continua proprietário portanto vetado seu uso de natureza comercial por terceiros.
