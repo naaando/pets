@@ -435,7 +435,7 @@ class MedicacaoPage extends HookConsumerWidget {
                 height: 60,
                 child: DropdownButtonFormField(
                   value: repetidor.value['repetir_em.tipo'],
-                  items: ['minutos', 'horas', 'dias']
+                  items: ['horas', 'dias']
                       .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                       .toList(),
                   onChanged: (value) {
@@ -468,7 +468,7 @@ class MedicacaoPage extends HookConsumerWidget {
                 height: 60,
                 child: DropdownButtonFormField(
                   value: repetidor.value['durante.tipo'],
-                  items: ['vezes', 'horas', 'dias', 'mes']
+                  items: ['vezes', 'dias', 'mes']
                       .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                       .toList(),
                   onChanged: (value) {
