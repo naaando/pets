@@ -156,8 +156,8 @@ class ListaProximos extends ConsumerWidget {
     BuildContext context,
     Medicacao medicacao,
   ) {
-    medicacao.completado = true;
-    ref.read(medicacoesProvider.notifier).save(medicacao, null).then(
+    final medicacaoCompletada = medicacao.copyWith(completado: true);
+    ref.read(medicacoesProvider.notifier).save(medicacaoCompletada, null).then(
       (value) {
         ScaffoldMessenger.of(context)
             .showSnackBar(const SnackBar(content: Text('Salvo!')));

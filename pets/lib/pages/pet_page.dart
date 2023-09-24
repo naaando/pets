@@ -188,7 +188,7 @@ class PetPage extends HookConsumerWidget {
                       labelText: 'Nome',
                     ),
                     onChanged: (newValue) {
-                      pet.value = pet.value.copyWith(nome: newValue ?? '');
+                      pet.value = pet.value.copyWith(nome: newValue);
                     },
                     validator: (value) {
                       if (value == null || value.isEmpty) {

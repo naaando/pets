@@ -24,17 +24,19 @@ class Medicacoes extends _$Medicacoes {
     final rep = ref.read(medicacaoRepositoryProvider);
 
     final medicacaoSalva = await rep.save(medicacao);
-    medicacaoSalva?.pet = pets[medicacaoSalva.petId];
-    await updateAlarms(medicacaoSalva);
+    final medicacaoSalvaComPet =
+        medicacaoSalva?.copyWith(pet: pets[medicacaoSalva.petId]);
+
+    await updateAlarms(medicacaoSalvaComPet);
 
     if (proximaData != null) {
-      await rep.save(Medicacao.proximaDose(medicacaoSalva!, proximaData));
+      await rep.save(Medicacao.proximaDose(medicacaoSalvaComPet!, proximaData));
     }
 
     ref.invalidateSelf();
     await future;
 
-    return medicacaoSalva;
+    return medicacaoSalvaComPet;
   }
 
   Future<void> remove(medicacao) async {
@@ -52,7 +54,7 @@ class Medicacoes extends _$Medicacoes {
     var medicacoes = await rep.findAll();
 
     return medicacoes.map(
-      (key, value) => MapEntry(key, value..pet = pets[value.petId]),
+      (key, value) => MapEntry(key, value.copyWith(pet: pets[value.petId])),
     );
   }
 

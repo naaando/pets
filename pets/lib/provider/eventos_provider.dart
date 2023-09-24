@@ -11,6 +11,6 @@ Future<List<Medicacao>> eventos(EventosRef ref) async {
   var medicacoes = await ref.watch(medicacoesProvider.future);
 
   return medicacoes.values
-      .map((value) => value..pet = pets[value.petId])
+      .map((value) => value.copyWith(pet: pets[value.petId]))
       .toList();
 }

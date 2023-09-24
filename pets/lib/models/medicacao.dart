@@ -1,41 +1,49 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:isar/isar.dart';
-import 'package:json_annotation/json_annotation.dart';
+import 'package:flutter/foundation.dart';
 
 import 'pet.dart';
 
+part 'medicacao.freezed.dart';
 part 'medicacao.g.dart';
 
-@collection
-@JsonSerializable()
-class Medicacao {
-  Id? id;
+@freezed
+class Medicacao with _$Medicacao {
+  @JsonSerializable(explicitToJson: true)
+  const Medicacao._();
 
-  @JsonKey(defaultValue: 'medicacao')
-  String tipo;
+  const factory Medicacao({
+    Id? id,
+    @Default('medicacao') String tipo,
+    @JsonKey(name: 'pet_id') String? petId,
+    Pet? pet,
+    @JsonKey(name: 'inicial_id') int? inicialId,
+    @JsonKey(name: 'antecessora_id') int? antecessoraId,
+    @Default('') String nome,
+    String? fabricante,
+    String? veterinario,
+    String? quando,
+    @JsonKey(name: 'created_at') String? createdAt,
+    @JsonKey(name: 'updated_at') String? updatedAt,
+    @Default(false) bool completado,
+  }) = _Medicacao;
 
-  @JsonKey(name: 'pet_id')
-  String? petId;
+  factory Medicacao.proximaDose(Medicacao medicacao, String proximaDose) =>
+      Medicacao(
+        tipo: medicacao.tipo,
+        // inicialId: medicacao.inicialId ?? medicacao.id,
+        // antecessoraId: medicacao.id,
+        petId: medicacao.petId,
+        nome: medicacao.nome,
+        fabricante: medicacao.fabricante,
+        veterinario: medicacao.veterinario,
+        quando: proximaDose,
+        createdAt: medicacao.createdAt,
+        updatedAt: medicacao.updatedAt,
+        completado: false,
+      );
 
-  @ignore
-  Pet? pet;
-
-  @JsonKey(name: 'inicial_id')
-  int? inicialId;
-
-  @JsonKey(name: 'antecessora_id')
-  int? antecessoraId;
-
-  String nome;
-  String? fabricante;
-  String? veterinario;
-  String? quando;
-  @JsonKey(name: 'created_at')
-  String? createdAt;
-  @JsonKey(name: 'updated_at')
-  String? updatedAt;
-  bool completado;
-
-  @ignore
+  // @ignore
   get tipoExtenso {
     switch (tipo) {
       case 'medicacao':
@@ -49,54 +57,23 @@ class Medicacao {
     }
   }
 
-  Medicacao({
-    this.id,
-    this.inicialId,
-    this.antecessoraId,
-    this.tipo = 'medicacao',
-    this.petId,
-    this.pet,
-    this.nome = '',
-    this.fabricante,
-    this.veterinario,
-    this.quando,
-    this.createdAt,
-    this.updatedAt,
-    this.completado = false,
-  });
-
-  factory Medicacao.fromJson(Map<String, dynamic> json) =>
-      _$MedicacaoFromJson(json);
-
-  Map<String, dynamic> toJson() => _$MedicacaoToJson(this);
-
-  factory Medicacao.proximaDose(Medicacao medicacao, String proximaDose) {
-    return Medicacao(
-      tipo: medicacao.tipo,
-      inicialId: medicacao.inicialId ?? medicacao.id,
-      antecessoraId: medicacao.id,
-      petId: medicacao.petId,
-      nome: medicacao.nome,
-      fabricante: medicacao.fabricante,
-      veterinario: medicacao.veterinario,
-      quando: proximaDose,
-      createdAt: medicacao.createdAt,
-      updatedAt: medicacao.updatedAt,
-      completado: false,
-    );
-  }
-
+  /// Verifica se a medicação deve ser completada
+  /// a partir da data de quando ela deveria ser tomada
+  /// e retorna um booleano
   bool deveCompletar() {
     if (quando == null) {
       return false;
     }
 
-    var dateTime = DateTime.tryParse(quando!)?.toLocal();
+    final dateTime = DateTime.tryParse(quando!)?.toLocal();
 
-    if (dateTime is DateTime) {
-      completado = dateTime.isBefore(DateTime.now());
+    if (dateTime == null) {
+      return false;
     }
 
-    return completado;
+    return dateTime.isBefore(DateTime.now());
   }
+
+  factory Medicacao.fromJson(Map<String, dynamic> json) =>
+      _$MedicacaoFromJson(json);
 }
