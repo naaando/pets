@@ -43,7 +43,12 @@ class Pets extends _$Pets {
     var savedPet = await rep.save(pet);
 
     if (image != null) {
-      final imageUrl = await updateProfilePicture(savedPet, image);
+      final imageUrl = await updateProfilePicture(
+        savedPet,
+        image,
+        invalidateSelf: false,
+      );
+
       savedPet = savedPet.copyWith(imagemUrl: imageUrl);
     }
 
@@ -52,12 +57,15 @@ class Pets extends _$Pets {
     return savedPet;
   }
 
-  Future<String?> updateProfilePicture(Pet pet, XFile file) async {
+  Future<String?> updateProfilePicture(Pet pet, XFile file,
+      {bool invalidateSelf = true}) async {
     final rep = ref.read(petRepositoryProvider);
     final imgUrl = await rep.updateProfilePicture(pet, file);
 
-    ref.invalidateSelf();
-    await future;
+    if (invalidateSelf) {
+      ref.invalidateSelf();
+      await future;
+    }
 
     return imgUrl;
   }

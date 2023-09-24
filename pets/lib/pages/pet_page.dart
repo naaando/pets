@@ -80,8 +80,13 @@ class PetPage extends HookConsumerWidget {
     );
   }
 
-  FloatingActionButton? saveButton(BuildContext context, WidgetRef ref,
-      GlobalKey<FormState> formKey, Pet pet, ValueNotifier<XFile?> petImgFile) {
+  FloatingActionButton? saveButton(
+    BuildContext context,
+    WidgetRef ref,
+    GlobalKey<FormState> formKey,
+    Pet pet,
+    ValueNotifier<XFile?> petImgFile,
+  ) {
     var isValid = formKey.currentState?.validate() ?? false;
 
     if (!isValid) {
@@ -91,25 +96,27 @@ class PetPage extends HookConsumerWidget {
     return FloatingActionButton(
       onPressed: () {
         formKey.currentState!.save();
-        if (formKey.currentState!.validate()) {
-          ref
-              .read(petsProvider.notifier)
-              .save(pet, petImgFile.value)
-              .then((savedPet) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Salvo!')),
-            );
-
-            Navigator.of(context).pop();
-          }).onError((DioException error, stackTrace) {
-            debugPrint(error.toString());
-            var msg = error.response?.data['message'] ?? error.message;
-
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Erro ao salvar!\n\n$msg')),
-            );
-          });
+        if (!formKey.currentState!.validate()) {
+          return;
         }
+
+        ref
+            .read(petsProvider.notifier)
+            .save(pet, petImgFile.value)
+            .then((savedPet) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Salvo!')),
+          );
+
+          Navigator.of(context).pop();
+        }).onError((DioException error, stackTrace) {
+          debugPrint(error.toString());
+          var msg = error.response?.data['message'] ?? error.message;
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Erro ao salvar!\n\n$msg')),
+          );
+        });
       },
       tooltip: 'Salvar',
       child: const Icon(Icons.check),
@@ -176,7 +183,7 @@ class PetPage extends HookConsumerWidget {
                       hintText: 'Nome do animal',
                       labelText: 'Nome',
                     ),
-                    onSaved: (newValue) {
+                    onChanged: (newValue) {
                       pet.value = pet.value.copyWith(nome: newValue ?? '');
                     },
                     validator: (value) {
@@ -211,7 +218,7 @@ class PetPage extends HookConsumerWidget {
                       hintText: 'Raça do animal',
                       labelText: 'Raça',
                     ),
-                    onSaved: (newValue) {
+                    onChanged: (newValue) {
                       pet.value = pet.value.copyWith(raca: newValue);
                     },
                   ),

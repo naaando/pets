@@ -7,6 +7,7 @@ part 'pet.g.dart';
 
 @freezed
 class Pet with _$Pet {
+  @JsonSerializable(explicitToJson: true)
   const Pet._();
 
   const factory Pet({
