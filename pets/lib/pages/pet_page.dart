@@ -48,6 +48,10 @@ class PetPage extends HookConsumerWidget {
         ),
       ),
       onWillPop: () async {
+        if (petFromRoute == pet.value) {
+          return true;
+        }
+
         return await showDialog(
           context: context,
           builder: (BuildContext context) => AlertDialog(
