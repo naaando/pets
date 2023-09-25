@@ -36,16 +36,23 @@ class PetPage extends HookConsumerWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(title),
-          actions: barActions(context, ref, pet.value, formKey),
+          actions:
+              barActions(context, ref, pet.value, formKey, petImgFile.value),
         ),
         body: body(context, ref, formKey, title, pet, petImgFile),
-        floatingActionButton: saveButton(
-          context,
-          ref,
-          formKey,
-          pet.value,
-          petImgFile,
-        ),
+        floatingActionButton: formKey.currentState?.validate() == true
+            ? FloatingActionButton(
+                onPressed: () => save(
+                  context,
+                  ref,
+                  formKey,
+                  pet.value,
+                  petImgFile.value,
+                ),
+                tooltip: 'Salvar',
+                child: const Icon(Icons.check),
+              )
+            : null,
       ),
       onWillPop: () async {
         if (petFromRoute == pet.value) {
@@ -84,63 +91,31 @@ class PetPage extends HookConsumerWidget {
     );
   }
 
-  FloatingActionButton? saveButton(
+  List<Widget> barActions(
     BuildContext context,
     WidgetRef ref,
-    GlobalKey<FormState> formKey,
     Pet pet,
-    ValueNotifier<XFile?> petImgFile,
+    GlobalKey<FormState> formKey,
+    XFile? petImgFile,
   ) {
-    var isValid = formKey.currentState?.validate() ?? false;
-
-    if (!isValid) {
-      return null;
-    }
-
-    return FloatingActionButton(
-      onPressed: () {
-        formKey.currentState!.save();
-        if (!formKey.currentState!.validate()) {
-          return;
-        }
-
-        ref
-            .read(petsProvider.notifier)
-            .save(pet, petImgFile.value)
-            .then((savedPet) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Salvo!')),
-          );
-
-          Navigator.of(context).pop();
-        }).onError((DioException error, stackTrace) {
-          debugPrint(error.toString());
-          var msg = error.response?.data['message'] ?? error.message;
-
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Erro ao salvar!\n\n$msg')),
-          );
-        });
-      },
-      tooltip: 'Salvar',
-      child: const Icon(Icons.check),
-    );
-  }
-
-  List<Widget> barActions(BuildContext context, WidgetRef ref, Pet pet,
-      GlobalKey<FormState> formKey) {
     if (pet.id != null) {
       return [
         IconButton(
-            icon: const Icon(Icons.delete),
-            onPressed: () => showDeleteAlert(context, ref, pet))
+          icon: const Icon(Icons.delete),
+          onPressed: () => showDeleteAlert(
+            context,
+            ref,
+            pet,
+          ),
+        ),
       ];
     }
 
     return [
       IconButton(
-          icon: const Icon(Icons.cancel),
-          onPressed: () => Navigator.of(context).pop())
+        icon: const Icon(Icons.cancel),
+        onPressed: () => Navigator.of(context).pop(),
+      ),
     ];
   }
 
@@ -159,18 +134,11 @@ class PetPage extends HookConsumerWidget {
     Map<String, Especie> especie =
         ref.watch(especiesProvider).asData?.value ?? <String, Especie>{};
 
-    final nascimentoController =
-        useTextEditingController(text: pet.value.nascimento);
-    final castracaoController =
-        useTextEditingController(text: pet.value.castracao);
-    final falecimentoController =
-        useTextEditingController(text: pet.value.falecimento);
-
     return SingleChildScrollView(
         child: Form(
             key: formKey,
             child: Padding(
-              padding: const EdgeInsets.all(25),
+              padding: const EdgeInsets.all(12),
               child: Column(
                 children: [
                   petImage(
@@ -249,7 +217,7 @@ class PetPage extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 20),
                   DateTimeFormField(
-                    controller: nascimentoController,
+                    initialValue: pet.value.nascimento,
                     firstDate: DateTime(1900),
                     lastDate: DateTime.now(),
                     decoration: const InputDecoration(
@@ -264,7 +232,7 @@ class PetPage extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 20),
                   DateTimeFormField(
-                    controller: castracaoController,
+                    initialValue: pet.value.castracao,
                     firstDate: DateTime(1900),
                     lastDate: DateTime.now(),
                     decoration: const InputDecoration(
@@ -302,7 +270,7 @@ class PetPage extends HookConsumerWidget {
                       }),
                   const SizedBox(height: 20),
                   DateTimeFormField(
-                    controller: falecimentoController,
+                    initialValue: pet.value.falecimento,
                     firstDate: DateTime(1900),
                     lastDate: DateTime.now(),
                     decoration: const InputDecoration(
@@ -423,6 +391,34 @@ class PetPage extends HookConsumerWidget {
         return alert;
       },
     );
+  }
+
+  void save(
+    BuildContext context,
+    WidgetRef ref,
+    GlobalKey<FormState> formKey,
+    Pet pet,
+    XFile? petImgFile,
+  ) {
+    formKey.currentState!.save();
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+
+    ref.read(petsProvider.notifier).save(pet, petImgFile).then((savedPet) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Salvo!')),
+      );
+
+      Navigator.of(context).pop();
+    }).onError((DioException error, stackTrace) {
+      debugPrint(error.toString());
+      var msg = error.response?.data['message'] ?? error.message;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erro ao salvar!\n\n$msg')),
+      );
+    });
   }
 
   String? prepareDate(newValue) {

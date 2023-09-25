@@ -1,34 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:intl/intl.dart';
 
-class DateTimeFormField extends StatelessWidget {
-  final TextEditingController controller;
+class DateTimeFormField extends HookWidget {
   final InputDecoration decoration;
   final Function(DateTime?) onDateChanged;
+  final String? initialValue;
   final DateTime firstDate;
   final DateTime lastDate;
 
+  final String? Function(dynamic value)? validator;
+
   const DateTimeFormField({
     Key? key,
-    required this.controller,
+    required this.initialValue,
     required this.decoration,
     required this.onDateChanged,
     required this.firstDate,
     required this.lastDate,
+    this.validator,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    DateTime? dateTime = DateTime.tryParse(controller.text)?.toLocal();
+    DateTime? dateTime = initialValue != null
+        ? DateTime.tryParse(initialValue!)?.toLocal()
+        : null;
 
-    if (dateTime is DateTime) {
-      controller.text = DateFormat().format(dateTime);
-    }
+    final value = dateTime != null ? DateFormat().format(dateTime) : null;
 
     return TextFormField(
-      controller: controller,
+      controller: TextEditingController(text: value),
       decoration: decoration,
       readOnly: true,
+      validator: validator,
       onTap: () {
         showDatePicker(
           context: context,
@@ -37,7 +42,7 @@ class DateTimeFormField extends StatelessWidget {
           lastDate: lastDate,
         ).then((date) {
           if (date == null) {
-            return;
+            return onDateChanged(null);
           }
 
           showTimePicker(
@@ -56,7 +61,6 @@ class DateTimeFormField extends StatelessWidget {
               seconds: 0,
             ));
 
-            controller.text = dateTime.toIso8601String();
             onDateChanged(dateTime.toUtc());
           });
         });

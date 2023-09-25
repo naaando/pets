@@ -22,30 +22,39 @@ class MedicacaoPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var medicacaoRouterArg =
+    final medicacaoRouterArg =
         (ModalRoute.of(context)!.settings.arguments as Medicacao?);
 
-    var medicacao =
-        useState<Medicacao>(medicacaoRouterArg ?? Medicacao(tipo: tipoPadrao));
+    final medicacaoOriginal = medicacaoRouterArg?.copyWith(
+          completado: medicacaoRouterArg.deveCompletar(),
+        ) ??
+        Medicacao(tipo: tipoPadrao);
 
-    medicacao.value =
-        medicacao.value.copyWith(completado: medicacao.value.deveCompletar());
+    final medicacao = useState<Medicacao>(medicacaoOriginal);
 
-    var proximaData = useState<String?>(null);
+    final proximaData = useState<String?>(null);
 
-    var title = medicacao.value.id != null
+    final title = medicacao.value.id != null
         ? 'Editando ${medicacao.value.tipoExtenso}'
         : 'Nova ${medicacao.value.tipoExtenso}';
 
-    var formKey = useRef(GlobalKey<FormState>());
+    final formKey = useRef(GlobalKey<FormState>());
 
     return WillPopScope(
-      onWillPop: () =>
-          pedirParaSalvarDialog(context, medicacaoRouterArg, medicacao),
+      onWillPop: () => pedirParaSalvarDialog(
+        context,
+        medicacaoOriginal,
+        medicacao,
+      ),
       child: Scaffold(
         appBar: AppBar(
           title: Text(title),
-          actions: barActions(context, ref, formKey.value, medicacao.value),
+          actions: barActions(
+            context,
+            ref,
+            formKey.value,
+            medicacao.value,
+          ),
         ),
         body: body(
           context,
@@ -179,15 +188,11 @@ class MedicacaoPage extends HookConsumerWidget {
     Map<String, Pet> pets =
         ref.read(petsProvider).asData?.value ?? <String, Pet>{};
 
-    final dataController = useTextEditingController(
-      text: medicacao.value.quando,
-    );
-
     return Form(
       key: formKey,
       child: ListView(
         children: [
-          conteudoPrincipal(medicacao, pets, dataController),
+          conteudoPrincipal(medicacao, pets),
           outrasInformacoes(medicacao),
           repetir(medicacao, proximaData),
           const SizedBox(height: 60),
@@ -199,13 +204,12 @@ class MedicacaoPage extends HookConsumerWidget {
   ExpansionTile conteudoPrincipal(
     ValueNotifier<Medicacao> medicacao,
     Map<String, Pet> pets,
-    TextEditingController dataController,
   ) {
     return ExpansionTile(
       title: const Text('Principal'),
       leading: const Icon(Icons.event),
       initiallyExpanded: true,
-      childrenPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
+      childrenPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
       children: [
         DropdownButtonFormField<String>(
           value: medicacao.value.tipo,
@@ -265,7 +269,7 @@ class MedicacaoPage extends HookConsumerWidget {
         ),
         const SizedBox(height: 20),
         DateTimeFormField(
-          controller: dataController,
+          initialValue: medicacao.value.quando,
           firstDate: DateTime.now().subtract(const Duration(days: 365)),
           lastDate: DateTime.now().add(const Duration(days: 365)),
           decoration: const InputDecoration(
@@ -277,6 +281,12 @@ class MedicacaoPage extends HookConsumerWidget {
           onDateChanged: (dateTime) {
             medicacao.value =
                 medicacao.value.copyWith(quando: dateTime?.toIso8601String());
+          },
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Data é obrigatória';
+            }
+            return null;
           },
         ),
         const SizedBox(height: 12),
@@ -305,9 +315,9 @@ class MedicacaoPage extends HookConsumerWidget {
     return [
       const SizedBox(height: 20),
       DateTimeFormField(
+        initialValue: proximaData.value,
         firstDate: DateTime.now(),
         lastDate: DateTime.now().add(const Duration(days: 365)),
-        controller: proximaDoseController,
         decoration: const InputDecoration(
           hintText: 'Próxima dose',
           labelText: 'Próxima dose',
@@ -381,7 +391,7 @@ class MedicacaoPage extends HookConsumerWidget {
     return ExpansionTile(
       title: const Text('Outras informações'),
       leading: const Icon(Icons.dataset),
-      childrenPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
+      childrenPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
       children: [
         TextFormField(
           initialValue: medicacao.value.atributos.fabricante,
@@ -425,7 +435,7 @@ class MedicacaoPage extends HookConsumerWidget {
     return ExpansionTile(
       title: const Text('Repetir'),
       leading: const Icon(Icons.alarm),
-      childrenPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
+      childrenPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
       children: [
         Row(
           children: [

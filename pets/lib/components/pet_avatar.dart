@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pets/models/pet.dart';
 
 class PetAvatar extends StatelessWidget {
-  final FastCachedImageProvider image;
+  final FastCachedImageProvider? image;
   final String nome;
   final double? size;
   final TextStyle? textStyle;
@@ -21,7 +21,9 @@ class PetAvatar extends StatelessWidget {
     super.key,
     this.size = 20,
     this.textStyle,
-  })  : image = FastCachedImageProvider(pet.imagemUri.toString()),
+  })  : image = pet.imagemUri != null
+            ? FastCachedImageProvider(pet.imagemUri.toString())
+            : null,
         nome = pet.nome.substring(0, 2).toUpperCase();
 
   @override
