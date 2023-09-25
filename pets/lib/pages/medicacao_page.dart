@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
@@ -429,18 +430,23 @@ class MedicacaoPage extends HookConsumerWidget {
         Row(
           children: [
             Expanded(
-                child: TextFormField(
-              initialValue: repetidor().intervaloValor,
-              decoration: const InputDecoration(
-                hintText: 'Intervalo',
-                labelText: 'Intervalo',
+              child: TextFormField(
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                initialValue: repetidor().intervaloValor,
+                decoration: const InputDecoration(
+                  hintText: 'Intervalo',
+                  labelText: 'Intervalo',
+                ),
+                onChanged: (value) {
+                  atualizaRepetidor(
+                    repetidor().copyWith(intervaloValor: value),
+                  );
+                },
               ),
-              onChanged: (value) {
-                atualizaRepetidor(
-                  repetidor().copyWith(intervaloValor: value),
-                );
-              },
-            )),
+            ),
             const SizedBox(width: 10),
             Expanded(
               child: SizedBox(
@@ -464,18 +470,23 @@ class MedicacaoPage extends HookConsumerWidget {
         Row(
           children: [
             Expanded(
-                child: TextFormField(
-              initialValue: repetidor().duranteValor,
-              decoration: const InputDecoration(
-                hintText: 'Durante',
-                labelText: 'Durante',
+              child: TextFormField(
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                initialValue: repetidor().duranteValor,
+                decoration: const InputDecoration(
+                  hintText: 'Durante',
+                  labelText: 'Durante',
+                ),
+                onChanged: (value) {
+                  atualizaRepetidor(
+                    repetidor().copyWith(duranteValor: value),
+                  );
+                },
               ),
-              onChanged: (value) {
-                atualizaRepetidor(
-                  repetidor().copyWith(duranteValor: value),
-                );
-              },
-            )),
+            ),
             const SizedBox(width: 10),
             Expanded(
               child: SizedBox(
@@ -496,18 +507,26 @@ class MedicacaoPage extends HookConsumerWidget {
           ],
         ),
         const SizedBox(height: 20),
-        ...debugHorarios(
-          medicacao,
-          repetidor().intervaloValor,
-          repetidor().intervaloTipo,
-          repetidor().duranteValor,
-          repetidor().duranteTipo,
+        Table(
+          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+          children: [
+            const TableRow(children: [
+              Text('Quando'),
+            ]),
+            ...debugHorarios(
+              medicacao,
+              repetidor().intervaloValor,
+              repetidor().intervaloTipo,
+              repetidor().duranteValor,
+              repetidor().duranteTipo,
+            ).map((e) => TableRow(children: [e])).toList(),
+          ],
         ),
       ],
     );
   }
 
-  debugHorarios(
+  List debugHorarios(
     medicacao,
     String? repetirEmIntervalo,
     String? repetirEmTipo,
@@ -542,6 +561,6 @@ class MedicacaoPage extends HookConsumerWidget {
       );
     }
 
-    return list.map((Jiffy date) => Text(date.yMMMEdjm));
+    return list.map((Jiffy date) => Text(date.yMMMEdjm)).toList();
   }
 }
