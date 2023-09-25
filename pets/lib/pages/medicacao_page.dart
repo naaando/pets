@@ -1,11 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:pets/components/datetime_form_field.dart';
 import 'package:pets/components/pet_dropdown_menu_item_child.dart';
-import 'package:pets/models/medicacao.dart';
+import 'package:pets/models/Medicacao/medicacao.dart';
+import 'package:pets/models/Medicacao/repetidor.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/provider/medicacao_provider.dart';
 import 'package:pets/provider/pet_provider.dart';
@@ -341,7 +343,7 @@ class MedicacaoPage extends HookConsumerWidget {
           ));
   }
 
-  showDeleteAlert(
+  void showDeleteAlert(
     BuildContext context,
     WidgetRef ref,
     Medicacao medicacao,
@@ -375,31 +377,33 @@ class MedicacaoPage extends HookConsumerWidget {
     );
   }
 
-  outrasInformacoes(ValueNotifier<Medicacao> medicacao) {
+  Widget outrasInformacoes(ValueNotifier<Medicacao> medicacao) {
     return ExpansionTile(
       title: const Text('Outras informações'),
       leading: const Icon(Icons.dataset),
       childrenPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
       children: [
         TextFormField(
-          initialValue: medicacao.value.fabricante,
+          initialValue: medicacao.value.atributos.fabricante,
           decoration: const InputDecoration(
             hintText: 'Fabricante',
             labelText: 'Fabricante',
           ),
           onChanged: (newValue) {
-            medicacao.value = medicacao.value.copyWith(fabricante: newValue);
+            medicacao.value =
+                medicacao.value.copyWith.atributos(fabricante: newValue);
           },
         ),
         const SizedBox(height: 20),
         TextFormField(
-          initialValue: medicacao.value.veterinario,
+          initialValue: medicacao.value.atributos.veterinario,
           decoration: const InputDecoration(
             hintText: 'Veterinário',
             labelText: 'Veterinário',
           ),
           onChanged: (newValue) {
-            medicacao.value = medicacao.value.copyWith(veterinario: newValue);
+            medicacao.value =
+                medicacao.value.copyWith.atributos(veterinario: newValue);
           },
         ),
         const SizedBox(height: 12),
@@ -407,8 +411,16 @@ class MedicacaoPage extends HookConsumerWidget {
     );
   }
 
-  repetir(medicacao, proximaData) {
-    var repetidor = useState({});
+  Widget repetir(
+    ValueNotifier<Medicacao> medicacao,
+    ValueNotifier<String?> proximaData,
+  ) {
+    repetidor() => medicacao.value.atributos.repetidor;
+
+    atualizaRepetidor(Repetidor repetidor) {
+      medicacao.value =
+          medicacao.value.copyWith.atributos(repetidor: repetidor);
+    }
 
     return ExpansionTile(
       title: const Text('Repetir'),
@@ -418,29 +430,36 @@ class MedicacaoPage extends HookConsumerWidget {
         Row(
           children: [
             Expanded(
-                child: TextFormField(
-              initialValue: repetidor.value['repetir_em.intervalo'],
-              decoration: const InputDecoration(
-                hintText: 'Intervalo',
-                labelText: 'Intervalo',
+              child: TextFormField(
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                initialValue: repetidor().intervaloValor,
+                decoration: const InputDecoration(
+                  hintText: 'Intervalo',
+                  labelText: 'Intervalo',
+                ),
+                onChanged: (value) {
+                  atualizaRepetidor(
+                    repetidor().copyWith(intervaloValor: value),
+                  );
+                },
               ),
-              onChanged: (value) {
-                repetidor.value['repetir_em.intervalo'] = value;
-                repetidor.value = {...repetidor.value};
-              },
-            )),
+            ),
             const SizedBox(width: 10),
             Expanded(
               child: SizedBox(
                 height: 60,
                 child: DropdownButtonFormField(
-                  value: repetidor.value['repetir_em.tipo'],
-                  items: ['minutos', 'horas', 'dias']
+                  value: repetidor().intervaloTipo,
+                  items: ['horas', 'dias']
                       .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                       .toList(),
                   onChanged: (value) {
-                    repetidor.value['repetir_em.tipo'] = value;
-                    repetidor.value = {...repetidor.value};
+                    atualizaRepetidor(
+                      repetidor().copyWith(intervaloTipo: value),
+                    );
                   },
                 ),
               ),
@@ -451,29 +470,36 @@ class MedicacaoPage extends HookConsumerWidget {
         Row(
           children: [
             Expanded(
-                child: TextFormField(
-              initialValue: repetidor.value['durante.intervalo'],
-              decoration: const InputDecoration(
-                hintText: 'Durante',
-                labelText: 'Durante',
+              child: TextFormField(
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                initialValue: repetidor().duranteValor,
+                decoration: const InputDecoration(
+                  hintText: 'Durante',
+                  labelText: 'Durante',
+                ),
+                onChanged: (value) {
+                  atualizaRepetidor(
+                    repetidor().copyWith(duranteValor: value),
+                  );
+                },
               ),
-              onChanged: (value) {
-                repetidor.value['durante.intervalo'] = value;
-                repetidor.value = {...repetidor.value};
-              },
-            )),
+            ),
             const SizedBox(width: 10),
             Expanded(
               child: SizedBox(
                 height: 60,
                 child: DropdownButtonFormField(
-                  value: repetidor.value['durante.tipo'],
-                  items: ['vezes', 'horas', 'dias', 'mes']
+                  value: repetidor().duranteTipo,
+                  items: ['vezes', 'dias', 'meses']
                       .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                       .toList(),
                   onChanged: (value) {
-                    repetidor.value['durante.tipo'] = value;
-                    repetidor.value = {...repetidor.value};
+                    atualizaRepetidor(
+                      repetidor().copyWith(duranteTipo: value),
+                    );
                   },
                 ),
               ),
@@ -481,18 +507,26 @@ class MedicacaoPage extends HookConsumerWidget {
           ],
         ),
         const SizedBox(height: 20),
-        ...debugHorarios(
-          medicacao,
-          repetidor.value['repetir_em.intervalo'],
-          repetidor.value['repetir_em.tipo'],
-          repetidor.value['durante.intervalo'],
-          repetidor.value['durante.tipo'],
+        Table(
+          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+          children: [
+            const TableRow(children: [
+              Text('Quando'),
+            ]),
+            ...debugHorarios(
+              medicacao,
+              repetidor().intervaloValor,
+              repetidor().intervaloTipo,
+              repetidor().duranteValor,
+              repetidor().duranteTipo,
+            ).map((e) => TableRow(children: [e])).toList(),
+          ],
         ),
       ],
     );
   }
 
-  debugHorarios(
+  List debugHorarios(
     medicacao,
     String? repetirEmIntervalo,
     String? repetirEmTipo,
@@ -527,6 +561,6 @@ class MedicacaoPage extends HookConsumerWidget {
       );
     }
 
-    return list.map((Jiffy date) => Text(date.yMMMEdjm));
+    return list.map((Jiffy date) => Text(date.yMMMEdjm)).toList();
   }
 }

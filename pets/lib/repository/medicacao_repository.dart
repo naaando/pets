@@ -1,5 +1,5 @@
 import 'package:pets/http_client.dart';
-import 'package:pets/models/medicacao.dart';
+import 'package:pets/models/Medicacao/medicacao.dart';
 
 class MedicacaoRepository {
   final HttpClient httpClient;
