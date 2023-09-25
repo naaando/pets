@@ -42,7 +42,7 @@ class PetPage extends HookConsumerWidget {
         body: body(context, ref, formKey, title, pet, petImgFile),
         floatingActionButton: formKey.currentState?.validate() == true
             ? FloatingActionButton(
-                onPressed: save(
+                onPressed: () => save(
                   context,
                   ref,
                   formKey,
