@@ -22,30 +22,39 @@ class MedicacaoPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var medicacaoRouterArg =
+    final medicacaoRouterArg =
         (ModalRoute.of(context)!.settings.arguments as Medicacao?);
 
-    var medicacao =
-        useState<Medicacao>(medicacaoRouterArg ?? Medicacao(tipo: tipoPadrao));
+    final medicacaoOriginal = medicacaoRouterArg?.copyWith(
+          completado: medicacaoRouterArg.deveCompletar(),
+        ) ??
+        Medicacao(tipo: tipoPadrao);
 
-    medicacao.value =
-        medicacao.value.copyWith(completado: medicacao.value.deveCompletar());
+    final medicacao = useState<Medicacao>(medicacaoOriginal);
 
-    var proximaData = useState<String?>(null);
+    final proximaData = useState<String?>(null);
 
-    var title = medicacao.value.id != null
+    final title = medicacao.value.id != null
         ? 'Editando ${medicacao.value.tipoExtenso}'
         : 'Nova ${medicacao.value.tipoExtenso}';
 
-    var formKey = useRef(GlobalKey<FormState>());
+    final formKey = useRef(GlobalKey<FormState>());
 
     return WillPopScope(
-      onWillPop: () =>
-          pedirParaSalvarDialog(context, medicacaoRouterArg, medicacao),
+      onWillPop: () => pedirParaSalvarDialog(
+        context,
+        medicacaoOriginal,
+        medicacao,
+      ),
       child: Scaffold(
         appBar: AppBar(
           title: Text(title),
-          actions: barActions(context, ref, formKey.value, medicacao.value),
+          actions: barActions(
+            context,
+            ref,
+            formKey.value,
+            medicacao.value,
+          ),
         ),
         body: body(
           context,
