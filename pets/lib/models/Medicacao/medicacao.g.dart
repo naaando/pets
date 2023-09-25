@@ -22,6 +22,9 @@ _$_Medicacao _$$_MedicacaoFromJson(Map<String, dynamic> json) => _$_Medicacao(
       createdAt: json['created_at'] as String?,
       updatedAt: json['updated_at'] as String?,
       completado: json['completado'] as bool? ?? false,
+      atributos: json['atributos'] == null
+          ? const Atributos()
+          : Atributos.fromJson(json['atributos'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_MedicacaoToJson(_$_Medicacao instance) =>
@@ -39,4 +42,5 @@ Map<String, dynamic> _$$_MedicacaoToJson(_$_Medicacao instance) =>
       'created_at': instance.createdAt,
       'updated_at': instance.updatedAt,
       'completado': instance.completado,
+      'atributos': instance.atributos,
     };

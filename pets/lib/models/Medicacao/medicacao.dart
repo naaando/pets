@@ -2,7 +2,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:isar/isar.dart';
 import 'package:flutter/foundation.dart';
 
-import 'pet.dart';
+import '../pet.dart';
+import 'atributos.dart';
 
 part 'medicacao.freezed.dart';
 part 'medicacao.g.dart';
@@ -26,6 +27,7 @@ class Medicacao with _$Medicacao {
     @JsonKey(name: 'created_at') String? createdAt,
     @JsonKey(name: 'updated_at') String? updatedAt,
     @Default(false) bool completado,
+    @Default(Atributos()) Atributos atributos,
   }) = _Medicacao;
 
   factory Medicacao.proximaDose(Medicacao medicacao, String proximaDose) =>

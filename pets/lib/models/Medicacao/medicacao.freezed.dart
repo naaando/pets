@@ -38,6 +38,7 @@ mixin _$Medicacao {
   @JsonKey(name: 'updated_at')
   String? get updatedAt => throw _privateConstructorUsedError;
   bool get completado => throw _privateConstructorUsedError;
+  Atributos get atributos => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -63,9 +64,11 @@ abstract class $MedicacaoCopyWith<$Res> {
       String? quando,
       @JsonKey(name: 'created_at') String? createdAt,
       @JsonKey(name: 'updated_at') String? updatedAt,
-      bool completado});
+      bool completado,
+      Atributos atributos});
 
   $PetCopyWith<$Res>? get pet;
+  $AtributosCopyWith<$Res> get atributos;
 }
 
 /// @nodoc
@@ -94,6 +97,7 @@ class _$MedicacaoCopyWithImpl<$Res, $Val extends Medicacao>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? completado = null,
+    Object? atributos = null,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -148,6 +152,10 @@ class _$MedicacaoCopyWithImpl<$Res, $Val extends Medicacao>
           ? _value.completado
           : completado // ignore: cast_nullable_to_non_nullable
               as bool,
+      atributos: null == atributos
+          ? _value.atributos
+          : atributos // ignore: cast_nullable_to_non_nullable
+              as Atributos,
     ) as $Val);
   }
 
@@ -160,6 +168,14 @@ class _$MedicacaoCopyWithImpl<$Res, $Val extends Medicacao>
 
     return $PetCopyWith<$Res>(_value.pet!, (value) {
       return _then(_value.copyWith(pet: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AtributosCopyWith<$Res> get atributos {
+    return $AtributosCopyWith<$Res>(_value.atributos, (value) {
+      return _then(_value.copyWith(atributos: value) as $Val);
     });
   }
 }
@@ -184,10 +200,13 @@ abstract class _$$_MedicacaoCopyWith<$Res> implements $MedicacaoCopyWith<$Res> {
       String? quando,
       @JsonKey(name: 'created_at') String? createdAt,
       @JsonKey(name: 'updated_at') String? updatedAt,
-      bool completado});
+      bool completado,
+      Atributos atributos});
 
   @override
   $PetCopyWith<$Res>? get pet;
+  @override
+  $AtributosCopyWith<$Res> get atributos;
 }
 
 /// @nodoc
@@ -214,6 +233,7 @@ class __$$_MedicacaoCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? completado = null,
+    Object? atributos = null,
   }) {
     return _then(_$_Medicacao(
       id: freezed == id
@@ -268,6 +288,10 @@ class __$$_MedicacaoCopyWithImpl<$Res>
           ? _value.completado
           : completado // ignore: cast_nullable_to_non_nullable
               as bool,
+      atributos: null == atributos
+          ? _value.atributos
+          : atributos // ignore: cast_nullable_to_non_nullable
+              as Atributos,
     ));
   }
 }
@@ -288,7 +312,8 @@ class _$_Medicacao extends _Medicacao with DiagnosticableTreeMixin {
       this.quando,
       @JsonKey(name: 'created_at') this.createdAt,
       @JsonKey(name: 'updated_at') this.updatedAt,
-      this.completado = false})
+      this.completado = false,
+      this.atributos = const Atributos()})
       : super._();
 
   factory _$_Medicacao.fromJson(Map<String, dynamic> json) =>
@@ -328,10 +353,13 @@ class _$_Medicacao extends _Medicacao with DiagnosticableTreeMixin {
   @override
   @JsonKey()
   final bool completado;
+  @override
+  @JsonKey()
+  final Atributos atributos;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Medicacao(id: $id, tipo: $tipo, petId: $petId, pet: $pet, inicialId: $inicialId, antecessoraId: $antecessoraId, nome: $nome, fabricante: $fabricante, veterinario: $veterinario, quando: $quando, createdAt: $createdAt, updatedAt: $updatedAt, completado: $completado)';
+    return 'Medicacao(id: $id, tipo: $tipo, petId: $petId, pet: $pet, inicialId: $inicialId, antecessoraId: $antecessoraId, nome: $nome, fabricante: $fabricante, veterinario: $veterinario, quando: $quando, createdAt: $createdAt, updatedAt: $updatedAt, completado: $completado, atributos: $atributos)';
   }
 
   @override
@@ -351,7 +379,8 @@ class _$_Medicacao extends _Medicacao with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('quando', quando))
       ..add(DiagnosticsProperty('createdAt', createdAt))
       ..add(DiagnosticsProperty('updatedAt', updatedAt))
-      ..add(DiagnosticsProperty('completado', completado));
+      ..add(DiagnosticsProperty('completado', completado))
+      ..add(DiagnosticsProperty('atributos', atributos));
   }
 
   @override
@@ -378,7 +407,9 @@ class _$_Medicacao extends _Medicacao with DiagnosticableTreeMixin {
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
             (identical(other.completado, completado) ||
-                other.completado == completado));
+                other.completado == completado) &&
+            (identical(other.atributos, atributos) ||
+                other.atributos == atributos));
   }
 
   @JsonKey(ignore: true)
@@ -397,7 +428,8 @@ class _$_Medicacao extends _Medicacao with DiagnosticableTreeMixin {
       quando,
       createdAt,
       updatedAt,
-      completado);
+      completado,
+      atributos);
 
   @JsonKey(ignore: true)
   @override
@@ -427,7 +459,8 @@ abstract class _Medicacao extends Medicacao {
       final String? quando,
       @JsonKey(name: 'created_at') final String? createdAt,
       @JsonKey(name: 'updated_at') final String? updatedAt,
-      final bool completado}) = _$_Medicacao;
+      final bool completado,
+      final Atributos atributos}) = _$_Medicacao;
   const _Medicacao._() : super._();
 
   factory _Medicacao.fromJson(Map<String, dynamic> json) =
@@ -464,6 +497,8 @@ abstract class _Medicacao extends Medicacao {
   String? get updatedAt;
   @override
   bool get completado;
+  @override
+  Atributos get atributos;
   @override
   @JsonKey(ignore: true)
   _$$_MedicacaoCopyWith<_$_Medicacao> get copyWith =>
