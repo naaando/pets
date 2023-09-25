@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pets/models/pet.dart';
 
 class PetSquareAvatar extends StatelessWidget {
-  final FastCachedImageProvider image;
+  final FastCachedImageProvider? image;
   final String nome;
   final double? size;
   final TextStyle? textStyle;
@@ -21,31 +21,38 @@ class PetSquareAvatar extends StatelessWidget {
     super.key,
     this.size = 20,
     this.textStyle,
-  })  : image = FastCachedImageProvider(pet.imagemUri.toString()),
+  })  : image = pet.imagemUri != null
+            ? FastCachedImageProvider(pet.imagemUri.toString())
+            : null,
         nome = pet.nome.substring(0, 2).toUpperCase();
 
   @override
   Widget build(BuildContext context) {
     final backgroundColor = Theme.of(context).colorScheme.onPrimaryContainer;
     final iconColor = Theme.of(context).colorScheme.onPrimary;
+    final placeholder = Container(
+      width: size! * 2,
+      height: size! * 2,
+      decoration: BoxDecoration(
+        color: backgroundColor,
+      ),
+      child: Icon(
+        Icons.pets,
+        color: iconColor,
+        size: size!,
+      ),
+    );
+
+    if (image == null) {
+      return placeholder;
+    }
 
     return Image(
-      image: image,
+      image: image!,
       fit: BoxFit.cover,
       width: size! * 2,
       height: size! * 2,
-      errorBuilder: (context, error, stackTrace) => Container(
-        width: size! * 2,
-        height: size! * 2,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-        ),
-        child: Icon(
-          Icons.pets,
-          color: iconColor,
-          size: size!,
-        ),
-      ),
+      errorBuilder: (context, error, stackTrace) => placeholder,
     );
   }
 }
