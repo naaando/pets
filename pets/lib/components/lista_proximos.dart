@@ -4,7 +4,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:pets/components/my_physical_shape.dart';
 import 'package:pets/components/pet_avatar.dart';
 import 'package:pets/components/placeholder_proximos.dart';
-import 'package:pets/models/medicacao.dart';
+import 'package:pets/models/Medicacao/medicacao.dart';
 import 'package:pets/provider/eventos_provider.dart';
 import 'package:pets/provider/medicacao_provider.dart';
 

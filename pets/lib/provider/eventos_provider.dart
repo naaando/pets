@@ -1,4 +1,4 @@
-import 'package:pets/models/medicacao.dart';
+import 'package:pets/models/Medicacao/medicacao.dart';
 import 'package:pets/provider/medicacao_provider.dart';
 import 'package:pets/provider/pet_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

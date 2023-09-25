@@ -1,4 +1,4 @@
-import 'package:pets/models/medicacao.dart';
+import 'package:pets/models/Medicacao/medicacao.dart';
 import 'package:pets/provider/alarm_provider.dart';
 import 'package:pets/provider/http_provider.dart';
 import 'package:pets/provider/pet_provider.dart';

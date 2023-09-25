@@ -5,7 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:pets/components/datetime_form_field.dart';
 import 'package:pets/components/pet_dropdown_menu_item_child.dart';
-import 'package:pets/models/medicacao.dart';
+import 'package:pets/models/Medicacao/medicacao.dart';
+import 'package:pets/models/Medicacao/repetidor.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/provider/medicacao_provider.dart';
 import 'package:pets/provider/pet_provider.dart';
@@ -382,24 +383,26 @@ class MedicacaoPage extends HookConsumerWidget {
       childrenPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
       children: [
         TextFormField(
-          initialValue: medicacao.value.fabricante,
+          initialValue: medicacao.value.atributos.fabricante,
           decoration: const InputDecoration(
             hintText: 'Fabricante',
             labelText: 'Fabricante',
           ),
           onChanged: (newValue) {
-            medicacao.value = medicacao.value.copyWith(fabricante: newValue);
+            medicacao.value =
+                medicacao.value.copyWith.atributos(fabricante: newValue);
           },
         ),
         const SizedBox(height: 20),
         TextFormField(
-          initialValue: medicacao.value.veterinario,
+          initialValue: medicacao.value.atributos.veterinario,
           decoration: const InputDecoration(
             hintText: 'Veterinário',
             labelText: 'Veterinário',
           ),
           onChanged: (newValue) {
-            medicacao.value = medicacao.value.copyWith(veterinario: newValue);
+            medicacao.value =
+                medicacao.value.copyWith.atributos(veterinario: newValue);
           },
         ),
         const SizedBox(height: 12),
@@ -407,8 +410,16 @@ class MedicacaoPage extends HookConsumerWidget {
     );
   }
 
-  Widget repetir(medicacao, proximaData) {
-    final repetidor = useState({});
+  Widget repetir(
+    ValueNotifier<Medicacao> medicacao,
+    ValueNotifier<String?> proximaData,
+  ) {
+    repetidor() => medicacao.value.atributos.repetidor;
+
+    atualizaRepetidor(Repetidor repetidor) {
+      medicacao.value =
+          medicacao.value.copyWith.atributos(repetidor: repetidor);
+    }
 
     return ExpansionTile(
       title: const Text('Repetir'),
@@ -419,14 +430,15 @@ class MedicacaoPage extends HookConsumerWidget {
           children: [
             Expanded(
                 child: TextFormField(
-              initialValue: repetidor.value['repetir_em.intervalo'],
+              initialValue: repetidor().intervaloValor,
               decoration: const InputDecoration(
                 hintText: 'Intervalo',
                 labelText: 'Intervalo',
               ),
               onChanged: (value) {
-                repetidor.value['repetir_em.intervalo'] = value;
-                repetidor.value = {...repetidor.value};
+                atualizaRepetidor(
+                  repetidor().copyWith(intervaloValor: value),
+                );
               },
             )),
             const SizedBox(width: 10),
@@ -434,13 +446,14 @@ class MedicacaoPage extends HookConsumerWidget {
               child: SizedBox(
                 height: 60,
                 child: DropdownButtonFormField(
-                  value: repetidor.value['repetir_em.tipo'],
+                  value: repetidor().intervaloTipo,
                   items: ['horas', 'dias']
                       .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                       .toList(),
                   onChanged: (value) {
-                    repetidor.value['repetir_em.tipo'] = value;
-                    repetidor.value = {...repetidor.value};
+                    atualizaRepetidor(
+                      repetidor().copyWith(intervaloTipo: value),
+                    );
                   },
                 ),
               ),
@@ -452,14 +465,15 @@ class MedicacaoPage extends HookConsumerWidget {
           children: [
             Expanded(
                 child: TextFormField(
-              initialValue: repetidor.value['durante.intervalo'],
+              initialValue: repetidor().duranteValor,
               decoration: const InputDecoration(
                 hintText: 'Durante',
                 labelText: 'Durante',
               ),
               onChanged: (value) {
-                repetidor.value['durante.intervalo'] = value;
-                repetidor.value = {...repetidor.value};
+                atualizaRepetidor(
+                  repetidor().copyWith(duranteValor: value),
+                );
               },
             )),
             const SizedBox(width: 10),
@@ -467,13 +481,14 @@ class MedicacaoPage extends HookConsumerWidget {
               child: SizedBox(
                 height: 60,
                 child: DropdownButtonFormField(
-                  value: repetidor.value['durante.tipo'],
-                  items: ['vezes', 'dias', 'mes']
+                  value: repetidor().duranteTipo,
+                  items: ['vezes', 'dias', 'meses']
                       .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                       .toList(),
                   onChanged: (value) {
-                    repetidor.value['durante.tipo'] = value;
-                    repetidor.value = {...repetidor.value};
+                    atualizaRepetidor(
+                      repetidor().copyWith(duranteTipo: value),
+                    );
                   },
                 ),
               ),
@@ -483,10 +498,10 @@ class MedicacaoPage extends HookConsumerWidget {
         const SizedBox(height: 20),
         ...debugHorarios(
           medicacao,
-          repetidor.value['repetir_em.intervalo'],
-          repetidor.value['repetir_em.tipo'],
-          repetidor.value['durante.intervalo'],
-          repetidor.value['durante.tipo'],
+          repetidor().intervaloValor,
+          repetidor().intervaloTipo,
+          repetidor().duranteValor,
+          repetidor().duranteTipo,
         ),
       ],
     );
