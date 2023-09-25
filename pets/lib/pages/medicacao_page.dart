@@ -188,15 +188,11 @@ class MedicacaoPage extends HookConsumerWidget {
     Map<String, Pet> pets =
         ref.read(petsProvider).asData?.value ?? <String, Pet>{};
 
-    final dataController = useTextEditingController(
-      text: medicacao.value.quando,
-    );
-
     return Form(
       key: formKey,
       child: ListView(
         children: [
-          conteudoPrincipal(medicacao, pets, dataController),
+          conteudoPrincipal(medicacao, pets),
           outrasInformacoes(medicacao),
           repetir(medicacao, proximaData),
           const SizedBox(height: 60),
@@ -208,7 +204,6 @@ class MedicacaoPage extends HookConsumerWidget {
   ExpansionTile conteudoPrincipal(
     ValueNotifier<Medicacao> medicacao,
     Map<String, Pet> pets,
-    TextEditingController dataController,
   ) {
     return ExpansionTile(
       title: const Text('Principal'),
@@ -274,7 +269,7 @@ class MedicacaoPage extends HookConsumerWidget {
         ),
         const SizedBox(height: 20),
         DateTimeFormField(
-          controller: dataController,
+          initialValue: medicacao.value.quando,
           firstDate: DateTime.now().subtract(const Duration(days: 365)),
           lastDate: DateTime.now().add(const Duration(days: 365)),
           decoration: const InputDecoration(
@@ -286,6 +281,12 @@ class MedicacaoPage extends HookConsumerWidget {
           onDateChanged: (dateTime) {
             medicacao.value =
                 medicacao.value.copyWith(quando: dateTime?.toIso8601String());
+          },
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Data é obrigatória';
+            }
+            return null;
           },
         ),
         const SizedBox(height: 12),
@@ -314,9 +315,9 @@ class MedicacaoPage extends HookConsumerWidget {
     return [
       const SizedBox(height: 20),
       DateTimeFormField(
+        initialValue: proximaData.value,
         firstDate: DateTime.now(),
         lastDate: DateTime.now().add(const Duration(days: 365)),
-        controller: proximaDoseController,
         decoration: const InputDecoration(
           hintText: 'Próxima dose',
           labelText: 'Próxima dose',

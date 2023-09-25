@@ -134,13 +134,6 @@ class PetPage extends HookConsumerWidget {
     Map<String, Especie> especie =
         ref.watch(especiesProvider).asData?.value ?? <String, Especie>{};
 
-    final nascimentoController =
-        useTextEditingController(text: pet.value.nascimento);
-    final castracaoController =
-        useTextEditingController(text: pet.value.castracao);
-    final falecimentoController =
-        useTextEditingController(text: pet.value.falecimento);
-
     return SingleChildScrollView(
         child: Form(
             key: formKey,
@@ -224,7 +217,7 @@ class PetPage extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 20),
                   DateTimeFormField(
-                    controller: nascimentoController,
+                    initialValue: pet.value.nascimento,
                     firstDate: DateTime(1900),
                     lastDate: DateTime.now(),
                     decoration: const InputDecoration(
@@ -239,7 +232,7 @@ class PetPage extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 20),
                   DateTimeFormField(
-                    controller: castracaoController,
+                    initialValue: pet.value.castracao,
                     firstDate: DateTime(1900),
                     lastDate: DateTime.now(),
                     decoration: const InputDecoration(
@@ -277,7 +270,7 @@ class PetPage extends HookConsumerWidget {
                       }),
                   const SizedBox(height: 20),
                   DateTimeFormField(
-                    controller: falecimentoController,
+                    initialValue: pet.value.falecimento,
                     firstDate: DateTime(1900),
                     lastDate: DateTime.now(),
                     decoration: const InputDecoration(
