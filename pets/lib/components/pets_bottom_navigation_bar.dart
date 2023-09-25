@@ -21,21 +21,11 @@ class PetsBottomNavigationBar extends ConsumerWidget {
             text: 'Home',
           ),
           Tab(
-            icon: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                const Icon(Icons.pets_rounded),
-                const SizedBox(width: 5),
-                Text(
-                  pets.when(
-                      data: (Map<String, Pet> pets) => pets.length.toString(),
-                      error: (object, stackTrace) => 'E',
-                      loading: () => ''),
-                ),
-              ],
-            ),
-            text: 'Pets',
+            icon: const Icon(Icons.pets_rounded),
+            text: pets.when(
+                data: (Map<String, Pet> pets) => '${pets.length} pets',
+                error: (object, stackTrace) => 'E',
+                loading: () => 'Pets'),
           ),
         ],
       ),
