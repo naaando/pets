@@ -10,6 +10,8 @@ class PetCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+
     return InkWell(
       child: Card(
         child: Row(
@@ -31,9 +33,9 @@ class PetCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Wrap(
-                      spacing: 2,
+                      spacing: 4,
                       runSpacing: 3,
-                      children: badges(),
+                      children: badges(context),
                     ),
                     const SizedBox(height: 6),
                     Table(
@@ -96,31 +98,53 @@ class PetCard extends StatelessWidget {
     ];
   }
 
-  List<Widget> badges() {
+  List<Widget> badges(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final textStyle = Theme.of(context).textTheme.labelSmall;
+    final castrado = pet.castracao != null;
+    final colorSet = scheme.brightness == Brightness.light
+        ? [
+            Colors.teal,
+            Colors.red.shade300,
+            Colors.blue,
+            Colors.pink.shade300,
+            Colors.grey.shade400,
+          ]
+        : [
+            Colors.teal.shade700,
+            Colors.red.shade900,
+            Colors.blue.shade700,
+            Colors.pink.shade700,
+            Colors.grey.shade600,
+          ];
+
+    final macho = pet.sexo == 'macho';
+
     var badges = <Widget>[
       Badge(
-        backgroundColor: pet.castrado == true ? Colors.teal : Colors.red[400],
-        label: pet.castrado == true
-            ? const Text('Castrado')
-            : const Text('Não castrado'),
+        backgroundColor: castrado ? colorSet[0] : colorSet[1],
+        label: castrado
+            ? Text('Castrado', style: textStyle)
+            : Text('Não castrado', style: textStyle),
       ),
     ];
 
     if (pet.sexo != null) {
       badges.addAll([
         Badge(
-          backgroundColor: pet.sexo == 'macho' ? Colors.blue : Colors.pink[300],
-          label:
-              pet.sexo == 'macho' ? const Text('Macho') : const Text('Fêmea'),
+          backgroundColor: macho ? colorSet[2] : colorSet[3],
+          label: macho
+              ? Text('Macho', style: textStyle)
+              : Text('Fêmea', style: textStyle),
         ),
       ]);
     }
 
     if (pet.falecimento != null) {
       badges.addAll([
-        const Badge(
-          backgroundColor: Colors.grey,
-          label: Text('Falecido'),
+        Badge(
+          backgroundColor: colorSet[4],
+          label: Text('Falecido', style: textStyle),
         ),
       ]);
     }

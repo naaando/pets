@@ -9,7 +9,6 @@ part of 'pet.dart';
 _$_Pet _$$_PetFromJson(Map<String, dynamic> json) => _$_Pet(
       id: json['id'] as String?,
       nome: json['nome'] as String? ?? '',
-      castrado: json['castrado'] as bool?,
       createdAt: json['created_at'] as String?,
       updatedAt: json['updated_at'] as String?,
       especieId: json['especie_id'] as String?,
@@ -33,7 +32,6 @@ _$_Pet _$$_PetFromJson(Map<String, dynamic> json) => _$_Pet(
 Map<String, dynamic> _$$_PetToJson(_$_Pet instance) => <String, dynamic>{
       'id': instance.id,
       'nome': instance.nome,
-      'castrado': instance.castrado,
       'created_at': instance.createdAt,
       'updated_at': instance.updatedAt,
       'especie_id': instance.especieId,

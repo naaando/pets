@@ -13,7 +13,6 @@ class Pet with _$Pet {
   const factory Pet({
     String? id,
     @Default('') String nome,
-    bool? castrado,
     @JsonKey(name: 'created_at') String? createdAt,
     @JsonKey(name: 'updated_at') String? updatedAt,
     @JsonKey(name: 'especie_id') String? especieId,

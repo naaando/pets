@@ -22,7 +22,6 @@ Pet _$PetFromJson(Map<String, dynamic> json) {
 mixin _$Pet {
   String? get id => throw _privateConstructorUsedError;
   String get nome => throw _privateConstructorUsedError;
-  bool? get castrado => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
   String? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'updated_at')
@@ -60,7 +59,6 @@ abstract class $PetCopyWith<$Res> {
   $Res call(
       {String? id,
       String nome,
-      bool? castrado,
       @JsonKey(name: 'created_at') String? createdAt,
       @JsonKey(name: 'updated_at') String? updatedAt,
       @JsonKey(name: 'especie_id') String? especieId,
@@ -93,7 +91,6 @@ class _$PetCopyWithImpl<$Res, $Val extends Pet> implements $PetCopyWith<$Res> {
   $Res call({
     Object? id = freezed,
     Object? nome = null,
-    Object? castrado = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? especieId = freezed,
@@ -120,10 +117,6 @@ class _$PetCopyWithImpl<$Res, $Val extends Pet> implements $PetCopyWith<$Res> {
           ? _value.nome
           : nome // ignore: cast_nullable_to_non_nullable
               as String,
-      castrado: freezed == castrado
-          ? _value.castrado
-          : castrado // ignore: cast_nullable_to_non_nullable
-              as bool?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -201,7 +194,6 @@ abstract class _$$_PetCopyWith<$Res> implements $PetCopyWith<$Res> {
   $Res call(
       {String? id,
       String nome,
-      bool? castrado,
       @JsonKey(name: 'created_at') String? createdAt,
       @JsonKey(name: 'updated_at') String? updatedAt,
       @JsonKey(name: 'especie_id') String? especieId,
@@ -231,7 +223,6 @@ class __$$_PetCopyWithImpl<$Res> extends _$PetCopyWithImpl<$Res, _$_Pet>
   $Res call({
     Object? id = freezed,
     Object? nome = null,
-    Object? castrado = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? especieId = freezed,
@@ -258,10 +249,6 @@ class __$$_PetCopyWithImpl<$Res> extends _$PetCopyWithImpl<$Res, _$_Pet>
           ? _value.nome
           : nome // ignore: cast_nullable_to_non_nullable
               as String,
-      castrado: freezed == castrado
-          ? _value.castrado
-          : castrado // ignore: cast_nullable_to_non_nullable
-              as bool?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -336,7 +323,6 @@ class _$_Pet extends _Pet with DiagnosticableTreeMixin {
   const _$_Pet(
       {this.id,
       this.nome = '',
-      this.castrado,
       @JsonKey(name: 'created_at') this.createdAt,
       @JsonKey(name: 'updated_at') this.updatedAt,
       @JsonKey(name: 'especie_id') this.especieId,
@@ -362,8 +348,6 @@ class _$_Pet extends _Pet with DiagnosticableTreeMixin {
   @override
   @JsonKey()
   final String nome;
-  @override
-  final bool? castrado;
   @override
   @JsonKey(name: 'created_at')
   final String? createdAt;
@@ -406,7 +390,7 @@ class _$_Pet extends _Pet with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Pet(id: $id, nome: $nome, castrado: $castrado, createdAt: $createdAt, updatedAt: $updatedAt, especieId: $especieId, especie: $especie, imagem: $imagem, maeId: $maeId, nascimento: $nascimento, castracao: $castracao, paiId: $paiId, raca: $raca, sexo: $sexo, userCreated: $userCreated, userUpdated: $userUpdated, espacoId: $espacoId, falecimento: $falecimento, imagemUrl: $imagemUrl)';
+    return 'Pet(id: $id, nome: $nome, createdAt: $createdAt, updatedAt: $updatedAt, especieId: $especieId, especie: $especie, imagem: $imagem, maeId: $maeId, nascimento: $nascimento, castracao: $castracao, paiId: $paiId, raca: $raca, sexo: $sexo, userCreated: $userCreated, userUpdated: $userUpdated, espacoId: $espacoId, falecimento: $falecimento, imagemUrl: $imagemUrl)';
   }
 
   @override
@@ -416,7 +400,6 @@ class _$_Pet extends _Pet with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('type', 'Pet'))
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('nome', nome))
-      ..add(DiagnosticsProperty('castrado', castrado))
       ..add(DiagnosticsProperty('createdAt', createdAt))
       ..add(DiagnosticsProperty('updatedAt', updatedAt))
       ..add(DiagnosticsProperty('especieId', especieId))
@@ -442,8 +425,6 @@ class _$_Pet extends _Pet with DiagnosticableTreeMixin {
             other is _$_Pet &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.nome, nome) || other.nome == nome) &&
-            (identical(other.castrado, castrado) ||
-                other.castrado == castrado) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -474,28 +455,26 @@ class _$_Pet extends _Pet with DiagnosticableTreeMixin {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hashAll([
-        runtimeType,
-        id,
-        nome,
-        castrado,
-        createdAt,
-        updatedAt,
-        especieId,
-        especie,
-        imagem,
-        maeId,
-        nascimento,
-        castracao,
-        paiId,
-        raca,
-        sexo,
-        userCreated,
-        userUpdated,
-        espacoId,
-        falecimento,
-        imagemUrl
-      ]);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      nome,
+      createdAt,
+      updatedAt,
+      especieId,
+      especie,
+      imagem,
+      maeId,
+      nascimento,
+      castracao,
+      paiId,
+      raca,
+      sexo,
+      userCreated,
+      userUpdated,
+      espacoId,
+      falecimento,
+      imagemUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -515,7 +494,6 @@ abstract class _Pet extends Pet {
   const factory _Pet(
       {final String? id,
       final String nome,
-      final bool? castrado,
       @JsonKey(name: 'created_at') final String? createdAt,
       @JsonKey(name: 'updated_at') final String? updatedAt,
       @JsonKey(name: 'especie_id') final String? especieId,
@@ -540,8 +518,6 @@ abstract class _Pet extends Pet {
   String? get id;
   @override
   String get nome;
-  @override
-  bool? get castrado;
   @override
   @JsonKey(name: 'created_at')
   String? get createdAt;
