@@ -170,7 +170,7 @@ class PetPage extends HookConsumerWidget {
         child: Form(
             key: formKey,
             child: Padding(
-              padding: const EdgeInsets.all(25),
+              padding: const EdgeInsets.all(12),
               child: Column(
                 children: [
                   petImage(

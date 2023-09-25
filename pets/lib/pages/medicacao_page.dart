@@ -214,7 +214,7 @@ class MedicacaoPage extends HookConsumerWidget {
       title: const Text('Principal'),
       leading: const Icon(Icons.event),
       initiallyExpanded: true,
-      childrenPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
+      childrenPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
       children: [
         DropdownButtonFormField<String>(
           value: medicacao.value.tipo,
@@ -390,7 +390,7 @@ class MedicacaoPage extends HookConsumerWidget {
     return ExpansionTile(
       title: const Text('Outras informações'),
       leading: const Icon(Icons.dataset),
-      childrenPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
+      childrenPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
       children: [
         TextFormField(
           initialValue: medicacao.value.atributos.fabricante,
@@ -434,7 +434,7 @@ class MedicacaoPage extends HookConsumerWidget {
     return ExpansionTile(
       title: const Text('Repetir'),
       leading: const Icon(Icons.alarm),
-      childrenPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
+      childrenPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
       children: [
         Row(
           children: [
