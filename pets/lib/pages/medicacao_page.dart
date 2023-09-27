@@ -12,6 +12,7 @@ import 'package:pets/models/Medicacao/repetidor.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/provider/medicacao_provider.dart';
 import 'package:pets/provider/pet_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MedicacaoPage extends HookConsumerWidget {
   final String tipoPadrao;
@@ -36,8 +37,10 @@ class MedicacaoPage extends HookConsumerWidget {
     final proximaData = useState<String?>(null);
 
     final title = medicacao.value.id != null
-        ? 'Editando ${medicacao.value.tipoExtenso}'
-        : 'Nova ${medicacao.value.tipoExtenso}';
+        ? AppLocalizations.of(context)!
+            .shared_editing(medicacao.value.tipoExtenso.toLowerCase())
+        : AppLocalizations.of(context)!
+            .shared_new(medicacao.value.tipoExtenso.toLowerCase());
 
     final formKey = useRef(GlobalKey<FormState>());
 
@@ -88,26 +91,28 @@ class MedicacaoPage extends HookConsumerWidget {
     return await showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: const Text("Sair sem salvar?"),
-        content: const Text(
-          "Para salvar as alterações use o botão suspenso no canto inferior direito.",
+        title: Text(
+          AppLocalizations.of(context)!.shared_exit_without_saving,
+        ),
+        content: Text(
+          AppLocalizations.of(context)!.shared_exit_without_saving_message,
         ),
         actions: <Widget>[
           TextButton(
             onPressed: () {
               Navigator.of(context, rootNavigator: true).pop(true);
             },
-            child: const Text(
-              'Sair sem salvar',
-              style: TextStyle(color: Colors.red),
+            child: Text(
+              AppLocalizations.of(context)!.shared_exit_without_saving_confirm,
+              style: const TextStyle(color: Colors.red),
             ),
           ),
           TextButton(
             onPressed: () {
               Navigator.of(context, rootNavigator: true).pop(false);
             },
-            child: const Text(
-              'Voltar ao cadastro',
+            child: Text(
+              AppLocalizations.of(context)!.shared_exit_without_saving_abort,
             ),
           ),
         ],
@@ -142,7 +147,9 @@ class MedicacaoPage extends HookConsumerWidget {
             )
             .then((value) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Salvo!')),
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.shared_saved),
+            ),
           );
 
           Navigator.of(context).pop();
@@ -151,11 +158,15 @@ class MedicacaoPage extends HookConsumerWidget {
           var msg = error.response?.data['message'] ?? error.message;
 
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Erro ao salvar!\n\n$msg')),
+            SnackBar(
+              content: Text(
+                AppLocalizations.of(context)!.shared_error_while_saving(msg),
+              ),
+            ),
           );
         });
       },
-      tooltip: 'Salvar',
+      tooltip: AppLocalizations.of(context)!.shared_save,
       child: const Icon(Icons.check),
     );
   }

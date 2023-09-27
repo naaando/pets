@@ -1,5 +1,15 @@
 {
   "@@locale": "pt",
+  "shared_new": "New {item}",
+  "shared_editing": "Editing {item}",
+  "shared_exit_without_saving": "Sair sem salvar?",
+  "shared_exit_without_saving_message": "Para salvar as alterações use o botão suspenso no canto inferior direito.",
+  "shared_exit_without_saving_confirm": "Sair sem salvar",
+  "shared_exit_without_saving_abort": "Voltar ao cadastro",
+  "shared_save": "Salvar",
+  "shared_saved": "Salvo",
+  "shared_error_while_saving": "Erro ao salvar\n\n {msg}",
+  "shared_invalid_fields": "Campos inválidos!",
   "dashboard_myPets": "Meus pets",
   "dashboard_todo": "A fazer",
   "dashboard_timeline": "Linha do tempo"

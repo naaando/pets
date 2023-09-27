@@ -1,4 +1,39 @@
 {
+  "@@locale": "en",
+  "shared_new": "New {item}",
+  "@shared_new": {
+    "description": "New item",
+    "placeholders": {
+      "item": {
+        "description": "The item to create"
+      }
+    }
+  },
+  "shared_editing": "Editing {item}",
+  "@shared_editing": {
+    "description": "Editing item",
+    "placeholders": {
+      "item": {
+        "description": "The item to edit"
+      }
+    }
+  },
+  "shared_exit_without_saving": "Exit without saving?",
+  "shared_exit_without_saving_message": "To save the changes use floating action button",
+  "shared_exit_without_saving_confirm": "Exit without saving",
+  "shared_exit_without_saving_abort": "Back to editing",
+  "shared_save": "Save",
+  "shared_saved": "Saved",
+  "shared_error_while_saving": "Error while saving\n\n {msg}",
+  "@shared_error_while_saving": {
+    "description": "Error while saving",
+    "placeholders": {
+      "msg": {
+        "description": "The error message"
+      }
+    }
+  },
+  "shared_invalid_fields": "Invalid fields",
   "dashboard_myPets": "My pets",
   "@dashboard_myPets": {
     "description": "The pets I own"
