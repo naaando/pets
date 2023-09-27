@@ -11,6 +11,7 @@ class ListaPets extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final t = AppLocalizations.of(context);
     final theme = Theme.of(context);
     AsyncValue<List<Pet>> pets = ref.watch(petsOrderedByUpdateProvider);
 
@@ -18,7 +19,7 @@ class ListaPets extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          AppLocalizations.of(context)!.dashboard_myPets,
+          t!.dashboard_myPets,
           textAlign: TextAlign.start,
           style: theme.textTheme.titleLarge!.copyWith(
             color: theme.colorScheme.onBackground,

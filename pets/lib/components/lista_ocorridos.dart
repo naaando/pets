@@ -19,12 +19,13 @@ class ListaOcorridos extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final t = AppLocalizations.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          AppLocalizations.of(context)!.dashboard_timeline,
+          t!.dashboard_timeline,
           textAlign: TextAlign.start,
           style: theme.textTheme.titleLarge!.copyWith(
             color: theme.colorScheme.onBackground,

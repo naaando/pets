@@ -30,5 +30,12 @@
   "medicine_delete_content": "Você tem certeza que deseja excluir ${item}?",
   "medicine_other_info": "Outras informações",
   "medicine_producer": "Fabricante",
-  "medicine_veterinary": "Veterinário"
+  "medicine_veterinary": "Veterinário",
+  "onboardingTitle": "Welcome",
+  "onboardingContent1": "Você ainda ",
+  "onboardingContent2": "não cadastrou",
+  "onboardingContent3": " nenhum dos seus pets",
+  "onboardingContent4": "Que tal cadastrar um agora?",
+  "onboardingNoPetsCta": "Cadastrar novo pet",
+  "onboardingAcessibleLabel": "Uma pessoa andando com um cachorro"
 }

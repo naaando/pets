@@ -75,5 +75,12 @@
   },
   "medicine_other_info": "Other info",
   "medicine_producer": "Producer",
-  "medicine_veterinary": "Veterinary"
+  "medicine_veterinary": "Veterinary",
+  "onboardingTitle": "Welcome",
+  "onboardingContent1": "You still ",
+  "onboardingContent2": "didn''t register",
+  "onboardingContent3": " any of your pets.",
+  "onboardingContent4": "Que tal cadastrar um agora?",
+  "onboardingNoPetsCta": "Cadastrar novo pet",
+  "onboardingAcessibleLabel": "A person with a dog walking"
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnboardingPage extends HookConsumerWidget {
   const OnboardingPage({Key? key}) : super(key: key);
@@ -38,6 +39,7 @@ class OnboardingPage extends HookConsumerWidget {
     SizedBox centerSpacer,
   ) {
     final theme = Theme.of(context);
+    final t = AppLocalizations.of(context);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -45,7 +47,7 @@ class OnboardingPage extends HookConsumerWidget {
       mainAxisSize: MainAxisSize.max,
       children: [
         Text(
-          'Olá, seja bem vindo!',
+          t!.onboardingTitle,
           style: theme.textTheme.headlineMedium!
               .copyWith(color: theme.colorScheme.onPrimaryContainer),
         ),
@@ -56,33 +58,35 @@ class OnboardingPage extends HookConsumerWidget {
             textAlign: TextAlign.center,
             text: TextSpan(
               style: TextStyle(color: theme.colorScheme.onPrimaryContainer),
-              children: const [
-                TextSpan(text: 'Você ainda '),
+              children: [
+                TextSpan(text: t.onboardingContent1),
                 TextSpan(
-                  text: 'não cadastrou',
+                  text: t.onboardingContent2,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                TextSpan(text: ' nenhum dos seus pets')
+                TextSpan(text: t.onboardingContent3)
               ],
             ),
           ),
         ),
         centerSpacer,
-        const Text('Que tal cadastrar um agora?'),
+        Text(t.onboardingContent4),
         const SizedBox(height: 20),
         FilledButton.icon(
           onPressed: () => Navigator.pushNamed(context, '/cadastro-pet'),
-          label: const Text('Cadastrar novo pet'),
+          label: Text(t.onboardingNoPetsCta),
           icon: const Icon(Icons.add),
         )
       ],
     );
   }
 
-  SvgPicture backgroundImage(context) {
+  SvgPicture backgroundImage(BuildContext context) {
+    final t = AppLocalizations.of(context);
+
     return SvgPicture.asset(
       'assets/images/onboarding_background.svg',
-      semanticsLabel: 'A person with a dog walking',
+      semanticsLabel: t!.onboardingAcessibleLabel,
       width: MediaQuery.of(context).size.width * 0.95,
     );
   }
