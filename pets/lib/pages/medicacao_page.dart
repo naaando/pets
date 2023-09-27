@@ -133,7 +133,10 @@ class MedicacaoPage extends HookConsumerWidget {
 
         if (!formKey.currentState!.validate()) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Campos inválidos!')),
+            SnackBar(
+              content:
+                  Text(AppLocalizations.of(context)!.shared_invalid_fields),
+            ),
           );
 
           return;
