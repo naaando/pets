@@ -7,6 +7,7 @@ import 'package:pets/components/placeholder_proximos.dart';
 import 'package:pets/models/Medicacao/medicacao.dart';
 import 'package:pets/provider/eventos_provider.dart';
 import 'package:pets/provider/medicacao_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'chip_evento.dart';
 import 'skeleton_list_tile.dart';
@@ -24,7 +25,7 @@ class ListaProximos extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Agendados',
+          AppLocalizations.of(context)!.todo,
           textAlign: TextAlign.start,
           style: theme.textTheme.titleLarge!.copyWith(
             color: theme.colorScheme.onBackground,

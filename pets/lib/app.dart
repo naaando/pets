@@ -7,6 +7,7 @@ import 'package:pets/pages/welcome_page.dart';
 import 'package:pets/provider/user_provider.dart';
 import 'package:pets/theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class App extends ConsumerWidget {
   const App({super.key});
@@ -35,15 +36,8 @@ class App extends ConsumerWidget {
           child: CircularProgressIndicator(),
         ),
       ),
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('pt', 'BR'), // Português
-        Locale('en'), // English
-      ],
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
     );
   }
 

@@ -1,0 +1,18 @@
+{
+  "helloWorld": "Hello World!",
+  "@helloWorld": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "myPets": "My pets",
+  "@myPets": {
+    "description": "The pets I own"
+  },
+  "todo": "To Do",
+  "@todo": {
+    "description": "The things I need to do"
+  },
+  "timeline": "Timeline",
+  "@timeline": {
+    "description": "The things I have done"
+  }
+}

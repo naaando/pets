@@ -6,6 +6,7 @@ import 'package:pets/components/pet_avatar.dart';
 import 'package:pets/components/placeholder_ocorridos.dart';
 import 'package:pets/models/Medicacao/medicacao.dart';
 import 'package:pets/provider/eventos_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'chip_evento.dart';
 import 'skeleton_list_tile.dart';
@@ -23,7 +24,7 @@ class ListaOcorridos extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Linha do tempo',
+          AppLocalizations.of(context)!.timeline,
           textAlign: TextAlign.start,
           style: theme.textTheme.titleLarge!.copyWith(
             color: theme.colorScheme.onBackground,

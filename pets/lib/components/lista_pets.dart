@@ -4,6 +4,7 @@ import 'package:pets/components/pet_avatar.dart';
 import 'package:pets/components/skeleton_lista_pets.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/provider/pet_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ListaPets extends ConsumerWidget {
   const ListaPets({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class ListaPets extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Seus pets',
+          AppLocalizations.of(context)!.myPets,
           textAlign: TextAlign.start,
           style: theme.textTheme.titleLarge!.copyWith(
             color: theme.colorScheme.onBackground,
