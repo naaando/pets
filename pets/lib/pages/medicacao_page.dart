@@ -207,9 +207,9 @@ class MedicacaoPage extends HookConsumerWidget {
       key: formKey,
       child: ListView(
         children: [
-          conteudoPrincipal(medicacao, pets),
-          outrasInformacoes(medicacao),
-          if (kDebugMode) repetir(medicacao, proximaData),
+          conteudoPrincipal(context, medicacao, pets),
+          outrasInformacoes(context, medicacao),
+          if (kDebugMode) repetir(context, medicacao, proximaData),
           const SizedBox(height: 60),
         ],
       ),
@@ -217,20 +217,21 @@ class MedicacaoPage extends HookConsumerWidget {
   }
 
   ExpansionTile conteudoPrincipal(
+    BuildContext context,
     ValueNotifier<Medicacao> medicacao,
     Map<String, Pet> pets,
   ) {
     return ExpansionTile(
-      title: const Text('Principal'),
+      title: Text(AppLocalizations.of(context)!.medicine_main),
       leading: const Icon(Icons.event),
       initiallyExpanded: true,
       childrenPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
       children: [
         DropdownButtonFormField<String>(
           value: medicacao.value.tipo,
-          decoration: const InputDecoration(
-            hintText: 'Tipo',
-            labelText: 'Tipo',
+          decoration: InputDecoration(
+            hintText: AppLocalizations.of(context)!.medicine_type,
+            labelText: AppLocalizations.of(context)!.medicine_type,
           ),
           items: const [
             DropdownMenuItem(
@@ -254,27 +255,29 @@ class MedicacaoPage extends HookConsumerWidget {
         const SizedBox(height: 20),
         DropdownButtonFormField<Pet?>(
           value: medicacao.value.pet,
-          decoration: const InputDecoration(
-            hintText: 'Animal',
-            labelText: 'Animal',
+          decoration: InputDecoration(
+            hintText: AppLocalizations.of(context)!.medicine_animal,
+            labelText: AppLocalizations.of(context)!.medicine_animal,
           ),
-          items: petsDropdown(medicacao.value.pet, pets),
+          items: petsDropdown(context, medicacao.value.pet, pets),
           onChanged: (Pet? value) {
             medicacao.value = medicacao.value.copyWith(petId: value?.id);
             medicacao.value = medicacao.value.copyWith(pet: value);
           },
-          validator: (value) => value == null ? 'Animal é obrigatório' : null,
+          validator: (value) => value == null
+              ? AppLocalizations.of(context)!.medicine_animal_required
+              : null,
         ),
         const SizedBox(height: 20),
         TextFormField(
           initialValue: medicacao.value.nome,
-          decoration: const InputDecoration(
-            hintText: 'Nome',
-            labelText: 'Nome',
+          decoration: InputDecoration(
+            hintText: AppLocalizations.of(context)!.medicine_name,
+            labelText: AppLocalizations.of(context)!.medicine_name,
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Nome é obrigatório';
+              return AppLocalizations.of(context)!.medicine_name_required;
             }
             return null;
           },
@@ -287,10 +290,10 @@ class MedicacaoPage extends HookConsumerWidget {
           initialValue: medicacao.value.quando,
           firstDate: DateTime.now().subtract(const Duration(days: 365)),
           lastDate: DateTime.now().add(const Duration(days: 365)),
-          decoration: const InputDecoration(
-            hintText: 'Data',
-            labelText: 'Data',
-            prefixText: 'Em ',
+          decoration: InputDecoration(
+            hintText: AppLocalizations.of(context)!.medicine_date,
+            labelText: AppLocalizations.of(context)!.medicine_date,
+            prefixText: AppLocalizations.of(context)!.medicine_prefix_on,
             suffixIcon: Icon(Icons.alarm_on_rounded),
           ),
           onDateChanged: (dateTime) {
@@ -299,7 +302,7 @@ class MedicacaoPage extends HookConsumerWidget {
           },
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Data é obrigatória';
+              return AppLocalizations.of(context)!.medicine_date_required;
             }
             return null;
           },
@@ -310,6 +313,7 @@ class MedicacaoPage extends HookConsumerWidget {
   }
 
   List<Widget> quandoDataForPassadoExibirProximaData(
+    BuildContext context,
     ValueNotifier<Medicacao> medicacao,
     ValueNotifier<String?> proximaData,
   ) {
@@ -333,11 +337,11 @@ class MedicacaoPage extends HookConsumerWidget {
         initialValue: proximaData.value,
         firstDate: DateTime.now(),
         lastDate: DateTime.now().add(const Duration(days: 365)),
-        decoration: const InputDecoration(
-          hintText: 'Próxima dose',
-          labelText: 'Próxima dose',
-          helperText: 'Em branco se não houver próxima dose',
-          prefixText: 'Em ',
+        decoration: InputDecoration(
+          hintText: AppLocalizations.of(context)!.medicine_next_dose,
+          labelText: AppLocalizations.of(context)!.medicine_next_dose,
+          helperText: AppLocalizations.of(context)!.medicine_next_dose_optional,
+          prefixText: AppLocalizations.of(context)!.medicine_prefix_on,
           suffixIcon: Icon(Icons.alarm_add_rounded),
         ),
         onDateChanged: (dateTime) =>
@@ -347,6 +351,7 @@ class MedicacaoPage extends HookConsumerWidget {
   }
 
   List<DropdownMenuItem<Pet?>> petsDropdown(
+    BuildContext context,
     Pet? currentPet,
     Map<String, Pet> pets,
   ) {
@@ -361,11 +366,12 @@ class MedicacaoPage extends HookConsumerWidget {
             ))
         .toList()
       ..insert(
-          0,
-          const DropdownMenuItem(
-            value: null,
-            child: Text('Desconhecido'),
-          ));
+        0,
+        DropdownMenuItem(
+          value: null,
+          child: Text(AppLocalizations.of(context)!.shared_unknown),
+        ),
+      );
   }
 
   void showDeleteAlert(
@@ -374,17 +380,19 @@ class MedicacaoPage extends HookConsumerWidget {
     Medicacao medicacao,
   ) {
     AlertDialog alert = AlertDialog(
-      title: const Text("Excluir medicação"),
-      content: Text("Você tem certeza que deseja excluir ${medicacao.nome}?"),
+      title: Text(AppLocalizations.of(context)!.medicine_delete),
+      content: Text(
+        AppLocalizations.of(context)!.medicine_delete_content(medicacao.nome),
+      ),
       actions: [
         TextButton(
-          child: const Text("Cancelar"),
+          child: Text(AppLocalizations.of(context)!.shared_cancel),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
         TextButton(
-          child: const Text("Excluir"),
+          child: Text(AppLocalizations.of(context)!.shared_exclude),
           onPressed: () {
             ref.read(medicacoesProvider.notifier).remove(medicacao);
             Navigator.pop(context);
@@ -402,17 +410,20 @@ class MedicacaoPage extends HookConsumerWidget {
     );
   }
 
-  Widget outrasInformacoes(ValueNotifier<Medicacao> medicacao) {
+  Widget outrasInformacoes(
+    BuildContext context,
+    ValueNotifier<Medicacao> medicacao,
+  ) {
     return ExpansionTile(
-      title: const Text('Outras informações'),
+      title: Text(AppLocalizations.of(context)!.medicine_other_info),
       leading: const Icon(Icons.dataset),
       childrenPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
       children: [
         TextFormField(
           initialValue: medicacao.value.atributos.fabricante,
-          decoration: const InputDecoration(
-            hintText: 'Fabricante',
-            labelText: 'Fabricante',
+          decoration: InputDecoration(
+            hintText: AppLocalizations.of(context)!.medicine_producer,
+            labelText: AppLocalizations.of(context)!.medicine_producer,
           ),
           onChanged: (newValue) {
             medicacao.value =
@@ -422,9 +433,9 @@ class MedicacaoPage extends HookConsumerWidget {
         const SizedBox(height: 20),
         TextFormField(
           initialValue: medicacao.value.atributos.veterinario,
-          decoration: const InputDecoration(
-            hintText: 'Veterinário',
-            labelText: 'Veterinário',
+          decoration: InputDecoration(
+            hintText: AppLocalizations.of(context)!.medicine_veterinary,
+            labelText: AppLocalizations.of(context)!.medicine_veterinary,
           ),
           onChanged: (newValue) {
             medicacao.value =
@@ -437,6 +448,7 @@ class MedicacaoPage extends HookConsumerWidget {
   }
 
   Widget repetir(
+    BuildContext context,
     ValueNotifier<Medicacao> medicacao,
     ValueNotifier<String?> proximaData,
   ) {

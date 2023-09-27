@@ -34,6 +34,9 @@
     }
   },
   "shared_invalid_fields": "Invalid fields",
+  "shared_unknown": "Unknown",
+  "shared_cancel": "Cancel",
+  "shared_exclude": "Exclude",
   "dashboard_myPets": "My pets",
   "@dashboard_myPets": {
     "description": "The pets I own"
@@ -49,5 +52,28 @@
   "medicine_main": "Main",
   "@medicine_main": {
     "description": "Main section of the medicine page"
-  }
+  },
+  "medicine_type": "Type",
+  "medicine_prefix_on": "On ",
+  "medicine_animal": "Animal",
+  "medicine_animal_required": "Animal is required",
+  "medicine_name": "Name",
+  "medicine_name_required": "Name is required",
+  "medicine_date": "Date",
+  "medicine_date_required": "Date is required",
+  "medicine_next_dose": "Next dose",
+  "medicine_next_dose_optional": "Leave empty if no next dose",
+  "medicine_delete": "Delete medicine",
+  "medicine_delete_content": "Are you sure you want to delete {item}?",
+  "@medicine_delete_content": {
+    "description": "Delete medicine content",
+    "placeholders": {
+      "item": {
+        "description": "The medicine to delete"
+      }
+    }
+  },
+  "medicine_other_info": "Other info",
+  "medicine_producer": "Producer",
+  "medicine_veterinary": "Veterinary"
 }
