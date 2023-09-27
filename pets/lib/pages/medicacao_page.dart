@@ -194,7 +194,7 @@ class MedicacaoPage extends HookConsumerWidget {
         children: [
           conteudoPrincipal(medicacao, pets),
           outrasInformacoes(medicacao),
-          repetir(medicacao, proximaData),
+          if (kDebugMode) repetir(medicacao, proximaData),
           const SizedBox(height: 60),
         ],
       ),
