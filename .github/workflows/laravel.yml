@@ -60,7 +60,7 @@ jobs:
         run: chmod -R 777 storage bootstrap/cache
 
       - name: Tests
-        run: ./vendor/bin/pest --coverage --min=50 --coverage-cobertura=./coverage.cobertura.xml
+        run: ./vendor/bin/pest --coverage --min=50 --coverage-cobertura=./cobertura.xml
         env:
           DB_CONNECTION: pgsql
           DB_HOST: localhost
@@ -72,10 +72,8 @@ jobs:
       - name: Debug
         run: ls -la
 
-      - name: Code Coverage Summary
-        uses: irongut/CodeCoverageSummary@v1.2.0
+      - name: Produce the coverage report
+        uses: insightsengineering/coverage-action@v2
         with:
-          filename: coverage.cobertura.xml
-          badge: true
-          fail_below_min: true
-          format: markdown
+          # Path to the Cobertura XML report.
+          path: ./cobertura.xml
