@@ -101,3 +101,27 @@ test('consegue remover um animal próprio', function () {
 
     $response->assertStatus(200);
 });
+
+test('consegue listar o animal de outro membro do mesmo espaco_id', function () {
+    $outroMembroDoEspaco = User::factory()->create();
+    $pet = Pet::factory()->for($outroMembroDoEspaco)->create();
+
+    $user = User::factory()->create();
+    $user->espacos()->save($pet->espaco);
+    assertTrue($user->espacos->contains($pet->espaco));
+
+    actingAs($user);
+
+    $response = getJson("/api/pets/$pet->id");
+    $response->assertStatus(200);
+});
+
+test('não consegue listar o animal de outro membro de espaco_id diferente', function () {
+    $outroMembroDoEspaco = User::factory()->create();
+    $pet = Pet::factory()->for($outroMembroDoEspaco)->create();
+
+    actingAs(User::factory()->create());
+
+    $response = getJson("/api/pets/$pet->id");
+    $response->assertStatus(403);
+})->only();
