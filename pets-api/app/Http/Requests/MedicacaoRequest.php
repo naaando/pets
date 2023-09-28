@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Pet;
 use Illuminate\Foundation\Http\FormRequest;
 
 class MedicacaoRequest extends FormRequest

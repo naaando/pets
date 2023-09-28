@@ -9,7 +9,7 @@ use Str;
 
 class AuthFacebookController extends Controller
 {
-    const FACEBOOK_GRAPH_URL = 'https://graph.facebook.com/v17.0';
+    public const FACEBOOK_GRAPH_URL = 'https://graph.facebook.com/v17.0';
 
     /**
      * Handle the incoming request.
