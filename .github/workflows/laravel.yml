@@ -68,12 +68,3 @@ jobs:
           DB_DATABASE: "pets_api"
           DB_USER: "root"
           DB_PASSWORD: "root"
-
-      - name: Debug
-        run: ls -la
-
-      - name: Produce the coverage report
-        uses: insightsengineering/coverage-action@v2
-        with:
-          # Path to the Cobertura XML report.
-          path: ./cobertura.xml
