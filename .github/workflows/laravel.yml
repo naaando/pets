@@ -60,7 +60,7 @@ jobs:
         run: chmod -R 777 storage bootstrap/cache
 
       - name: Tests
-        run: ./vendor/bin/pest --coverage --min=50
+        run: ./vendor/bin/pest --coverage --min=50 --coverage-cobertura=coverage.cobertura.xml
         env:
           DB_CONNECTION: pgsql
           DB_HOST: localhost
@@ -68,3 +68,8 @@ jobs:
           DB_DATABASE: "pets_api"
           DB_USER: "root"
           DB_PASSWORD: "root"
+
+      - name: Code Coverage Summary
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: coverage.cobertura.xml
