@@ -36,7 +36,7 @@ class PetPolicy
      */
     public function update(User $user, Pet $pet): bool
     {
-        return $pet->user->is($user);
+        return $user->espacos->contains($pet->espaco);
     }
 
     /**
@@ -44,7 +44,7 @@ class PetPolicy
      */
     public function delete(User $user, Pet $pet): bool
     {
-        return $pet->user->is($user);
+        return $user->espacos->contains($pet->espaco);
     }
 
     /**

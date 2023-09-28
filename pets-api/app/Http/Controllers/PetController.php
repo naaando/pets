@@ -19,13 +19,7 @@ class PetController extends Controller
      */
     public function index(Request $request)
     {
-        // $request->validate([
-        //     'espaco_id' => 'required|exists:espacos,id',
-        // ]);
-
-        // $espaco = Espaco::find($request->espaco_id);
-        $pets = Pet::where('user_id', $request->user()->id)->get();
-
+        $pets = Pet::whereIn('espaco_id', $request->user()->espacos->pluck('id'))->get();
         return PetResouce::collection($pets);
     }
 
