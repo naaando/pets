@@ -8,6 +8,7 @@ import 'package:pets/models/pet.dart';
 import 'package:pets/pages/dashboard_tab.dart';
 import 'package:pets/pages/onboarding_page.dart';
 import 'package:pets/provider/pet_provider.dart';
+import 'package:pets/translate.dart';
 
 import 'pets_list_tab.dart';
 
@@ -37,9 +38,13 @@ class HomePage extends HookConsumerWidget {
   }
 
   Widget error(Object obj, StackTrace trace) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: Text('Erro ao carregar pets'),
+        child: Text(
+          t().errorWhileLoadingGeneric(
+            t().pets.toLowerCase(),
+          ),
+        ),
       ),
     );
   }

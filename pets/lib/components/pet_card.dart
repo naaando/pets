@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:pets/components/pet_square_avatar.dart';
 import 'package:pets/models/pet.dart';
+import 'package:pets/translate.dart';
 
-class PetCard extends StatelessWidget {
+class PetCard extends HookWidget {
   final Pet pet;
 
   const PetCard(this.pet, {Key? key}) : super(key: key);
@@ -72,7 +74,7 @@ class PetCard extends StatelessWidget {
   List<List<Widget>> info(BuildContext context) {
     final idade = info2Text(
       context,
-      'Idade ',
+      '${t().age} ',
       pet.nascimento != null
           ? Jiffy.parse(pet.nascimento ?? '')
               .fromNow(withPrefixAndSuffix: false)
@@ -81,13 +83,13 @@ class PetCard extends StatelessWidget {
 
     final especie = info2Text(
       context,
-      'Espécie ',
+      '${t().specie} ',
       pet.especie?.nome,
     );
 
     final raca = info2Text(
       context,
-      'Raça ',
+      '${t().breed} ',
       pet.raca,
     );
 
@@ -124,8 +126,8 @@ class PetCard extends StatelessWidget {
       Badge(
         backgroundColor: castrado ? colorSet[0] : colorSet[1],
         label: castrado
-            ? Text('Castrado', style: textStyle)
-            : Text('Não castrado', style: textStyle),
+            ? Text(t().castred, style: textStyle)
+            : Text(t().notCastred, style: textStyle),
       ),
     ];
 
@@ -134,8 +136,8 @@ class PetCard extends StatelessWidget {
         Badge(
           backgroundColor: macho ? colorSet[2] : colorSet[3],
           label: macho
-              ? Text('Macho', style: textStyle)
-              : Text('Fêmea', style: textStyle),
+              ? Text(t().sharedMale, style: textStyle)
+              : Text(t().sharedFemale, style: textStyle),
         ),
       ]);
     }
@@ -144,7 +146,7 @@ class PetCard extends StatelessWidget {
       badges.addAll([
         Badge(
           backgroundColor: colorSet[4],
-          label: Text('Falecido', style: textStyle),
+          label: Text(t().dead, style: textStyle),
         ),
       ]);
     }

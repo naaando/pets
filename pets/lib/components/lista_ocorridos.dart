@@ -6,12 +6,12 @@ import 'package:pets/components/pet_avatar.dart';
 import 'package:pets/components/placeholder_ocorridos.dart';
 import 'package:pets/models/Medicacao/medicacao.dart';
 import 'package:pets/provider/eventos_provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:pets/translate.dart';
 
 import 'chip_evento.dart';
 import 'skeleton_list_tile.dart';
 
-class ListaOcorridos extends ConsumerWidget {
+class ListaOcorridos extends HookConsumerWidget {
   final ValueNotifier<bool> showMenu;
 
   const ListaOcorridos(this.showMenu, {Key? key}) : super(key: key);
@@ -19,13 +19,11 @@ class ListaOcorridos extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final t = AppLocalizations.of(context);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          t!.dashboardTimeline,
+          t().dashboardTimeline,
           textAlign: TextAlign.start,
           style: theme.textTheme.titleLarge!.copyWith(
             color: theme.colorScheme.onBackground,
@@ -49,13 +47,12 @@ class ListaOcorridos extends ConsumerWidget {
     StackTrace? stackTrace,
     BuildContext context,
   ) {
-    final t = AppLocalizations.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.all(8),
-          child: Text(t!.errorWhileLoadingPending),
+          child: Text(t().errorWhileLoadingPending),
         ),
       ],
     );

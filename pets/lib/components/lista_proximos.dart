@@ -7,12 +7,12 @@ import 'package:pets/components/placeholder_proximos.dart';
 import 'package:pets/models/Medicacao/medicacao.dart';
 import 'package:pets/provider/eventos_provider.dart';
 import 'package:pets/provider/medicacao_provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:pets/translate.dart';
 
 import 'chip_evento.dart';
 import 'skeleton_list_tile.dart';
 
-class ListaProximos extends ConsumerWidget {
+class ListaProximos extends HookConsumerWidget {
   final ValueNotifier<bool> showMenu;
 
   const ListaProximos(this.showMenu, {Key? key}) : super(key: key);
@@ -20,13 +20,12 @@ class ListaProximos extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final t = AppLocalizations.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          t!.dashboardTodo,
+          t().dashboardTodo,
           textAlign: TextAlign.start,
           style: theme.textTheme.titleLarge!.copyWith(
             color: theme.colorScheme.onBackground,
@@ -47,12 +46,12 @@ class ListaProximos extends ConsumerWidget {
   }
 
   Column erro(Object error, StackTrace? stackTrace) {
-    return const Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.all(8),
-          child: Text('Erro ao carregar agendamentos'),
+          padding: const EdgeInsets.all(8),
+          child: Text(t().errorWhileLoadingPending),
         ),
       ],
     );
@@ -162,12 +161,11 @@ class ListaProximos extends ConsumerWidget {
     BuildContext context,
     Medicacao medicacao,
   ) {
-    final t = AppLocalizations.of(context);
     final medicacaoCompletada = medicacao.copyWith(completado: true);
     ref.read(medicacoesProvider.notifier).save(medicacaoCompletada, null).then(
       (value) {
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(t!.sharedSaved)));
+            .showSnackBar(SnackBar(content: Text(t().sharedSaved)));
       },
     );
   }

@@ -4,14 +4,13 @@ import 'package:pets/components/pet_avatar.dart';
 import 'package:pets/components/skeleton_lista_pets.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/provider/pet_provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:pets/translate.dart';
 
-class ListaPets extends ConsumerWidget {
+class ListaPets extends HookConsumerWidget {
   const ListaPets({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final t = AppLocalizations.of(context);
     final theme = Theme.of(context);
     AsyncValue<List<Pet>> pets = ref.watch(petsOrderedByUpdateProvider);
 
@@ -19,7 +18,7 @@ class ListaPets extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          t!.dashboardMyPets,
+          t().dashboardMyPets,
           textAlign: TextAlign.start,
           style: theme.textTheme.titleLarge!.copyWith(
             color: theme.colorScheme.onBackground,

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:pets/translate.dart';
 
-class ChipEvento extends StatelessWidget {
+class ChipEvento extends HookWidget {
   final String label;
   final IconData icon;
   final Color color;
@@ -25,20 +27,16 @@ class ChipEvento extends StatelessWidget {
   }
 
   factory ChipEvento.vacina(BuildContext context) {
-    final t = AppLocalizations.of(context);
-
     return ChipEvento(
-      label: t!.vaccine,
+      label: t().vaccine,
       icon: Icons.vaccines,
       color: Colors.purple,
     );
   }
 
   factory ChipEvento.medicacao(BuildContext context) {
-    final t = AppLocalizations.of(context);
-
     return ChipEvento(
-      label: t!.medication,
+      label: t().medication,
       icon: Icons.medical_services,
       color: Colors.green,
     );

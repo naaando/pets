@@ -104,5 +104,17 @@
   "vaccine": "Vaccine",
   "medication": "Medication",
   "errorWhileLoadingPending": "Error while loading pending",
-  "pet": "Pet"
+  "errorWhileLoadingGeneric": "Error while loading {item}",
+  "pet": "Pet",
+  "pets": "Pets",
+  "nPets": "{count, plural, =0 {No pets} =1 {1 pet} other {{count} pets}}",
+  "age": "Age",
+  "specie": "Specie",
+  "breed": "Breed",
+  "castred": "Castred",
+  "notCastred": "Not castred",
+  "dead": "Dead",
+  "home": "Home",
+  "loading": "Loading",
+  "helloUser": "Hello {user}"
 }
