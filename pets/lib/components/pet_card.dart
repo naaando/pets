@@ -12,8 +12,6 @@ class PetCard extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-
     return InkWell(
       child: Card(
         child: Row(

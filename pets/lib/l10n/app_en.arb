@@ -117,5 +117,7 @@
   "home": "Home",
   "loading": "Loading",
   "helloUser": "Hello, {user}",
-  "search": "Search"
+  "search": "Search",
+  "registerEvent": "Register event",
+  "schedule": "Schedule"
 }

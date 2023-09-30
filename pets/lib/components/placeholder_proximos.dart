@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:pets/translate.dart';
 
-class PlaceholderProximos extends StatelessWidget {
+class PlaceholderProximos extends HookWidget {
   final ValueNotifier<bool> showMenu;
 
   const PlaceholderProximos(this.showMenu, {Key? key}) : super(key: key);
@@ -80,7 +82,7 @@ class PlaceholderProximos extends StatelessWidget {
           child: FilledButton.icon(
             onPressed: () => showMenu.value = !showMenu.value,
             icon: const Icon(Icons.add),
-            label: const Text('Agendar'),
+            label: Text(t().schedule),
           ),
         ),
       ],

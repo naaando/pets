@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:pets/translate.dart';
 
-class PlaceholderOcorridos extends StatelessWidget {
+class PlaceholderOcorridos extends HookWidget {
   final ValueNotifier<bool> showMenu;
 
   const PlaceholderOcorridos(this.showMenu, {Key? key}) : super(key: key);
@@ -75,7 +77,7 @@ class PlaceholderOcorridos extends StatelessWidget {
           child: FilledButton.icon(
             onPressed: () => showMenu.value = !showMenu.value,
             icon: const Icon(Icons.add),
-            label: const Text('Registrar evento'),
+            label: Text(t().registerEvent),
           ),
         ),
       ],
