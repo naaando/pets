@@ -14,7 +14,7 @@ test('consigo enviar a imagem do pet', function () {
 
     Storage::fake();
 
-    $pet = Pet::factory()->for($user)->create();
+    $pet = Pet::factory()->for($user->espacoAtivo)->create();
     $response = putJson("/api/pets/$pet->id/image", [
         'file' => UploadedFile::fake()->image('avatar.jpg'),
     ]);
@@ -32,7 +32,7 @@ test('ao enviar a imagem do pet remove a anterior', function () {
 
     Storage::fake();
 
-    $pet = Pet::factory()->for($user)->create();
+    $pet = Pet::factory()->for($user->espacoAtivo)->create();
     $imagemAnterior = UploadedFile::fake()->image('avatar.jpg')->storePublicly('pets');
     $pet->imagem = $imagemAnterior;
     $pet->save();
@@ -66,7 +66,7 @@ test('consegue remover a imagem do pet', function () {
 
     Storage::fake();
 
-    $pet = Pet::factory()->for($user)->create();
+    $pet = Pet::factory()->for($user->espacoAtivo)->create();
     $pet->imagem = UploadedFile::fake()->image('avatar.jpg')->storePublicly('pets');
     $pet->save();
 
@@ -96,7 +96,7 @@ test('permite envio de imagens maiores ou iguais a 10MB', function () {
 
     Storage::fake();
 
-    $pet = Pet::factory()->for($user)->create();
+    $pet = Pet::factory()->for($user->espacoAtivo)->create();
     $response = putJson("/api/pets/$pet->id/image", [
         'file' => UploadedFile::fake()->image('avatar.jpg')->size(10240),
     ]);
@@ -114,7 +114,7 @@ test('proibe envio de imagens maiores que 10MB', function () {
 
     Storage::fake();
 
-    $pet = Pet::factory()->for($user)->create();
+    $pet = Pet::factory()->for($user->espacoAtivo)->create();
     $response = putJson("/api/pets/$pet->id/image", [
         'file' => UploadedFile::fake()->image('avatar.jpg')->size(10241),
     ]);

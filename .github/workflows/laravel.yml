@@ -60,7 +60,7 @@ jobs:
         run: chmod -R 777 storage bootstrap/cache
 
       - name: Tests
-        run: ./vendor/bin/pest --coverage --min=50
+        run: ./vendor/bin/pest --coverage --min=50 --coverage-cobertura=./cobertura.xml
         env:
           DB_CONNECTION: pgsql
           DB_HOST: localhost
@@ -68,3 +68,8 @@ jobs:
           DB_DATABASE: "pets_api"
           DB_USER: "root"
           DB_PASSWORD: "root"
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

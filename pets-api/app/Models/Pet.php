@@ -110,4 +110,12 @@ class Pet extends Model
     {
         return $this->hasMany(Vacina::class);
     }
+
+    /**
+     * Retorna espaço do pet.
+     */
+    public function espaco()
+    {
+        return $this->belongsTo(Espaco::class);
+    }
 }
