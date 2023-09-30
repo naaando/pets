@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChipEvento extends StatelessWidget {
   final String label;
@@ -12,26 +13,32 @@ class ChipEvento extends StatelessWidget {
     required this.color,
   });
 
-  factory ChipEvento.parse(String label) {
+  factory ChipEvento.parse(BuildContext context, String label) {
     switch (label) {
       case 'vacina':
-        return ChipEvento.vacina();
+        return ChipEvento.vacina(context);
       case 'medicacao':
-        return ChipEvento.medicacao();
+        return ChipEvento.medicacao(context);
       default:
-        return ChipEvento.vacina();
+        return ChipEvento.vacina(context);
     }
   }
 
-  factory ChipEvento.vacina() => const ChipEvento(
-        label: 'Vacina',
-        icon: Icons.vaccines,
-        color: Colors.purple,
-      );
+  factory ChipEvento.vacina(BuildContext context) {
+    final t = AppLocalizations.of(context);
 
-  factory ChipEvento.medicacao() {
-    return const ChipEvento(
-      label: 'Medicação',
+    return ChipEvento(
+      label: t!.vaccine,
+      icon: Icons.vaccines,
+      color: Colors.purple,
+    );
+  }
+
+  factory ChipEvento.medicacao(BuildContext context) {
+    final t = AppLocalizations.of(context);
+
+    return ChipEvento(
+      label: t!.medication,
       icon: Icons.medical_services,
       color: Colors.green,
     );

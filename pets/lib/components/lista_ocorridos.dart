@@ -37,20 +37,25 @@ class ListaOcorridos extends ConsumerWidget {
                 context,
                 medicacoes.where((m) => m.completado).toList(),
               ),
-              error: erro,
+              error: (error, stackTrace) => erro(error, stackTrace, context),
               loading: carregando,
             ),
       ],
     );
   }
 
-  Column erro(Object error, StackTrace? stackTrace) {
-    return const Column(
+  Column erro(
+    Object error,
+    StackTrace? stackTrace,
+    BuildContext context,
+  ) {
+    final t = AppLocalizations.of(context);
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.all(8),
-          child: Text('Erro ao carregar agendamentos'),
+          padding: const EdgeInsets.all(8),
+          child: Text(t!.errorWhileLoadingPending),
         ),
       ],
     );
@@ -110,7 +115,7 @@ class ListaOcorridos extends ConsumerWidget {
               Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text(date.fromNow()),
             const SizedBox(height: 4),
-            ChipEvento.parse(medicacao.tipo)
+            ChipEvento.parse(context, medicacao.tipo)
           ]),
           onTap: () => Navigator.pushNamed(
             context,

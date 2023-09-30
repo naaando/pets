@@ -129,7 +129,7 @@ class ListaProximos extends ConsumerWidget {
                 children: [
                   Text(date.fromNow()),
                   const SizedBox(height: 4),
-                  ChipEvento.parse(medicacao.tipo),
+                  ChipEvento.parse(context, medicacao.tipo),
                 ],
               ),
               const SizedBox(width: 8),
@@ -162,11 +162,12 @@ class ListaProximos extends ConsumerWidget {
     BuildContext context,
     Medicacao medicacao,
   ) {
+    final t = AppLocalizations.of(context);
     final medicacaoCompletada = medicacao.copyWith(completado: true);
     ref.read(medicacoesProvider.notifier).save(medicacaoCompletada, null).then(
       (value) {
         ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Salvo!')));
+            .showSnackBar(SnackBar(content: Text(t!.sharedSaved)));
       },
     );
   }

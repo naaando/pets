@@ -100,5 +100,9 @@
   "petsFather": "Father",
   "petsDeathDate": "Death date",
   "petsConfirmDelete": "Delete pet",
-  "petsConfirmDeleteContent": "Are you sure you want to delete {item}?"
+  "petsConfirmDeleteContent": "Are you sure you want to delete {item}?",
+  "vaccine": "Vaccine",
+  "medication": "Medication",
+  "errorWhileLoadingPending": "Error while loading pending",
+  "pet": "Pet"
 }
