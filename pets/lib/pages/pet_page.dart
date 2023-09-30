@@ -380,17 +380,17 @@ class PetPage extends HookConsumerWidget {
     Pet pet,
   ) {
     AlertDialog alert = AlertDialog(
-      title: Text(t().petsConfirmDelete),
-      content: Text(t().petsConfirmDeleteContent(pet.nome)),
+      title: Text(t(context).petsConfirmDelete),
+      content: Text(t(context).petsConfirmDeleteContent(pet.nome)),
       actions: [
         TextButton(
-          child: Text(t().sharedCancel),
+          child: Text(t(context).sharedCancel),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
         TextButton(
-          child: Text(t().sharedExclude),
+          child: Text(t(context).sharedExclude),
           onPressed: () {
             ref.read(petsProvider.notifier).remove(pet);
             Navigator.pop(context);

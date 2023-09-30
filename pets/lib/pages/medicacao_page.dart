@@ -376,19 +376,19 @@ class MedicacaoPage extends HookConsumerWidget {
     Medicacao medicacao,
   ) {
     AlertDialog alert = AlertDialog(
-      title: Text(t().medicineDelete),
+      title: Text(t(context).medicineDelete),
       content: Text(
-        t().medicineDeleteContent(medicacao.nome),
+        t(context).medicineDeleteContent(medicacao.nome),
       ),
       actions: [
         TextButton(
-          child: Text(t().sharedCancel),
+          child: Text(t(context).sharedCancel),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
         TextButton(
-          child: Text(t().sharedExclude),
+          child: Text(t(context).sharedExclude),
           onPressed: () {
             ref.read(medicacoesProvider.notifier).remove(medicacao);
             Navigator.pop(context);

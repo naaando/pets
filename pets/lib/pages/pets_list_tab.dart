@@ -5,6 +5,7 @@ import 'package:pets/components/pet_card.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/provider/pet_provider.dart';
 import 'package:fuzzywuzzy/fuzzywuzzy.dart';
+import 'package:pets/translate.dart';
 
 class PetsListTab extends HookConsumerWidget {
   const PetsListTab({super.key});
@@ -74,7 +75,7 @@ class PetsListTab extends HookConsumerWidget {
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
-          labelText: 'Pesquisar',
+          labelText: t().search,
           prefixIcon: const Icon(Icons.search),
           suffixIcon: pesquisa.value == ''
               ? null

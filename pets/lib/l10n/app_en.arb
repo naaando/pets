@@ -116,5 +116,6 @@
   "dead": "Dead",
   "home": "Home",
   "loading": "Loading",
-  "helloUser": "Hello {user}"
+  "helloUser": "Hello, {user}",
+  "search": "Search"
 }
