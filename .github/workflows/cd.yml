@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
 
   workflow_run:
-    workflows: ["Laravel"]
+    workflows: ["Laravel Tests"]
     branches: ["main"]
     types:
       - completed
