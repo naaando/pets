@@ -25,7 +25,7 @@ class ListaOcorridos extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          t!.dashboard_timeline,
+          t!.dashboardTimeline,
           textAlign: TextAlign.start,
           style: theme.textTheme.titleLarge!.copyWith(
             color: theme.colorScheme.onBackground,

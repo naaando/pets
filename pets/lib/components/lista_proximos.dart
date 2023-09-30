@@ -26,7 +26,7 @@ class ListaProximos extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          t!.dashboard_todo,
+          t!.dashboardTodo,
           textAlign: TextAlign.start,
           style: theme.textTheme.titleLarge!.copyWith(
             color: theme.colorScheme.onBackground,

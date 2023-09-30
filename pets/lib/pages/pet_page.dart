@@ -13,12 +13,14 @@ import 'package:pets/provider/form_state_provider.dart';
 import 'package:pets/provider/pet_provider.dart';
 import 'package:pets/provider/especie_provider.dart';
 import 'package:pets/provider/user_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PetPage extends HookConsumerWidget {
   const PetPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final t = AppLocalizations.of(context);
     final user = ref.watch(loggedUserProvider).asData!.value!;
 
     final petFromRoute = (ModalRoute.of(context)!.settings.arguments as Pet?) ??
@@ -28,7 +30,7 @@ class PetPage extends HookConsumerWidget {
 
     final pet = useState(petFromRoute);
 
-    final title = pet.value.id != null ? pet.value.nome : 'Novo animal';
+    final title = pet.value.id != null ? pet.value.nome : t!.petsNewPet;
     final formKey = ref.watch(petFormStateProvider);
     final petImgFile = useState<XFile?>(null);
 

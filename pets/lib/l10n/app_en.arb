@@ -1,7 +1,7 @@
 {
   "@@locale": "en",
-  "shared_new": "New {item}",
-  "@shared_new": {
+  "sharedNew": "New {item}",
+  "@sharedNew": {
     "description": "New item",
     "placeholders": {
       "item": {
@@ -9,8 +9,8 @@
       }
     }
   },
-  "shared_editing": "Editing {item}",
-  "@shared_editing": {
+  "sharedEditing": "Editing {item}",
+  "@sharedEditing": {
     "description": "Editing item",
     "placeholders": {
       "item": {
@@ -18,14 +18,14 @@
       }
     }
   },
-  "shared_exit_without_saving": "Exit without saving?",
-  "shared_exit_without_saving_message": "To save the changes use floating action button",
-  "shared_exit_without_saving_confirm": "Exit without saving",
-  "shared_exit_without_saving_abort": "Back to editing",
-  "shared_save": "Save",
-  "shared_saved": "Saved",
-  "shared_error_while_saving": "Error while saving\n\n {msg}",
-  "@shared_error_while_saving": {
+  "sharedExitWithoutSaving": "Exit without saving?",
+  "sharedExitWithoutSavingMessage": "To save the changes use floating action button",
+  "sharedExitWithoutSavingConfirm": "Exit without saving",
+  "sharedExitWithoutSavingAbort": "Back to editing",
+  "sharedSave": "Save",
+  "sharedSaved": "Saved",
+  "sharedErrorWhileSaving": "Error while saving\n\n {msg}",
+  "@sharedErrorWhileSaving": {
     "description": "Error while saving",
     "placeholders": {
       "msg": {
@@ -33,39 +33,39 @@
       }
     }
   },
-  "shared_invalid_fields": "Invalid fields",
-  "shared_unknown": "Unknown",
-  "shared_cancel": "Cancel",
-  "shared_exclude": "Exclude",
-  "dashboard_myPets": "My pets",
-  "@dashboard_myPets": {
+  "sharedInvalidFields": "Invalid fields",
+  "sharedUnknown": "Unknown",
+  "sharedCancel": "Cancel",
+  "sharedExclude": "Exclude",
+  "dashboardMyPets": "My pets",
+  "@dashboardMyPets": {
     "description": "The pets I own"
   },
-  "dashboard_todo": "To Do",
-  "@dashboard_todo": {
+  "dashboardTodo": "To Do",
+  "@dashboardTodo": {
     "description": "The things I need to do"
   },
-  "dashboard_timeline": "Timeline",
-  "@dashboard_timeline": {
+  "dashboardTimeline": "Timeline",
+  "@dashboardTimeline": {
     "description": "The things I have done"
   },
-  "medicine_main": "Main",
-  "@medicine_main": {
+  "medicineMain": "Main",
+  "@medicineMain": {
     "description": "Main section of the medicine page"
   },
-  "medicine_type": "Type",
-  "medicine_prefix_on": "On ",
-  "medicine_animal": "Animal",
-  "medicine_animal_required": "Animal is required",
-  "medicine_name": "Name",
-  "medicine_name_required": "Name is required",
-  "medicine_date": "Date",
-  "medicine_date_required": "Date is required",
-  "medicine_next_dose": "Next dose",
-  "medicine_next_dose_optional": "Leave empty if no next dose",
-  "medicine_delete": "Delete medicine",
-  "medicine_delete_content": "Are you sure you want to delete {item}?",
-  "@medicine_delete_content": {
+  "medicineType": "Type",
+  "medicinePrefixOn": "On ",
+  "medicineAnimal": "Animal",
+  "medicineAnimalRequired": "Animal is required",
+  "medicineName": "Name",
+  "medicineNameRequired": "Name is required",
+  "medicineDate": "Date",
+  "medicineDateRequired": "Date is required",
+  "medicineNextDose": "Next dose",
+  "medicineNextDoseOptional": "Leave empty if no next dose",
+  "medicineDelete": "Delete medicine",
+  "medicineDeleteContent": "Are you sure you want to delete {item}?",
+  "@medicineDeleteContent": {
     "description": "Delete medicine content",
     "placeholders": {
       "item": {
@@ -73,14 +73,15 @@
       }
     }
   },
-  "medicine_other_info": "Other info",
-  "medicine_producer": "Producer",
-  "medicine_veterinary": "Veterinary",
+  "medicineOtherInfo": "Other info",
+  "medicineProducer": "Producer",
+  "medicineVeterinary": "Veterinary",
   "onboardingTitle": "Welcome",
   "onboardingContent1": "You still ",
   "onboardingContent2": "didn''t register",
   "onboardingContent3": " any of your pets.",
   "onboardingContent4": "Que tal cadastrar um agora?",
   "onboardingNoPetsCta": "Cadastrar novo pet",
-  "onboardingAcessibleLabel": "A person with a dog walking"
+  "onboardingAcessibleLabel": "A person with a dog walking",
+  "petsNewPet": "New pet"
 }

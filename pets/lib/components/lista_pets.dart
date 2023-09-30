@@ -19,7 +19,7 @@ class ListaPets extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          t!.dashboard_myPets,
+          t!.dashboardMyPets,
           textAlign: TextAlign.start,
           style: theme.textTheme.titleLarge!.copyWith(
             color: theme.colorScheme.onBackground,
