@@ -37,6 +37,8 @@
   "sharedUnknown": "Unknown",
   "sharedCancel": "Cancel",
   "sharedExclude": "Exclude",
+  "sharedMale": "Male",
+  "sharedFemale": "Female",
   "dashboardMyPets": "My pets",
   "@dashboardMyPets": {
     "description": "The pets I own"
@@ -83,5 +85,20 @@
   "onboardingContent4": "Que tal cadastrar um agora?",
   "onboardingNoPetsCta": "Cadastrar novo pet",
   "onboardingAcessibleLabel": "A person with a dog walking",
-  "petsNewPet": "New pet"
+  "petsNewPet": "New pet",
+  "petsAnimalName": "Animal name",
+  "petsName": "Name",
+  "petsNameRequired": "Name is required",
+  "petsType": "Type",
+  "petsAnimalType": "Animal type",
+  "petsBreed": "Breed",
+  "petsAnimalBreed": "Animal breed",
+  "petsGender": "Gender",
+  "petsBirthDate": "Birth date",
+  "petsCastrationDate": "Castration date (aproximated)",
+  "petsMother": "Mother",
+  "petsFather": "Father",
+  "petsDeathDate": "Death date",
+  "petsConfirmDelete": "Delete pet",
+  "petsConfirmDeleteContent": "Are you sure you want to delete {item}?"
 }
