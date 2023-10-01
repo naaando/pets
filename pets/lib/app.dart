@@ -6,7 +6,6 @@ import 'package:pets/pages/pet_page.dart';
 import 'package:pets/pages/welcome_page.dart';
 import 'package:pets/provider/user_provider.dart';
 import 'package:pets/theme.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class App extends ConsumerWidget {
@@ -17,7 +16,7 @@ class App extends ConsumerWidget {
     final user = ref.watch(loggedUserProvider);
 
     return MaterialApp(
-      title: 'Cuidados com pets',
+      title: 'Pets',
       theme: lightTheme(),
       darkTheme: darkTheme(),
       themeMode: ThemeMode.system,
