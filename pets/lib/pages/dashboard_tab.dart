@@ -27,7 +27,7 @@ class DashboardTab extends HookConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.symmetric(vertical: 12),
           child: const ListaPets(),
         ),
         Container(

@@ -17,11 +17,14 @@ class ListaPets extends HookConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          t().dashboardMyPets,
-          textAlign: TextAlign.start,
-          style: theme.textTheme.titleLarge!.copyWith(
-            color: theme.colorScheme.onBackground,
+        Padding(
+          padding: const EdgeInsets.only(left: 12),
+          child: Text(
+            t().dashboardMyPets,
+            textAlign: TextAlign.start,
+            style: theme.textTheme.titleLarge!.copyWith(
+              color: theme.colorScheme.onBackground,
+            ),
           ),
         ),
         const SizedBox(height: 8),
@@ -47,7 +50,7 @@ class ListaPets extends HookConsumerWidget {
       width: MediaQuery.of(context).size.width,
       height: 110,
       child: ListView(
-        padding: const EdgeInsets.only(left: 0, right: 4),
+        padding: const EdgeInsets.only(left: 12, right: 12),
         primary: false,
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
