@@ -12,6 +12,7 @@ import 'package:pets/models/Medicacao/repetidor.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/provider/medicacao_provider.dart';
 import 'package:pets/provider/pet_provider.dart';
+import 'package:pets/translate.dart';
 
 class MedicacaoPage extends HookConsumerWidget {
   final String tipoPadrao;
@@ -36,8 +37,8 @@ class MedicacaoPage extends HookConsumerWidget {
     final proximaData = useState<String?>(null);
 
     final title = medicacao.value.id != null
-        ? 'Editando ${medicacao.value.tipoExtenso}'
-        : 'Nova ${medicacao.value.tipoExtenso}';
+        ? t().sharedEditing(medicacao.value.tipoExtenso.toLowerCase())
+        : t().sharedNew(medicacao.value.tipoExtenso.toLowerCase());
 
     final formKey = useRef(GlobalKey<FormState>());
 
@@ -88,26 +89,28 @@ class MedicacaoPage extends HookConsumerWidget {
     return await showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: const Text("Sair sem salvar?"),
-        content: const Text(
-          "Para salvar as alterações use o botão suspenso no canto inferior direito.",
+        title: Text(
+          t().sharedExitWithoutSaving,
+        ),
+        content: Text(
+          t().sharedExitWithoutSavingMessage,
         ),
         actions: <Widget>[
           TextButton(
             onPressed: () {
               Navigator.of(context, rootNavigator: true).pop(true);
             },
-            child: const Text(
-              'Sair sem salvar',
-              style: TextStyle(color: Colors.red),
+            child: Text(
+              t().sharedExitWithoutSavingConfirm,
+              style: const TextStyle(color: Colors.red),
             ),
           ),
           TextButton(
             onPressed: () {
               Navigator.of(context, rootNavigator: true).pop(false);
             },
-            child: const Text(
-              'Voltar ao cadastro',
+            child: Text(
+              t().sharedExitWithoutSavingAbort,
             ),
           ),
         ],
@@ -128,7 +131,9 @@ class MedicacaoPage extends HookConsumerWidget {
 
         if (!formKey.currentState!.validate()) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Campos inválidos!')),
+            SnackBar(
+              content: Text(t().sharedInvalidFields),
+            ),
           );
 
           return;
@@ -142,7 +147,9 @@ class MedicacaoPage extends HookConsumerWidget {
             )
             .then((value) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Salvo!')),
+            SnackBar(
+              content: Text(t().sharedSaved),
+            ),
           );
 
           Navigator.of(context).pop();
@@ -151,11 +158,15 @@ class MedicacaoPage extends HookConsumerWidget {
           var msg = error.response?.data['message'] ?? error.message;
 
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Erro ao salvar!\n\n$msg')),
+            SnackBar(
+              content: Text(
+                t().sharedErrorWhileSaving(msg),
+              ),
+            ),
           );
         });
       },
-      tooltip: 'Salvar',
+      tooltip: t().sharedSave,
       child: const Icon(Icons.check),
     );
   }
@@ -193,9 +204,9 @@ class MedicacaoPage extends HookConsumerWidget {
       key: formKey,
       child: ListView(
         children: [
-          conteudoPrincipal(medicacao, pets),
-          outrasInformacoes(medicacao),
-          if (kDebugMode) repetir(medicacao, proximaData),
+          conteudoPrincipal(context, medicacao, pets),
+          outrasInformacoes(context, medicacao),
+          if (kDebugMode) repetir(context, medicacao, proximaData),
           const SizedBox(height: 60),
         ],
       ),
@@ -203,20 +214,21 @@ class MedicacaoPage extends HookConsumerWidget {
   }
 
   ExpansionTile conteudoPrincipal(
+    BuildContext context,
     ValueNotifier<Medicacao> medicacao,
     Map<String, Pet> pets,
   ) {
     return ExpansionTile(
-      title: const Text('Principal'),
+      title: Text(t().medicineMain),
       leading: const Icon(Icons.event),
       initiallyExpanded: true,
       childrenPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
       children: [
         DropdownButtonFormField<String>(
           value: medicacao.value.tipo,
-          decoration: const InputDecoration(
-            hintText: 'Tipo',
-            labelText: 'Tipo',
+          decoration: InputDecoration(
+            hintText: t().medicineType,
+            labelText: t().medicineType,
           ),
           items: const [
             DropdownMenuItem(
@@ -240,27 +252,28 @@ class MedicacaoPage extends HookConsumerWidget {
         const SizedBox(height: 20),
         DropdownButtonFormField<Pet?>(
           value: medicacao.value.pet,
-          decoration: const InputDecoration(
-            hintText: 'Animal',
-            labelText: 'Animal',
+          decoration: InputDecoration(
+            hintText: t().medicineAnimal,
+            labelText: t().medicineAnimal,
           ),
-          items: petsDropdown(medicacao.value.pet, pets),
+          items: petsDropdown(context, medicacao.value.pet, pets),
           onChanged: (Pet? value) {
             medicacao.value = medicacao.value.copyWith(petId: value?.id);
             medicacao.value = medicacao.value.copyWith(pet: value);
           },
-          validator: (value) => value == null ? 'Animal é obrigatório' : null,
+          validator: (value) =>
+              value == null ? t().medicineAnimalRequired : null,
         ),
         const SizedBox(height: 20),
         TextFormField(
           initialValue: medicacao.value.nome,
-          decoration: const InputDecoration(
-            hintText: 'Nome',
-            labelText: 'Nome',
+          decoration: InputDecoration(
+            hintText: t().medicineName,
+            labelText: t().medicineName,
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Nome é obrigatório';
+              return t().medicineNameRequired;
             }
             return null;
           },
@@ -273,10 +286,10 @@ class MedicacaoPage extends HookConsumerWidget {
           initialValue: medicacao.value.quando,
           firstDate: DateTime.now().subtract(const Duration(days: 365)),
           lastDate: DateTime.now().add(const Duration(days: 365)),
-          decoration: const InputDecoration(
-            hintText: 'Data',
-            labelText: 'Data',
-            prefixText: 'Em ',
+          decoration: InputDecoration(
+            hintText: t().medicineDate,
+            labelText: t().medicineDate,
+            prefixText: t().medicinePrefixOn,
             suffixIcon: Icon(Icons.alarm_on_rounded),
           ),
           onDateChanged: (dateTime) {
@@ -285,7 +298,7 @@ class MedicacaoPage extends HookConsumerWidget {
           },
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Data é obrigatória';
+              return t().medicineDateRequired;
             }
             return null;
           },
@@ -296,6 +309,7 @@ class MedicacaoPage extends HookConsumerWidget {
   }
 
   List<Widget> quandoDataForPassadoExibirProximaData(
+    BuildContext context,
     ValueNotifier<Medicacao> medicacao,
     ValueNotifier<String?> proximaData,
   ) {
@@ -319,11 +333,11 @@ class MedicacaoPage extends HookConsumerWidget {
         initialValue: proximaData.value,
         firstDate: DateTime.now(),
         lastDate: DateTime.now().add(const Duration(days: 365)),
-        decoration: const InputDecoration(
-          hintText: 'Próxima dose',
-          labelText: 'Próxima dose',
-          helperText: 'Em branco se não houver próxima dose',
-          prefixText: 'Em ',
+        decoration: InputDecoration(
+          hintText: t().medicineNextDose,
+          labelText: t().medicineNextDose,
+          helperText: t().medicineNextDoseOptional,
+          prefixText: t().medicinePrefixOn,
           suffixIcon: Icon(Icons.alarm_add_rounded),
         ),
         onDateChanged: (dateTime) =>
@@ -333,6 +347,7 @@ class MedicacaoPage extends HookConsumerWidget {
   }
 
   List<DropdownMenuItem<Pet?>> petsDropdown(
+    BuildContext context,
     Pet? currentPet,
     Map<String, Pet> pets,
   ) {
@@ -347,11 +362,12 @@ class MedicacaoPage extends HookConsumerWidget {
             ))
         .toList()
       ..insert(
-          0,
-          const DropdownMenuItem(
-            value: null,
-            child: Text('Desconhecido'),
-          ));
+        0,
+        DropdownMenuItem(
+          value: null,
+          child: Text(t().sharedUnknown),
+        ),
+      );
   }
 
   void showDeleteAlert(
@@ -360,17 +376,19 @@ class MedicacaoPage extends HookConsumerWidget {
     Medicacao medicacao,
   ) {
     AlertDialog alert = AlertDialog(
-      title: const Text("Excluir medicação"),
-      content: Text("Você tem certeza que deseja excluir ${medicacao.nome}?"),
+      title: Text(t(context).medicineDelete),
+      content: Text(
+        t(context).medicineDeleteContent(medicacao.nome),
+      ),
       actions: [
         TextButton(
-          child: const Text("Cancelar"),
+          child: Text(t(context).sharedCancel),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
         TextButton(
-          child: const Text("Excluir"),
+          child: Text(t(context).sharedExclude),
           onPressed: () {
             ref.read(medicacoesProvider.notifier).remove(medicacao);
             Navigator.pop(context);
@@ -388,17 +406,20 @@ class MedicacaoPage extends HookConsumerWidget {
     );
   }
 
-  Widget outrasInformacoes(ValueNotifier<Medicacao> medicacao) {
+  Widget outrasInformacoes(
+    BuildContext context,
+    ValueNotifier<Medicacao> medicacao,
+  ) {
     return ExpansionTile(
-      title: const Text('Outras informações'),
+      title: Text(t().medicineOtherInfo),
       leading: const Icon(Icons.dataset),
       childrenPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
       children: [
         TextFormField(
           initialValue: medicacao.value.atributos.fabricante,
-          decoration: const InputDecoration(
-            hintText: 'Fabricante',
-            labelText: 'Fabricante',
+          decoration: InputDecoration(
+            hintText: t().medicineProducer,
+            labelText: t().medicineProducer,
           ),
           onChanged: (newValue) {
             medicacao.value =
@@ -408,9 +429,9 @@ class MedicacaoPage extends HookConsumerWidget {
         const SizedBox(height: 20),
         TextFormField(
           initialValue: medicacao.value.atributos.veterinario,
-          decoration: const InputDecoration(
-            hintText: 'Veterinário',
-            labelText: 'Veterinário',
+          decoration: InputDecoration(
+            hintText: t().medicineVeterinary,
+            labelText: t().medicineVeterinary,
           ),
           onChanged: (newValue) {
             medicacao.value =
@@ -423,6 +444,7 @@ class MedicacaoPage extends HookConsumerWidget {
   }
 
   Widget repetir(
+    BuildContext context,
     ValueNotifier<Medicacao> medicacao,
     ValueNotifier<String?> proximaData,
   ) {

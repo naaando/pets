@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:pets/translate.dart';
 
-class PlaceholderProximos extends StatelessWidget {
+class PlaceholderProximos extends HookWidget {
   final ValueNotifier<bool> showMenu;
 
   const PlaceholderProximos(this.showMenu, {Key? key}) : super(key: key);
@@ -25,39 +27,38 @@ class PlaceholderProximos extends StatelessWidget {
                 children: [
                   TextSpan(
                     children: [
-                      const TextSpan(
-                        text: 'Você pode agendar ',
+                      TextSpan(
+                        text: t().placeholderProximos1,
                       ),
                       TextSpan(
-                        text:
-                            'consultas, vacinas, medicações e outras tarefas e compromissos ',
+                        text: t().placeholderProximos2,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.onPrimaryContainer,
                         ),
                       ),
-                      const TextSpan(
-                        text: 'do animal.\n\n',
+                      TextSpan(
+                        text: t().placeholderProximos3,
                       )
                     ],
                   ),
                   TextSpan(
                     children: [
-                      const TextSpan(
-                        text: 'Os agendamentos podem ',
+                      TextSpan(
+                        text: t().placeholderProximos4,
                       ),
                       TextSpan(
-                        text: 'ser repetições para tarefas rotineiras',
+                        text: t().placeholderProximos5,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.onPrimaryContainer,
                         ),
                       ),
-                      const TextSpan(
-                        text: ' ou ',
+                      TextSpan(
+                        text: t().placeholderProximos6,
                       ),
                       TextSpan(
-                        text: 'por quantidade como as doses em medicamentos.\n',
+                        text: t().placeholderProximos7,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.onPrimaryContainer,
@@ -80,7 +81,7 @@ class PlaceholderProximos extends StatelessWidget {
           child: FilledButton.icon(
             onPressed: () => showMenu.value = !showMenu.value,
             icon: const Icon(Icons.add),
-            label: const Text('Agendar'),
+            label: Text(t().schedule),
           ),
         ),
       ],

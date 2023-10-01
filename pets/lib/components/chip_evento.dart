@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:pets/translate.dart';
 
-class ChipEvento extends StatelessWidget {
+class ChipEvento extends HookWidget {
   final String label;
   final IconData icon;
   final Color color;
@@ -12,26 +14,28 @@ class ChipEvento extends StatelessWidget {
     required this.color,
   });
 
-  factory ChipEvento.parse(String label) {
+  factory ChipEvento.parse(BuildContext context, String label) {
     switch (label) {
       case 'vacina':
-        return ChipEvento.vacina();
+        return ChipEvento.vacina(context);
       case 'medicacao':
-        return ChipEvento.medicacao();
+        return ChipEvento.medicacao(context);
       default:
-        return ChipEvento.vacina();
+        return ChipEvento.vacina(context);
     }
   }
 
-  factory ChipEvento.vacina() => const ChipEvento(
-        label: 'Vacina',
-        icon: Icons.vaccines,
-        color: Colors.purple,
-      );
+  factory ChipEvento.vacina(BuildContext context) {
+    return ChipEvento(
+      label: t().vaccine,
+      icon: Icons.vaccines,
+      color: Colors.purple,
+    );
+  }
 
-  factory ChipEvento.medicacao() {
-    return const ChipEvento(
-      label: 'Medicação',
+  factory ChipEvento.medicacao(BuildContext context) {
+    return ChipEvento(
+      label: t().medication,
       icon: Icons.medical_services,
       color: Colors.green,
     );

@@ -7,11 +7,12 @@ import 'package:pets/components/placeholder_proximos.dart';
 import 'package:pets/models/Medicacao/medicacao.dart';
 import 'package:pets/provider/eventos_provider.dart';
 import 'package:pets/provider/medicacao_provider.dart';
+import 'package:pets/translate.dart';
 
 import 'chip_evento.dart';
 import 'skeleton_list_tile.dart';
 
-class ListaProximos extends ConsumerWidget {
+class ListaProximos extends HookConsumerWidget {
   final ValueNotifier<bool> showMenu;
 
   const ListaProximos(this.showMenu, {Key? key}) : super(key: key);
@@ -24,7 +25,7 @@ class ListaProximos extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Agendados',
+          t().dashboardTodo,
           textAlign: TextAlign.start,
           style: theme.textTheme.titleLarge!.copyWith(
             color: theme.colorScheme.onBackground,
@@ -45,12 +46,12 @@ class ListaProximos extends ConsumerWidget {
   }
 
   Column erro(Object error, StackTrace? stackTrace) {
-    return const Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.all(8),
-          child: Text('Erro ao carregar agendamentos'),
+          padding: const EdgeInsets.all(8),
+          child: Text(t().errorWhileLoadingPending),
         ),
       ],
     );
@@ -127,7 +128,7 @@ class ListaProximos extends ConsumerWidget {
                 children: [
                   Text(date.fromNow()),
                   const SizedBox(height: 4),
-                  ChipEvento.parse(medicacao.tipo),
+                  ChipEvento.parse(context, medicacao.tipo),
                 ],
               ),
               const SizedBox(width: 8),
@@ -164,7 +165,7 @@ class ListaProximos extends ConsumerWidget {
     ref.read(medicacoesProvider.notifier).save(medicacaoCompletada, null).then(
       (value) {
         ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Salvo!')));
+            .showSnackBar(SnackBar(content: Text(t().sharedSaved)));
       },
     );
   }

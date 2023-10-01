@@ -6,11 +6,12 @@ import 'package:pets/components/pet_avatar.dart';
 import 'package:pets/components/placeholder_ocorridos.dart';
 import 'package:pets/models/Medicacao/medicacao.dart';
 import 'package:pets/provider/eventos_provider.dart';
+import 'package:pets/translate.dart';
 
 import 'chip_evento.dart';
 import 'skeleton_list_tile.dart';
 
-class ListaOcorridos extends ConsumerWidget {
+class ListaOcorridos extends HookConsumerWidget {
   final ValueNotifier<bool> showMenu;
 
   const ListaOcorridos(this.showMenu, {Key? key}) : super(key: key);
@@ -18,12 +19,11 @@ class ListaOcorridos extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Linha do tempo',
+          t().dashboardTimeline,
           textAlign: TextAlign.start,
           style: theme.textTheme.titleLarge!.copyWith(
             color: theme.colorScheme.onBackground,
@@ -35,20 +35,24 @@ class ListaOcorridos extends ConsumerWidget {
                 context,
                 medicacoes.where((m) => m.completado).toList(),
               ),
-              error: erro,
+              error: (error, stackTrace) => erro(error, stackTrace, context),
               loading: carregando,
             ),
       ],
     );
   }
 
-  Column erro(Object error, StackTrace? stackTrace) {
-    return const Column(
+  Column erro(
+    Object error,
+    StackTrace? stackTrace,
+    BuildContext context,
+  ) {
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.all(8),
-          child: Text('Erro ao carregar agendamentos'),
+          padding: const EdgeInsets.all(8),
+          child: Text(t().errorWhileLoadingPending),
         ),
       ],
     );
@@ -108,7 +112,7 @@ class ListaOcorridos extends ConsumerWidget {
               Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text(date.fromNow()),
             const SizedBox(height: 4),
-            ChipEvento.parse(medicacao.tipo)
+            ChipEvento.parse(context, medicacao.tipo)
           ]),
           onTap: () => Navigator.pushNamed(
             context,

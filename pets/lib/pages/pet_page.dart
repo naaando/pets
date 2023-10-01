@@ -13,6 +13,7 @@ import 'package:pets/provider/form_state_provider.dart';
 import 'package:pets/provider/pet_provider.dart';
 import 'package:pets/provider/especie_provider.dart';
 import 'package:pets/provider/user_provider.dart';
+import 'package:pets/translate.dart';
 
 class PetPage extends HookConsumerWidget {
   const PetPage({super.key});
@@ -28,7 +29,7 @@ class PetPage extends HookConsumerWidget {
 
     final pet = useState(petFromRoute);
 
-    final title = pet.value.id != null ? pet.value.nome : 'Novo animal';
+    final title = pet.value.id != null ? pet.value.nome : t().petsNewPet;
     final formKey = ref.watch(petFormStateProvider);
     final petImgFile = useState<XFile?>(null);
 
@@ -49,7 +50,7 @@ class PetPage extends HookConsumerWidget {
                   pet.value,
                   petImgFile.value,
                 ),
-                tooltip: 'Salvar',
+                tooltip: t().sharedSave,
                 child: const Icon(Icons.check),
               )
             : null,
@@ -62,9 +63,9 @@ class PetPage extends HookConsumerWidget {
         return await showDialog(
           context: context,
           builder: (BuildContext context) => AlertDialog(
-            title: const Text("Cancelar alterações?"),
-            content: const Text(
-              "Para salvar as alterações use o botão suspenso no canto inferior direito.",
+            title: Text(t().sharedExitWithoutSaving),
+            content: Text(
+              t().sharedExitWithoutSavingMessage,
             ),
             actions: <Widget>[
               TextButton(
@@ -72,9 +73,9 @@ class PetPage extends HookConsumerWidget {
                   Navigator.of(context, rootNavigator: true)
                       .pop(true); // dismisses only the dialog and returns false
                 },
-                child: const Text(
-                  'Não salvar',
-                  style: TextStyle(color: Colors.red),
+                child: Text(
+                  t().sharedExitWithoutSavingConfirm,
+                  style: const TextStyle(color: Colors.red),
                 ),
               ),
               TextButton(
@@ -82,7 +83,7 @@ class PetPage extends HookConsumerWidget {
                   Navigator.of(context, rootNavigator: true)
                       .pop(false); // dismisses only the dialog and returns true
                 },
-                child: const Text('Voltar'),
+                child: Text(t().sharedExitWithoutSavingAbort),
               ),
             ],
           ),
@@ -150,17 +151,17 @@ class PetPage extends HookConsumerWidget {
                   const SizedBox(height: 20),
                   TextFormField(
                     initialValue: pet.value.nome,
-                    decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.pets),
-                      hintText: 'Nome do animal',
-                      labelText: 'Nome',
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.pets),
+                      hintText: t().petsAnimalName,
+                      labelText: t().petsName,
                     ),
                     onChanged: (newValue) {
                       pet.value = pet.value.copyWith(nome: newValue);
                     },
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Nome é obrigatório';
+                        return t().petsNameRequired;
                       }
 
                       return null;
@@ -169,9 +170,9 @@ class PetPage extends HookConsumerWidget {
                   const SizedBox(height: 20),
                   DropdownButtonFormField(
                     value: pet.value.especieId,
-                    decoration: const InputDecoration(
-                      hintText: 'Espécie do animal',
-                      labelText: 'Espécie',
+                    decoration: InputDecoration(
+                      hintText: t().petsAnimalType,
+                      labelText: t().petsType,
                     ),
                     items: especie.entries
                         .map((v) => DropdownMenuItem(
@@ -186,9 +187,9 @@ class PetPage extends HookConsumerWidget {
                   const SizedBox(height: 20),
                   TextFormField(
                     initialValue: pet.value.raca,
-                    decoration: const InputDecoration(
-                      hintText: 'Raça do animal',
-                      labelText: 'Raça',
+                    decoration: InputDecoration(
+                      hintText: t().petsAnimalBreed,
+                      labelText: t().petsBreed,
                     ),
                     onChanged: (newValue) {
                       pet.value = pet.value.copyWith(raca: newValue);
@@ -197,18 +198,18 @@ class PetPage extends HookConsumerWidget {
                   const SizedBox(height: 20),
                   DropdownButtonFormField(
                     value: pet.value.sexo,
-                    decoration: const InputDecoration(
-                      hintText: 'Sexo',
-                      labelText: 'Sexo',
+                    decoration: InputDecoration(
+                      hintText: t().petsGender,
+                      labelText: t().petsGender,
                     ),
-                    items: const [
+                    items: [
                       DropdownMenuItem(
                         value: 'macho',
-                        child: Text('Masculino'),
+                        child: Text(t().sharedMale),
                       ),
                       DropdownMenuItem(
                         value: 'femea',
-                        child: Text('Feminino'),
+                        child: Text(t().sharedFemale),
                       ),
                     ],
                     onChanged: (value) {
@@ -220,9 +221,9 @@ class PetPage extends HookConsumerWidget {
                     initialValue: pet.value.nascimento,
                     firstDate: DateTime(1900),
                     lastDate: DateTime.now(),
-                    decoration: const InputDecoration(
-                      hintText: 'Data de nascimento',
-                      labelText: 'Data de nascimento',
+                    decoration: InputDecoration(
+                      hintText: t().petsBirthDate,
+                      labelText: t().petsBirthDate,
                     ),
                     onDateChanged: (dateTime) {
                       pet.value = pet.value.copyWith(
@@ -235,9 +236,9 @@ class PetPage extends HookConsumerWidget {
                     initialValue: pet.value.castracao,
                     firstDate: DateTime(1900),
                     lastDate: DateTime.now(),
-                    decoration: const InputDecoration(
-                      hintText: 'Data de castração (aproximada)',
-                      labelText: 'Data de castração (aproximada)',
+                    decoration: InputDecoration(
+                      hintText: t().petsCastrationDate,
+                      labelText: t().petsCastrationDate,
                     ),
                     onDateChanged: (dateTime) {
                       pet.value = pet.value.copyWith(
@@ -248,11 +249,11 @@ class PetPage extends HookConsumerWidget {
                   const SizedBox(height: 20),
                   DropdownButtonFormField(
                     value: pet.value.maeId,
-                    decoration: const InputDecoration(
-                      hintText: 'Mãe',
-                      labelText: 'Mãe',
+                    decoration: InputDecoration(
+                      hintText: t().petsMother,
+                      labelText: t().petsMother,
                     ),
-                    items: femalePetsDropdown(pets),
+                    items: femalePetsDropdown(context, pets),
                     onChanged: (value) {
                       pet.value = pet.value.copyWith(maeId: value);
                     },
@@ -260,11 +261,11 @@ class PetPage extends HookConsumerWidget {
                   const SizedBox(height: 20),
                   DropdownButtonFormField(
                       value: pet.value.paiId,
-                      decoration: const InputDecoration(
-                        hintText: 'Pai',
-                        labelText: 'Pai',
+                      decoration: InputDecoration(
+                        hintText: t().petsFather,
+                        labelText: t().petsFather,
                       ),
-                      items: malePetsDropdown(pets),
+                      items: malePetsDropdown(context, pets),
                       onChanged: (value) {
                         pet.value = pet.value.copyWith(paiId: value);
                       }),
@@ -273,9 +274,9 @@ class PetPage extends HookConsumerWidget {
                     initialValue: pet.value.falecimento,
                     firstDate: DateTime(1900),
                     lastDate: DateTime.now(),
-                    decoration: const InputDecoration(
-                      hintText: 'Data de óbito',
-                      labelText: 'Data de óbito',
+                    decoration: InputDecoration(
+                      hintText: t().petsDeathDate,
+                      labelText: t().petsDeathDate,
                     ),
                     onDateChanged: (dateTime) {
                       pet.value = pet.value.copyWith(
@@ -288,7 +289,10 @@ class PetPage extends HookConsumerWidget {
             )));
   }
 
-  List<DropdownMenuItem<String>> malePetsDropdown(Map<String, Pet> pets) {
+  List<DropdownMenuItem<String>> malePetsDropdown(
+    BuildContext context,
+    Map<String, Pet> pets,
+  ) {
     return pets.values
         .where((animal) => animal.sexo == 'macho')
         .map((pet) => DropdownMenuItem(
@@ -298,13 +302,16 @@ class PetPage extends HookConsumerWidget {
         .toList()
       ..insert(
           0,
-          const DropdownMenuItem(
+          DropdownMenuItem(
             value: null,
-            child: Text('Desconhecido'),
+            child: Text(t().sharedUnknown),
           ));
   }
 
-  List<DropdownMenuItem<String>> femalePetsDropdown(Map<String, Pet> pets) {
+  List<DropdownMenuItem<String>> femalePetsDropdown(
+    BuildContext context,
+    Map<String, Pet> pets,
+  ) {
     return pets.values
         .where((animal) => animal.sexo == 'femea')
         .map(
@@ -316,15 +323,19 @@ class PetPage extends HookConsumerWidget {
         .toList()
       ..insert(
         0,
-        const DropdownMenuItem(
+        DropdownMenuItem(
           value: null,
-          child: Text('Desconhecido'),
+          child: Text(t().sharedUnknown),
         ),
       );
   }
 
   Widget petImage(
-      context, WidgetRef ref, Pet pet, ValueNotifier<XFile?> petImgFile) {
+    BuildContext context,
+    WidgetRef ref,
+    Pet pet,
+    ValueNotifier<XFile?> petImgFile,
+  ) {
     Widget thumbWidget;
     if (petImgFile.value != null) {
       thumbWidget = Image.file(
@@ -363,19 +374,23 @@ class PetPage extends HookConsumerWidget {
         });
   }
 
-  showDeleteAlert(BuildContext context, WidgetRef ref, Pet pet) {
+  showDeleteAlert(
+    BuildContext context,
+    WidgetRef ref,
+    Pet pet,
+  ) {
     AlertDialog alert = AlertDialog(
-      title: const Text("Excluir animal"),
-      content: Text("Você tem certeza que deseja excluir ${pet.nome}?"),
+      title: Text(t(context).petsConfirmDelete),
+      content: Text(t(context).petsConfirmDeleteContent(pet.nome)),
       actions: [
         TextButton(
-          child: const Text("Cancelar"),
+          child: Text(t(context).sharedCancel),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
         TextButton(
-          child: const Text("Excluir"),
+          child: Text(t(context).sharedExclude),
           onPressed: () {
             ref.read(petsProvider.notifier).remove(pet);
             Navigator.pop(context);
@@ -407,7 +422,7 @@ class PetPage extends HookConsumerWidget {
 
     ref.read(petsProvider.notifier).save(pet, petImgFile).then((savedPet) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Salvo!')),
+        SnackBar(content: Text(t().sharedSaved)),
       );
 
       Navigator.of(context).pop();
@@ -416,7 +431,7 @@ class PetPage extends HookConsumerWidget {
       var msg = error.response?.data['message'] ?? error.message;
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erro ao salvar!\n\n$msg')),
+        SnackBar(content: Text(t().sharedErrorWhileSaving(msg))),
       );
     });
   }

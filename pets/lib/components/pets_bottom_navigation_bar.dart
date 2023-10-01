@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/provider/pet_provider.dart';
+import 'package:pets/translate.dart';
 
-class PetsBottomNavigationBar extends ConsumerWidget {
+class PetsBottomNavigationBar extends HookConsumerWidget {
   const PetsBottomNavigationBar({super.key});
 
   @override
@@ -16,16 +17,17 @@ class PetsBottomNavigationBar extends ConsumerWidget {
       notchMargin: 12,
       child: TabBar(
         tabs: [
-          const Tab(
-            icon: Icon(Icons.home_rounded),
-            text: 'Home',
+          Tab(
+            icon: const Icon(Icons.home_rounded),
+            text: t().home,
           ),
           Tab(
             icon: const Icon(Icons.pets_rounded),
             text: pets.when(
-                data: (Map<String, Pet> pets) => '${pets.length} pets',
-                error: (object, stackTrace) => 'E',
-                loading: () => 'Pets'),
+              data: (Map<String, Pet> pets) => t().nPets(pets.length),
+              error: (object, stackTrace) => 'E',
+              loading: () => t().pets,
+            ),
           ),
         ],
       ),

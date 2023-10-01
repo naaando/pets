@@ -6,6 +6,7 @@ import 'package:pets/pages/pet_page.dart';
 import 'package:pets/pages/welcome_page.dart';
 import 'package:pets/provider/user_provider.dart';
 import 'package:pets/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class App extends ConsumerWidget {
   const App({super.key});
@@ -15,7 +16,7 @@ class App extends ConsumerWidget {
     final user = ref.watch(loggedUserProvider);
 
     return MaterialApp(
-      title: 'Cuidados com pets',
+      title: 'Pets',
       theme: lightTheme(),
       darkTheme: darkTheme(),
       themeMode: ThemeMode.system,
@@ -34,6 +35,8 @@ class App extends ConsumerWidget {
           child: CircularProgressIndicator(),
         ),
       ),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
     );
   }
 

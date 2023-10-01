@@ -4,8 +4,9 @@ import 'package:pets/components/pet_avatar.dart';
 import 'package:pets/components/skeleton_lista_pets.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/provider/pet_provider.dart';
+import 'package:pets/translate.dart';
 
-class ListaPets extends ConsumerWidget {
+class ListaPets extends HookConsumerWidget {
   const ListaPets({Key? key}) : super(key: key);
 
   @override
@@ -16,11 +17,14 @@ class ListaPets extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Seus pets',
-          textAlign: TextAlign.start,
-          style: theme.textTheme.titleLarge!.copyWith(
-            color: theme.colorScheme.onBackground,
+        Padding(
+          padding: const EdgeInsets.only(left: 12),
+          child: Text(
+            t().dashboardMyPets,
+            textAlign: TextAlign.start,
+            style: theme.textTheme.titleLarge!.copyWith(
+              color: theme.colorScheme.onBackground,
+            ),
           ),
         ),
         const SizedBox(height: 8),
@@ -46,7 +50,7 @@ class ListaPets extends ConsumerWidget {
       width: MediaQuery.of(context).size.width,
       height: 110,
       child: ListView(
-        padding: const EdgeInsets.only(left: 0, right: 4),
+        padding: const EdgeInsets.only(left: 12, right: 12),
         primary: false,
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,

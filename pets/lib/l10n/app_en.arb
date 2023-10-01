@@ -1,0 +1,137 @@
+{
+  "@@locale": "en",
+  "sharedNew": "New {item}",
+  "@sharedNew": {
+    "description": "New item",
+    "placeholders": {
+      "item": {
+        "description": "The item to create"
+      }
+    }
+  },
+  "sharedEditing": "Editing {item}",
+  "@sharedEditing": {
+    "description": "Editing item",
+    "placeholders": {
+      "item": {
+        "description": "The item to edit"
+      }
+    }
+  },
+  "sharedExitWithoutSaving": "Exit without saving?",
+  "sharedExitWithoutSavingMessage": "To save the changes use floating action button",
+  "sharedExitWithoutSavingConfirm": "Exit without saving",
+  "sharedExitWithoutSavingAbort": "Back to editing",
+  "sharedSave": "Save",
+  "sharedSaved": "Saved",
+  "sharedErrorWhileSaving": "Error while saving\n\n {msg}",
+  "@sharedErrorWhileSaving": {
+    "description": "Error while saving",
+    "placeholders": {
+      "msg": {
+        "description": "The error message"
+      }
+    }
+  },
+  "sharedInvalidFields": "Invalid fields",
+  "sharedUnknown": "Unknown",
+  "sharedCancel": "Cancel",
+  "sharedExclude": "Exclude",
+  "sharedMale": "Male",
+  "sharedFemale": "Female",
+  "dashboardMyPets": "My pets",
+  "@dashboardMyPets": {
+    "description": "The pets I own"
+  },
+  "dashboardTodo": "To Do",
+  "@dashboardTodo": {
+    "description": "The things I need to do"
+  },
+  "dashboardTimeline": "Timeline",
+  "@dashboardTimeline": {
+    "description": "The things I have done"
+  },
+  "medicineMain": "Main",
+  "@medicineMain": {
+    "description": "Main section of the medicine page"
+  },
+  "medicineType": "Type",
+  "medicinePrefixOn": "On ",
+  "medicineAnimal": "Animal",
+  "medicineAnimalRequired": "Animal is required",
+  "medicineName": "Name",
+  "medicineNameRequired": "Name is required",
+  "medicineDate": "Date",
+  "medicineDateRequired": "Date is required",
+  "medicineNextDose": "Next dose",
+  "medicineNextDoseOptional": "Leave empty if no next dose",
+  "medicineDelete": "Delete medicine",
+  "medicineDeleteContent": "Are you sure you want to delete {item}?",
+  "@medicineDeleteContent": {
+    "description": "Delete medicine content",
+    "placeholders": {
+      "item": {
+        "description": "The medicine to delete"
+      }
+    }
+  },
+  "medicineOtherInfo": "Other info",
+  "medicineProducer": "Producer",
+  "medicineVeterinary": "Veterinary",
+  "onboardingTitle": "Welcome",
+  "onboardingContent1": "You still ",
+  "onboardingContent2": "didn''t register",
+  "onboardingContent3": " any of your pets.",
+  "onboardingContent4": "Que tal cadastrar um agora?",
+  "onboardingNoPetsCta": "Cadastrar novo pet",
+  "onboardingAcessibleLabel": "A person with a dog walking",
+  "petsNewPet": "New pet",
+  "petsAnimalName": "Animal name",
+  "petsName": "Name",
+  "petsNameRequired": "Name is required",
+  "petsType": "Type",
+  "petsAnimalType": "Animal type",
+  "petsBreed": "Breed",
+  "petsAnimalBreed": "Animal breed",
+  "petsGender": "Gender",
+  "petsBirthDate": "Birth date",
+  "petsCastrationDate": "Castration date (aproximated)",
+  "petsMother": "Mother",
+  "petsFather": "Father",
+  "petsDeathDate": "Death date",
+  "petsConfirmDelete": "Delete pet",
+  "petsConfirmDeleteContent": "Are you sure you want to delete {item}?",
+  "vaccine": "Vaccine",
+  "medication": "Medication",
+  "errorWhileLoadingPending": "Error while loading pending",
+  "errorWhileLoadingGeneric": "Error while loading {item}",
+  "pet": "Pet",
+  "pets": "Pets",
+  "nPets": "{count, plural, =0 {No pets} =1 {1 pet} other {{count} pets}}",
+  "age": "Age",
+  "specie": "Specie",
+  "breed": "Breed",
+  "castred": "Castred",
+  "notCastred": "Not castred",
+  "dead": "Dead",
+  "home": "Home",
+  "loading": "Loading",
+  "helloUser": "Hello, {user}",
+  "search": "Search",
+  "registerEvent": "Register event",
+  "schedule": "Schedule",
+  "placeholderTimeline1": "Like in pending you can follow events of the animal that happened.\n\n",
+  "placeholderTimeline2": "When you ",
+  "placeholderTimeline3": "finish",
+  "placeholderTimeline4": " a pending event it comes here.\n",
+  "placeholderTimeline5": "In the same way when you register something ",
+  "placeholderTimeline6": "with a date in the past",
+  "placeholderTimeline7": " it also comes here.\n",
+  "placeholderProximos1": "You can schedule ",
+  "placeholderProximos2": "Appointments, vaccinations, medications, and other tasks and commitments ",
+  "placeholderProximos3": "of the animal.\n\n",
+  "placeholderProximos4": "Appointments can be ",
+  "placeholderProximos5": "repetitions for routine tasks",
+  "placeholderProximos6": " or ",
+  "placeholderProximos7": "by quantity, like doses in medications.\n"
+}

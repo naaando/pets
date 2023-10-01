@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:pets/translate.dart';
 
 class Menu extends HookWidget {
   final ValueNotifier<bool> showMenu;
@@ -68,7 +69,7 @@ class Menu extends HookWidget {
         height: 110,
       ),
       FloatingActionButton.extended(
-        label: const Text('Vacina'),
+        label: Text(t().vaccine),
         onPressed: () {
           toggleMenu();
           Navigator.pushNamed(context, '/cadastro-vacina');
@@ -80,7 +81,7 @@ class Menu extends HookWidget {
         height: 8,
       ),
       FloatingActionButton.extended(
-        label: const Text('Medicação'),
+        label: Text(t().medication),
         onPressed: () {
           toggleMenu();
           Navigator.pushNamed(context, '/medicacao');
@@ -92,7 +93,7 @@ class Menu extends HookWidget {
         height: 8,
       ),
       FloatingActionButton.extended(
-        label: const Text('Pet'),
+        label: Text(t().pet),
         onPressed: () {
           toggleMenu();
           Navigator.pushNamed(context, '/cadastro-pet');

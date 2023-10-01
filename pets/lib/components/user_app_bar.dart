@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pets/provider/user_provider.dart';
 import 'package:fast_cached_network_image/fast_cached_network_image.dart';
+import 'package:pets/translate.dart';
 
 class UserAppBar extends HookConsumerWidget implements PreferredSizeWidget {
   const UserAppBar({
@@ -26,7 +27,7 @@ class UserAppBar extends HookConsumerWidget implements PreferredSizeWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Text(
-            'Olá, ${user.name}',
+            t().helloUser(user.name!),
             style: TextStyle(
               color: Theme.of(context).colorScheme.onSurface,
               fontSize: 12,

@@ -46,7 +46,7 @@ class Medicacao with _$Medicacao {
       );
 
   // @ignore
-  get tipoExtenso {
+  String get tipoExtenso {
     switch (tipo) {
       case 'medicacao':
         return 'Medicação';
