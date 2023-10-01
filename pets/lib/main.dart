@@ -26,8 +26,12 @@ Future<void> _configureLocalTimeZone() async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  initializeDateFormatting('pt_BR');
-  Jiffy.setLocale('pt_BR');
+  String locale = Platform.localeName;
+
+  initializeDateFormatting(locale);
+
+  Jiffy.setLocale(locale);
+
   await _configureLocalTimeZone();
 
   await notificationsInitializer();
