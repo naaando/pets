@@ -119,5 +119,19 @@
   "helloUser": "Hello, {user}",
   "search": "Search",
   "registerEvent": "Register event",
-  "schedule": "Schedule"
+  "schedule": "Schedule",
+  "placeholderTimeline1": "Like in pending you can follow events of the animal that happened.\n\n",
+  "placeholderTimeline2": "When you ",
+  "placeholderTimeline3": "finish",
+  "placeholderTimeline4": " a pending event it comes here.\n",
+  "placeholderTimeline5": "In the same way when you register something ",
+  "placeholderTimeline6": "with a date in the past",
+  "placeholderTimeline7": " it also comes here.\n",
+  "placeholderProximos1": "You can schedule ",
+  "placeholderProximos2": "Appointments, vaccinations, medications, and other tasks and commitments ",
+  "placeholderProximos3": "of the animal.\n\n",
+  "placeholderProximos4": "Appointments can be ",
+  "placeholderProximos5": "repetitions for routine tasks",
+  "placeholderProximos6": " or ",
+  "placeholderProximos7": "by quantity, like doses in medications.\n"
 }

@@ -27,39 +27,38 @@ class PlaceholderProximos extends HookWidget {
                 children: [
                   TextSpan(
                     children: [
-                      const TextSpan(
-                        text: 'Você pode agendar ',
+                      TextSpan(
+                        text: t().placeholderProximos1,
                       ),
                       TextSpan(
-                        text:
-                            'consultas, vacinas, medicações e outras tarefas e compromissos ',
+                        text: t().placeholderProximos2,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.onPrimaryContainer,
                         ),
                       ),
-                      const TextSpan(
-                        text: 'do animal.\n\n',
+                      TextSpan(
+                        text: t().placeholderProximos3,
                       )
                     ],
                   ),
                   TextSpan(
                     children: [
-                      const TextSpan(
-                        text: 'Os agendamentos podem ',
+                      TextSpan(
+                        text: t().placeholderProximos4,
                       ),
                       TextSpan(
-                        text: 'ser repetições para tarefas rotineiras',
+                        text: t().placeholderProximos5,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.onPrimaryContainer,
                         ),
                       ),
-                      const TextSpan(
-                        text: ' ou ',
+                      TextSpan(
+                        text: t().placeholderProximos6,
                       ),
                       TextSpan(
-                        text: 'por quantidade como as doses em medicamentos.\n',
+                        text: t().placeholderProximos7,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.onPrimaryContainer,

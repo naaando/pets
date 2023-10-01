@@ -26,41 +26,40 @@ class PlaceholderOcorridos extends HookWidget {
               child: Text.rich(
                 TextSpan(children: [
                   TextSpan(
-                    text:
-                        'Assim como nos agendados você pode acompanhar eventos do animal que foram registrados.\n\n',
+                    text: t().placeholderTimeline1,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   TextSpan(
                     children: [
-                      const TextSpan(
-                        text: 'Quando você ',
+                      TextSpan(
+                        text: t().placeholderTimeline2,
                       ),
                       TextSpan(
-                        text: 'conclui',
+                        text: t().placeholderTimeline3,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.onPrimaryContainer,
                         ),
                       ),
-                      const TextSpan(
-                        text: ' um agendamento ele vem para cá.\n',
+                      TextSpan(
+                        text: t().placeholderTimeline4,
                       ),
                     ],
                   ),
                   TextSpan(
                     children: [
-                      const TextSpan(
-                        text: 'Da mesma forma quando anota algum registro ',
+                      TextSpan(
+                        text: t().placeholderTimeline5,
                       ),
                       TextSpan(
-                        text: 'com a data no passado',
+                        text: t().placeholderTimeline5,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.onPrimaryContainer,
                         ),
                       ),
-                      const TextSpan(
-                        text: ' ele também vem para cá.\n',
+                      TextSpan(
+                        text: t().placeholderTimeline6,
                       ),
                     ],
                   )
