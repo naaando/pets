@@ -41,8 +41,8 @@ class HomePage extends HookConsumerWidget {
     return Scaffold(
       body: Center(
         child: Text(
-          t().errorWhileLoadingGeneric(
-            t().pets.toLowerCase(),
+          t(useContext()).errorWhileLoadingGeneric(
+            t(useContext()).pets.toLowerCase(),
           ),
         ),
       ),

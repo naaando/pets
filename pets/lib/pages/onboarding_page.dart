@@ -45,7 +45,7 @@ class OnboardingPage extends HookConsumerWidget {
       mainAxisSize: MainAxisSize.max,
       children: [
         Text(
-          t().onboardingTitle,
+          t(context).onboardingTitle,
           style: theme.textTheme.headlineMedium!
               .copyWith(color: theme.colorScheme.onPrimaryContainer),
         ),
@@ -57,22 +57,22 @@ class OnboardingPage extends HookConsumerWidget {
             text: TextSpan(
               style: TextStyle(color: theme.colorScheme.onPrimaryContainer),
               children: [
-                TextSpan(text: t().onboardingContent1),
+                TextSpan(text: t(context).onboardingContent1),
                 TextSpan(
-                  text: t().onboardingContent2,
+                  text: t(context).onboardingContent2,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                TextSpan(text: t().onboardingContent3)
+                TextSpan(text: t(context).onboardingContent3)
               ],
             ),
           ),
         ),
         centerSpacer,
-        Text(t().onboardingContent4),
+        Text(t(context).onboardingContent4),
         const SizedBox(height: 20),
         FilledButton.icon(
           onPressed: () => Navigator.pushNamed(context, '/cadastro-pet'),
-          label: Text(t().onboardingNoPetsCta),
+          label: Text(t(context).onboardingNoPetsCta),
           icon: const Icon(Icons.add),
         )
       ],
@@ -82,7 +82,7 @@ class OnboardingPage extends HookConsumerWidget {
   SvgPicture backgroundImage(BuildContext context) {
     return SvgPicture.asset(
       'assets/images/onboarding_background.svg',
-      semanticsLabel: t().onboardingAcessibleLabel,
+      semanticsLabel: t(context).onboardingAcessibleLabel,
       width: MediaQuery.of(context).size.width * 0.95,
     );
   }

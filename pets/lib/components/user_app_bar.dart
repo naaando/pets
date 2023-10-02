@@ -27,7 +27,7 @@ class UserAppBar extends HookConsumerWidget implements PreferredSizeWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Text(
-            t().helloUser(user.name!),
+            t(context).helloUser(user.name!),
             style: TextStyle(
               color: Theme.of(context).colorScheme.onSurface,
               fontSize: 12,

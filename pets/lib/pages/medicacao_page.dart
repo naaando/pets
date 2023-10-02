@@ -37,8 +37,8 @@ class MedicacaoPage extends HookConsumerWidget {
     final proximaData = useState<String?>(null);
 
     final title = medicacao.value.id != null
-        ? t().sharedEditing(medicacao.value.tipoExtenso.toLowerCase())
-        : t().sharedNew(medicacao.value.tipoExtenso.toLowerCase());
+        ? t(context).sharedEditing(medicacao.value.tipoExtenso.toLowerCase())
+        : t(context).sharedNew(medicacao.value.tipoExtenso.toLowerCase());
 
     final formKey = useRef(GlobalKey<FormState>());
 
@@ -90,10 +90,10 @@ class MedicacaoPage extends HookConsumerWidget {
       context: context,
       builder: (BuildContext context) => AlertDialog(
         title: Text(
-          t().sharedExitWithoutSaving,
+          t(context).sharedExitWithoutSaving,
         ),
         content: Text(
-          t().sharedExitWithoutSavingMessage,
+          t(context).sharedExitWithoutSavingMessage,
         ),
         actions: <Widget>[
           TextButton(
@@ -101,7 +101,7 @@ class MedicacaoPage extends HookConsumerWidget {
               Navigator.of(context, rootNavigator: true).pop(true);
             },
             child: Text(
-              t().sharedExitWithoutSavingConfirm,
+              t(context).sharedExitWithoutSavingConfirm,
               style: const TextStyle(color: Colors.red),
             ),
           ),
@@ -110,7 +110,7 @@ class MedicacaoPage extends HookConsumerWidget {
               Navigator.of(context, rootNavigator: true).pop(false);
             },
             child: Text(
-              t().sharedExitWithoutSavingAbort,
+              t(context).sharedExitWithoutSavingAbort,
             ),
           ),
         ],
@@ -132,7 +132,7 @@ class MedicacaoPage extends HookConsumerWidget {
         if (!formKey.currentState!.validate()) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(t().sharedInvalidFields),
+              content: Text(t(context).sharedInvalidFields),
             ),
           );
 
@@ -148,7 +148,7 @@ class MedicacaoPage extends HookConsumerWidget {
             .then((value) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(t().sharedSaved),
+              content: Text(t(context).sharedSaved),
             ),
           );
 
@@ -160,13 +160,13 @@ class MedicacaoPage extends HookConsumerWidget {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                t().sharedErrorWhileSaving(msg),
+                t(context).sharedErrorWhileSaving(msg),
               ),
             ),
           );
         });
       },
-      tooltip: t().sharedSave,
+      tooltip: t(context).sharedSave,
       child: const Icon(Icons.check),
     );
   }
@@ -219,7 +219,7 @@ class MedicacaoPage extends HookConsumerWidget {
     Map<String, Pet> pets,
   ) {
     return ExpansionTile(
-      title: Text(t().medicineMain),
+      title: Text(t(context).medicineMain),
       leading: const Icon(Icons.event),
       initiallyExpanded: true,
       childrenPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
@@ -227,8 +227,8 @@ class MedicacaoPage extends HookConsumerWidget {
         DropdownButtonFormField<String>(
           value: medicacao.value.tipo,
           decoration: InputDecoration(
-            hintText: t().medicineType,
-            labelText: t().medicineType,
+            hintText: t(context).medicineType,
+            labelText: t(context).medicineType,
           ),
           items: const [
             DropdownMenuItem(
@@ -253,8 +253,8 @@ class MedicacaoPage extends HookConsumerWidget {
         DropdownButtonFormField<Pet?>(
           value: medicacao.value.pet,
           decoration: InputDecoration(
-            hintText: t().medicineAnimal,
-            labelText: t().medicineAnimal,
+            hintText: t(context).medicineAnimal,
+            labelText: t(context).medicineAnimal,
           ),
           items: petsDropdown(context, medicacao.value.pet, pets),
           onChanged: (Pet? value) {
@@ -262,18 +262,18 @@ class MedicacaoPage extends HookConsumerWidget {
             medicacao.value = medicacao.value.copyWith(pet: value);
           },
           validator: (value) =>
-              value == null ? t().medicineAnimalRequired : null,
+              value == null ? t(context).medicineAnimalRequired : null,
         ),
         const SizedBox(height: 20),
         TextFormField(
           initialValue: medicacao.value.nome,
           decoration: InputDecoration(
-            hintText: t().medicineName,
-            labelText: t().medicineName,
+            hintText: t(context).medicineName,
+            labelText: t(context).medicineName,
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return t().medicineNameRequired;
+              return t(context).medicineNameRequired;
             }
             return null;
           },
@@ -287,10 +287,10 @@ class MedicacaoPage extends HookConsumerWidget {
           firstDate: DateTime.now().subtract(const Duration(days: 365)),
           lastDate: DateTime.now().add(const Duration(days: 365)),
           decoration: InputDecoration(
-            hintText: t().medicineDate,
-            labelText: t().medicineDate,
-            prefixText: t().medicinePrefixOn,
-            suffixIcon: Icon(Icons.alarm_on_rounded),
+            hintText: t(context).medicineDate,
+            labelText: t(context).medicineDate,
+            prefixText: t(context).medicinePrefixOn,
+            suffixIcon: const Icon(Icons.alarm_on_rounded),
           ),
           onDateChanged: (dateTime) {
             medicacao.value =
@@ -298,7 +298,7 @@ class MedicacaoPage extends HookConsumerWidget {
           },
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return t().medicineDateRequired;
+              return t(context).medicineDateRequired;
             }
             return null;
           },
@@ -334,11 +334,11 @@ class MedicacaoPage extends HookConsumerWidget {
         firstDate: DateTime.now(),
         lastDate: DateTime.now().add(const Duration(days: 365)),
         decoration: InputDecoration(
-          hintText: t().medicineNextDose,
-          labelText: t().medicineNextDose,
-          helperText: t().medicineNextDoseOptional,
-          prefixText: t().medicinePrefixOn,
-          suffixIcon: Icon(Icons.alarm_add_rounded),
+          hintText: t(context).medicineNextDose,
+          labelText: t(context).medicineNextDose,
+          helperText: t(context).medicineNextDoseOptional,
+          prefixText: t(context).medicinePrefixOn,
+          suffixIcon: const Icon(Icons.alarm_add_rounded),
         ),
         onDateChanged: (dateTime) =>
             proximaData.value = dateTime?.toIso8601String(),
@@ -365,7 +365,7 @@ class MedicacaoPage extends HookConsumerWidget {
         0,
         DropdownMenuItem(
           value: null,
-          child: Text(t().sharedUnknown),
+          child: Text(t(context).sharedUnknown),
         ),
       );
   }
@@ -411,15 +411,15 @@ class MedicacaoPage extends HookConsumerWidget {
     ValueNotifier<Medicacao> medicacao,
   ) {
     return ExpansionTile(
-      title: Text(t().medicineOtherInfo),
+      title: Text(t(context).medicineOtherInfo),
       leading: const Icon(Icons.dataset),
       childrenPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
       children: [
         TextFormField(
           initialValue: medicacao.value.atributos.fabricante,
           decoration: InputDecoration(
-            hintText: t().medicineProducer,
-            labelText: t().medicineProducer,
+            hintText: t(context).medicineProducer,
+            labelText: t(context).medicineProducer,
           ),
           onChanged: (newValue) {
             medicacao.value =
@@ -430,8 +430,8 @@ class MedicacaoPage extends HookConsumerWidget {
         TextFormField(
           initialValue: medicacao.value.atributos.veterinario,
           decoration: InputDecoration(
-            hintText: t().medicineVeterinary,
-            labelText: t().medicineVeterinary,
+            hintText: t(context).medicineVeterinary,
+            labelText: t(context).medicineVeterinary,
           ),
           onChanged: (newValue) {
             medicacao.value =

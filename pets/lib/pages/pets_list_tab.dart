@@ -75,7 +75,7 @@ class PetsListTab extends HookConsumerWidget {
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
-          labelText: t().search,
+          labelText: t(useContext()).search,
           prefixIcon: const Icon(Icons.search),
           suffixIcon: pesquisa.value == ''
               ? null

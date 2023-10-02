@@ -69,7 +69,7 @@ class Menu extends HookWidget {
         height: 110,
       ),
       FloatingActionButton.extended(
-        label: Text(t().vaccine),
+        label: Text(t(context).vaccine),
         onPressed: () {
           toggleMenu();
           Navigator.pushNamed(context, '/cadastro-vacina');
@@ -81,7 +81,7 @@ class Menu extends HookWidget {
         height: 8,
       ),
       FloatingActionButton.extended(
-        label: Text(t().medication),
+        label: Text(t(context).medication),
         onPressed: () {
           toggleMenu();
           Navigator.pushNamed(context, '/medicacao');
@@ -93,7 +93,7 @@ class Menu extends HookWidget {
         height: 8,
       ),
       FloatingActionButton.extended(
-        label: Text(t().pet),
+        label: Text(t(context).pet),
         onPressed: () {
           toggleMenu();
           Navigator.pushNamed(context, '/cadastro-pet');

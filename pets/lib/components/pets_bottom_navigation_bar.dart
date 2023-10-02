@@ -19,14 +19,14 @@ class PetsBottomNavigationBar extends HookConsumerWidget {
         tabs: [
           Tab(
             icon: const Icon(Icons.home_rounded),
-            text: t().home,
+            text: t(context).home,
           ),
           Tab(
             icon: const Icon(Icons.pets_rounded),
             text: pets.when(
-              data: (Map<String, Pet> pets) => t().nPets(pets.length),
+              data: (Map<String, Pet> pets) => t(context).nPets(pets.length),
               error: (object, stackTrace) => 'E',
-              loading: () => t().pets,
+              loading: () => t(context).pets,
             ),
           ),
         ],

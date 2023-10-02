@@ -28,37 +28,37 @@ class PlaceholderProximos extends HookWidget {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: t().placeholderProximos1,
+                        text: t(context).placeholderProximos1,
                       ),
                       TextSpan(
-                        text: t().placeholderProximos2,
+                        text: t(context).placeholderProximos2,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.onPrimaryContainer,
                         ),
                       ),
                       TextSpan(
-                        text: t().placeholderProximos3,
+                        text: t(context).placeholderProximos3,
                       )
                     ],
                   ),
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: t().placeholderProximos4,
+                        text: t(context).placeholderProximos4,
                       ),
                       TextSpan(
-                        text: t().placeholderProximos5,
+                        text: t(context).placeholderProximos5,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.onPrimaryContainer,
                         ),
                       ),
                       TextSpan(
-                        text: t().placeholderProximos6,
+                        text: t(context).placeholderProximos6,
                       ),
                       TextSpan(
-                        text: t().placeholderProximos7,
+                        text: t(context).placeholderProximos7,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.onPrimaryContainer,
@@ -81,7 +81,7 @@ class PlaceholderProximos extends HookWidget {
           child: FilledButton.icon(
             onPressed: () => showMenu.value = !showMenu.value,
             icon: const Icon(Icons.add),
-            label: Text(t().schedule),
+            label: Text(t(context).schedule),
           ),
         ),
       ],

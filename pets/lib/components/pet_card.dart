@@ -72,7 +72,7 @@ class PetCard extends HookWidget {
   List<List<Widget>> info(BuildContext context) {
     final idade = info2Text(
       context,
-      '${t().age} ',
+      '${t(context).age} ',
       pet.nascimento != null
           ? Jiffy.parse(pet.nascimento ?? '')
               .fromNow(withPrefixAndSuffix: false)
@@ -81,13 +81,13 @@ class PetCard extends HookWidget {
 
     final especie = info2Text(
       context,
-      '${t().specie} ',
+      '${t(context).specie} ',
       pet.especie?.nome,
     );
 
     final raca = info2Text(
       context,
-      '${t().breed} ',
+      '${t(context).breed} ',
       pet.raca,
     );
 
@@ -124,8 +124,8 @@ class PetCard extends HookWidget {
       Badge(
         backgroundColor: castrado ? colorSet[0] : colorSet[1],
         label: castrado
-            ? Text(t().castred, style: textStyle)
-            : Text(t().notCastred, style: textStyle),
+            ? Text(t(context).castred, style: textStyle)
+            : Text(t(context).notCastred, style: textStyle),
       ),
     ];
 
@@ -134,8 +134,8 @@ class PetCard extends HookWidget {
         Badge(
           backgroundColor: macho ? colorSet[2] : colorSet[3],
           label: macho
-              ? Text(t().sharedMale, style: textStyle)
-              : Text(t().sharedFemale, style: textStyle),
+              ? Text(t(context).sharedMale, style: textStyle)
+              : Text(t(context).sharedFemale, style: textStyle),
         ),
       ]);
     }
@@ -144,7 +144,7 @@ class PetCard extends HookWidget {
       badges.addAll([
         Badge(
           backgroundColor: colorSet[4],
-          label: Text(t().dead, style: textStyle),
+          label: Text(t(context).dead, style: textStyle),
         ),
       ]);
     }

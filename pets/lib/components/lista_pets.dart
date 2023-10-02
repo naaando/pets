@@ -20,7 +20,7 @@ class ListaPets extends HookConsumerWidget {
         Padding(
           padding: const EdgeInsets.only(left: 12),
           child: Text(
-            t().dashboardMyPets,
+            t(context).dashboardMyPets,
             textAlign: TextAlign.start,
             style: theme.textTheme.titleLarge!.copyWith(
               color: theme.colorScheme.onBackground,
