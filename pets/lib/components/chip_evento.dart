@@ -27,7 +27,7 @@ class ChipEvento extends HookWidget {
 
   factory ChipEvento.vacina(BuildContext context) {
     return ChipEvento(
-      label: t().vaccine,
+      label: t(context).vaccine,
       icon: Icons.vaccines,
       color: Colors.purple,
     );
@@ -35,7 +35,7 @@ class ChipEvento extends HookWidget {
 
   factory ChipEvento.medicacao(BuildContext context) {
     return ChipEvento(
-      label: t().medication,
+      label: t(context).medication,
       icon: Icons.medical_services,
       color: Colors.green,
     );

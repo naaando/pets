@@ -23,7 +23,7 @@ class ListaOcorridos extends HookConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          t().dashboardTimeline,
+          t(context).dashboardTimeline,
           textAlign: TextAlign.start,
           style: theme.textTheme.titleLarge!.copyWith(
             color: theme.colorScheme.onBackground,
@@ -52,7 +52,7 @@ class ListaOcorridos extends HookConsumerWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(8),
-          child: Text(t().errorWhileLoadingPending),
+          child: Text(t(context).errorWhileLoadingPending),
         ),
       ],
     );

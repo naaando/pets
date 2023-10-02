@@ -26,40 +26,40 @@ class PlaceholderOcorridos extends HookWidget {
               child: Text.rich(
                 TextSpan(children: [
                   TextSpan(
-                    text: t().placeholderTimeline1,
+                    text: t(context).placeholderTimeline1,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: t().placeholderTimeline2,
+                        text: t(context).placeholderTimeline2,
                       ),
                       TextSpan(
-                        text: t().placeholderTimeline3,
+                        text: t(context).placeholderTimeline3,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.onPrimaryContainer,
                         ),
                       ),
                       TextSpan(
-                        text: t().placeholderTimeline4,
+                        text: t(context).placeholderTimeline4,
                       ),
                     ],
                   ),
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: t().placeholderTimeline5,
+                        text: t(context).placeholderTimeline5,
                       ),
                       TextSpan(
-                        text: t().placeholderTimeline5,
+                        text: t(context).placeholderTimeline5,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.onPrimaryContainer,
                         ),
                       ),
                       TextSpan(
-                        text: t().placeholderTimeline6,
+                        text: t(context).placeholderTimeline6,
                       ),
                     ],
                   )
@@ -76,7 +76,7 @@ class PlaceholderOcorridos extends HookWidget {
           child: FilledButton.icon(
             onPressed: () => showMenu.value = !showMenu.value,
             icon: const Icon(Icons.add),
-            label: Text(t().registerEvent),
+            label: Text(t(context).registerEvent),
           ),
         ),
       ],

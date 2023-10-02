@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:pets/components/my_physical_shape.dart';
@@ -25,7 +26,7 @@ class ListaProximos extends HookConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          t().dashboardTodo,
+          t(context).dashboardTodo,
           textAlign: TextAlign.start,
           style: theme.textTheme.titleLarge!.copyWith(
             color: theme.colorScheme.onBackground,
@@ -51,7 +52,7 @@ class ListaProximos extends HookConsumerWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(8),
-          child: Text(t().errorWhileLoadingPending),
+          child: Text(t(useContext()).errorWhileLoadingPending),
         ),
       ],
     );
@@ -165,7 +166,7 @@ class ListaProximos extends HookConsumerWidget {
     ref.read(medicacoesProvider.notifier).save(medicacaoCompletada, null).then(
       (value) {
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(t().sharedSaved)));
+            .showSnackBar(SnackBar(content: Text(t(context)..sharedSaved)));
       },
     );
   }

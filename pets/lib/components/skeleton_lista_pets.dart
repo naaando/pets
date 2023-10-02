@@ -33,7 +33,7 @@ class SkeletonListaPets extends HookWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      t().loading,
+                      t(context).loading,
                       style: TextStyle(backgroundColor: baseColor),
                     ),
                   ],
