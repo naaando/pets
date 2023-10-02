@@ -166,7 +166,7 @@ class ListaProximos extends HookConsumerWidget {
     ref.read(medicacoesProvider.notifier).save(medicacaoCompletada, null).then(
       (value) {
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(t(context)..sharedSaved)));
+            .showSnackBar(SnackBar(content: Text(t(context).sharedSaved)));
       },
     );
   }
