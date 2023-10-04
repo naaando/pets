@@ -5,6 +5,7 @@ import 'package:pets/config.dart';
 import 'package:pets/http_client.dart';
 import 'package:pets/provider/user_provider.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:sentry_dio/sentry_dio.dart';
 
 googleSignIn(WidgetRef ref) async {
   GoogleSignIn googleSignIn = GoogleSignIn(
@@ -25,6 +26,7 @@ googleSignIn(WidgetRef ref) async {
   Dio dio = Dio();
   dio.options.headers.addAll(authHeaders!);
   dio.options.headers['idToken'] = '${authentication?.idToken}';
+  dio.addSentry();
 
   var sanctumToken =
       await dio.getUri(baseUri.replace(path: '/api/auth/google-idtoken'));

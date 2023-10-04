@@ -7,6 +7,7 @@ import 'package:pets/pages/welcome_page.dart';
 import 'package:pets/provider/user_provider.dart';
 import 'package:pets/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 class App extends ConsumerWidget {
   const App({super.key});
@@ -37,6 +38,9 @@ class App extends ConsumerWidget {
       ),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
+      navigatorObservers: [
+        SentryNavigatorObserver(),
+      ],
     );
   }
 

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:pets/config.dart';
+import 'package:sentry_dio/sentry_dio.dart';
 
 BaseOptions baseOptions = BaseOptions(
     baseUrl: baseUri.toString(),
@@ -12,7 +13,9 @@ BaseOptions baseOptions = BaseOptions(
 class HttpClient {
   late Dio httpClient = Dio(baseOptions);
 
-  HttpClient();
+  HttpClient() {
+    httpClient.addSentry();
+  }
 
   setAuthorizationToken(String token) {
     httpClient.options.headers['Authorization'] = 'Bearer $token';

@@ -8,6 +8,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:pets/app.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:sentry_logging/sentry_logging.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_timezone/flutter_timezone.dart';
@@ -40,7 +41,7 @@ void main() async {
 
   await SentryFlutter.init(
     (options) {
-      options.tracesSampleRate = 1.0;
+      options.addIntegration(LoggingIntegration());
     },
     appRunner: () => runApp(
       const ProviderScope(
