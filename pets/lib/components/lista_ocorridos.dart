@@ -32,6 +32,7 @@ class ListaOcorridos extends HookConsumerWidget {
         const SizedBox(height: 8),
         ref.watch(eventosProvider).when(
               data: (medicacoes) => lista(
+                ref,
                 context,
                 medicacoes.where((m) => m.completado).toList(),
               ),
@@ -70,14 +71,18 @@ class ListaOcorridos extends HookConsumerWidget {
     );
   }
 
-  Widget lista(BuildContext context, List<Medicacao> medicacoes) {
+  Widget lista(
+    WidgetRef ref,
+    BuildContext context,
+    List<Medicacao> medicacoes,
+  ) {
     if (medicacoes.isEmpty) {
       return PlaceholderOcorridos(showMenu);
     }
 
     final medicacoesComoEvento = medicacoes
         .map<MapEntry<int, Widget>>(
-            (medicacao) => medicacaoComoEvento(context, medicacao))
+            (medicacao) => medicacaoComoEvento(ref, context, medicacao))
         .toList();
 
     final eventosPorData = medicacoesComoEvento
@@ -90,6 +95,7 @@ class ListaOcorridos extends HookConsumerWidget {
   }
 
   MapEntry<int, Widget> medicacaoComoEvento(
+    WidgetRef ref,
     BuildContext context,
     Medicacao medicacao,
   ) {
@@ -97,6 +103,8 @@ class ListaOcorridos extends HookConsumerWidget {
     String title = pet.nome;
     String subtitle = medicacao.nome;
     Jiffy date = Jiffy.parse(medicacao.quando!, isUtc: true).toLocal();
+
+    final scheme = Theme.of(context).colorScheme;
 
     final defaultTileColor = Theme.of(context).colorScheme.primaryContainer;
 
@@ -108,12 +116,26 @@ class ListaOcorridos extends HookConsumerWidget {
           leading: PetAvatar.fromPet(pet),
           title: Text(title),
           subtitle: Text(subtitle),
-          trailing:
-              Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text(date.fromNow()),
-            const SizedBox(height: 4),
-            ChipEvento.parse(context, medicacao.tipo)
-          ]),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(date.fromNow()),
+                  const SizedBox(height: 4),
+                  ChipEvento.parse(context, medicacao.tipo)
+                ],
+              ),
+              const SizedBox(width: 8),
+              IconButton(
+                onPressed: () => copiar(ref, context, medicacao),
+                icon: const Icon(Icons.copy_all),
+                color: scheme.primary,
+              ),
+            ],
+          ),
           onTap: () => Navigator.pushNamed(
             context,
             '/medicacao',
@@ -124,5 +146,17 @@ class ListaOcorridos extends HookConsumerWidget {
     );
 
     return MapEntry(date.millisecondsSinceEpoch, widget);
+  }
+
+  copiar(
+    WidgetRef ref,
+    BuildContext context,
+    Medicacao medicacao,
+  ) {
+    Navigator.pushNamed(
+      context,
+      '/medicacao',
+      arguments: medicacao.copyWith(id: null, completado: false),
+    );
   }
 }
