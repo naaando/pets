@@ -63,7 +63,17 @@ class PetRepository {
       )
     });
 
-    var response = await dio.post('api/pets/${pet.id}/image', data: formData);
+    var response = await dio.post(
+      'api/pets/${pet.id}/image',
+      data: formData,
+      options: Options(
+        contentType: Headers.jsonContentType,
+        responseType: ResponseType.json,
+        headers: {
+          'Accept': 'application/json',
+        },
+      ),
+    );
 
     return response.data['path'];
   }

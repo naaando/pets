@@ -40,21 +40,25 @@ class Pets extends _$Pets {
     state = const AsyncValue.loading();
 
     final rep = ref.read(petRepositoryProvider);
-    var savedPet = await rep.save(pet);
 
-    if (image != null) {
-      final imageUrl = await updateProfilePicture(
-        savedPet,
-        image,
-        invalidateSelf: false,
-      );
+    try {
+      var savedPet = await rep.save(pet);
 
-      savedPet = savedPet.copyWith(imagemUrl: imageUrl);
+      if (image != null) {
+        final imageUrl = await updateProfilePicture(
+          savedPet,
+          image,
+          invalidateSelf: false,
+        );
+
+        savedPet = savedPet.copyWith(imagemUrl: imageUrl);
+      }
+
+      await future;
+      return savedPet;
+    } finally {
+      ref.invalidateSelf();
     }
-
-    ref.invalidateSelf();
-    await future;
-    return savedPet;
   }
 
   Future<String?> updateProfilePicture(Pet pet, XFile file,

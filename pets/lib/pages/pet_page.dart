@@ -428,7 +428,12 @@ class PetPage extends HookConsumerWidget {
       Navigator.of(context).pop();
     }).onError((DioException error, stackTrace) {
       debugPrint(error.toString());
-      var msg = error.response?.data['message'] ?? error.message;
+
+      var msg = error.response?.statusMessage ?? '';
+
+      if (error.response?.data is Map) {
+        msg = error.response?.data['message'];
+      }
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(t(context).sharedErrorWhileSaving(msg))),
