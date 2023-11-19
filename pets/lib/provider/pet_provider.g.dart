@@ -22,7 +22,7 @@ final petRepositoryProvider = AutoDisposeProvider<PetRepository>.internal(
 
 typedef PetRepositoryRef = AutoDisposeProviderRef<PetRepository>;
 String _$petsOrderedByUpdateHash() =>
-    r'bc87d500f9808e78dce386b4946671544b515804';
+    r'51bab452a360a4f9df8e79fcfac180d1051e4562';
 
 /// See also [petsOrderedByUpdate].
 @ProviderFor(petsOrderedByUpdate)
@@ -38,7 +38,7 @@ final petsOrderedByUpdateProvider =
 );
 
 typedef PetsOrderedByUpdateRef = AutoDisposeFutureProviderRef<List<Pet>>;
-String _$petsHash() => r'62b7f97d41d4b6bb17ef3c4a926c7b4978c7e26f';
+String _$petsHash() => r'fdc076b1ff48010caff3ecd5c6ac1b442a42f406';
 
 /// See also [Pets].
 @ProviderFor(Pets)
