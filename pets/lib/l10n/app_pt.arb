@@ -13,9 +13,12 @@
   "sharedUnknown": "Desconhecido",
   "sharedCancel": "Cancelar",
   "sharedExclude": "Excluir",
+  "sharedMale": "Macho",
+  "sharedFemale": "Fêmea",
   "dashboardMyPets": "Meus pets",
   "dashboardTodo": "A fazer",
   "dashboardTimeline": "Linha do tempo",
+  "medicineMain": "Principal",
   "medicineType": "Tipo",
   "medicinePrefixOn": "Em ",
   "medicineAnimal": "Animal",
@@ -86,5 +89,6 @@
   "placeholderProximos4": "Os agendamentos podem ",
   "placeholderProximos5": "ser repetições para tarefas rotineiras",
   "placeholderProximos6": " ou ",
-  "placeholderProximos7": "por quantidade como as doses em medicamentos.\n"
+  "placeholderProximos7": "por quantidade como as doses em medicamentos.\n",
+  "petsNewField": "Novo campo"
 }
