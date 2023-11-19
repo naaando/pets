@@ -40,12 +40,20 @@ void main() async {
 
   await FastCachedImageConfig.init();
 
-  await SentryFlutter.init(
-    (options) => options..addIntegration(LoggingIntegration()),
-    appRunner: () => runApp(
+  if (kReleaseMode) {
+    await SentryFlutter.init(
+      (options) => options..addIntegration(LoggingIntegration()),
+      appRunner: () => runApp(
+        const ProviderScope(
+          child: App(),
+        ),
+      ),
+    );
+  } else {
+    runApp(
       const ProviderScope(
         child: App(),
       ),
-    ),
-  );
+    );
+  }
 }
