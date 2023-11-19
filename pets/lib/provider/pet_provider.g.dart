@@ -38,7 +38,7 @@ final petsOrderedByUpdateProvider =
 );
 
 typedef PetsOrderedByUpdateRef = AutoDisposeFutureProviderRef<List<Pet>>;
-String _$petsHash() => r'7a063aed61dda8977db22298a83c860266335acf';
+String _$petsHash() => r'62b7f97d41d4b6bb17ef3c4a926c7b4978c7e26f';
 
 /// See also [Pets].
 @ProviderFor(Pets)
