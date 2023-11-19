@@ -18,12 +18,8 @@ Future<List<Pet>> petsOrderedByUpdate(PetsOrderedByUpdateRef ref) async {
   final pets = ref.watch(petsProvider);
 
   return pets.when(
-    data: (pets) => pets.values.toList()
-      ..sort(
-        (a, b) => a.updatedAt is String
-            ? DateTime.parse(a.updatedAt ?? '').microsecondsSinceEpoch
-            : DateTime.parse(a.createdAt ?? '').microsecondsSinceEpoch,
-      ),
+    data: (pets) =>
+        pets.values.toList()..sort((a, b) => a.nome.compareTo(b.nome)),
     error: (e, s) => throw e,
     loading: () => [],
   );
@@ -54,7 +50,6 @@ class Pets extends _$Pets {
         savedPet = savedPet.copyWith(imagemUrl: imageUrl);
       }
 
-      await future;
       return savedPet;
     } finally {
       ref.invalidateSelf();

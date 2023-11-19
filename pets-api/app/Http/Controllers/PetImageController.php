@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Pet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Spatie\LaravelImageOptimizer\Middlewares\OptimizeImages;
 
 class PetImageController extends Controller
 {
     public function __construct()
     {
+        $this->middleware(OptimizeImages::class)->only('update');
         $this->authorizeResource(Pet::class, 'pet');
     }
 
