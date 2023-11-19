@@ -12,7 +12,6 @@ import 'package:sentry_logging/sentry_logging.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_timezone/flutter_timezone.dart';
-import 'package:sentry_logging/sentry_logging.dart';
 
 import 'notifications.dart';
 
