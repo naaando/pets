@@ -74,6 +74,7 @@ class Pet extends Model
         'castracao',
         'mae_id',
         'pai_id',
+        'atributos',
     ];
 
     /**
@@ -85,6 +86,7 @@ class Pet extends Model
         'nascimento' => 'datetime',
         'falecimento' => 'datetime',
         'castracao' => 'datetime',
+        'atributos' => 'array',
     ];
 
     /**
