@@ -90,10 +90,9 @@ test('consegue criar um animal', function () {
 
     $response->assertCreated();
 
-    dd($user->petsCompartilhados()->first()->toJson());
     // Garante que está salvando user_id quando cria
     assertDatabaseHas('pets', $user->meusPets()->first()->toArray());
-    assertDatabaseHas('pets', $user->petsCompartilhados()->first()->toArray());
+    assertDatabaseHas('pets', $user->petsCompartilhados()->first()->makeHidden('pivot')->toArray());
 });
 
 test('consegue atualizar animal próprio', function () {
