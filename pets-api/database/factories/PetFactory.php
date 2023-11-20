@@ -30,6 +30,12 @@ class PetFactory extends Factory
             'nascimento' => $this->faker->dateTimeBetween('-10 years', '-1 year'),
             'falecimento' => $this->faker->dateTimeBetween('-1 year', 'now'),
             'castracao' => $this->faker->dateTimeBetween('-1 year', 'now'),
+            'atributos' => [
+                'cor' => $this->faker->randomElement(['preto', 'branco', 'marrom']),
+                'pelagem' => $this->faker->randomElement(['curta', 'longa']),
+                'porte' => $this->faker->randomElement(['pequeno', 'medio', 'grande']),
+                'temperamento' => $this->faker->randomElement(['calmo', 'agressivo', 'brincalhao']),
+            ],
         ];
     }
 }

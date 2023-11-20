@@ -45,6 +45,7 @@ mixin _$Pet {
   String? get falecimento => throw _privateConstructorUsedError;
   @JsonKey(name: 'imagem_url')
   String? get imagemUrl => throw _privateConstructorUsedError;
+  Map<String, String>? get atributos => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -74,7 +75,8 @@ abstract class $PetCopyWith<$Res> {
       String? userUpdated,
       @JsonKey(name: 'espaco_id') String? espacoId,
       String? falecimento,
-      @JsonKey(name: 'imagem_url') String? imagemUrl});
+      @JsonKey(name: 'imagem_url') String? imagemUrl,
+      Map<String, String>? atributos});
 }
 
 /// @nodoc
@@ -107,6 +109,7 @@ class _$PetCopyWithImpl<$Res, $Val extends Pet> implements $PetCopyWith<$Res> {
     Object? espacoId = freezed,
     Object? falecimento = freezed,
     Object? imagemUrl = freezed,
+    Object? atributos = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -181,6 +184,10 @@ class _$PetCopyWithImpl<$Res, $Val extends Pet> implements $PetCopyWith<$Res> {
           ? _value.imagemUrl
           : imagemUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      atributos: freezed == atributos
+          ? _value.atributos
+          : atributos // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>?,
     ) as $Val);
   }
 }
@@ -209,7 +216,8 @@ abstract class _$$_PetCopyWith<$Res> implements $PetCopyWith<$Res> {
       String? userUpdated,
       @JsonKey(name: 'espaco_id') String? espacoId,
       String? falecimento,
-      @JsonKey(name: 'imagem_url') String? imagemUrl});
+      @JsonKey(name: 'imagem_url') String? imagemUrl,
+      Map<String, String>? atributos});
 }
 
 /// @nodoc
@@ -239,6 +247,7 @@ class __$$_PetCopyWithImpl<$Res> extends _$PetCopyWithImpl<$Res, _$_Pet>
     Object? espacoId = freezed,
     Object? falecimento = freezed,
     Object? imagemUrl = freezed,
+    Object? atributos = freezed,
   }) {
     return _then(_$_Pet(
       id: freezed == id
@@ -313,6 +322,10 @@ class __$$_PetCopyWithImpl<$Res> extends _$PetCopyWithImpl<$Res, _$_Pet>
           ? _value.imagemUrl
           : imagemUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      atributos: freezed == atributos
+          ? _value._atributos
+          : atributos // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>?,
     ));
   }
 }
@@ -338,8 +351,10 @@ class _$_Pet extends _Pet with DiagnosticableTreeMixin {
       this.userUpdated,
       @JsonKey(name: 'espaco_id') required this.espacoId,
       this.falecimento,
-      @JsonKey(name: 'imagem_url') this.imagemUrl})
-      : super._();
+      @JsonKey(name: 'imagem_url') this.imagemUrl,
+      final Map<String, String>? atributos = const {}})
+      : _atributos = atributos,
+        super._();
 
   factory _$_Pet.fromJson(Map<String, dynamic> json) => _$$_PetFromJson(json);
 
@@ -387,10 +402,20 @@ class _$_Pet extends _Pet with DiagnosticableTreeMixin {
   @override
   @JsonKey(name: 'imagem_url')
   final String? imagemUrl;
+  final Map<String, String>? _atributos;
+  @override
+  @JsonKey()
+  Map<String, String>? get atributos {
+    final value = _atributos;
+    if (value == null) return null;
+    if (_atributos is EqualUnmodifiableMapView) return _atributos;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Pet(id: $id, nome: $nome, createdAt: $createdAt, updatedAt: $updatedAt, especieId: $especieId, especie: $especie, imagem: $imagem, maeId: $maeId, nascimento: $nascimento, castracao: $castracao, paiId: $paiId, raca: $raca, sexo: $sexo, userCreated: $userCreated, userUpdated: $userUpdated, espacoId: $espacoId, falecimento: $falecimento, imagemUrl: $imagemUrl)';
+    return 'Pet(id: $id, nome: $nome, createdAt: $createdAt, updatedAt: $updatedAt, especieId: $especieId, especie: $especie, imagem: $imagem, maeId: $maeId, nascimento: $nascimento, castracao: $castracao, paiId: $paiId, raca: $raca, sexo: $sexo, userCreated: $userCreated, userUpdated: $userUpdated, espacoId: $espacoId, falecimento: $falecimento, imagemUrl: $imagemUrl, atributos: $atributos)';
   }
 
   @override
@@ -415,7 +440,8 @@ class _$_Pet extends _Pet with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('userUpdated', userUpdated))
       ..add(DiagnosticsProperty('espacoId', espacoId))
       ..add(DiagnosticsProperty('falecimento', falecimento))
-      ..add(DiagnosticsProperty('imagemUrl', imagemUrl));
+      ..add(DiagnosticsProperty('imagemUrl', imagemUrl))
+      ..add(DiagnosticsProperty('atributos', atributos));
   }
 
   @override
@@ -450,31 +476,35 @@ class _$_Pet extends _Pet with DiagnosticableTreeMixin {
             (identical(other.falecimento, falecimento) ||
                 other.falecimento == falecimento) &&
             (identical(other.imagemUrl, imagemUrl) ||
-                other.imagemUrl == imagemUrl));
+                other.imagemUrl == imagemUrl) &&
+            const DeepCollectionEquality()
+                .equals(other._atributos, _atributos));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      nome,
-      createdAt,
-      updatedAt,
-      especieId,
-      especie,
-      imagem,
-      maeId,
-      nascimento,
-      castracao,
-      paiId,
-      raca,
-      sexo,
-      userCreated,
-      userUpdated,
-      espacoId,
-      falecimento,
-      imagemUrl);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        nome,
+        createdAt,
+        updatedAt,
+        especieId,
+        especie,
+        imagem,
+        maeId,
+        nascimento,
+        castracao,
+        paiId,
+        raca,
+        sexo,
+        userCreated,
+        userUpdated,
+        espacoId,
+        falecimento,
+        imagemUrl,
+        const DeepCollectionEquality().hash(_atributos)
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -509,7 +539,8 @@ abstract class _Pet extends Pet {
       final String? userUpdated,
       @JsonKey(name: 'espaco_id') required final String? espacoId,
       final String? falecimento,
-      @JsonKey(name: 'imagem_url') final String? imagemUrl}) = _$_Pet;
+      @JsonKey(name: 'imagem_url') final String? imagemUrl,
+      final Map<String, String>? atributos}) = _$_Pet;
   const _Pet._() : super._();
 
   factory _Pet.fromJson(Map<String, dynamic> json) = _$_Pet.fromJson;
@@ -557,6 +588,8 @@ abstract class _Pet extends Pet {
   @override
   @JsonKey(name: 'imagem_url')
   String? get imagemUrl;
+  @override
+  Map<String, String>? get atributos;
   @override
   @JsonKey(ignore: true)
   _$$_PetCopyWith<_$_Pet> get copyWith => throw _privateConstructorUsedError;

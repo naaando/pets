@@ -29,6 +29,7 @@ class Pet with _$Pet {
     @JsonKey(name: 'espaco_id') required String? espacoId,
     String? falecimento,
     @JsonKey(name: 'imagem_url') String? imagemUrl,
+    @Default({}) Map<String, String>? atributos,
   }) = _Pet;
 
   Uri? get imagemUri {

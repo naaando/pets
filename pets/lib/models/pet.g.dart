@@ -27,6 +27,10 @@ _$_Pet _$$_PetFromJson(Map<String, dynamic> json) => _$_Pet(
       espacoId: json['espaco_id'] as String?,
       falecimento: json['falecimento'] as String?,
       imagemUrl: json['imagem_url'] as String?,
+      atributos: (json['atributos'] as Map<String, dynamic>?)?.map(
+            (k, e) => MapEntry(k, e as String),
+          ) ??
+          const {},
     );
 
 Map<String, dynamic> _$$_PetToJson(_$_Pet instance) => <String, dynamic>{
@@ -48,4 +52,5 @@ Map<String, dynamic> _$$_PetToJson(_$_Pet instance) => <String, dynamic>{
       'espaco_id': instance.espacoId,
       'falecimento': instance.falecimento,
       'imagem_url': instance.imagemUrl,
+      'atributos': instance.atributos,
     };

@@ -25,6 +25,7 @@ class PetRequest extends FormRequest
             'castracao' => 'nullable|date',
             'mae_id' => 'nullable|exists:pets,id',
             'pai_id' => 'nullable|exists:pets,id',
+            'atributos' => 'nullable|array',
         ];
     }
 }
