@@ -6,6 +6,11 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class PetRequest extends FormRequest
 {
+    public function authorize(): bool
+    {
+        return $this->user()->espacos->contains($this->input('espaco_id'));
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -16,7 +21,7 @@ class PetRequest extends FormRequest
         return [
             'nome' => 'required|string',
             'imagem' => 'nullable|string',
-            'espaco_id' => 'nullable|exists:espacos,id',
+            'espaco_id' => 'required|exists:espacos,id',
             'especie_id' => 'nullable|exists:especies,id',
             'raca' => 'nullable|string',
             'sexo' => 'nullable|in:macho,femea',

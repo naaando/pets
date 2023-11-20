@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Espaco;
 use App\Models\Pet;
 
 use App\Models\User;
@@ -78,22 +79,34 @@ test('consegue listar meu animal', function () {
 });
 
 test('consegue criar um animal', function () {
-    actingAs($user = User::factory()->create());
+    actingAs($user = User::factory()->has(Espaco::factory())->create());
 
-    $petData = Pet::factory()->make();
+    $petData = Pet::factory([
+        'espaco_id' => $user->espacoAtivo->id,
+    ])->make();
+
+
     $response = postJson('/api/pets', $petData->toArray());
 
     $response->assertCreated();
 
+    dd($user->petsCompartilhados()->first()->toJson());
     // Garante que está salvando user_id quando cria
-    assertDatabaseHas('pets', $user->pets()->first()->toArray());
+    assertDatabaseHas('pets', $user->meusPets()->first()->toArray());
+    assertDatabaseHas('pets', $user->petsCompartilhados()->first()->toArray());
 });
 
 test('consegue atualizar animal próprio', function () {
-    actingAs($user = User::factory()->create());
+    actingAs($user = User::factory()->has(Espaco::factory())->create());
 
-    $pet = Pet::factory()->for($user->espacoAtivo)->create();
-    $petData = Pet::factory()->make()->toArray();
+    $pet = Pet::factory([
+        'espaco_id' => $user->espacoAtivo->id,
+    ])->for($user->espacoAtivo)->create();
+
+    $petData = Pet::factory([
+        'espaco_id' => $user->espacoAtivo->id,
+    ])->make()->toArray();
+
     $response = patchJson("/api/pets/$pet->id", $petData);
 
     $response->assertOk();

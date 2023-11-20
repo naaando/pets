@@ -104,11 +104,11 @@ class Pet extends Model
     }
 
     /**
-     * Get the vacinas for the pet.
+     * Get the medicacoes for the pet.
      */
-    public function vacinas()
+    public function medicacoes()
     {
-        return $this->hasMany(Vacina::class);
+        return $this->hasMany(Medicacao::class);
     }
 
     /**
