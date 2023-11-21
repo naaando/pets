@@ -31,7 +31,9 @@ class DashboardTab extends HookConsumerWidget {
           padding: const EdgeInsets.symmetric(vertical: 12),
           child: const ListaPets(),
         ),
-        const SmallNativeAd(),
+        SmallNativeAd(
+          scheme: Theme.of(context).colorScheme,
+        ),
         Container(
           padding: const EdgeInsets.all(12),
           child: ListaProximos(showMenu),
