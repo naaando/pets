@@ -25,7 +25,7 @@ ThemeData baseTheme(ColorScheme scheme) {
   );
 
   return ThemeData(
-    // useMaterial3: true,
+    useMaterial3: false,
     scaffoldBackgroundColor: scheme.background,
     brightness: scheme.brightness,
     colorScheme: scheme,
