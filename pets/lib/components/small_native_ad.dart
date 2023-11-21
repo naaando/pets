@@ -78,15 +78,12 @@ class SmallNativeAdState extends State<SmallNativeAd> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(12),
-      child: SizedBox(
-        height: MediaQuery.of(context).size.width * _adAspectRatioSmall,
-        width: MediaQuery.of(context).size.width,
-        child: _nativeAdIsLoaded && _nativeAd != null
-            ? AdWidget(ad: _nativeAd!)
-            : null,
-      ),
+    return SizedBox(
+      height: MediaQuery.of(context).size.width * _adAspectRatioSmall,
+      width: MediaQuery.of(context).size.width,
+      child: _nativeAdIsLoaded && _nativeAd != null
+          ? AdWidget(ad: _nativeAd!)
+          : null,
     );
   }
 
