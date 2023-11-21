@@ -12,6 +12,7 @@ import 'package:sentry_logging/sentry_logging.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'notifications.dart';
 
@@ -26,6 +27,8 @@ Future<void> _configureLocalTimeZone() async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  MobileAds.instance.initialize();
 
   String locale = Platform.localeName;
 

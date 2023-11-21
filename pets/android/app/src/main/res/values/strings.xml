@@ -2,4 +2,5 @@
 <resources>
   <string name="facebook_app_id">310440038020217</string>
   <string name="facebook_client_token">a93e5f78a3a9bfdd7900c418def3f820</string>
+  <string name="ads_app_id">ca-app-pub-4189251425238819~3402536887</string>
 </resources>
