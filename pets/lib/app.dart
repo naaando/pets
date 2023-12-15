@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pets/pages/medicacao_page.dart';
 import 'package:pets/pages/home_page.dart';
 import 'package:pets/pages/pet_page.dart';
+import 'package:pets/pages/spaces_page.dart';
 import 'package:pets/pages/welcome_page.dart';
 import 'package:pets/provider/user_provider.dart';
 import 'package:pets/theme.dart';
@@ -28,6 +29,7 @@ class App extends ConsumerWidget {
             const MedicacaoPage(tipoPadrao: 'vacina'),
         '/medicacao': (BuildContext context) => const MedicacaoPage(),
         '/proxima-medicacao': (BuildContext context) => const MedicacaoPage(),
+        '/spaces': (BuildContext context) => const SpacesPage(),
       },
       home: user.when(
         data: (user) => userLoaded(user),
