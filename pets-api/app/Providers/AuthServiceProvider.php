@@ -27,6 +27,10 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Gate::define('viewPulse', function (User $user) {
+            return $user->is_admin;
+        });
+
         Gate::define('save-pet', function (User $user, Pet|null $pet = null) {
             if ($pet === null) {
                 return true;
