@@ -17,17 +17,6 @@ class ListaPets extends HookConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 12),
-          child: Text(
-            t(context).dashboardMyPets,
-            textAlign: TextAlign.start,
-            style: theme.textTheme.titleLarge!.copyWith(
-              color: theme.colorScheme.onBackground,
-            ),
-          ),
-        ),
-        const SizedBox(height: 8),
         Container(
           padding: const EdgeInsets.symmetric(vertical: 8),
           decoration: BoxDecoration(
