@@ -17,7 +17,7 @@ class WelcomePage extends ConsumerWidget {
 
   final double _sigmaX = 5; // from 0-10
   final double _sigmaY = 5; // from 0-10
-  final double _opacity = 0.2;
+  final double _opacity = 0.6;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -36,66 +36,53 @@ class WelcomePage extends ConsumerWidget {
   }
 
   Widget form(context, WidgetRef ref) {
-    return Padding(
-        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 25),
-        child: ClipRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: _sigmaX, sigmaY: _sigmaY),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              decoration: BoxDecoration(
-                  color: Color.fromRGBO(0, 0, 0, 1).withOpacity(_opacity),
-                  borderRadius: BorderRadius.all(Radius.circular(15))),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 10),
+    final colorsScheme = Theme.of(context).colorScheme;
 
-                    // google + apple sign in buttons
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // google button
-                          GestureDetector(
-                            onTap: () => googleSignIn(ref),
-                            child: SquareTile(
-                              imagePath: 'assets/images/google.png',
-                              title: "Entrar com Google",
-                            ),
-                          ),
-
-                          SizedBox(height: 10),
-
-                          // // apple button
-                          // SquareTile(
-                          //     imagePath: 'assets/images/apple.png',
-                          //     title: "Continue with Apple"),
-
-                          // SizedBox(height: 10),
-
-                          // facebook button
-                          GestureDetector(
-                            onTap: () => facebookSignIn(ref),
-                            child: SquareTile(
-                              imagePath: 'assets/images/facebook.png',
-                              title: "Entrar com Facebook",
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+    return ClipRect(
+        child: BackdropFilter(
+      filter: ImageFilter.blur(sigmaX: _sigmaX, sigmaY: _sigmaY),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        decoration: BoxDecoration(
+            color: colorsScheme.primaryContainer.withOpacity(_opacity),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // google button
+              GestureDetector(
+                onTap: () => googleSignIn(ref),
+                child: SquareTile(
+                  imagePath: 'assets/images/google.png',
+                  title: "Entrar com Google",
                 ),
               ),
-            ),
+
+              SizedBox(height: 10),
+
+              // // apple button
+              // SquareTile(
+              //     imagePath: 'assets/images/apple.png',
+              //     title: "Continue with Apple"),
+
+              // SizedBox(height: 10),
+
+              // facebook button
+              GestureDetector(
+                onTap: () => facebookSignIn(ref),
+                child: SquareTile(
+                  imagePath: 'assets/images/facebook.png',
+                  title: "Entrar com Facebook",
+                ),
+              ),
+            ],
           ),
-        ));
+        ),
+      ),
+    ));
   }
 
   Stack background(context, child) {
