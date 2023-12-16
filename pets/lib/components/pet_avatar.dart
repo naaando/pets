@@ -1,5 +1,6 @@
 import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:pets/magic_colors.dart';
 import 'package:pets/models/pet.dart';
 
 class PetAvatar extends StatelessWidget {
@@ -28,12 +29,13 @@ class PetAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final backgroundColor = Theme.of(context).colorScheme.primary;
-    final iconColor = Theme.of(context).colorScheme.primaryContainer;
+    final colorScheme = Theme.of(context).colorScheme;
+    final backgroundColor = colorScheme.onPrimaryContainer;
+
+    final iconColor = magicColors(colorScheme.brightness);
 
     return CircleAvatar(
       radius: size,
-      foregroundColor: Colors.black,
       backgroundColor: backgroundColor,
       foregroundImage: image,
       child: Icon(
