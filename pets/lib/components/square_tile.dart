@@ -11,12 +11,14 @@ class SquareTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorsScheme = Theme.of(context).colorScheme;
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.white),
+        border: Border.all(color: colorsScheme.onPrimaryContainer),
         borderRadius: BorderRadius.circular(16),
-        color: Colors.grey[200],
+        color: colorsScheme.onPrimary,
       ),
       child: Row(
         children: [
