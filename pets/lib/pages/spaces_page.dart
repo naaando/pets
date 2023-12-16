@@ -13,12 +13,12 @@ class SpacesPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(loggedUserProvider).asData!.value!;
+    final activeSpace = user.espacoAtivoId;
     final spaces = ref.watch(spacesProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(t(context).spaces),
-        actions: [IconButton(icon: const Icon(Icons.delete), onPressed: () {})],
       ),
       body: spaces.when(
         data: (spaces) {
@@ -27,13 +27,26 @@ class SpacesPage extends HookConsumerWidget {
           return SingleChildScrollView(
             padding: const EdgeInsets.all(8),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                const SizedBox(height: 8),
+                Text(
+                  "Espaços Disponíveis",
+                  style: Theme.of(context).textTheme.bodySmall,
+                  textAlign: TextAlign.left,
+                ),
+                const SizedBox(height: 8),
                 ListView.separated(
                   shrinkWrap: true,
                   itemCount: spacesList.length,
-                  itemBuilder: (context, index) =>
-                      spaceComponent(context, spacesList[index]),
-                  separatorBuilder: (context, index) => const Divider(),
+                  itemBuilder: (context, index) => spaceComponent(
+                    context,
+                    spacesList[index],
+                    activeSpace,
+                  ),
+                  separatorBuilder: (context, index) => const Divider(
+                    height: 1,
+                  ),
                 ),
               ],
             ),
@@ -42,29 +55,45 @@ class SpacesPage extends HookConsumerWidget {
         error: (err, stack) => throw err,
         loading: () => const Center(child: CircularProgressIndicator()),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.add),
-      ),
     );
   }
 
-  Widget spaceComponent(context, space) {
+  Widget spaceComponent(context, space, activeSpace) {
+    final selected = activeSpace == space.id;
     ColorScheme colorScheme = Theme.of(context).colorScheme;
 
+    final selectedTrailing = [
+      IconButton(
+        icon: const Icon(Icons.check_circle_rounded),
+        onPressed: () {},
+      ),
+    ];
+
+    final notSelectedTrailing = [
+      IconButton(
+        icon: const Icon(Icons.circle_outlined),
+        onPressed: () {},
+      ),
+    ];
+
     return ListTile(
-      selected: true,
-      selectedColor: colorScheme.primary,
+      selected: selected,
+      selectedColor: colorScheme.onPrimaryContainer,
       selectedTileColor: colorScheme.primaryContainer,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 8),
       leading: CircleAvatar(
-        foregroundColor: colorScheme.primary,
-        backgroundColor: colorScheme.primaryContainer,
+        foregroundColor: selected
+            ? colorScheme.onPrimaryContainer
+            : colorScheme.onBackground,
+        backgroundColor: selected
+            ? colorScheme.primaryContainer
+            : colorScheme.surfaceVariant,
         child: const Icon(Icons.home),
       ),
       title: Text(space.nome ?? ''),
-      trailing: IconButton(
-        icon: const Icon(Icons.settings),
-        onPressed: () {},
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: selected ? selectedTrailing : notSelectedTrailing,
       ),
     );
   }
