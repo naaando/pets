@@ -74,8 +74,7 @@ class OnboardingPage extends HookConsumerWidget {
   }
 
   backgroundImage(BuildContext context) {
-    final fontColor =
-        Theme.of(context).colorScheme.onPrimaryContainer.withOpacity(0.3);
+    final fontColor = Theme.of(context).colorScheme.primary.withOpacity(0.4);
 
     final font =
         Theme.of(context).textTheme.labelSmall?.copyWith(color: fontColor);
