@@ -64,6 +64,7 @@ dependencies:
   sentry_logging: ^7.10.1
   sentry_dio: ^7.10.1
   google_mobile_ads: ^3.1.0
+  url_launcher: ^6.2.2
 
 dev_dependencies:
   flutter_test:

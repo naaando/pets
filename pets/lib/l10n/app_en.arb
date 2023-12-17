@@ -79,11 +79,9 @@
   "medicineProducer": "Producer",
   "medicineVeterinary": "Veterinary",
   "onboardingTitle": "Welcome",
-  "onboardingContent1": "You still ",
-  "onboardingContent2": "didn''t register",
-  "onboardingContent3": " any of your pets.",
-  "onboardingContent4": "Que tal cadastrar um agora?",
-  "onboardingNoPetsCta": "Cadastrar novo pet",
+  "onboardingContent1": "Here you can keep track of your pets health.",
+  "onboardingContent4": "What about registering your first pet now?",
+  "onboardingNoPetsCta": "Register new pet",
   "onboardingAcessibleLabel": "A person with a dog walking",
   "petsNewPet": "New pet",
   "petsAnimalName": "Animal name",
@@ -133,5 +131,6 @@
   "placeholderProximos4": "Appointments can be ",
   "placeholderProximos5": "repetitions for routine tasks",
   "placeholderProximos6": " or ",
-  "placeholderProximos7": "by quantity, like doses in medications.\n"
+  "placeholderProximos7": "by quantity, like doses in medications.\n",
+  "spaces": "Spaces"
 }
