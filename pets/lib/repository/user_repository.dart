@@ -28,6 +28,14 @@ class UserRepository extends ChangeNotifier {
     return null;
   }
 
+  Future<void> save(User user) async {
+    await isar.writeTxn(() async {
+      await isar.users.put(user);
+    });
+
+    notifyListeners();
+  }
+
   Future<void> setUserWithSanctumToken(String sanctumToken) async {
     debugPrint("Sanctum token $sanctumToken");
     httpClient.setAuthorizationToken(sanctumToken);

@@ -1,5 +1,6 @@
 import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pets/provider/space_provider.dart';
 import 'package:pets/provider/user_provider.dart';
@@ -15,6 +16,10 @@ class SpacesPage extends HookConsumerWidget {
     final user = ref.watch(loggedUserProvider).asData!.value!;
     final activeSpace = user.espacoAtivoId;
     final spaces = ref.watch(spacesProvider);
+
+    onSpaceSelected(space) {
+      ref.read(loggedUserProvider.notifier).setActiveSpace(space.id);
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -43,6 +48,7 @@ class SpacesPage extends HookConsumerWidget {
                     context,
                     spacesList[index],
                     activeSpace,
+                    onSpaceSelected,
                   ),
                   separatorBuilder: (context, index) => const Divider(
                     height: 1,
@@ -58,7 +64,7 @@ class SpacesPage extends HookConsumerWidget {
     );
   }
 
-  Widget spaceComponent(context, space, activeSpace) {
+  Widget spaceComponent(context, space, activeSpace, onSpaceSelected) {
     final selected = activeSpace == space.id;
     ColorScheme colorScheme = Theme.of(context).colorScheme;
 
@@ -72,7 +78,7 @@ class SpacesPage extends HookConsumerWidget {
     final notSelectedTrailing = [
       IconButton(
         icon: const Icon(Icons.circle_outlined),
-        onPressed: () {},
+        onPressed: () => onSpaceSelected(space),
       ),
     ];
 
