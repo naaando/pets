@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\MedicacaoRequest;
 use App\Http\Resources\MedicacaoResource;
 use App\Models\Medicacao;
+use App\Models\Pet;
 use Illuminate\Http\Request;
 
 class MedicacaoController extends Controller
@@ -21,9 +22,11 @@ class MedicacaoController extends Controller
     {
         $user = $request->user();
 
-        $medicacoes = Medicacao::where('user_id', $user->id)
-            ->whereHas('pet')
-            ->get();
+        $medicacoes = $user->petsCompartilhados()
+            ->with('medicacoes')
+            ->get()
+            ->pluck('medicacoes')
+            ->flatten();
 
         return MedicacaoResource::collection($medicacoes);
     }

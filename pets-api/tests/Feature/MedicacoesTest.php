@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Espaco;
 use App\Models\Pet;
 use App\Models\User;
 use App\Models\Medicacao;
@@ -11,12 +12,15 @@ use function Pest\Laravel\patchJson;
 use function Pest\Laravel\postJson;
 
 test('consegue listar medicacoes dos animais do usuário', function () {
-    actingAs($user = User::factory()->create());
+    actingAs($user = User::factory()->has(Espaco::factory())->create());
 
-    $pet = Pet::factory()->for($user)->create();
+    $pet = Pet::factory([
+        'espaco_id' => $user->espacoAtivo->id,
+    ])->for($user)->create();
 
     Medicacao::factory()->for($user)->for($pet)->count(3)->create();
-    Medicacao::factory()->for(User::factory())->for($pet)->count(3)->create();
+
+    Medicacao::factory()->for(User::factory())->for(Pet::factory())->count(3)->create();
 
     $response = getJson("/api/medicacoes");
     $response->assertStatus(200);

@@ -19,7 +19,7 @@ class PetController extends Controller
      */
     public function index(Request $request)
     {
-        $pets = Pet::whereIn('espaco_id', $request->user()->espacos->pluck('id'))->get();
+        $pets = $request->user()->petsCompartilhados;
         return PetResouce::collection($pets);
     }
 
@@ -28,7 +28,7 @@ class PetController extends Controller
      */
     public function store(PetRequest $request)
     {
-        $pet = $request->user()->pets()->create($request->validated());
+        $pet = $request->user()->meusPets()->create($request->validated());
         return new PetResouce($pet);
     }
 
