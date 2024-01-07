@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class SmallNativeAd extends StatefulWidget {
-  const SmallNativeAd({super.key});
+  ColorScheme scheme;
+
+  SmallNativeAd({super.key, required this.scheme});
 
   @override
   SmallNativeAdState createState() => SmallNativeAdState();
@@ -22,7 +24,56 @@ class SmallNativeAdState extends State<SmallNativeAd> {
   void initState() {
     super.initState();
 
-    _loadAd();
+    final naviteListener = NativeAdListener(
+      onAdLoaded: (ad) {
+        // ignore: avoid_print
+        print('$NativeAd loaded.');
+        setState(() {
+          _nativeAdIsLoaded = true;
+        });
+      },
+      onAdFailedToLoad: (ad, error) {
+        // ignore: avoid_print
+        print('$NativeAd failedToLoad: $error');
+        ad.dispose();
+      },
+      onAdClicked: (ad) {},
+      onAdImpression: (ad) {},
+      onAdClosed: (ad) {},
+      onAdOpened: (ad) {},
+      onAdWillDismissScreen: (ad) {},
+      onPaidEvent: (ad, valueMicros, precision, currencyCode) {},
+    );
+
+    final nativeTemplateStyle = NativeTemplateStyle(
+      templateType: TemplateType.small,
+      mainBackgroundColor: widget.scheme.background,
+      callToActionTextStyle: NativeTemplateTextStyle(
+        textColor: widget.scheme.surface,
+        style: NativeTemplateFontStyle.bold,
+        size: 16.0,
+      ),
+      primaryTextStyle: NativeTemplateTextStyle(
+        textColor: widget.scheme.primary,
+        style: NativeTemplateFontStyle.bold,
+        size: 16.0,
+      ),
+      secondaryTextStyle: NativeTemplateTextStyle(
+        textColor: widget.scheme.onBackground,
+        style: NativeTemplateFontStyle.italic,
+        size: 14.0,
+      ),
+      tertiaryTextStyle: NativeTemplateTextStyle(
+        textColor: widget.scheme.onBackground,
+        style: NativeTemplateFontStyle.normal,
+        size: 14.0,
+      ),
+    );
+
+    _loadAd(
+      naviteListener,
+      nativeTemplateStyle,
+    );
   }
 
   @override
@@ -37,54 +88,19 @@ class SmallNativeAdState extends State<SmallNativeAd> {
   }
 
   /// Loads a native ad.
-  void _loadAd() {
+  void _loadAd(naviteListener, nativeTemplateStyle) {
     setState(() {
       _nativeAdIsLoaded = false;
     });
 
     _nativeAd = NativeAd(
-        adUnitId: _adUnitId,
-        listener: NativeAdListener(
-          onAdLoaded: (ad) {
-            // ignore: avoid_print
-            print('$NativeAd loaded.');
-            setState(() {
-              _nativeAdIsLoaded = true;
-            });
-          },
-          onAdFailedToLoad: (ad, error) {
-            // ignore: avoid_print
-            print('$NativeAd failedToLoad: $error');
-            ad.dispose();
-          },
-          onAdClicked: (ad) {},
-          onAdImpression: (ad) {},
-          onAdClosed: (ad) {},
-          onAdOpened: (ad) {},
-          onAdWillDismissScreen: (ad) {},
-          onPaidEvent: (ad, valueMicros, precision, currencyCode) {},
-        ),
-        request: const AdRequest(),
-        nativeTemplateStyle: NativeTemplateStyle(
-            templateType: TemplateType.small,
-            mainBackgroundColor: const Color(0xfffffbed),
-            callToActionTextStyle: NativeTemplateTextStyle(
-                textColor: Colors.white,
-                style: NativeTemplateFontStyle.monospace,
-                size: 16.0),
-            primaryTextStyle: NativeTemplateTextStyle(
-                textColor: Colors.black,
-                style: NativeTemplateFontStyle.bold,
-                size: 16.0),
-            secondaryTextStyle: NativeTemplateTextStyle(
-                textColor: Colors.black,
-                style: NativeTemplateFontStyle.italic,
-                size: 16.0),
-            tertiaryTextStyle: NativeTemplateTextStyle(
-                textColor: Colors.black,
-                style: NativeTemplateFontStyle.normal,
-                size: 16.0)))
-      ..load();
+      adUnitId: _adUnitId,
+      listener: naviteListener,
+      request: const AdRequest(),
+      nativeTemplateStyle: nativeTemplateStyle,
+    );
+
+    _nativeAd!.load();
   }
 
   @override

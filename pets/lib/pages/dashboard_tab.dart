@@ -28,10 +28,15 @@ class DashboardTab extends HookConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          padding: const EdgeInsets.symmetric(vertical: 12),
+          padding: const EdgeInsets.only(bottom: 12),
           child: const ListaPets(),
         ),
-        const SmallNativeAd(),
+        Padding(
+          padding: const EdgeInsets.all(12),
+          child: SmallNativeAd(
+            scheme: Theme.of(context).colorScheme,
+          ),
+        ),
         Container(
           padding: const EdgeInsets.all(12),
           child: ListaProximos(showMenu),

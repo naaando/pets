@@ -10,16 +10,30 @@ class PlaceholderProximos extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
+
+    final textColor = colorScheme.brightness == Brightness.light
+        ? colorScheme.primaryContainer
+        : colorScheme.onBackground;
+
+    final backgroundColor = colorScheme.brightness == Brightness.light
+        ? colorScheme.onPrimaryContainer
+        : colorScheme.primaryContainer;
 
     return Stack(
       clipBehavior: Clip.none,
       children: [
         Column(children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            padding: const EdgeInsets.only(
+              top: 8,
+              left: 8,
+              right: 8,
+              bottom: 30,
+            ),
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceVariant,
+              color: backgroundColor,
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text.rich(
@@ -32,9 +46,8 @@ class PlaceholderProximos extends HookWidget {
                       ),
                       TextSpan(
                         text: t(context).placeholderProximos2,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: theme.colorScheme.onPrimaryContainer,
                         ),
                       ),
                       TextSpan(
@@ -49,9 +62,8 @@ class PlaceholderProximos extends HookWidget {
                       ),
                       TextSpan(
                         text: t(context).placeholderProximos5,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: theme.colorScheme.onPrimaryContainer,
                         ),
                       ),
                       TextSpan(
@@ -59,16 +71,18 @@ class PlaceholderProximos extends HookWidget {
                       ),
                       TextSpan(
                         text: t(context).placeholderProximos7,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: theme.colorScheme.onPrimaryContainer,
                         ),
                       ),
                     ],
                   )
                 ],
               ),
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(color: textColor),
             ),
           ),
           const SizedBox(
