@@ -56,6 +56,12 @@ jobs:
       - name: Generate key
         run: php artisan key:generate
 
+      - name: Install node packages
+        run: npm ci
+        
+      - name: Build UI
+        run: npm run build
+        
       - name: Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
 
