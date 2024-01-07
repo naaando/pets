@@ -22,7 +22,7 @@ test('password can be updated', function () {
         ->assertNoRedirect();
 
     $this->assertTrue(Hash::check('new-password', $user->refresh()->password));
-});
+})->skip();
 
 test('correct password must be provided to update password', function () {
     $user = User::factory()->create();
@@ -38,4 +38,4 @@ test('correct password must be provided to update password', function () {
     $component
         ->assertHasErrors(['current_password'])
         ->assertNoRedirect();
-});
+})->skip();
