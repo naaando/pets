@@ -1,5 +1,6 @@
 import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:pets/magic_colors.dart';
 import 'package:pets/models/pet.dart';
 
 class PetSquareAvatar extends StatelessWidget {
@@ -28,8 +29,9 @@ class PetSquareAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final backgroundColor = Theme.of(context).colorScheme.onPrimaryContainer;
-    final iconColor = Theme.of(context).colorScheme.onPrimary;
+    final colorScheme = Theme.of(context).colorScheme;
+    final backgroundColor = colorScheme.onPrimaryContainer;
+    final iconColor = magicColors(colorScheme.brightness);
     final placeholder = Container(
       width: size! * 2,
       height: size! * 2,

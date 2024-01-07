@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pets/translate.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class OnboardingPage extends HookConsumerWidget {
   const OnboardingPage({Key? key}) : super(key: key);
@@ -9,8 +10,6 @@ class OnboardingPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scheme = Theme.of(context).colorScheme;
-
-    final backgroundImageWidget = backgroundImage(context);
 
     final textualContentWidget = DefaultTextStyle(
       style: TextStyle(color: scheme.onPrimaryContainer),
@@ -26,7 +25,7 @@ class OnboardingPage extends HookConsumerWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            backgroundImageWidget,
+            backgroundImage(context),
             textualContentWidget,
           ],
         ),
@@ -58,11 +57,6 @@ class OnboardingPage extends HookConsumerWidget {
               style: TextStyle(color: theme.colorScheme.onPrimaryContainer),
               children: [
                 TextSpan(text: t(context).onboardingContent1),
-                TextSpan(
-                  text: t(context).onboardingContent2,
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                TextSpan(text: t(context).onboardingContent3)
               ],
             ),
           ),
@@ -79,11 +73,43 @@ class OnboardingPage extends HookConsumerWidget {
     );
   }
 
-  SvgPicture backgroundImage(BuildContext context) {
-    return SvgPicture.asset(
-      'assets/images/onboarding_background.svg',
-      semanticsLabel: t(context).onboardingAcessibleLabel,
-      width: MediaQuery.of(context).size.width * 0.95,
+  backgroundImage(BuildContext context) {
+    final fontColor = Theme.of(context).colorScheme.primary.withOpacity(0.4);
+
+    final font =
+        Theme.of(context).textTheme.labelSmall?.copyWith(color: fontColor);
+
+    return Stack(
+      children: [
+        SvgPicture.asset(
+          'assets/images/3778546.svg',
+          semanticsLabel: t(context).onboardingAcessibleLabel,
+          width: MediaQuery.of(context).size.width * 0.95,
+        ),
+        Positioned(
+          top: 100,
+          left: MediaQuery.of(context).size.width * 0.915,
+          child: RotatedBox(
+            quarterTurns: 1,
+            child: GestureDetector(
+              onTap: () async {
+                const url =
+                    'https://www.freepik.com/free-vector/different-pets-concept_7915264.htm#query=pets&position=15&from_view=search&track=sph&uuid=2395fe29-f874-4304-b22d-77205092eb02';
+                if (await canLaunchUrlString(url)) {
+                  await launchUrlString(url);
+                } else {
+                  throw 'Could not launch $url';
+                }
+              },
+              child: Text(
+                'Image by pikisuperstar on Freepik',
+                textAlign: TextAlign.center,
+                style: font,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -14,7 +14,7 @@ ThemeData darkTheme() {
   ));
 }
 
-ThemeData baseTheme(ColorScheme scheme) {
+ThemeData baseTheme(ColorScheme scheme, {bool useMaterial3 = false}) {
   const elevation = 1.0;
   final borderRadius = BorderRadius.circular(8);
   final roundedShape = RoundedRectangleBorder(
@@ -25,7 +25,7 @@ ThemeData baseTheme(ColorScheme scheme) {
   );
 
   return ThemeData(
-    useMaterial3: false,
+    useMaterial3: useMaterial3,
     scaffoldBackgroundColor: scheme.background,
     brightness: scheme.brightness,
     colorScheme: scheme,
