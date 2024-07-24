@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthFacebookController;
 use App\Http\Controllers\AuthGoogleIdTokenController;
+use App\Http\Controllers\EspacoController;
 use App\Http\Controllers\EspecieController;
 use App\Http\Controllers\MedicacaoController;
 use App\Http\Controllers\PetController;
@@ -28,3 +29,4 @@ Route::middleware('auth:sanctum')->get('/especies', [EspecieController::class, '
 Route::middleware('auth:sanctum')->apiResource('pets', PetController::class);
 Route::middleware('auth:sanctum')->apiResource('medicacoes', MedicacaoController::class);
 Route::middleware('auth:sanctum')->apiSingleton('pets.image', PetImageController::class)->destroyable();
+Route::middleware('auth:sanctum')->apiResource('espacos', EspacoController::class);

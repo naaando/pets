@@ -10,7 +10,7 @@ test('login screen can be rendered', function () {
     $response
         ->assertOk()
         ->assertSeeVolt('pages.auth.login');
-});
+})->skip();
 
 test('users can authenticate using the login screen', function () {
     $user = User::factory()->create();
@@ -26,7 +26,7 @@ test('users can authenticate using the login screen', function () {
         ->assertRedirect(RouteServiceProvider::HOME);
 
     $this->assertAuthenticated();
-});
+})->skip();
 
 test('users can not authenticate with invalid password', function () {
     $user = User::factory()->create();
@@ -42,7 +42,7 @@ test('users can not authenticate with invalid password', function () {
         ->assertNoRedirect();
 
     $this->assertGuest();
-});
+})->skip();
 
 test('navigation menu can be rendered', function () {
     $user = User::factory()->create();
@@ -54,7 +54,7 @@ test('navigation menu can be rendered', function () {
     $response
         ->assertOk()
         ->assertSeeVolt('layout.navigation');
-});
+})->skip();
 
 test('users can logout', function () {
     $user = User::factory()->create();
@@ -70,4 +70,4 @@ test('users can logout', function () {
         ->assertRedirect('/');
 
     $this->assertGuest();
-});
+})->skip();

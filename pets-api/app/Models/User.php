@@ -112,10 +112,24 @@ class User extends Authenticatable
         return $this->belongsTo(Espaco::class, 'espaco_ativo_id');
     }
 
+    public function petsCompartilhados()
+    {
+        /**
+         * A little exotic use of belongsToMany() method.
+         *
+         * SQL:
+         *
+         * select * from "pets" inner join "espaco_user" on "pets"."espaco_id" = "espaco_user"."espaco_id"
+         * where "espaco_user"."user_id" = ? and "pets"."deleted_at" is null
+         *
+         */
+        return $this->belongsToMany(Pet::class, 'espaco_user', 'user_id', 'espaco_id', null, 'espaco_id');
+    }
+
     /**
      * Get the pets associated with the user.
      */
-    public function pets()
+    public function meusPets()
     {
         return $this->hasMany(Pet::class);
     }

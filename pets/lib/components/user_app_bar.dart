@@ -23,26 +23,41 @@ class UserAppBar extends HookConsumerWidget implements PreferredSizeWidget {
       foregroundColor: Colors.transparent,
       scrolledUnderElevation: 0,
       elevation: 0,
+      titleSpacing: 0,
       title: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            t(context).helloUser(user.name!),
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface,
-              fontSize: 12,
+          Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: TextButton.icon(
+              focusNode: FocusNode(debugLabel: 'Menu Button'),
+              onPressed: () {
+                Navigator.pushNamed(context, '/spaces');
+              },
+              icon: const Icon(Icons.workspaces),
+              label: Text(user.espacoAtivo.value?.nome ?? ''),
             ),
           ),
-          const SizedBox(
-            width: 12,
-          ),
-          CircleAvatar(
-            radius: 14,
-            backgroundImage: FastCachedImageProvider(
-              user.picture!,
+          // Text(
+          //   t(context).helloUser(user.name!),
+          //   style: TextStyle(
+          //     color: Theme.of(context).colorScheme.onSurface,
+          //     fontSize: 12,
+          //   ),
+          // ),
+          // const SizedBox(
+          //   width: 12,
+          // ),
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: CircleAvatar(
+              radius: 14,
+              backgroundImage: FastCachedImageProvider(
+                user.picture!,
+              ),
+              backgroundColor: Colors.transparent,
             ),
-            backgroundColor: Colors.transparent,
-          )
+          ),
         ],
       ),
     );

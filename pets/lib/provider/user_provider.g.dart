@@ -22,7 +22,7 @@ final userRepositoryProvider =
 );
 
 typedef UserRepositoryRef = AutoDisposeProviderRef<Future<UserRepository>>;
-String _$loggedUserHash() => r'08bdbe2b7dac7b5c0a15d9b69f86ce8e33c7fefc';
+String _$loggedUserHash() => r'1ac8cf8d35da6d6f3c0a24922526fe48e03611e5';
 
 /// See also [LoggedUser].
 @ProviderFor(LoggedUser)

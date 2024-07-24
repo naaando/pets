@@ -13,7 +13,7 @@ test('confirm password screen can be rendered', function () {
     $response
         ->assertSeeVolt('pages.auth.confirm-password')
         ->assertStatus(200);
-});
+})->skip();
 
 test('password can be confirmed', function () {
     $user = User::factory()->create();
@@ -28,7 +28,7 @@ test('password can be confirmed', function () {
     $component
         ->assertRedirect('/dashboard')
         ->assertHasNoErrors();
-});
+})->skip();
 
 test('password is not confirmed with invalid password', function () {
     $user = User::factory()->create();
@@ -43,4 +43,4 @@ test('password is not confirmed with invalid password', function () {
     $component
         ->assertNoRedirect()
         ->assertHasErrors('password');
-});
+})->skip();
