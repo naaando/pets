@@ -56,7 +56,7 @@ ThemeData baseTheme(ColorScheme scheme) {
     tabBarTheme: TabBarTheme(
       labelColor: scheme.onPrimaryContainer,
       unselectedLabelColor: scheme.onPrimaryContainer.withOpacity(0.45),
-      indicator: BoxDecoration(color: scheme.surfaceContainer),
+      indicator: const BoxDecoration(color: Colors.transparent),
       dividerColor: scheme.surfaceContainer,
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
