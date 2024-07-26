@@ -4,7 +4,6 @@ import 'package:pets/components/pet_avatar.dart';
 import 'package:pets/components/skeleton_lista_pets.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/provider/pet_provider.dart';
-import 'package:pets/translate.dart';
 
 class ListaPets extends HookConsumerWidget {
   const ListaPets({Key? key}) : super(key: key);
@@ -37,7 +36,7 @@ class ListaPets extends HookConsumerWidget {
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: 110,
+      height: 120,
       child: ListView(
         padding: const EdgeInsets.only(left: 12, right: 12),
         primary: false,
