@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:fuzzywuzzy/fuzzywuzzy.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pets/components/pet_card.dart';
-import 'package:pets/components/small_native_ad.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/provider/pet_provider.dart';
-import 'package:fuzzywuzzy/fuzzywuzzy.dart';
 import 'package:pets/translate.dart';
 
 class PetsListTab extends HookConsumerWidget {
@@ -50,12 +49,6 @@ class PetsListTab extends HookConsumerWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           barraDePesquisa(pesquisa),
-          Padding(
-            padding: const EdgeInsets.all(4),
-            child: SmallNativeAd(
-              scheme: Theme.of(context).colorScheme,
-            ),
-          ),
           Expanded(
             child: ListView(
               children: [

@@ -14,7 +14,7 @@ ThemeData darkTheme() {
   ));
 }
 
-ThemeData baseTheme(ColorScheme scheme, {bool useMaterial3 = false}) {
+ThemeData baseTheme(ColorScheme scheme) {
   const elevation = 1.0;
   final borderRadius = BorderRadius.circular(8);
   final roundedShape = RoundedRectangleBorder(
@@ -25,7 +25,7 @@ ThemeData baseTheme(ColorScheme scheme, {bool useMaterial3 = false}) {
   );
 
   return ThemeData(
-    useMaterial3: useMaterial3,
+    useMaterial3: true,
     scaffoldBackgroundColor: scheme.background,
     brightness: scheme.brightness,
     colorScheme: scheme,
@@ -53,14 +53,11 @@ ThemeData baseTheme(ColorScheme scheme, {bool useMaterial3 = false}) {
       filled: true,
       fillColor: scheme.surfaceVariant.withOpacity(0.4),
     ),
-    bottomAppBarTheme: BottomAppBarTheme(
-      color: scheme.primaryContainer,
-      elevation: 24.0,
-    ),
     tabBarTheme: TabBarTheme(
       labelColor: scheme.onPrimaryContainer,
       unselectedLabelColor: scheme.onPrimaryContainer.withOpacity(0.45),
-      indicator: BoxDecoration(color: scheme.primaryContainer),
+      indicator: BoxDecoration(color: scheme.surfaceContainer),
+      dividerColor: scheme.surfaceContainer,
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(

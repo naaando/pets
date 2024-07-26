@@ -67,8 +67,8 @@ class HomePage extends HookConsumerWidget {
         children: [
           TabBarView(
             children: [
-              DashboardTab(showMenu),
               const PetsListTab(),
+              DashboardTab(showMenu),
             ],
           ),
           showMenu.value ? Menu(showMenu) : const SizedBox(),
@@ -80,7 +80,6 @@ class HomePage extends HookConsumerWidget {
         onPressed: toggle,
         child: showMenu.value ? const Icon(Icons.close) : const Icon(Icons.add),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
