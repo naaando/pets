@@ -12,9 +12,14 @@ class PetsBottomNavigationBar extends HookConsumerWidget {
     var pets = ref.watch(petsProvider);
 
     return BottomAppBar(
-      clipBehavior: Clip.none,
+      padding: const EdgeInsets.all(0),
+      notchMargin: 0,
       child: TabBar(
         tabs: [
+          Tab(
+            icon: const Icon(Icons.home_rounded),
+            text: t(context).home,
+          ),
           Tab(
             icon: const Icon(Icons.pets_rounded),
             text: pets.when(
@@ -22,10 +27,6 @@ class PetsBottomNavigationBar extends HookConsumerWidget {
               error: (object, stackTrace) => 'E',
               loading: () => t(context).pets,
             ),
-          ),
-          Tab(
-            icon: const Icon(Icons.home_rounded),
-            text: t(context).home,
           ),
         ],
       ),

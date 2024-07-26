@@ -153,7 +153,7 @@ class PetCard extends HookWidget {
   }
 
   leadingImage(BuildContext context, Pet pet) {
-    return PetSquareAvatar.fromPet(pet, size: 70);
+    return PetSquareAvatar.fromPet(pet, size: 80);
   }
 
   List<Text> info2Text(BuildContext context, String label, String? value) {

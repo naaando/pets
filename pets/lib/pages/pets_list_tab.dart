@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:fuzzywuzzy/fuzzywuzzy.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pets/components/pet_card.dart';
+import 'package:pets/components/pet/compact_pet_card.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/provider/pet_provider.dart';
 import 'package:pets/translate.dart';
@@ -53,7 +53,7 @@ class PetsListTab extends HookConsumerWidget {
             child: ListView(
               children: [
                 ...petsFiltrados.map<Widget>(
-                  (Pet pet) => PetCard(pet),
+                  (Pet pet) => CompactPetCard(pet),
                 ),
                 const SizedBox(height: 30), // Para não ficar escondido pelo FAB
               ],
