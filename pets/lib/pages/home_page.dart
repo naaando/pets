@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pets/components/menu.dart';
-import 'package:pets/components/pets_bottom_navigation_bar.dart';
-import 'package:pets/components/user_app_bar.dart';
+import 'package:pets/components/layout/menu.dart';
+import 'package:pets/components/layout/pets_bottom_navigation_bar.dart';
+import 'package:pets/components/layout/user_app_bar.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/pages/dashboard_tab.dart';
 import 'package:pets/pages/onboarding_page.dart';
