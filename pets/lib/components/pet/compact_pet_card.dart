@@ -29,7 +29,7 @@ class CompactPetCard extends HookWidget {
                   children: [
                     Text(
                       pet.nome,
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 4),
                     Wrap(
