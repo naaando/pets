@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:pets/components/pet_square_avatar.dart';
+import 'package:pets/components/pet/pet_square_avatar.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/translate.dart';
 

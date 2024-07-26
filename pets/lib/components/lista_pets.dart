@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pets/components/pet_avatar.dart';
+import 'package:pets/components/pet/pet_avatar.dart';
 import 'package:pets/components/skeleton_lista_pets.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/provider/pet_provider.dart';

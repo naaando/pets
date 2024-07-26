@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pets/components/pet_avatar.dart';
+import 'package:pets/components/pet/pet_avatar.dart';
 import 'package:pets/models/pet.dart';
 
 class PetDropdownMenuItemChild extends StatelessWidget {
