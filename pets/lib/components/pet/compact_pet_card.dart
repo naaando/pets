@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:pets/components/pet/pet_square_avatar.dart';
+import 'package:pets/components/pet/pet_avatar.dart';
 import 'package:pets/models/pet.dart';
 import 'package:pets/translate.dart';
 
@@ -12,35 +12,38 @@ class CompactPetCard extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _leadingImage(context, pet),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Text(
-                    pet.nome,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  const SizedBox(height: 4),
-                  Wrap(
-                    spacing: 4,
-                    runSpacing: 3,
-                    children: _badges(context),
-                  ),
-                  const SizedBox(height: 6),
-                ],
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _leadingImage(context, pet),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text(
+                      pet.nome,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    const SizedBox(height: 4),
+                    Wrap(
+                      spacing: 4,
+                      runSpacing: 3,
+                      children: _badges(context),
+                    ),
+                    const SizedBox(height: 6),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       onTap: () {
         Navigator.pushNamed(context, '/cadastro-pet', arguments: pet);
@@ -49,7 +52,7 @@ class CompactPetCard extends HookWidget {
   }
 
   _leadingImage(BuildContext context, Pet pet) {
-    return PetSquareAvatar.fromPet(pet, size: 40);
+    return PetAvatar.fromPet(pet, size: 40);
   }
 
   List<Widget> _badges(BuildContext context) {
