@@ -203,8 +203,8 @@ PROMPT;
                 ->for('Add a new pet to the user\'s account')
                 ->withStringParameter('name', 'The name of the pet')
                 ->withStringParameter('species', 'The species type (dog, cat, bird, etc.)')
-                ->withOptionalStringParameter('breed', 'The breed of the pet')
-                ->withOptionalStringParameter('sex', 'The sex of the pet (male/female)')
+                ->withStringParameter('breed', 'The breed of the pet', required: false)
+                ->withStringParameter('sex', 'The sex of the pet (male/female)', required: false)
                 ->using(function (string $name, string $species, ?string $breed = null, ?string $sex = null) use ($user, $petModel, $especieModel) {
                     $especie = $especieModel::where('nome', 'like', "%{$species}%")->first();
 
@@ -221,7 +221,7 @@ PROMPT;
 
             (new Tool)->as('list_medications')
                 ->for('List all medications for a specific pet')
-                ->withOptionalStringParameter('pet_name', 'The name of the pet (optional - lists all if not provided)')
+                ->withStringParameter('pet_name', 'The name of the pet (optional - lists all if not provided)', required: false)
                 ->using(function (?string $petName = null) use ($user, $petModel, $medicacaoModel) {
                     $query = $medicacaoModel::where('user_id', $user->id)->with('pet');
 
@@ -246,8 +246,8 @@ PROMPT;
                 ->for('Add a new medication or reminder for a pet')
                 ->withStringParameter('pet_name', 'The name of the pet')
                 ->withStringParameter('medication_name', 'The name of the medication')
-                ->withOptionalStringParameter('scheduled_time', 'When to take the medication (ISO 8601 format)')
-                ->withOptionalStringParameter('notes', 'Any additional notes')
+                ->withStringParameter('scheduled_time', 'When to take the medication (ISO 8601 format)', required: false)
+                ->withStringParameter('notes', 'Any additional notes', required: false)
                 ->using(function (string $petName, string $medicationName, ?string $scheduledTime = null, ?string $notes = null) use ($user, $petModel, $medicacaoModel) {
                     $pet = $petModel::where('user_id', $user->id)
                         ->where('nome', 'like', "%{$petName}%")
