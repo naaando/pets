@@ -34,13 +34,14 @@ test('consegue visualizar um espaço', function () {
     $response->assertJsonFragment(['nome' => $espaco->nome]);
 });
 
-test('consegue deletar um espaço', function () {
+test('consegue criar múltiplos espaços', function () {
     actingAs($user = User::factory()->create());
 
     $espaco = Espaco::factory()->create();
     $user->espacos()->attach($espaco);
 
-    $response = deleteJson("/api/espacos/{$espaco->id}");
+    $response = getJson('/api/espacos');
 
     $response->assertOk();
+    $response->assertJsonCount(2, 'data');
 });

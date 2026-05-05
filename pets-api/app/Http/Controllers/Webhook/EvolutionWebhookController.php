@@ -55,7 +55,11 @@ class EvolutionWebhookController extends Controller
     protected function findUserByPhone(string $phone): ?User
     {
         $phone = preg_replace('/\D/', '', $phone);
-        return User::whereRaw("REPLACE(REPLACE(REPLACE(REPLACE(phone, '-', ''), ' ', ''), '(', ''), ')', '') LIKE ?", ["%{$phone}"])->first();
+
+        $account = \App\Models\WhatsappAccount::where('phone_number', 'like', "%{$phone}%")
+            ->first();
+
+        return $account?->user;
     }
 
     protected function handleMessage(Request $request, string $instanceName): void
@@ -158,7 +162,7 @@ PROMPT;
         $especieModel = \App\Models\Especie::class;
 
         return [
-            Tool::as('list_pets')
+            (new Tool)->as('list_pets')
                 ->for('List all pets belonging to the user')
                 ->using(function () use ($user, $petModel) {
                     $pets = $petModel::where('user_id', $user->id)->get();
@@ -168,7 +172,7 @@ PROMPT;
                     return $pets->map(fn($pet) => "• {$pet->nome}" . ($pet->especie ? " ({$pet->especie->nome})" : ""))->implode("\n");
                 }),
 
-            Tool::as('get_pet')
+            (new Tool)->as('get_pet')
                 ->for('Get detailed information about a specific pet')
                 ->withStringParameter('pet_name', 'The name of the pet')
                 ->using(function (string $petName) use ($user, $petModel) {
@@ -195,7 +199,7 @@ PROMPT;
                     return implode("\n", $info);
                 }),
 
-            Tool::as('create_pet')
+            (new Tool)->as('create_pet')
                 ->for('Add a new pet to the user\'s account')
                 ->withStringParameter('name', 'The name of the pet')
                 ->withStringParameter('species', 'The species type (dog, cat, bird, etc.)')
@@ -215,7 +219,7 @@ PROMPT;
                     return "Adicionei {$name} aos seus pets!" . ($especie ? " ({$especie->nome})" : "");
                 }),
 
-            Tool::as('list_medications')
+            (new Tool)->as('list_medications')
                 ->for('List all medications for a specific pet')
                 ->withOptionalStringParameter('pet_name', 'The name of the pet (optional - lists all if not provided)')
                 ->using(function (?string $petName = null) use ($user, $petModel, $medicacaoModel) {
@@ -238,7 +242,7 @@ PROMPT;
                     })->implode("\n");
                 }),
 
-            Tool::as('create_medication')
+            (new Tool)->as('create_medication')
                 ->for('Add a new medication or reminder for a pet')
                 ->withStringParameter('pet_name', 'The name of the pet')
                 ->withStringParameter('medication_name', 'The name of the medication')
@@ -264,7 +268,7 @@ PROMPT;
                     return "Adicionei {$medicationName} como lembrete para {$petName}!" . ($scheduledTime ? " Agendado para {$scheduledTime}" : " Agendado para 1 hora a partir de agora");
                 }),
 
-            Tool::as('get_upcoming_medications')
+            (new Tool)->as('get_upcoming_medications')
                 ->for('Get upcoming medication reminders for the next 24 hours')
                 ->using(function () use ($user, $medicacaoModel) {
                     $meds = $medicacaoModel::where('user_id', $user->id)

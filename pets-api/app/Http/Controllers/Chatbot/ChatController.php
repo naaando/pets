@@ -110,7 +110,7 @@ PROMPT;
     protected function getTools($user)
     {
         return [
-            Tool::as('list_pets')
+            (new Tool)->as('list_pets')
                 ->for('List all pets belonging to the user')
                 ->using(function () use ($user) {
                     $pets = Pet::where('user_id', $user->id)->get();
@@ -122,7 +122,7 @@ PROMPT;
                     })->implode("\n");
                 }),
 
-            Tool::as('get_pet')
+            (new Tool)->as('get_pet')
                 ->for('Get detailed information about a specific pet')
                 ->withStringParameter('pet_name', 'The name of the pet')
                 ->using(function (string $petName) use ($user) {
@@ -149,7 +149,7 @@ PROMPT;
                     return implode("\n", $info);
                 }),
 
-            Tool::as('create_pet')
+            (new Tool)->as('create_pet')
                 ->for('Add a new pet to the user\'s account')
                 ->withStringParameter('name', 'The name of the pet')
                 ->withStringParameter('species', 'The species type (dog, cat, bird, etc.)')
@@ -169,7 +169,7 @@ PROMPT;
                     return "I've added {$name} to your pets!" . ($especie ? " ({$especie->nome})" : "");
                 }),
 
-            Tool::as('list_medications')
+            (new Tool)->as('list_medications')
                 ->for('List all medications for a specific pet')
                 ->withOptionalStringParameter('pet_name', 'The name of the pet (optional - lists all if not provided)')
                 ->using(function (?string $petName = null) use ($user) {
@@ -194,7 +194,7 @@ PROMPT;
                     })->implode("\n");
                 }),
 
-            Tool::as('create_medication')
+            (new Tool)->as('create_medication')
                 ->for('Add a new medication or reminder for a pet')
                 ->withStringParameter('pet_name', 'The name of the pet')
                 ->withStringParameter('medication_name', 'The name of the medication')
@@ -220,7 +220,7 @@ PROMPT;
                     return "I've added {$medicationName} as a reminder for {$petName}!" . ($scheduledTime ? " Scheduled for {$scheduledTime}" : " Scheduled for 1 hour from now");
                 }),
 
-            Tool::as('get_upcoming_medications')
+            (new Tool)->as('get_upcoming_medications')
                 ->for('Get upcoming medication reminders for the next 24 hours')
                 ->using(function () use ($user) {
                     $meds = Medicacao::where('user_id', $user->id)
