@@ -1,0 +1,75 @@
+worker_processes auto;
+pid /tmp/nginx.pid;
+error_log /proc/self/fd/2;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    client_body_temp_path /tmp/nginx-temp/client_body;
+    proxy_temp_path        /tmp/nginx-temp/proxy;
+    fastcgi_temp_path      /tmp/nginx-temp/fastcgi;
+    uwsgi_temp_path        /tmp/nginx-temp/uwsgi;
+    scgi_temp_path         /tmp/nginx-temp/scgi;
+
+    access_log /proc/self/fd/1;
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+    keepalive_timeout 65;
+    server_tokens off;
+
+    client_max_body_size 20M;
+
+    gzip on;
+    gzip_vary on;
+    gzip_proxied any;
+    gzip_comp_level 6;
+    gzip_types text/plain text/css text/javascript application/javascript application/json image/svg+xml font/woff font/woff2;
+
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+
+    server {
+        listen $PORT;
+        root /app/public;
+        index index.php;
+        charset utf-8;
+        port_in_redirect off;
+        absolute_redirect off;
+
+        add_header X-Frame-Options "SAMEORIGIN";
+        add_header X-Content-Type-Options "nosniff";
+        add_header Referrer-Policy "strict-origin-when-cross-origin";
+
+        location ~* \.(css|js|png|jpg|jpeg|gif|svg|webp|ico|woff|woff2)$ {
+            expires 1y;
+            add_header Cache-Control "public, immutable";
+            add_header X-Frame-Options "SAMEORIGIN";
+            add_header X-Content-Type-Options "nosniff";
+            add_header Referrer-Policy "strict-origin-when-cross-origin";
+            access_log off;
+        }
+
+        # Laravel
+        location / {
+            try_files $uri $uri/ /index.php?$query_string;
+        }
+
+        location = /favicon.ico { access_log off; log_not_found off; }
+        location = /robots.txt  { access_log off; log_not_found off; }
+
+        location ~ \.php$ {
+            try_files $uri =404;
+            fastcgi_pass 127.0.0.1:9000;
+            fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+            include /etc/nginx/fastcgi_params;
+            fastcgi_read_timeout 300;
+        }
+
+        location ~ /\.(?!well-known).* {
+            deny all;
+        }
+    }
+}
