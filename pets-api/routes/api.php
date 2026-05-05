@@ -9,6 +9,8 @@ use App\Http\Controllers\MedicacaoController;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\PetImageController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Webhook\EvolutionWebhookController;
+use App\Http\Controllers\Whatsapp\WhatsappAccountController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,3 +37,9 @@ Route::middleware('auth:sanctum')->apiResource('espacos', EspacoController::clas
 // Chatbot routes
 Route::middleware('auth:sanctum')->post('/chat', [ChatController::class, 'chat']);
 Route::middleware('auth:sanctum')->post('/chat/stream', [ChatController::class, 'stream']);
+
+// WhatsApp/Evolution API routes
+Route::middleware('auth:sanctum')->apiResource('whatsapp', WhatsappAccountController::class);
+
+// Webhook routes (no auth - called by Evolution API)
+Route::post('/webhooks/evolution/{instanceName}', [EvolutionWebhookController::class, 'handle']);
