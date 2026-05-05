@@ -86,7 +86,8 @@ test('responde usuário não encontrado para telefone desconhecido', function ()
 
     $response->assertOk();
     Http::assertSent(function ($request) {
-        return str_contains($request->body(), 'não encontrado');
+        $body = json_decode($request->body(), true);
+        return str_contains($body['text'] ?? '', 'não encontrado');
     });
 });
 
