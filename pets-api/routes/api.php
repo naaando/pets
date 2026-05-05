@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthFacebookController;
 use App\Http\Controllers\AuthGoogleIdTokenController;
+use App\Http\Controllers\Chatbot\ChatController;
 use App\Http\Controllers\EspacoController;
 use App\Http\Controllers\EspecieController;
 use App\Http\Controllers\MedicacaoController;
@@ -16,8 +17,8 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 |
 | Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
+| routes are loaded by the RouteServiceProvider and all of them will be
+| assigned to the "api" middleware group. Make something great!
 |
 */
 
@@ -30,3 +31,7 @@ Route::middleware('auth:sanctum')->apiResource('pets', PetController::class);
 Route::middleware('auth:sanctum')->apiResource('medicacoes', MedicacaoController::class);
 Route::middleware('auth:sanctum')->apiSingleton('pets.image', PetImageController::class)->destroyable();
 Route::middleware('auth:sanctum')->apiResource('espacos', EspacoController::class);
+
+// Chatbot routes
+Route::middleware('auth:sanctum')->post('/chat', [ChatController::class, 'chat']);
+Route::middleware('auth:sanctum')->post('/chat/stream', [ChatController::class, 'stream']);
