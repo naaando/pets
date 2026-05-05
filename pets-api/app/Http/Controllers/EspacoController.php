@@ -27,7 +27,8 @@ class EspacoController extends Controller
      */
     public function store(Request $request)
     {
-        $espaco = $request->user()->espacos()->create($request->validated());
+        $request->validate(['nome' => 'required|string']);
+        $espaco = $request->user()->espacos()->create($request->only('nome'));
         return new EspacoResource($espaco);
     }
 
@@ -44,7 +45,8 @@ class EspacoController extends Controller
      */
     public function update(Request $request, Espaco $espaco)
     {
-        $espaco->update($request->validated());
+        $request->validate(['nome' => 'required|string']);
+        $espaco->update($request->only('nome'));
         return new EspacoResource($espaco);
     }
 
