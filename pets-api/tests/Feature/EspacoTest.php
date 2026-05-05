@@ -45,3 +45,23 @@ test('consegue criar múltiplos espaços', function () {
     $response->assertOk();
     $response->assertJsonCount(2, 'data');
 });
+
+test('consegue criar um espaço', function () {
+    actingAs($user = User::factory()->create());
+
+    $response = postJson('/api/espacos', ['nome' => 'Novo Espaço']);
+
+    $response->assertCreated();
+    $response->assertJsonFragment(['nome' => 'Novo Espaço']);
+});
+
+test('consegue atualizar um espaço', function () {
+    actingAs($user = User::factory()->create());
+
+    $espaco = $user->espacoAtivo;
+
+    $response = putJson("/api/espacos/{$espaco->id}", ['nome' => 'Espaço Atualizado']);
+
+    $response->assertOk();
+    $response->assertJsonFragment(['nome' => 'Espaço Atualizado']);
+});

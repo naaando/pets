@@ -122,6 +122,41 @@ test('lida com eventos desconhecidos sem erro', function () {
     $response->assertOk();
 });
 
+test('processa mensagem e envia resposta via Prism', function () {
+    Http::fake();
+    Prism::fake([
+        TextResponseFake::make()->withText('Olá! Como posso ajudar com seus pets?'),
+    ]);
+
+    $user = User::factory()->create();
+    \App\Models\WhatsappAccount::create([
+        'user_id' => $user->id,
+        'instance_name' => 'test-instance',
+        'phone_number' => '5511777777777',
+        'status' => 'connected',
+    ]);
+
+    $response = postJson('/api/webhooks/evolution/test-instance', [
+        'event' => 'MESSAGES_UPSERT',
+        'data' => [
+            'messages' => [
+                [
+                    'key' => ['remoteJid' => '5511777777777@s.whatsapp.net'],
+                    'message' => ['conversation' => 'oi'],
+                ],
+            ],
+        ],
+    ], [
+        'x-webhook-key' => 'test-webhook-key',
+    ]);
+
+    $response->assertOk();
+    Http::assertSent(function ($request) {
+        $body = json_decode($request->body(), true);
+        return str_contains($body['text'] ?? '', 'Olá');
+    });
+});
+
 test('ignora mensagens sem texto', function () {
     Http::fake();
 
