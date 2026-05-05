@@ -40,6 +40,7 @@ return [
     'evolution' => [
         'base_url' => env('EVOLUTION_API_BASE_URL'),
         'key' => env('EVOLUTION_API_KEY'),
+        'webhook_key' => env('EVOLUTION_WEBHOOK_KEY'),
     ],
 
     'openrouter' => [

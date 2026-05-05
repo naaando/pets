@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Webhook;
 
 use App\Http\Controllers\Controller;
-use App\Models\WhatsappAccount;
+use App\Models\User;
 use App\Services\EvolutionApiService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -25,26 +25,29 @@ class EvolutionWebhookController extends Controller
 
     public function handle(Request $request, string $instanceName)
     {
-        $account = WhatsappAccount::where('instance_name', $instanceName)->first();
-
-        if (!$account) {
-            Log::warning("Evolution webhook: Instance not found: {$instanceName}");
-            return response()->json(['error' => 'Instance not found'], 404);
+        $key = $request->header('x-webhook-key');
+        if ($key !== config('services.evolution.webhook_key')) {
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
 
         $event = $request->input('event');
 
         match ($event) {
-            'MESSAGES_UPSERT' => $this->handleMessage($request, $account),
-            'CONNECTION_UPDATE' => $this->handleConnectionUpdate($request, $account),
-            'QRCODE_UPDATED' => $this->handleQrCodeUpdate($request, $account),
+            'MESSAGES_UPSERT' => $this->handleMessage($request, $instanceName),
+            'CONNECTION_UPDATE' => $this->handleConnectionUpdate($request, $instanceName),
             default => Log::info("Evolution webhook: Unhandled event: {$event}"),
         };
 
         return response()->json(['status' => 'ok']);
     }
 
-    protected function handleMessage(Request $request, WhatsappAccount $account): void
+    protected function findUserByPhone(string $phone): ?User
+    {
+        $phone = preg_replace('/\D/', '', $phone);
+        return User::whereRaw("REPLACE(REPLACE(REPLACE(REPLACE(phone, '-', ''), ' ', ''), '(', ''), ')', '') LIKE ?", ["%{$phone}"])->first();
+    }
+
+    protected function handleMessage(Request $request, string $instanceName): void
     {
         $messages = $request->input('data.messages', []);
 
@@ -70,14 +73,21 @@ class EvolutionWebhookController extends Controller
 
             Log::info("Whatsapp message from {$remoteJid}: {$text}");
 
-            $this->processMessage($account, $remoteJid, $text);
+            $phone = preg_replace('/@.*$/', '', $remoteJid);
+            $user = $this->findUserByPhone($phone);
+
+            if (!$user) {
+                Log::warning("User not found for phone: {$phone}");
+                $this->evolution->sendText($instanceName, $phone, "Usuário não encontrado. Entre em contato com o suporte.");
+                return;
+            }
+
+            $this->processMessage($instanceName, $user, $phone, $text);
         }
     }
 
-    protected function processMessage(WhatsappAccount $account, string $remoteJid, string $text): void
+    protected function processMessage(string $instanceName, User $user, string $phone, string $text): void
     {
-        $user = $account->user;
-
         $tools = $this->getTools($user);
         $systemPrompt = $this->getSystemPrompt();
 
@@ -95,45 +105,20 @@ class EvolutionWebhookController extends Controller
             $reply = $response->text;
 
             if ($reply) {
-                $this->evolution->sendText($account->instance_name, $remoteJid, $reply);
-                Log::info("Sent reply to {$remoteJid}: " . substr($reply, 0, 50) . '...');
+                $this->evolution->sendText($instanceName, $phone, $reply);
+                Log::info("Sent reply to {$phone}: " . substr($reply, 0, 50) . '...');
             }
         } catch (\Exception $e) {
             Log::error("Error processing message: " . $e->getMessage());
-            $this->evolution->sendText($account->instance_name, $remoteJid, "Desculpe, houve um erro ao processar sua mensagem. Tente novamente.");
+            $this->evolution->sendText($instanceName, $phone, "Desculpe, houve um erro ao processar sua mensagem. Tente novamente.");
         }
     }
 
-    protected function handleConnectionUpdate(Request $request, WhatsappAccount $account): void
+    protected function handleConnectionUpdate(Request $request, string $instanceName): void
     {
         $status = $request->input('data.status');
-        $ownerJid = $request->input('data.owner');
 
-        Log::info("Evolution connection update for {$account->instance_name}: {$status}");
-
-        $account->status = match ($status) {
-            'open' => 'connected',
-            'close' => 'disconnected',
-            default => $status,
-        };
-
-        if ($ownerJid) {
-            $account->owner_jid = $ownerJid;
-            $account->phone_number = preg_replace('/@.*$/', '', $ownerJid);
-        }
-
-        $account->save();
-    }
-
-    protected function handleQrCodeUpdate(Request $request, WhatsappAccount $account): void
-    {
-        $qrCode = $request->input('data.qrcode');
-
-        if ($qrCode) {
-            $account->qr_code = $qrCode;
-            $account->status = 'pending';
-            $account->save();
-        }
+        Log::info("Evolution connection update for {$instanceName}: {$status}");
     }
 
     protected function getSystemPrompt(): string
