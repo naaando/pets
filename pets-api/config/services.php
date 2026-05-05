@@ -37,11 +37,7 @@ return [
         'redirect' => env('GOOGLE_SSO_REDIRECT_URL'),
     ],
 
-    'evolution' => [
-        'base_url' => env('EVOLUTION_API_BASE_URL'),
-        'key' => env('EVOLUTION_API_KEY'),
-        'webhook_key' => env('EVOLUTION_WEBHOOK_KEY'),
-    ],
+    
 
     'openrouter' => [
         'key' => env('OPENROUTER_API_KEY'),

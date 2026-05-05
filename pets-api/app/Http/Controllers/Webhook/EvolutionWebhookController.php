@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Webhook;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Services\EvolutionApiService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -16,11 +15,23 @@ use Prism\Prism\ValueObjects\Messages\UserMessage;
 
 class EvolutionWebhookController extends Controller
 {
-    protected EvolutionApiService $evolution;
-
-    public function __construct()
+    protected function sendReply(string $instanceName, string $phone, string $text): void
     {
-        $this->evolution = new EvolutionApiService();
+        $baseUrl = config('services.evolution.base_url');
+        $apiKey = config('services.evolution.key');
+
+        if (!$baseUrl || !$apiKey) {
+            Log::warning('Evolution API not configured');
+            return;
+        }
+
+        Http::withHeaders([
+            'apikey' => $apiKey,
+            'Content-Type' => 'application/json',
+        ])->post("{$baseUrl}/message/sendText/{$instanceName}", [
+            'number' => $phone,
+            'text' => $text,
+        ]);
     }
 
     public function handle(Request $request, string $instanceName)
@@ -78,7 +89,7 @@ class EvolutionWebhookController extends Controller
 
             if (!$user) {
                 Log::warning("User not found for phone: {$phone}");
-                $this->evolution->sendText($instanceName, $phone, "Usuário não encontrado. Entre em contato com o suporte.");
+                $this->sendReply($instanceName, $phone, "Usuário não encontrado. Entre em contato com o suporte.");
                 return;
             }
 
@@ -105,12 +116,12 @@ class EvolutionWebhookController extends Controller
             $reply = $response->text;
 
             if ($reply) {
-                $this->evolution->sendText($instanceName, $phone, $reply);
+                $this->sendReply($instanceName, $phone, $reply);
                 Log::info("Sent reply to {$phone}: " . substr($reply, 0, 50) . '...');
             }
         } catch (\Exception $e) {
             Log::error("Error processing message: " . $e->getMessage());
-            $this->evolution->sendText($instanceName, $phone, "Desculpe, houve um erro ao processar sua mensagem. Tente novamente.");
+            $this->sendReply($instanceName, $phone, "Desculpe, houve um erro ao processar sua mensagem. Tente novamente.");
         }
     }
 
