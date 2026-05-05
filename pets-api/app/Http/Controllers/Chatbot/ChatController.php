@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Chatbot;
 use App\Http\Controllers\Controller;
 use App\Models\Pet;
 use App\Models\Medicacao;
+use App\Models\Especie;
 use Illuminate\Http\Request;
 use Prism\Prism\Facades\Prism;
 use Prism\Prism\Enums\Provider;
@@ -154,14 +155,17 @@ PROMPT;
                 ->withOptionalStringParameter('breed', 'The breed of the pet')
                 ->withOptionalStringParameter('sex', 'The sex of the pet (male/female)')
                 ->using(function (string $name, string $species, ?string $breed = null, ?string $sex = null) use ($user) {
+                    $especie = Especie::where('nome', 'like', "%{$species}%")->first();
+
                     $pet = Pet::create([
                         'nome' => $name,
                         'user_id' => $user->id,
+                        'especie_id' => $especie?->id,
                         'raca' => $breed,
                         'sexo' => $sex,
                     ]);
 
-                    return "I've added {$name} to your pets! Is there anything else you'd like to do?";
+                    return "I've added {$name} to your pets!" . ($especie ? " ({$especie->nome})" : "");
                 }),
 
             Tool::as('list_medications')
