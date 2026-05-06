@@ -36,4 +36,10 @@ return [
         'client_secret' => env('GOOGLE_SSO_CLIENT_SECRET'),
         'redirect' => env('GOOGLE_SSO_REDIRECT_URL'),
     ],
+
+    
+
+    'openrouter' => [
+        'key' => env('OPENROUTER_API_KEY'),
+    ],
 ];
