@@ -31,7 +31,7 @@ RUN --mount=type=cache,target=/etc/apk/cache \
 
 ENV IPE_GD_WITHOUTAVIF=1
 RUN --mount=type=cache,target=/tmp/ipe-cache \
-    install-php-extensions pdo_pgsql gd zip intl bcmath exif pcntl opcache
+    install-php-extensions pdo_mysql pdo_pgsql gd zip intl bcmath exif pcntl opcache
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY pets-api/docker/production/opcache.ini $PHP_INI_DIR/conf.d/opcache.ini
